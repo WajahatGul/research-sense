@@ -1,19 +1,18 @@
-"""Reproducible Playwright scraper for the Bahria University (E-8) CS faculty.
+"""Headless Playwright scraper for the Bahria University (E-8) CS faculty.
 
-Pulls the live faculty roster and each faculty detail page from bahria.edu.pk,
-extracts name / designation / email / research areas, and writes the normalised
-result to ``scripts/scraped_roster.json``. ``build_seed.py`` then turns the
-roster into the full ResearchSense dataset.
+Pulls the live faculty roster and every faculty detail page from bahria.edu.pk
+and extracts the genuinely published fields: email, research areas / expertise,
+and highest qualification (degree, year, majors, university). Publications and
+funding are NOT published on the site, so they are not scraped; ``build_seed``
+adds those as clearly flagged sample data.
 
 Setup (one time):
     pip install playwright && python -m playwright install chromium
 
-Run:
+Run (from backend/):
     python -m scripts.scrape_bahria
 
-Note: the faculty listing is a JS-rendered table; if the site markup changes,
-adjust the selectors below. The committed roster in ``roster_data.py`` is a
-captured snapshot so the app works without re-running this scraper.
+Output: scripts/scraped_faculty.json
 """
 from __future__ import annotations
 
@@ -26,65 +25,70 @@ ROSTER_URL = (
     "https://www.bahria.edu.pk/page/PageTemplate4?pageContentId=4687&WebsiteID=2"
 )
 DETAIL_URL = "https://www.bahria.edu.pk/Home/FacultyDetails?facultyId={id}"
-OUTPUT = Path(__file__).resolve().parent / "scraped_roster.json"
+OUTPUT = Path(__file__).resolve().parent / "scraped_faculty.json"
 
+ROSTER_JS = """
+() => {
+  const seen = new Set(); const out = [];
+  for (const a of document.querySelectorAll('a[href*="facultyId="]')) {
+    const id = a.getAttribute('href').split('facultyId=')[1].split('&')[0];
+    if (seen.has(id)) continue; seen.add(id);
+    const row = a.closest('tr');
+    const cells = row ? [...row.querySelectorAll('td')].map(c => c.innerText.trim()) : [];
+    out.push({ id, name: a.innerText.trim().replace(/\\s+/g,' '),
+               designation: (cells[2] || '').replace(/\\s+/g,' ') });
+  }
+  return out;
+}
+"""
 
-def scrape_roster(page) -> list[dict]:
-    """Extract (name, designation, faculty_id) rows from the roster table."""
-    page.goto(ROSTER_URL, wait_until="networkidle")
-    rows = page.locator("table tr")
-    people: list[dict] = []
-    for i in range(rows.count()):
-        cells = rows.nth(i).locator("td")
-        if cells.count() < 3:
-            continue
-        name = cells.nth(1).inner_text().strip()
-        designation = cells.nth(2).inner_text().strip()
-        link = cells.nth(1).locator("a")
-        fid = None
-        if link.count():
-            href = link.first.get_attribute("href") or ""
-            if "facultyId=" in href:
-                fid = int(href.split("facultyId=")[1].split("&")[0])
-        if name:
-            people.append({"full_name": name, "designation": designation,
-                           "faculty_id": fid})
-    return people
-
-
-def scrape_detail(page, faculty_id: int) -> dict:
-    """Extract email and research areas from a faculty detail page."""
-    page.goto(DETAIL_URL.format(id=faculty_id), wait_until="networkidle")
-    detail: dict = {"email": None, "areas": ""}
-    email = page.locator("a[href^='mailto:']")
-    if email.count():
-        detail["email"] = email.first.inner_text().strip()
-    for i in range(page.locator("tr").count()):
-        row = page.locator("tr").nth(i).inner_text()
-        if "Research Areas" in row or "Expertise" in row:
-            detail["areas"] = row.split("Expertise")[-1].strip()
-            break
-    return detail
+DETAIL_JS = """
+() => {
+  const rows = [...document.querySelectorAll('tr')].map(r =>
+    [...r.querySelectorAll('td,th')].map(c => c.innerText.trim().replace(/\\s+/g,' ')));
+  const find = (label) => rows.find(c => c[0] && c[0].toLowerCase().includes(label));
+  const mail = document.querySelector('a[href^="mailto:"]');
+  const areasRow = find('research areas');
+  const degrees = ['phd','ph.d','ms','m.phil','mphil','msc','m.sc'];
+  const qual = rows.find(c => degrees.includes((c[0] || '').toLowerCase()));
+  return {
+    email: mail ? mail.innerText.trim() : null,
+    areas: areasRow ? areasRow.slice(1).join(' ').trim() : '',
+    degree: qual ? qual[0] : null,
+    degree_year: qual ? qual[1] : null,
+    degree_majors: qual ? qual[2] : null,
+    degree_university: qual ? qual[3] : null,
+  };
+}
+"""
 
 
 def main() -> None:
-    print("Scraping Bahria E-8 CS faculty...")
+    print("Scraping Bahria E-8 CS faculty (headless)...")
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
         page = browser.new_page()
-        roster = scrape_roster(page)
-        print(f"  roster: {len(roster)} faculty")
-        for person in roster:
-            if person["faculty_id"]:
-                try:
-                    person.update(scrape_detail(page, person["faculty_id"]))
-                except Exception as exc:  # noqa: BLE001 - skip flaky detail pages
-                    print(f"  ! detail {person['faculty_id']} failed: {exc}")
+        page.goto(ROSTER_URL, wait_until="domcontentloaded", timeout=60000)
+        roster = page.evaluate(ROSTER_JS)
+        print(f"  roster: {len(roster)} faculty with detail pages")
+
+        for i, person in enumerate(roster, start=1):
+            try:
+                page.goto(DETAIL_URL.format(id=person["id"]),
+                          wait_until="domcontentloaded", timeout=60000)
+                person.update(page.evaluate(DETAIL_JS))
+                mark = "ok" if person.get("email") else "no email"
+                print(f"  [{i:>2}/{len(roster)}] {person['name'][:30]:30} {mark}")
+            except Exception as exc:  # noqa: BLE001 - keep going on flaky pages
+                print(f"  [{i:>2}/{len(roster)}] {person['name'][:30]:30} FAILED: {exc}")
         browser.close()
 
     with OUTPUT.open("w", encoding="utf-8") as fh:
         json.dump(roster, fh, indent=2, ensure_ascii=False)
-    print(f"Wrote {OUTPUT} ({len(roster)} records).")
+    with_email = sum(1 for p in roster if p.get("email"))
+    with_areas = sum(1 for p in roster if p.get("areas"))
+    print(f"Wrote {OUTPUT}: {len(roster)} faculty, "
+          f"{with_email} with email, {with_areas} with research areas.")
     print("Next: python -m scripts.build_seed")
 
 
