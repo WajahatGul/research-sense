@@ -13,9 +13,10 @@ router = APIRouter(prefix="/api/projects", tags=["projects"])
 @router.get("", response_model=list[Project])
 def list_projects(
     status: str | None = None,
+    campus: str | None = None,
     service: ProjectService = Depends(get_project_service),
 ):
-    return service.list(status=status)
+    return service.list(status=status, campus=campus)
 
 
 @router.get("/{project_id}", response_model=Project)

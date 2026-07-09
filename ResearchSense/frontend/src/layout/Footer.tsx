@@ -10,8 +10,8 @@ export default function Footer() {
         <div className={styles.brandCol}>
           <Wordmark light />
           <p className={styles.blurb}>
-            A research information system for Bahria University Islamabad,
-            E-8 campus — profiles, publications, research areas and projects
+            A research information system for Bahria University. Profiles,
+            publications, research areas and projects across all campuses
             in one place.
           </p>
         </div>
@@ -31,16 +31,16 @@ export default function Footer() {
         </nav>
 
         <div className={styles.col}>
-          <span className={styles.head}>Campus</span>
-          <span>Shangrila Road, Sector E-8</span>
-          <span>Islamabad, Pakistan</span>
-          <span className={styles.mono}>+92-51-9260002</span>
+          <span className={styles.head}>Campuses</span>
+          <span>Islamabad (E-8)</span>
+          <span>Islamabad (H-11)</span>
+          <span>Karachi</span>
+          <span>Lahore</span>
         </div>
       </div>
 
       <div className={`container ${styles.legal}`}>
         <span>© {new Date().getFullYear()} ResearchSense. Final Year Project.</span>
-        <span className={styles.mono}>Data: Bahria University E-8</span>
       </div>
     </footer>
   );

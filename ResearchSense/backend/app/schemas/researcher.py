@@ -25,7 +25,8 @@ class Researcher(BaseModel):
     full_name: str
     designation: str
     department: str
-    institution: str = "Bahria University, Islamabad (E-8)"
+    campus: str = "Islamabad (E-8)"
+    institution: str = "Bahria University"
     email: str | None = None
     orcid_id: str | None = None
     photo_url: str | None = None

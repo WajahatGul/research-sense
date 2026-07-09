@@ -10,10 +10,11 @@ class MockProjectRepository(ProjectRepository):
     def _all(self) -> list[dict]:
         return loader.load("projects")
 
-    def list(self, *, status=None):
+    def list(self, *, status=None, campus=None):
         rows = [
             p for p in self._all()
-            if not status or p.get("status") == status
+            if (not status or p.get("status") == status)
+            and (not campus or p.get("campus") == campus)
         ]
         rows.sort(key=lambda p: p.get("start_date", ""), reverse=True)
         return [Project(**p) for p in rows]

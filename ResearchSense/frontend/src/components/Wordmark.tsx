@@ -15,7 +15,7 @@ export function Wordmark({ light = false }: { light?: boolean }) {
       </svg>
       <span className={styles.text}>
         <span className={styles.name}>ResearchSense</span>
-        <span className={styles.sub}>Bahria University E-8</span>
+        <span className={styles.sub}>Bahria University</span>
       </span>
     </span>
   );

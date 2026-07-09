@@ -10,13 +10,17 @@ from app.schemas.researcher import (
 )
 
 
-def _matches(rec: dict, query: str | None, department: str | None,
-             designation: str | None, topic_id: int | None) -> bool:
+def _matches(rec: dict, query: str | None, campus: str | None,
+             department: str | None, designation: str | None,
+             topic_id: int | None) -> bool:
     if query:
         q = query.lower()
-        hay = f"{rec['full_name']} {rec.get('designation','')} {rec.get('department','')}".lower()
+        hay = (f"{rec['full_name']} {rec.get('designation','')} "
+               f"{rec.get('department','')} {rec.get('expertise','')}").lower()
         if q not in hay:
             return False
+    if campus and rec.get("campus") != campus:
+        return False
     if department and rec.get("department") != department:
         return False
     if designation and rec.get("designation") != designation:
@@ -31,10 +35,11 @@ class MockResearcherRepository(ResearcherRepository):
     def _all(self) -> list[dict]:
         return loader.load("researchers")
 
-    def list(self, *, query=None, department=None, designation=None, topic_id=None):
+    def list(self, *, query=None, campus=None, department=None,
+             designation=None, topic_id=None):
         rows = [
             r for r in self._all()
-            if _matches(r, query, department, designation, topic_id)
+            if _matches(r, query, campus, department, designation, topic_id)
         ]
         rows.sort(key=lambda r: r["full_name"])
         return [Researcher(**r) for r in rows]
@@ -55,6 +60,11 @@ class MockResearcherRepository(ResearcherRepository):
 
     def designations(self) -> list[str]:
         return sorted({r["designation"] for r in self._all() if r.get("designation")})
+
+    def campuses(self) -> list[str]:
+        order = ["Islamabad (E-8)", "Islamabad (H-11)", "Karachi", "Lahore"]
+        present = {r["campus"] for r in self._all() if r.get("campus")}
+        return [c for c in order if c in present] + sorted(present - set(order))
 
     def _publications_for(self, researcher_id: int) -> list[dict]:
         pubs = []

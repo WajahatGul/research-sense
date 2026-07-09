@@ -36,6 +36,12 @@
   color: var(--muted);
 }
 
+.campus {
+  margin: 2px 0 0;
+  font-size: 0.74rem;
+  color: var(--faint);
+}
+
 .topics {
   display: flex;
   flex-wrap: wrap;

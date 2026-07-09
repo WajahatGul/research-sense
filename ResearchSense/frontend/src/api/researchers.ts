@@ -3,6 +3,7 @@ import type { Paginated, Researcher, ResearcherDetail } from "../types";
 
 export interface ResearcherFilters {
   q?: string;
+  campus?: string;
   department?: string;
   designation?: string;
   topic_id?: number;
@@ -21,6 +22,9 @@ export const fetchDepartments = () =>
 
 export const fetchDesignations = () =>
   get<string[]>("/api/researchers/designations");
+
+export const fetchCampuses = () =>
+  get<string[]>("/api/researchers/campuses");
 
 export const fetchResearcher = (id: number) =>
   get<ResearcherDetail>(`/api/researchers/${id}`);

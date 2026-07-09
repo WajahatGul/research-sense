@@ -1,10 +1,14 @@
-"""Headless Playwright scraper for the Bahria University (E-8) CS faculty.
+"""Headless Playwright scraper for Bahria University computing faculty.
 
-Pulls the live faculty roster and every faculty detail page from bahria.edu.pk
-and extracts the genuinely published fields: email, research areas / expertise,
-and highest qualification (degree, year, majors, university). Publications and
-funding are NOT published on the site, so they are not scraped; ``build_seed``
-adds those as clearly flagged sample data.
+Source: the university faculty directory at bahria.edu.pk/Home/Faculty, a single
+searchable table covering every campus with name, campus, department,
+designation, and research areas. This script pulls the computing departments
+(Computer Science, Software Engineering, Computer Engineering) across the four
+teaching campuses and then visits each faculty detail page for the real email
+and qualification.
+
+Publications are not published on the site, so they are not scraped here;
+fetch_publications.py adds real publications from OpenAlex.
 
 Setup (one time):
     pip install playwright && python -m playwright install chromium
@@ -17,26 +21,36 @@ Output: scripts/scraped_faculty.json
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-ROSTER_URL = (
-    "https://www.bahria.edu.pk/page/PageTemplate4?pageContentId=4687&WebsiteID=2"
-)
+FACULTY_URL = "https://www.bahria.edu.pk/Home/Faculty"
 DETAIL_URL = "https://www.bahria.edu.pk/Home/FacultyDetails?facultyId={id}"
 OUTPUT = Path(__file__).resolve().parent / "scraped_faculty.json"
 
-ROSTER_JS = """
+# Campus codes in the directory mapped to display names (four teaching campuses).
+DIRECTORY_JS = """
 () => {
-  const seen = new Set(); const out = [];
-  for (const a of document.querySelectorAll('a[href*="facultyId="]')) {
-    const id = a.getAttribute('href').split('facultyId=')[1].split('&')[0];
-    if (seen.has(id)) continue; seen.add(id);
-    const row = a.closest('tr');
-    const cells = row ? [...row.querySelectorAll('td')].map(c => c.innerText.trim()) : [];
-    out.push({ id, name: a.innerText.trim().replace(/\\s+/g,' '),
-               designation: (cells[2] || '').replace(/\\s+/g,' ') });
+  const $ = window.jQuery || window.$;
+  const table = document.querySelector('table');
+  const nodes = $(table).DataTable().rows().nodes().toArray();
+  const CAMPUS = { BUIC_E8:'Islamabad (E-8)', BUIC_H11:'Islamabad (H-11)',
+                   BUKC:'Karachi', BUKC_IPP:'Karachi', BULC:'Lahore' };
+  const computing = /computer science|software engineering|computer engineering/i;
+  const out = [];
+  for (const tr of nodes) {
+    const c = [...tr.querySelectorAll('td')].map(x => x.innerText.trim().replace(/\\s+/g,' '));
+    const a = tr.querySelector('a[href*="facultyId="]');
+    const id = a ? a.getAttribute('href').split('facultyId=')[1].split('&')[0] : null;
+    const [name, code, dept, designation, areas] = c;
+    if (!CAMPUS[code] || !computing.test(dept || '')) continue;
+    out.push({ id, name, campus: CAMPUS[code],
+               department: /software/i.test(dept) ? 'Software Engineering'
+                 : /computer engineering/i.test(dept) ? 'Computer Engineering'
+                 : 'Computer Science',
+               designation, areas: areas || '' });
   }
   return out;
 }
@@ -53,7 +67,7 @@ DETAIL_JS = """
   const qual = rows.find(c => degrees.includes((c[0] || '').toLowerCase()));
   return {
     email: mail ? mail.innerText.trim() : null,
-    areas: areasRow ? areasRow.slice(1).join(' ').trim() : '',
+    detail_areas: areasRow ? areasRow.slice(1).join(' ').trim() : '',
     degree: qual ? qual[0] : null,
     degree_year: qual ? qual[1] : null,
     degree_majors: qual ? qual[2] : null,
@@ -62,34 +76,46 @@ DETAIL_JS = """
 }
 """
 
+READY = ("() => { const $=window.jQuery; const t=document.querySelector('table'); "
+         "return $ && t && $(t).DataTable().rows().count() > 100; }")
+
 
 def main() -> None:
-    print("Scraping Bahria E-8 CS faculty (headless)...")
+    print("Scraping Bahria computing faculty from the directory...")
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto(ROSTER_URL, wait_until="domcontentloaded", timeout=60000)
-        roster = page.evaluate(ROSTER_JS)
-        print(f"  roster: {len(roster)} faculty with detail pages")
+        page.goto(FACULTY_URL, wait_until="networkidle", timeout=90000)
+        page.wait_for_function(READY, timeout=60000)
+        roster = page.evaluate(DIRECTORY_JS)
+        print(f"  directory: {len(roster)} computing faculty across 4 campuses")
 
         for i, person in enumerate(roster, start=1):
+            if not person["id"]:
+                continue
             try:
                 page.goto(DETAIL_URL.format(id=person["id"]),
                           wait_until="domcontentloaded", timeout=60000)
-                person.update(page.evaluate(DETAIL_JS))
-                mark = "ok" if person.get("email") else "no email"
-                print(f"  [{i:>2}/{len(roster)}] {person['name'][:30]:30} {mark}")
+                d = page.evaluate(DETAIL_JS)
+                person["email"] = d.get("email")
+                # Directory areas are primary; detail areas are a fallback.
+                if not person["areas"] and d.get("detail_areas"):
+                    person["areas"] = d["detail_areas"]
+                for k in ("degree", "degree_year", "degree_majors", "degree_university"):
+                    person[k] = d.get(k)
+                if i % 25 == 0:
+                    print(f"    detail {i}/{len(roster)}")
             except Exception as exc:  # noqa: BLE001 - keep going on flaky pages
-                print(f"  [{i:>2}/{len(roster)}] {person['name'][:30]:30} FAILED: {exc}")
+                print(f"    detail {person['name'][:24]} failed: {exc}")
+            time.sleep(0.1)
         browser.close()
 
-    with OUTPUT.open("w", encoding="utf-8") as fh:
-        json.dump(roster, fh, indent=2, ensure_ascii=False)
+    OUTPUT.write_text(json.dumps(roster, indent=2, ensure_ascii=False), "utf-8")
     with_email = sum(1 for p in roster if p.get("email"))
     with_areas = sum(1 for p in roster if p.get("areas"))
     print(f"Wrote {OUTPUT}: {len(roster)} faculty, "
           f"{with_email} with email, {with_areas} with research areas.")
-    print("Next: python -m scripts.build_seed")
+    print("Next: python -m scripts.build_seed && python -m scripts.fetch_publications")
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchPublications, fetchPublicationYears } from "../api/publications";
+import { fetchCampuses } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { PublicationItem } from "../components/PublicationItem";
@@ -18,19 +19,25 @@ export default function Publications() {
 
   const [q, setQ] = useState("");
   const [year, setYear] = useState("");
+  const [campus, setCampus] = useState("");
   const [page, setPage] = useState(1);
 
   const { data: years } = useQuery({
     queryKey: ["pub-years"],
     queryFn: fetchPublicationYears,
   });
+  const { data: campuses } = useQuery({
+    queryKey: ["campuses"],
+    queryFn: fetchCampuses,
+  });
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["publications", q, year, topicId, page],
+    queryKey: ["publications", q, year, campus, topicId, page],
     queryFn: () =>
       fetchPublications({
         q,
         year: year ? Number(year) : undefined,
+        campus: campus || undefined,
         topic_id: topicId ? Number(topicId) : undefined,
         page,
         page_size: PAGE_SIZE,
@@ -43,7 +50,7 @@ export default function Publications() {
       <PageHeader
         eyebrow="Research output"
         title="Publications"
-        description="Journal articles and conference papers from Bahria University E-8 researchers."
+        description="Journal articles and conference papers from Bahria University researchers."
       >
         <div className={styles.controls}>
           <div className={styles.search}>
@@ -55,6 +62,22 @@ export default function Publications() {
               }}
             />
           </div>
+          <select
+            className={styles.select}
+            value={campus}
+            onChange={(e) => {
+              setCampus(e.target.value);
+              setPage(1);
+            }}
+            aria-label="Filter by campus"
+          >
+            <option value="">All campuses</option>
+            {campuses?.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
           <select
             className={styles.select}
             value={year}

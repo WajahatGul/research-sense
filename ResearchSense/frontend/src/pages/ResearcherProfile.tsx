@@ -24,10 +24,14 @@ export default function ResearcherProfile() {
         <div className={`container ${styles.heroInner}`}>
           <Avatar name={data.full_name} size={92} />
           <div>
-            <span className="eyebrow">{data.department}</span>
+            <span className="eyebrow">
+              {data.department} · {data.campus}
+            </span>
             <h1 className={styles.name}>{data.full_name}</h1>
             <p className={styles.role}>{data.designation}</p>
-            <p className={styles.inst}>{data.institution}</p>
+            <p className={styles.inst}>
+              {data.institution}, {data.campus} campus
+            </p>
             <div className={styles.meta}>
               {data.email && (
                 <a href={`mailto:${data.email}`} className={styles.metaItem}>

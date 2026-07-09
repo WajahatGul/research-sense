@@ -25,3 +25,4 @@ class Stats(BaseModel):
     projects: int
     topics: int
     departments: int
+    campuses: int

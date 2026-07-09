@@ -12,11 +12,11 @@ export function Hero() {
       <div className={`container ${styles.inner}`}>
         <span className={styles.eyebrow}>Research Information System</span>
         <h1 className={styles.title}>
-          The research of Bahria University,
-          <span className={styles.accent}> Islamabad E-8</span>
+          The research of
+          <span className={styles.accent}> Bahria University</span>
         </h1>
         <p className={styles.lead}>
-          Search researchers, publications, and projects across the campus.
+          Search researchers, publications, and projects across every campus.
           One index for the people and ideas shaping our research.
         </p>
 

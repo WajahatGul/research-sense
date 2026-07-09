@@ -11,10 +11,10 @@ class ResearcherService:
     def __init__(self, repo: ResearcherRepository):
         self._repo = repo
 
-    def list(self, *, query=None, department=None, designation=None,
+    def list(self, *, query=None, campus=None, department=None, designation=None,
              topic_id=None, page=1, page_size=12) -> Paginated[Researcher]:
         rows = self._repo.list(
-            query=query, department=department,
+            query=query, campus=campus, department=department,
             designation=designation, topic_id=topic_id,
         )
         return paginate(rows, page, page_size)
@@ -32,3 +32,6 @@ class ResearcherService:
 
     def designations(self) -> list[str]:
         return self._repo.designations()
+
+    def campuses(self) -> list[str]:
+        return self._repo.campuses()

@@ -6,6 +6,7 @@ export interface PublicationFilters {
   year?: number;
   topic_id?: number;
   author_id?: number;
+  campus?: string;
   page?: number;
   page_size?: number;
 }

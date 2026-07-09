@@ -47,3 +47,7 @@
 .cites {
   color: var(--ink);
 }
+
+.campus {
+  color: var(--faint);
+}

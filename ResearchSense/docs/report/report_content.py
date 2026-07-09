@@ -5,7 +5,7 @@ are avoided on purpose. Placeholders in square brackets are for the student to
 fill before submission.
 """
 
-TITLE = "ResearchSense: A Research Information System for Bahria University Islamabad, E-8 Campus"
+TITLE = "ResearchSense: A Research Information System for Bahria University"
 AUTHOR = "Ammar Jamil"
 ENROLLMENT = "[Enrollment Number]"
 SUPERVISOR = "[Supervisor Name]"
@@ -17,7 +17,8 @@ DATE = "2026"
 
 ABSTRACT = [
     "ResearchSense is a web based research information system built for Bahria "
-    "University Islamabad, E-8 campus. Universities produce a large amount of "
+    "University, covering the computing faculty of its Islamabad (E-8 and H-11), "
+    "Karachi and Lahore campuses. Universities produce a large amount of "
     "research every year, but the records of researchers, publications, and "
     "projects are often spread across separate files and web pages. This makes "
     "it hard for students, faculty, and outside visitors to find who works on a "
@@ -50,20 +51,20 @@ CH1 = {
             "record visible so that people inside and outside the campus can see "
             "what is being studied and by whom.",
 
-            "At present the research record of Bahria University Islamabad, E-8 "
-            "campus is hard to view as a whole. Faculty details sit on one set of "
-            "pages, while publication lists, if they exist, sit somewhere else or "
-            "on personal profiles on outside websites. A visitor who wants to know "
-            "which teachers work on machine learning, or how many papers the "
-            "campus has produced in a field, has no single place to look.",
+            "At present the research record of Bahria University is hard to view "
+            "as a whole. Faculty details sit on one set of pages, spread across "
+            "separate campuses, while publication lists, if they exist, sit "
+            "somewhere else or on personal profiles on outside websites. A visitor "
+            "who wants to know which teachers work on machine learning, or how many "
+            "papers a campus has produced in a field, has no single place to look.",
 
             "ResearchSense is a research information system that solves this "
             "problem. It collects the profiles of researchers, their publications, "
             "the topics they study, and the projects they lead, and it presents "
             "all of this through one clean web portal. The idea follows the style "
             "of well known university research portals, but it is shaped for the "
-            "needs of Bahria University and uses the real faculty of the E-8 "
-            "campus as its starting data.",
+            "needs of Bahria University and uses the real computing faculty of its "
+            "four teaching campuses as its data.",
         ]),
         ("Problem Description", [
             "The main problem is that research information at the campus is "
@@ -101,9 +102,10 @@ CH1 = {
         ("Project Scope", [
             "This first version of ResearchSense focuses on the full user "
             "interface and a working service that supplies data to it. The data "
-            "for this version comes from the real faculty list of the Computer "
-            "Science department at the E-8 campus, including real emails, research "
-            "areas, and qualifications, together with real publications collected "
+            "for this version comes from the real computing faculty (Computer "
+            "Science, Software Engineering and Computer Engineering) across the "
+            "four campuses, including real emails, research areas, and "
+            "qualifications, together with real publications collected "
             "from the OpenAlex scholarly database. Project and funding records are "
             "sample values that are clearly marked as sample. The system runs as a "
             "web application that any modern browser can open.",
@@ -379,8 +381,9 @@ CH4 = {
             "proxy, which keeps the setup simple.",
 
             "Two more external interfaces are used to prepare the data. One script "
-            "reads the public faculty list and profile pages of the E-8 campus to "
-            "build the researcher records. A second script queries the OpenAlex "
+            "reads the public faculty directory and profile pages of the "
+            "university to build the researcher records for every campus. A second "
+            "script queries the OpenAlex "
             "scholarly database to collect real publications for the faculty. Both "
             "scripts run on their own, away from the live system, so the running "
             "portal does not depend on any outside website.",
@@ -420,5 +423,5 @@ REFERENCES = [
     "VIVO Project. VIVO Open Source Research Networking Software. vivoweb.org.",
     "ORCID. Connecting Research and Researchers. orcid.org.",
     "DuraSpace. DSpace Repository Software. dspace.org.",
-    "Bahria University. Department of Computer Science, E-8 Campus. bahria.edu.pk.",
+    "Bahria University. Faculty Directory. bahria.edu.pk/Home/Faculty.",
 ]

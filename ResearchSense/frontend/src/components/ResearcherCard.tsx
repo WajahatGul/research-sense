@@ -14,6 +14,9 @@ export function ResearcherCard({ researcher }: { researcher: Researcher }) {
         <div className={styles.head}>
           <h3 className={styles.name}>{researcher.full_name}</h3>
           <p className={styles.role}>{researcher.designation}</p>
+          <p className={styles.campus}>
+            {researcher.department} · {researcher.campus}
+          </p>
         </div>
       </div>
 

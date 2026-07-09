@@ -20,6 +20,7 @@ class ResearcherRepository(ABC):
         self,
         *,
         query: str | None = None,
+        campus: str | None = None,
         department: str | None = None,
         designation: str | None = None,
         topic_id: int | None = None,
@@ -34,6 +35,9 @@ class ResearcherRepository(ABC):
     @abstractmethod
     def designations(self) -> list[str]: ...
 
+    @abstractmethod
+    def campuses(self) -> list[str]: ...
+
 
 class PublicationRepository(ABC):
     @abstractmethod
@@ -44,6 +48,7 @@ class PublicationRepository(ABC):
         year: int | None = None,
         topic_id: int | None = None,
         author_id: int | None = None,
+        campus: str | None = None,
     ) -> list[Publication]: ...
 
     @abstractmethod
@@ -60,7 +65,8 @@ class TopicRepository(ABC):
 
 class ProjectRepository(ABC):
     @abstractmethod
-    def list(self, *, status: str | None = None) -> list[Project]: ...
+    def list(self, *, status: str | None = None,
+             campus: str | None = None) -> list[Project]: ...
 
     @abstractmethod
     def get(self, project_id: int) -> Project | None: ...

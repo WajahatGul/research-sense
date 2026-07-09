@@ -14,6 +14,7 @@ router = APIRouter(prefix="/api/researchers", tags=["researchers"])
 @router.get("", response_model=Paginated[Researcher])
 def list_researchers(
     q: str | None = None,
+    campus: str | None = None,
     department: str | None = None,
     designation: str | None = None,
     topic_id: int | None = None,
@@ -22,7 +23,7 @@ def list_researchers(
     service: ResearcherService = Depends(get_researcher_service),
 ):
     return service.list(
-        query=q, department=department, designation=designation,
+        query=q, campus=campus, department=department, designation=designation,
         topic_id=topic_id, page=page, page_size=page_size,
     )
 
@@ -47,6 +48,13 @@ def list_designations(
     service: ResearcherService = Depends(get_researcher_service),
 ):
     return service.designations()
+
+
+@router.get("/campuses", response_model=list[str])
+def list_campuses(
+    service: ResearcherService = Depends(get_researcher_service),
+):
+    return service.campuses()
 
 
 @router.get("/{researcher_id}", response_model=ResearcherDetail)

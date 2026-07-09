@@ -1,23 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchDepartments, fetchDesignations } from "../../api/researchers";
+import {
+  fetchCampuses,
+  fetchDepartments,
+  fetchDesignations,
+} from "../../api/researchers";
 import styles from "./FilterBar.module.css";
 
 interface Props {
+  campus: string;
   department: string;
   designation: string;
+  onCampus: (v: string) => void;
   onDepartment: (v: string) => void;
   onDesignation: (v: string) => void;
   total: number;
 }
 
 export function FilterBar({
+  campus,
   department,
   designation,
+  onCampus,
   onDepartment,
   onDesignation,
   total,
 }: Props) {
+  const { data: campuses } = useQuery({
+    queryKey: ["campuses"],
+    queryFn: fetchCampuses,
+  });
   const { data: departments } = useQuery({
     queryKey: ["departments"],
     queryFn: fetchDepartments,
@@ -33,6 +45,19 @@ export function FilterBar({
         {total.toLocaleString()} researchers
       </span>
       <div className={styles.filters}>
+        <select
+          className={styles.select}
+          value={campus}
+          onChange={(e) => onCampus(e.target.value)}
+          aria-label="Filter by campus"
+        >
+          <option value="">All campuses</option>
+          {campuses?.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
         <select
           className={styles.select}
           value={department}

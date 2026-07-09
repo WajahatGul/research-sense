@@ -10,13 +10,16 @@ class MockPublicationRepository(PublicationRepository):
     def _all(self) -> list[dict]:
         return loader.load("publications")
 
-    def list(self, *, query=None, year=None, topic_id=None, author_id=None):
+    def list(self, *, query=None, year=None, topic_id=None,
+             author_id=None, campus=None):
         rows = self._all()
         result = []
         for p in rows:
             if query and query.lower() not in p["title"].lower():
                 continue
             if year is not None and p["publication_year"] != year:
+                continue
+            if campus and p.get("campus") != campus:
                 continue
             if topic_id is not None and topic_id not in {
                 t["topic_id"] for t in p.get("topics", [])

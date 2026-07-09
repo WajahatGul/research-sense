@@ -21,6 +21,7 @@ export function PublicationItem({ pub }: { pub: Publication }) {
           <span className={styles.cites}>
             <span className="mono">{pub.citation_count}</span> citations
           </span>
+          {pub.campus && <span className={styles.campus}>{pub.campus}</span>}
         </div>
       </div>
     </article>

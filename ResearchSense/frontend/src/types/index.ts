@@ -13,6 +13,7 @@ export interface Stats {
   projects: number;
   topics: number;
   departments: number;
+  campuses: number;
 }
 
 export interface TopicRef {
@@ -45,6 +46,7 @@ export interface Publication {
   journal_name: string;
   publication_type: string;
   citation_count: number;
+  campus: string;
   authors: AuthorRef[];
   topics: TopicRef[];
   source: string;
@@ -63,6 +65,7 @@ export interface Researcher {
   full_name: string;
   designation: string;
   department: string;
+  campus: string;
   institution: string;
   email: string | null;
   orcid_id: string | null;
@@ -110,6 +113,7 @@ export interface Project {
   principal_investigator_id: number | null;
   principal_investigator_name: string;
   department: string;
+  campus: string;
   funding: Funding[];
   topics: string[];
   source: string;

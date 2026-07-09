@@ -26,6 +26,7 @@ class Project(BaseModel):
     principal_investigator_id: int | None = None
     principal_investigator_name: str = ""
     department: str = ""
+    campus: str = ""
     funding: list[Funding] = []
     topics: list[str] = []
     source: str = "sample"

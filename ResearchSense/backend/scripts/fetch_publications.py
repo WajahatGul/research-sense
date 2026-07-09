@@ -107,6 +107,7 @@ def main() -> None:
     topics = json.loads((DATA_DIR / "topics.json").read_text("utf-8"))
     topic_ids = {t["topic_name"]: t["topic_id"] for t in topics}
     roster = {_key(r["full_name"]): r["researcher_id"] for r in researchers}
+    campus_of = {r["researcher_id"]: r.get("campus", "") for r in researchers}
     # Field guard: a paper is only attributed to a researcher when its field
     # overlaps that researcher's real expertise. This removes same-name authors
     # from other fields at the same university (a common source of error).
@@ -155,6 +156,7 @@ def main() -> None:
             "journal_name": venue,
             "publication_type": wtype,
             "citation_count": cited,
+            "campus": campus_of.get(matched_ids[0], ""),
             "authors": authors[:12],
             "topics": work_topics,
             "source": "openalex",

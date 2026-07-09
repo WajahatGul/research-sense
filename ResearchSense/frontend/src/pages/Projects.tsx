@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 import { fetchProjects } from "../api/projects";
+import { fetchCampuses } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { Badge } from "../components/Badge";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -17,9 +18,15 @@ function formatPKR(amount: number): string {
 
 export default function Projects() {
   const [status, setStatus] = useState("all");
+  const [campus, setCampus] = useState("");
+  const { data: campuses } = useQuery({
+    queryKey: ["campuses"],
+    queryFn: fetchCampuses,
+  });
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["projects", status],
-    queryFn: () => fetchProjects(status === "all" ? undefined : status),
+    queryKey: ["projects", status, campus],
+    queryFn: () =>
+      fetchProjects(status === "all" ? undefined : status, campus || undefined),
   });
 
   return (
@@ -27,18 +34,33 @@ export default function Projects() {
       <PageHeader
         eyebrow="Funded research"
         title="Projects"
-        description="Grant-funded research projects led by Bahria University E-8 faculty."
+        description="Grant-funded research projects led by Bahria University faculty."
       >
-        <div className={styles.tabs}>
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              className={`${styles.tab} ${status === f ? styles.tabActive : ""}`}
-              onClick={() => setStatus(f)}
-            >
-              {f[0].toUpperCase() + f.slice(1)}
-            </button>
-          ))}
+        <div className={styles.controls}>
+          <div className={styles.tabs}>
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                className={`${styles.tab} ${status === f ? styles.tabActive : ""}`}
+                onClick={() => setStatus(f)}
+              >
+                {f[0].toUpperCase() + f.slice(1)}
+              </button>
+            ))}
+          </div>
+          <select
+            className={styles.select}
+            value={campus}
+            onChange={(e) => setCampus(e.target.value)}
+            aria-label="Filter by campus"
+          >
+            <option value="">All campuses</option>
+            {campuses?.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         </div>
       </PageHeader>
 
@@ -70,6 +92,9 @@ export default function Projects() {
                   >
                     {p.principal_investigator_name}
                   </Link>
+                  <span className={styles.campus}>
+                    {p.department} · {p.campus}
+                  </span>
                   {p.funding.map((f) => (
                     <div key={f.funding_id} className={styles.fund}>
                       <span className={styles.agency}>{f.agency_name}</span>

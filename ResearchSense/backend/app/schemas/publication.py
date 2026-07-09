@@ -25,6 +25,7 @@ class Publication(BaseModel):
     journal_name: str = ""
     publication_type: str = "journal"
     citation_count: int = 0
+    campus: str = ""
     authors: list[AuthorRef] = []
     topics: list[TopicRef] = []
     source: str = "sample"

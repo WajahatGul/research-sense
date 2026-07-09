@@ -10,10 +10,12 @@ class MockStatsRepository(StatsRepository):
     def get_stats(self) -> Stats:
         researchers = loader.load("researchers")
         departments = {r.get("department") for r in researchers if r.get("department")}
+        campuses = {r.get("campus") for r in researchers if r.get("campus")}
         return Stats(
             researchers=len(researchers),
             publications=len(loader.load("publications")),
             projects=len(loader.load("projects")),
             topics=len(loader.load("topics")),
             departments=len(departments),
+            campuses=len(campuses),
         )

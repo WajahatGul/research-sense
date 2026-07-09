@@ -75,7 +75,7 @@ class ChatService:
             names = ", ".join(r.full_name for r in researchers)
             area = f" working on {topics[0].topic_name}" if topics else ""
             return (
-                f"At Bahria University (E-8), researchers{area} include {names}. "
+                f"At Bahria University, researchers{area} include {names}. "
                 "Open a profile to see publications and collaboration options."
             )
         if topics:

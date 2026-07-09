@@ -17,15 +17,17 @@ export default function Researchers() {
   const [params, setParams] = useSearchParams();
   const q = params.get("q") ?? "";
 
+  const [campus, setCampus] = useState("");
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["researchers", q, department, designation, page],
+    queryKey: ["researchers", q, campus, department, designation, page],
     queryFn: () =>
       fetchResearchers({
         q,
+        campus,
         department,
         designation,
         page,
@@ -44,7 +46,7 @@ export default function Researchers() {
       <PageHeader
         eyebrow="Directory"
         title="Researchers"
-        description="Browse faculty of Bahria University, Islamabad E-8 campus. Filter by department, designation, or search by name and area."
+        description="Browse faculty across all Bahria University campuses. Filter by campus, department, designation, or search by name and area."
       >
         <div className={styles.search}>
           <SearchBar
@@ -57,9 +59,14 @@ export default function Researchers() {
 
       <div className={`container ${styles.body}`}>
         <FilterBar
+          campus={campus}
           department={department}
           designation={designation}
           total={data?.total ?? 0}
+          onCampus={(v) => {
+            setCampus(v);
+            setPage(1);
+          }}
           onDepartment={(v) => {
             setDepartment(v);
             setPage(1);
