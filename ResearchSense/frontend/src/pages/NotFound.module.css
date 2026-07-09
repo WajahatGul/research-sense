@@ -1,0 +1,35 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 120px 24px;
+  text-align: center;
+}
+
+.code {
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.title {
+  font-size: var(--step-3);
+  color: var(--navy);
+}
+
+.text {
+  color: var(--muted);
+  margin: 0;
+}
+
+.link {
+  margin-top: 12px;
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.link:hover {
+  color: var(--gold);
+}

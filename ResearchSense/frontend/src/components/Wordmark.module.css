@@ -1,0 +1,66 @@
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.glyph {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.disc {
+  fill: var(--navy);
+}
+
+.star {
+  fill: var(--gold);
+}
+
+.pivot {
+  fill: var(--navy);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.light .name {
+  color: #fff;
+}
+
+.light .sub {
+  color: var(--gold-soft);
+}
+
+.light .disc {
+  fill: #fff;
+}
+
+.light .star {
+  fill: var(--gold);
+}
+
+.light .pivot {
+  fill: var(--navy);
+}

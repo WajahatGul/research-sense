@@ -1,0 +1,27 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.default {
+  background: var(--paper);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+.gold {
+  background: rgba(201, 162, 39, 0.12);
+  color: #8a6d14;
+  border: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.navy {
+  background: var(--navy);
+  color: #fff;
+}

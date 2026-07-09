@@ -1,0 +1,49 @@
+.item {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+}
+
+.year {
+  flex-shrink: 0;
+  width: 56px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  padding-top: 2px;
+}
+
+.body {
+  min-width: 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  color: var(--navy);
+  line-height: 1.35;
+}
+
+.authors {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+
+.journal {
+  font-style: italic;
+}
+
+.cites {
+  color: var(--ink);
+}

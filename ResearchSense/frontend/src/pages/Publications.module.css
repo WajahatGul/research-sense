@@ -1,0 +1,41 @@
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search {
+  flex: 1;
+  min-width: 260px;
+  max-width: 460px;
+}
+
+.select {
+  appearance: none;
+  padding: 11px 34px 11px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%235b6472' stroke-width='1.6' stroke-linecap='round'/></svg>")
+    no-repeat right 14px center;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.body {
+  padding-top: 28px;
+}
+
+.count {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.list {
+  border-bottom: 1px solid var(--line);
+}

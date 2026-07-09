@@ -1,0 +1,88 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 120% at 85% -10%, rgba(201, 162, 39, 0.18), transparent 55%),
+    linear-gradient(160deg, var(--navy) 0%, var(--navy-900) 100%);
+  color: #fff;
+  padding: 84px 0 72px;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(70% 80% at 40% 20%, #000, transparent 75%);
+}
+
+.inner {
+  position: relative;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.title {
+  max-width: 15ch;
+  margin: 18px 0 0;
+  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  font-weight: 600;
+  line-height: 1.06;
+}
+
+.accent {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.lead {
+  max-width: 54ch;
+  margin: 22px 0 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.search {
+  margin-top: 34px;
+  max-width: 620px;
+}
+
+.suggest {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.suggestLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 0.85rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--gold);
+}

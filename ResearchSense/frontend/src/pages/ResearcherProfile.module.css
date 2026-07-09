@@ -1,0 +1,188 @@
+.hero {
+  background:
+    radial-gradient(80% 120% at 90% -20%, rgba(201, 162, 39, 0.14), transparent 55%),
+    linear-gradient(160deg, var(--navy), var(--navy-900));
+  color: #fff;
+  padding: 52px 0;
+}
+
+.heroInner {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.heroInner .eyebrow,
+.hero :global(.eyebrow) {
+  color: var(--gold-soft);
+}
+
+.name {
+  margin: 8px 0 0;
+  font-size: var(--step-4);
+}
+
+.role {
+  margin: 6px 0 0;
+  font-size: 1.05rem;
+  color: var(--gold);
+}
+
+.inst {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.metaItem {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  padding-top: 44px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.h2 {
+  font-size: var(--step-2);
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.badge {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.bio {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.pubs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pub {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.pub:first-child {
+  border-top: none;
+}
+
+.pubTitle {
+  display: block;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.pubMeta {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card {
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.h3 {
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.collabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.collab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+
+.collab:hover {
+  background: var(--paper);
+}
+
+.collabName {
+  color: var(--navy);
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+
+.collabMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.score {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}

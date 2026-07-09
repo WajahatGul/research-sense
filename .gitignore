@@ -1,0 +1,24 @@
+# Dependencies / virtualenvs
+node_modules/
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Build output
+dist/
+.vite/
+*.tsbuildinfo
+ResearchSense/frontend/vite.config.js
+ResearchSense/frontend/vite.config.d.ts
+
+# Env
+.env
+.env.local
+
+# Editor / tooling
+.playwright-mcp/
+.DS_Store

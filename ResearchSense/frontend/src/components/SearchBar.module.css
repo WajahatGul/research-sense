@@ -1,0 +1,61 @@
+.form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 6px 6px 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.16);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  color: var(--faint);
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.button {
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 9px 20px;
+  border-radius: 999px;
+  transition: background 0.15s;
+}
+
+.button:hover {
+  background: var(--navy-900);
+}
+
+.lg {
+  padding: 8px 8px 8px 20px;
+}
+
+.lg .input {
+  font-size: 1.05rem;
+  padding: 6px 0;
+}
+
+.lg .button {
+  padding: 12px 26px;
+}

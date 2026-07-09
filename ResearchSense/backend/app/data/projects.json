@@ -1,0 +1,338 @@
+[
+  {
+    "project_id": 1,
+    "project_title": "Cryptography for Cyber-Physical Systems",
+    "description": "A funded research project applying cryptography to smart cities challenges in Pakistan.",
+    "start_date": "2023-04-01",
+    "end_date": "2024-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 1,
+    "principal_investigator_name": "Dr. Muhammad Khurram Ehsan",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 1,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Cryptography"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 2,
+    "project_title": "Data Science for E-Governance",
+    "description": "A funded research project applying data science to e-governance challenges in Pakistan.",
+    "start_date": "2023-09-01",
+    "end_date": "2024-12-31",
+    "status": "completed",
+    "principal_investigator_id": 2,
+    "principal_investigator_name": "Dr. Muhammad Ramzan",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 2,
+        "agency_name": "ICT R&D Fund",
+        "country": "Pakistan",
+        "amount": 10000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Data Science"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 3,
+    "project_title": "Computer Vision for Cyber-Physical Systems",
+    "description": "A funded research project applying computer vision to smart cities challenges in Pakistan.",
+    "start_date": "2023-06-01",
+    "end_date": "2025-12-31",
+    "status": "completed",
+    "principal_investigator_id": 3,
+    "principal_investigator_name": "Dr. Faisal Bashir",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 3,
+        "agency_name": "ICT R&D Fund",
+        "country": "Pakistan",
+        "amount": 5000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Computer Vision"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 4,
+    "project_title": "Data Science for Cyber-Physical Systems",
+    "description": "A funded research project applying data science to education challenges in Pakistan.",
+    "start_date": "2023-02-01",
+    "end_date": "2026-12-31",
+    "status": "completed",
+    "principal_investigator_id": 4,
+    "principal_investigator_name": "Dr. Arif ur Rahman",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 4,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Data Science"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 5,
+    "project_title": "Deep Learning for Healthcare",
+    "description": "A funded research project applying deep learning to education challenges in Pakistan.",
+    "start_date": "2022-09-01",
+    "end_date": "2023-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 5,
+    "principal_investigator_name": "Dr. Samabia Tehseen",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 5,
+        "agency_name": "Pakistan Science Foundation",
+        "country": "Pakistan",
+        "amount": 5000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Deep Learning"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 6,
+    "project_title": "Human-Computer Interaction for Agriculture",
+    "description": "A funded research project applying human-computer interaction to cyber-physical systems challenges in Pakistan.",
+    "start_date": "2024-04-01",
+    "end_date": "2027-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 6,
+    "principal_investigator_name": "Mrs. Saima Jawad",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 6,
+        "agency_name": "Higher Education Commission (HEC)",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Human-Computer Interaction"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 7,
+    "project_title": "Signal Processing for E-Governance",
+    "description": "A funded research project applying signal processing to smart cities challenges in Pakistan.",
+    "start_date": "2021-08-01",
+    "end_date": "2024-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 7,
+    "principal_investigator_name": "Dr. Jafar Hasnain",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 7,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 15000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Signal Processing"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 8,
+    "project_title": "Network Security for Healthcare",
+    "description": "A funded research project applying network security to smart cities challenges in Pakistan.",
+    "start_date": "2020-08-01",
+    "end_date": "2023-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 8,
+    "principal_investigator_name": "Dr. Asad Ullah",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 8,
+        "agency_name": "Higher Education Commission (HEC)",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Network Security"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 9,
+    "project_title": "Data Science for Education",
+    "description": "A funded research project applying data science to cyber-physical systems challenges in Pakistan.",
+    "start_date": "2020-01-01",
+    "end_date": "2022-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 9,
+    "principal_investigator_name": "Dr. Asfand Yar",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 9,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 5000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Data Science"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 10,
+    "project_title": "Network Security for E-Governance",
+    "description": "A funded research project applying network security to smart cities challenges in Pakistan.",
+    "start_date": "2021-08-01",
+    "end_date": "2023-12-31",
+    "status": "completed",
+    "principal_investigator_id": 10,
+    "principal_investigator_name": "Dr. Sabina Akhtar",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 10,
+        "agency_name": "Higher Education Commission (HEC)",
+        "country": "Pakistan",
+        "amount": 10000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Network Security"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 11,
+    "project_title": "Internet of Things for Healthcare",
+    "description": "A funded research project applying internet of things to smart cities challenges in Pakistan.",
+    "start_date": "2022-03-01",
+    "end_date": "2025-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 11,
+    "principal_investigator_name": "Dr. Moazam Ali",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 11,
+        "agency_name": "Pakistan Science Foundation",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Internet of Things"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 12,
+    "project_title": "Signal Processing for Education",
+    "description": "A funded research project applying signal processing to smart cities challenges in Pakistan.",
+    "start_date": "2020-03-01",
+    "end_date": "2022-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 12,
+    "principal_investigator_name": "Dr. Muhammad Usman Hashmi",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 12,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 5000000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Signal Processing"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 13,
+    "project_title": "Computer Networks for Education",
+    "description": "A funded research project applying computer networks to healthcare challenges in Pakistan.",
+    "start_date": "2023-06-01",
+    "end_date": "2024-12-31",
+    "status": "completed",
+    "principal_investigator_id": 13,
+    "principal_investigator_name": "Dr. Hafiz Ashfaq Ahmad",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 13,
+        "agency_name": "National Research Program for Universities (NRPU)",
+        "country": "Pakistan",
+        "amount": 2500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Computer Networks"
+    ],
+    "source": "sample"
+  },
+  {
+    "project_id": 14,
+    "project_title": "Software Engineering for Healthcare",
+    "description": "A funded research project applying software engineering to education challenges in Pakistan.",
+    "start_date": "2020-04-01",
+    "end_date": "2022-12-31",
+    "status": "ongoing",
+    "principal_investigator_id": 14,
+    "principal_investigator_name": "Dr. Saba Mahmood",
+    "department": "Computer Science",
+    "funding": [
+      {
+        "funding_id": 14,
+        "agency_name": "ICT R&D Fund",
+        "country": "Pakistan",
+        "amount": 7500000.0,
+        "currency": "PKR"
+      }
+    ],
+    "topics": [
+      "Software Engineering"
+    ],
+    "source": "sample"
+  }
+]

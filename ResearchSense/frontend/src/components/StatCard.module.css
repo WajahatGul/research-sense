@@ -1,0 +1,40 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 22px 22px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 3px;
+  background: var(--gold);
+  border-radius: 0 3px 3px 0;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+}
+
+.value {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.05;
+}
+
+.label {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
