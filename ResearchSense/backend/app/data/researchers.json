@@ -5,22 +5,32 @@
     "designation": "HOD CS / Sr. Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mehsan.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-5506-5012",
+    "email": "mkehsan.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 66,
+    "expertise": "Digital Twin (Wireless/RF), AI Enabled Next-GEN Networks SDNs, Information/Signal Processing and Statistical Data Modeling/Analysis",
+    "publication_count": 7,
+    "citation_count": 28,
     "topics": [
       {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
+      },
+      {
+        "topic_id": 9,
+        "topic_name": "Wireless Communications"
+      },
+      {
+        "topic_id": 11,
+        "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Dr. Muhammad Khurram Ehsan is a HOD CS / Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Digital Twin (Wireless/RF); AI-Enabled Next-Gen Networks; SDN; Signal Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Khurram Ehsan is a HOD CS / Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Digital Twin (Wireless/RF), AI Enabled Next-GEN Networks SDNs, Information/Signal Processing and Statistical Data Modeling/Analysis. Holds a PhD in Wireless Communications, Signal Processing from University of Kassel, Germany (2016). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Wireless Communications, Signal Processing from University of Kassel, Germany (2016)",
     "source": "scraped"
   },
   {
@@ -29,22 +39,32 @@
     "designation": "Sr. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mramzan.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-9935-2424",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 154,
+    "expertise": "Machine Learning; Medical Imaging; Data Science",
+    "publication_count": 12,
+    "citation_count": 132,
     "topics": [
       {
-        "topic_id": 1,
+        "topic_id": 2,
         "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 7,
+        "topic_id": 5,
+        "topic_name": "Image Processing"
+      },
+      {
+        "topic_id": 11,
         "topic_name": "Data Science"
+      },
+      {
+        "topic_id": 21,
+        "topic_name": "Bioinformatics"
       }
     ],
-    "profile_bio": "Dr. Muhammad Ramzan is a Sr. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Machine Learning; Medical Imaging; Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Ramzan is a Sr. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning; Medical Imaging; Data Science. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -53,26 +73,28 @@
     "designation": "Sr. Professor / Dean & Principal",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "fbashir.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-1488-2535",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 16,
-    "citation_count": 160,
+    "expertise": "Computer Vision; Pattern Recognition; Artificial Intelligence",
+    "publication_count": 11,
+    "citation_count": 88,
     "topics": [
       {
-        "topic_id": 3,
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
+      },
+      {
+        "topic_id": 4,
         "topic_name": "Computer Vision"
       },
       {
-        "topic_id": 22,
+        "topic_id": 19,
         "topic_name": "Pattern Recognition"
-      },
-      {
-        "topic_id": 14,
-        "topic_name": "Artificial Intelligence"
       }
     ],
-    "profile_bio": "Dr. Faisal Bashir is a Sr. Professor / Dean & Principal in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision; Pattern Recognition; Artificial Intelligence. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Faisal Bashir is a Sr. Professor / Dean & Principal in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Computer Vision; Pattern Recognition; Artificial Intelligence. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -81,22 +103,28 @@
     "designation": "Professor / Director Research",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "arahman.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-1434-4257",
+    "email": "arif.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 10,
-    "citation_count": 260,
+    "expertise": "Digital Preservation, Database Preservation, Information Retrieval, Information Systems",
+    "publication_count": 7,
+    "citation_count": 175,
     "topics": [
       {
-        "topic_id": 7,
-        "topic_name": "Data Science"
+        "topic_id": 15,
+        "topic_name": "Information Retrieval"
       },
       {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
+        "topic_id": 16,
+        "topic_name": "Digital Preservation"
+      },
+      {
+        "topic_id": 17,
+        "topic_name": "Information Systems"
       }
     ],
-    "profile_bio": "Dr. Arif ur Rahman is a Professor / Director Research in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Digital Preservation; Data Science; Software Engineering. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Arif ur Rahman is a Professor / Director Research in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Digital Preservation, Database Preservation, Information Retrieval, Information Systems. Holds a PhD in Computer Science from University of Porto, Portugal (2013). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from University of Porto, Portugal (2013)",
     "source": "scraped"
   },
   {
@@ -106,25 +134,23 @@
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
     "email": "stehseen.buic@bahria.edu.pk",
-    "orcid_id": "0000-0007-4611-8359",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 20,
-    "citation_count": 440,
+    "expertise": "Artificial Intelligence, Computer Vision, Generative AI",
+    "publication_count": 21,
+    "citation_count": 126,
     "topics": [
       {
-        "topic_id": 3,
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
+      },
+      {
+        "topic_id": 4,
         "topic_name": "Computer Vision"
-      },
-      {
-        "topic_id": 2,
-        "topic_name": "Deep Learning"
-      },
-      {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
       }
     ],
-    "profile_bio": "Dr. Samabia Tehseen is a Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision; Deep Learning; Image Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Samabia Tehseen is a Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence, Computer Vision, Generative AI. Holds a PhD in Artificial Intelligence/Computer Vision from National University of Science and Technology (2014). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Artificial Intelligence/Computer Vision from National University of Science and Technology (2014)",
     "source": "scraped"
   },
   {
@@ -133,22 +159,20 @@
     "designation": "Sr. Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "sjawad.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-3615-7924",
+    "email": "saima@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 11,
-    "citation_count": 154,
+    "expertise": "Computer Based Learning, Quality in Higher Education",
+    "publication_count": 22,
+    "citation_count": 374,
     "topics": [
       {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
-      },
-      {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
+        "topic_id": 20,
+        "topic_name": "Human Computer Interaction"
       }
     ],
-    "profile_bio": "Mrs. Saima Jawad is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Software Engineering; Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mrs. Saima Jawad is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Computer Based Learning, Quality in Higher Education. Holds a MS in Computer Science from University of Manchester, UK (1995). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Computer Science from University of Manchester, UK (1995)",
     "source": "scraped"
   },
   {
@@ -157,22 +181,20 @@
     "designation": "Sr. Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "jhasnain.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-6514-2674",
+    "email": "jafar.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 42,
+    "expertise": "Applied Mathematics. Fluid mechanics, Nanofluid",
+    "publication_count": 5,
+    "citation_count": 20,
     "topics": [
       {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
-      },
-      {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
+        "topic_id": 18,
+        "topic_name": "Applied Mathematics"
       }
     ],
-    "profile_bio": "Dr. Jafar Hasnain is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Wireless Networks; Internet of Things. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Jafar Hasnain is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Applied Mathematics. Fluid mechanics, Nanofluid. Holds a PhD in Mathematics from University The Islamia University of Bahawalpur (2016). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Mathematics from University The Islamia University of Bahawalpur (2016)",
     "source": "scraped"
   },
   {
@@ -181,22 +203,28 @@
     "designation": "Sr. Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "aullah.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-6881-6635",
+    "email": "asadullah.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 15,
-    "citation_count": 345,
+    "expertise": "Artificial Intelligence, Pattern Recognition, Computer Vision",
+    "publication_count": 6,
+    "citation_count": 60,
     "topics": [
       {
-        "topic_id": 13,
-        "topic_name": "Network Security"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
+        "topic_id": 4,
+        "topic_name": "Computer Vision"
+      },
+      {
+        "topic_id": 19,
+        "topic_name": "Pattern Recognition"
       }
     ],
-    "profile_bio": "Dr. Asad Ullah is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Network Security; Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Asad Ullah is a Sr. Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence, Pattern Recognition, Computer Vision. Holds a PhD in Information and Communication Engineering from Beijing Institute of Technology, Beijing, China (2020). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Information and Communication Engineering from Beijing Institute of Technology, Beijing, China (2020)",
     "source": "scraped"
   },
   {
@@ -205,22 +233,28 @@
     "designation": "Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ayar.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-8527-9785",
+    "email": "asfandeyar.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
+    "expertise": "Semantic Data Engineering, Data Analytics, Ontology Modelling, Text mining, Natural language Processing, Machine Learning",
     "publication_count": 11,
-    "citation_count": 77,
+    "citation_count": 220,
     "topics": [
       {
-        "topic_id": 14,
-        "topic_name": "Artificial Intelligence"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 7,
+        "topic_id": 6,
+        "topic_name": "Natural Language Processing"
+      },
+      {
+        "topic_id": 11,
         "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Dr. Asfand Yar is a Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Artificial Intelligence; Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Asfand Yar is a Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Semantic Data Engineering, Data Analytics, Ontology Modelling, Text mining, Natural language Processing, Machine Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -229,22 +263,20 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "sakhtar.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-5803-6925",
+    "email": "sabina.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 110,
+    "expertise": "Distributed Algorithms, Formal Methods, Model Checking",
+    "publication_count": 4,
+    "citation_count": 84,
     "topics": [
       {
-        "topic_id": 20,
+        "topic_id": 22,
         "topic_name": "Distributed Systems"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Network Security"
       }
     ],
-    "profile_bio": "Dr. Sabina Akhtar is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Distributed Systems; Formal Methods. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Sabina Akhtar is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Distributed Algorithms, Formal Methods, Model Checking. Holds a PhD in Computer Science from Université Henri Poincaré, Nancy, France (2012). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Université Henri Poincaré, Nancy, France (2012)",
     "source": "scraped"
   },
   {
@@ -253,22 +285,20 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mali.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-1750-4733",
+    "email": "muazzam.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 9,
-    "citation_count": 252,
+    "expertise": "Informatics",
+    "publication_count": 10,
+    "citation_count": 260,
     "topics": [
       {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
-      },
-      {
-        "topic_id": 8,
-        "topic_name": "Wireless Communications"
+        "topic_id": 17,
+        "topic_name": "Information Systems"
       }
     ],
-    "profile_bio": "Dr. Moazam Ali is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Internet of Things; Wireless Communications. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Moazam Ali is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Informatics. Holds a PhD in Informatics from Gyeongsang National University, South Korea (2019). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Informatics from Gyeongsang National University, South Korea (2019)",
     "source": "scraped"
   },
   {
@@ -277,22 +307,28 @@
     "designation": "Associate Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mhashmi.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-4814-2654",
+    "email": "muhashmi.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 12,
-    "citation_count": 192,
+    "expertise": "Communication networks, IoT systems, energy-efficient WSNs, V2X communication, Smart city infrastructure, Industry 5.0 collaboration and AI/ML-driven automation.",
+    "publication_count": 21,
+    "citation_count": 357,
     "topics": [
       {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
       },
       {
-        "topic_id": 1,
-        "topic_name": "Machine Learning"
+        "topic_id": 9,
+        "topic_name": "Wireless Communications"
+      },
+      {
+        "topic_id": 10,
+        "topic_name": "Internet of Things"
       }
     ],
-    "profile_bio": "Dr. Muhammad Usman Hashmi is a Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Signal Processing; Machine Learning. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Usman Hashmi is a Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Communication networks, IoT systems, energy-efficient WSNs, V2X communication, Smart city infrastructure, Industry 5.0 collaboration and AI/ML-driven automation. Holds a Ph.D in Telecommunication and Networks from Iqra Univeristy, Islamabad (2015). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "Ph.D in Telecommunication and Networks from Iqra Univeristy, Islamabad (2015)",
     "source": "scraped"
   },
   {
@@ -301,22 +337,24 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "hahmad.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-6977-3664",
+    "email": "hiahmad.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
+    "expertise": "Artificial Intelligence, Machine Learning",
     "publication_count": 11,
-    "citation_count": 165,
+    "citation_count": 198,
     "topics": [
       {
-        "topic_id": 5,
-        "topic_name": "Cybersecurity"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       }
     ],
-    "profile_bio": "Dr. Hafiz Ashfaq Ahmad is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cybersecurity; Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Hafiz Ashfaq Ahmad is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence, Machine Learning. Holds a PhD in Computer Science from Universiti Teknologi Malaysia, Johor (2022). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Universiti Teknologi Malaysia, Johor (2022)",
     "source": "scraped"
   },
   {
@@ -326,21 +364,31 @@
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
     "email": "smahmood.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-2169-3803",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 9,
-    "citation_count": 189,
+    "expertise": "Machine Learning, Information Security, Data Science for Cyber Security, IoT",
+    "publication_count": 22,
+    "citation_count": 264,
     "topics": [
       {
-        "topic_id": 7,
-        "topic_name": "Data Science"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
+      },
+      {
+        "topic_id": 10,
+        "topic_name": "Internet of Things"
+      },
+      {
+        "topic_id": 11,
+        "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Dr. Saba Mahmood is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Data Science; Information Security. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Saba Mahmood is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning, Information Security, Data Science for Cyber Security, IoT. Holds a PhD in Computer Science from Islamic International University Islamabad, Pakistan (2020). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Islamic International University Islamabad, Pakistan (2020)",
     "source": "scraped"
   },
   {
@@ -349,22 +397,20 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "aali.buic@bahria.edu.pk",
-    "orcid_id": "0000-0003-8573-7216",
+    "email": "Asim.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 10,
-    "citation_count": 120,
+    "expertise": "Information Security",
+    "publication_count": 4,
+    "citation_count": 112,
     "topics": [
       {
-        "topic_id": 1,
-        "topic_name": "Machine Learning"
-      },
-      {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       }
     ],
-    "profile_bio": "Dr. Asim Ali is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Machine Learning; Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Asim Ali is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Information Security. Holds a PhD in Information Security from COMSATS University, Islamabad Campus (2023). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Information Security from COMSATS University, Islamabad Campus (2023)",
     "source": "scraped"
   },
   {
@@ -373,22 +419,24 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "masif.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-6313-1916",
+    "email": "masifcs.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 20,
-    "citation_count": 220,
+    "expertise": "Artificial Intelligence, Decision Support System, Data Mining, Rule Base System",
+    "publication_count": 9,
+    "citation_count": 234,
     "topics": [
       {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 1,
-        "topic_name": "Machine Learning"
+        "topic_id": 11,
+        "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Dr. Muhammad Asif is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing; Machine Learning. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Asif is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence, Decision Support System, Data Mining, Rule Base System. Holds a PhD in Computer Science from Abasyn University Peshawar (2023). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Abasyn University Peshawar (2023)",
     "source": "scraped"
   },
   {
@@ -397,22 +445,28 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mislam.buic@bahria.edu.pk",
-    "orcid_id": "0000-0006-7572-5386",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 4,
-    "citation_count": 24,
+    "expertise": "Network Security; Cloud Computing",
+    "publication_count": 17,
+    "citation_count": 238,
     "topics": [
       {
-        "topic_id": 13,
-        "topic_name": "Network Security"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       },
       {
-        "topic_id": 11,
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
+      },
+      {
+        "topic_id": 13,
         "topic_name": "Cloud Computing"
       }
     ],
-    "profile_bio": "Dr. Muhammad Hasan Islam is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Network Security; Cloud Computing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Hasan Islam is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Network Security; Cloud Computing. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -422,21 +476,27 @@
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
     "email": "fkhalique.buic@bahria.edu.pk",
-    "orcid_id": "0000-0006-4483-9179",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 9,
-    "citation_count": 144,
+    "expertise": "Data Science, Machine Learning, Health Informatics",
+    "publication_count": 12,
+    "citation_count": 96,
     "topics": [
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 7,
+        "topic_id": 11,
         "topic_name": "Data Science"
+      },
+      {
+        "topic_id": 17,
+        "topic_name": "Information Systems"
       }
     ],
-    "profile_bio": "Dr. Fatima Khalique is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Bioinformatics; Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Fatima Khalique is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Data Science, Machine Learning, Health Informatics. Holds a PhD in Software Engineering from National University of Science and Technology (2021). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Software Engineering from National University of Science and Technology (2021)",
     "source": "scraped"
   },
   {
@@ -445,22 +505,20 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "nshaheen.buic@bahria.edu.pk",
-    "orcid_id": "0000-0003-5339-3287",
+    "email": "naila.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 17,
-    "citation_count": 187,
+    "expertise": "Fluid Dynamics",
+    "publication_count": 10,
+    "citation_count": 280,
     "topics": [
       {
-        "topic_id": 1,
-        "topic_name": "Machine Learning"
-      },
-      {
-        "topic_id": 16,
-        "topic_name": "Big Data Analytics"
+        "topic_id": 18,
+        "topic_name": "Applied Mathematics"
       }
     ],
-    "profile_bio": "Dr. Naila Shaheen is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Machine Learning; Big Data Analytics. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Naila Shaheen is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Fluid Dynamics. Holds a PhD in Mathematics from Bahria University, Islamabad Campus (2022). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Mathematics from Bahria University, Islamabad Campus (2022)",
     "source": "scraped"
   },
   {
@@ -469,22 +527,15 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "sakhtar.buic@bahria.edu.pk",
-    "orcid_id": "0000-0007-7543-6930",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 21,
-    "citation_count": 231,
-    "topics": [
-      {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
-      },
-      {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
-      }
-    ],
-    "profile_bio": "Dr. Soahil Akhtar is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Bioinformatics, Signal Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Dr. Soahil Akhtar is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -493,22 +544,28 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "kbhatti.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-1771-2796",
+    "email": "kabeer.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 18,
-    "citation_count": 144,
+    "expertise": "Cybersecurity, IoT, Sensor Network, Pervasive Computing, Computational Intelligence",
+    "publication_count": 7,
+    "citation_count": 42,
     "topics": [
       {
-        "topic_id": 5,
+        "topic_id": 7,
         "topic_name": "Cybersecurity"
       },
       {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
+      },
+      {
+        "topic_id": 10,
+        "topic_name": "Internet of Things"
       }
     ],
-    "profile_bio": "Dr. Kabeer Ahmed Bhatti is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cybersecurity, Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Kabeer Ahmed Bhatti is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Cybersecurity, IoT, Sensor Network, Pervasive Computing, Computational Intelligence. Holds a PhD in Computing from SZABIST, Islamabad (2023). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computing from SZABIST, Islamabad (2023)",
     "source": "scraped"
   },
   {
@@ -517,22 +574,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "fnosheen.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-7304-7252",
+    "email": "faryal.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
+    "expertise": "Artificial Intelligence",
     "publication_count": 16,
-    "citation_count": 368,
+    "citation_count": 112,
     "topics": [
       {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
-      },
-      {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       }
     ],
-    "profile_bio": "Dr. Faryal Nosheen is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cryptography, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Faryal Nosheen is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence. Holds a PhD in Artificial Intelligence from University National University of Sciences and Technology, Islamabad, Pakistan (2023). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Artificial Intelligence from University National University of Sciences and Technology, Islamabad, Pakistan (2023)",
     "source": "scraped"
   },
   {
@@ -541,22 +596,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "fimran.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-1188-2876",
+    "email": "faisalimran.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 11,
-    "citation_count": 275,
+    "expertise": "Privacy and Security, AI, Privacy in ML",
+    "publication_count": 15,
+    "citation_count": 225,
     "topics": [
       {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
-      },
-      {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       }
     ],
-    "profile_bio": "Dr. Faisal Imran is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Image Processing, Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Faisal Imran is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Privacy and Security, AI, Privacy in ML. Holds a PhD in Computer Science from University of Torino, Italy (2023). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from University of Torino, Italy (2023)",
     "source": "scraped"
   },
   {
@@ -565,22 +618,15 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "fali.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-5808-8123",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 13,
-    "citation_count": 117,
-    "topics": [
-      {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
-      },
-      {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
-      }
-    ],
-    "profile_bio": "Dr. Farman Ali is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Bioinformatics, Signal Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Dr. Farman Ali is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -589,22 +635,28 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "afarhad.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-9201-3927",
+    "email": "arshadfarhad.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 60,
+    "expertise": "AI for wireless communication and security",
+    "publication_count": 12,
+    "citation_count": 348,
     "topics": [
       {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
+      },
+      {
+        "topic_id": 9,
+        "topic_name": "Wireless Communications"
       }
     ],
-    "profile_bio": "Dr. Arshad Farhad is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Internet of Things; Wireless Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Arshad Farhad is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include AI for wireless communication and security. Holds a PhD in AI for Wireless Communication & security from Chosun University, Korea (2022). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in AI for Wireless Communication & security from Chosun University, Korea (2022)",
     "source": "scraped"
   },
   {
@@ -613,22 +665,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "eashraf.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-4258-3504",
+    "email": "erum.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 12,
-    "citation_count": 180,
+    "expertise": "Software Engineering",
+    "publication_count": 5,
+    "citation_count": 135,
     "topics": [
       {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
-      },
-      {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
+        "topic_id": 12,
+        "topic_name": "Software Engineering"
       }
     ],
-    "profile_bio": "Dr. Erum Ashraf is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing, Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Erum Ashraf is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Software Engineering. Holds a PhD in Computer Science from Universiti Sains Malaysia (USM) (2024). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Universiti Sains Malaysia (USM) (2024)",
     "source": "scraped"
   },
   {
@@ -637,22 +687,24 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "samir.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-6310-9005",
+    "email": "saneehaAamir.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 19,
-    "citation_count": 76,
+    "expertise": "Malware Analysis, Machine Learning, Computer Forensics",
+    "publication_count": 18,
+    "citation_count": 378,
     "topics": [
       {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       }
     ],
-    "profile_bio": "Dr. Saneeha Amir is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Blockchain, Bioinformatics. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Saneeha Amir is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Malware Analysis, Machine Learning, Computer Forensics. Holds a Ph.D in Computer Science from Bahria University E-8, Islamabad (2024). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "Ph.D in Computer Science from Bahria University E-8, Islamabad (2024)",
     "source": "scraped"
   },
   {
@@ -661,22 +713,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "akhan.buic@bahria.edu.pk",
-    "orcid_id": "0000-0006-6038-4923",
+    "email": "adilkhan.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 30,
+    "expertise": "Applied Artificial Intelligence in Games, Robotics, and Intelligent Systems",
+    "publication_count": 7,
+    "citation_count": 112,
     "topics": [
       {
-        "topic_id": 2,
-        "topic_name": "Deep Learning"
-      },
-      {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       }
     ],
-    "profile_bio": "Dr. Adil Khan is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Deep Learning; Computer Vision. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Adil Khan is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Applied Artificial Intelligence in Games, Robotics, and Intelligent Systems. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -685,22 +735,24 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "hgul.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-8962-2133",
+    "email": "HinaGul.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 140,
+    "expertise": "Fluid Dynamic, Numerical and AI",
+    "publication_count": 6,
+    "citation_count": 126,
     "topics": [
       {
-        "topic_id": 8,
-        "topic_name": "Wireless Communications"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
+        "topic_id": 18,
+        "topic_name": "Applied Mathematics"
       }
     ],
-    "profile_bio": "Dr. Hina Gul is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Wireless Communications, Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Hina Gul is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Fluid Dynamic, Numerical and AI. Holds a Ph.D in Applied Mathematics from Bahria University E-8, Islamabad (2022). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "Ph.D in Applied Mathematics from Bahria University E-8, Islamabad (2022)",
     "source": "scraped"
   },
   {
@@ -709,22 +761,28 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mmushtaq.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-3705-5342",
+    "email": "mumermushtaq.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 140,
+    "expertise": "EH Wireless Sensor Networks, UAVs",
+    "publication_count": 13,
+    "citation_count": 390,
     "topics": [
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
       },
       {
-        "topic_id": 5,
-        "topic_name": "Cybersecurity"
+        "topic_id": 9,
+        "topic_name": "Wireless Communications"
+      },
+      {
+        "topic_id": 10,
+        "topic_name": "Internet of Things"
       }
     ],
-    "profile_bio": "Dr. Muhammad Umer Mushtaq is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Bioinformatics, Cybersecurity. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Dr. Muhammad Umer Mushtaq is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include EH Wireless Sensor Networks, UAVs. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -733,22 +791,24 @@
     "designation": "Sr. Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "akanwal.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-9835-4295",
+    "email": "ambrinakanwal.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 16,
-    "citation_count": 416,
+    "expertise": "Applied Mathematics, Cryptography, Information Security, GEO-AI integration",
+    "publication_count": 15,
+    "citation_count": 330,
     "topics": [
       {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       },
       {
-        "topic_id": 20,
-        "topic_name": "Distributed Systems"
+        "topic_id": 18,
+        "topic_name": "Applied Mathematics"
       }
     ],
-    "profile_bio": "Mrs. Ambrina Kanwal is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing; Sentiment Analysis. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mrs. Ambrina Kanwal is a Sr. Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Applied Mathematics, Cryptography, Information Security, GEO-AI integration. Holds a M.Sc in Mathematics from The Punjab University (1997). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "M.Sc in Mathematics from The Punjab University (1997)",
     "source": "scraped"
   },
   {
@@ -757,22 +817,15 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "aamir.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-9479-8397",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 14,
-    "citation_count": 98,
-    "topics": [
-      {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Network Security"
-      }
-    ],
-    "profile_bio": "Ms. Aliya Amir is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Internet of Things, Network Security. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Aliya Amir is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -781,22 +834,15 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mpervaiz.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-4770-4608",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 13,
-    "citation_count": 52,
-    "topics": [
-      {
-        "topic_id": 8,
-        "topic_name": "Wireless Communications"
-      },
-      {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
-      }
-    ],
-    "profile_bio": "Ms. Mehwish Pervaiz is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Wireless Communications, Computer Vision. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Mehwish Pervaiz is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -805,22 +851,15 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ftouqeer.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-2104-1514",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 4,
-    "citation_count": 56,
-    "topics": [
-      {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
-      },
-      {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
-      }
-    ],
-    "profile_bio": "Ms. Fouzia Touqeer is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision, Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Fouzia Touqeer is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -829,22 +868,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "abhatti.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-8953-4510",
+    "email": "airfan.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 10,
-    "citation_count": 210,
+    "expertise": "Web Systems, Databases, IT Project Management",
+    "publication_count": 5,
+    "citation_count": 125,
     "topics": [
       {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
-      },
-      {
         "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
+        "topic_name": "Information Systems"
       }
     ],
-    "profile_bio": "Mr. Ali Irfan Bhatti is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision, Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Ali Irfan Bhatti is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Web Systems, Databases, IT Project Management. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -853,22 +890,20 @@
     "designation": "Asst. Professor",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mleeza.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-4981-8749",
+    "email": "monaleeza.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 21,
-    "citation_count": 609,
+    "expertise": "Machine Learning",
+    "publication_count": 11,
+    "citation_count": 308,
     "topics": [
       {
-        "topic_id": 5,
-        "topic_name": "Cybersecurity"
-      },
-      {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       }
     ],
-    "profile_bio": "Ms. Mona Leeza is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cybersecurity, Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Mona Leeza is a Asst. Professor in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -877,22 +912,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ukhatak.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-8062-6804",
+    "email": "umerkhattak.buic@bahria.eud.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 2,
-    "citation_count": 34,
+    "expertise": "Artificial Intelligence",
+    "publication_count": 5,
+    "citation_count": 30,
     "topics": [
       {
-        "topic_id": 14,
+        "topic_id": 1,
         "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 7,
-        "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Mr. Umar Khatak is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Artificial Intelligence, Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Umar Khatak is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -901,22 +934,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ushafique.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-1993-7596",
+    "email": "usman.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 1,
-    "citation_count": 27,
+    "expertise": "Information Security",
+    "publication_count": 4,
+    "citation_count": 28,
     "topics": [
       {
-        "topic_id": 14,
-        "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       }
     ],
-    "profile_bio": "Mr. Usman Shafique is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Artificial Intelligence, Image Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Usman Shafique is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Information Security. Holds a MS in Information Security from COMSATS University, Islamabad Campus (2016). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Information Security from COMSATS University, Islamabad Campus (2016)",
     "source": "scraped"
   },
   {
@@ -925,22 +956,15 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ijaved.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-4116-9786",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 4,
-    "citation_count": 72,
-    "topics": [
-      {
-        "topic_id": 11,
-        "topic_name": "Cloud Computing"
-      },
-      {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
-      }
-    ],
-    "profile_bio": "Ms. Iqra Javed is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cloud Computing, Natural Language Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Iqra Javed is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -949,22 +973,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "sferoz.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-8579-5092",
+    "email": "sabira.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 18,
+    "expertise": "Software Engineering, Agile methodology and Regression Testing",
+    "publication_count": 5,
+    "citation_count": 90,
     "topics": [
       {
-        "topic_id": 5,
-        "topic_name": "Cybersecurity"
-      },
-      {
-        "topic_id": 14,
-        "topic_name": "Artificial Intelligence"
+        "topic_id": 12,
+        "topic_name": "Software Engineering"
       }
     ],
-    "profile_bio": "Ms. Sabira Feroz is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cybersecurity, Artificial Intelligence. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Sabira Feroz is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Software Engineering, Agile methodology and Regression Testing. Holds a MS in Computer Science from PMAS Arid Agriculture University, Rawalpindi (2017). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Computer Science from PMAS Arid Agriculture University, Rawalpindi (2017)",
     "source": "scraped"
   },
   {
@@ -973,22 +995,28 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mbibi.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-9856-1241",
+    "email": "maryambibi.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 2,
-    "citation_count": 12,
+    "expertise": "Image Processing, Machine Learning, Pattern Recognition",
+    "publication_count": 6,
+    "citation_count": 54,
     "topics": [
       {
-        "topic_id": 15,
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
+      },
+      {
+        "topic_id": 5,
         "topic_name": "Image Processing"
       },
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
+        "topic_id": 19,
+        "topic_name": "Pattern Recognition"
       }
     ],
-    "profile_bio": "Ms. Maryam Bibi is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Image Processing, Bioinformatics. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Maryam Bibi is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Image Processing, Machine Learning, Pattern Recognition. Holds a MS in Computer Science from Bahria University, Islamabad (2019). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Computer Science from Bahria University, Islamabad (2019)",
     "source": "scraped"
   },
   {
@@ -997,22 +1025,32 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "qyousaf.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-8886-4502",
+    "email": "qhyousaf.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 112,
+    "expertise": "Applied Game Theory, Software Defined Networks, Internet of Things, Machine Learning",
+    "publication_count": 6,
+    "citation_count": 90,
     "topics": [
       {
-        "topic_id": 8,
-        "topic_name": "Wireless Communications"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
+      },
+      {
+        "topic_id": 10,
+        "topic_name": "Internet of Things"
+      },
+      {
+        "topic_id": 12,
+        "topic_name": "Software Engineering"
       }
     ],
-    "profile_bio": "Mr. Qazi Haseeb Yousaf is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Wireless Communications, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Qazi Haseeb Yousaf is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Applied Game Theory, Software Defined Networks, Internet of Things, Machine Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1021,22 +1059,15 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "msadiq.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-7396-5345",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 203,
-    "topics": [
-      {
-        "topic_id": 2,
-        "topic_name": "Deep Learning"
-      },
-      {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
-      }
-    ],
-    "profile_bio": "Ms. Mehroz Sadiq is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Deep Learning, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Mehroz Sadiq is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1045,22 +1076,24 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "hshabbir.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-8973-3536",
+    "email": "huma.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 70,
+    "expertise": "Computer vision, Machine Learning",
+    "publication_count": 5,
+    "citation_count": 130,
     "topics": [
       {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
+        "topic_id": 4,
+        "topic_name": "Computer Vision"
       }
     ],
-    "profile_bio": "Ms. Huma Shabbir is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Image Processing, Internet of Things. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Huma Shabbir is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Computer vision, Machine Learning. Holds a MS in Software Engineering from University of Engineering and Technology, Taxila (2019). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Software Engineering from University of Engineering and Technology, Taxila (2019)",
     "source": "scraped"
   },
   {
@@ -1069,22 +1102,15 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "rullah.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-1998-6138",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 1,
-    "citation_count": 5,
-    "topics": [
-      {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
-      },
-      {
-        "topic_id": 7,
-        "topic_name": "Data Science"
-      }
-    ],
-    "profile_bio": "Mr. Raja M Shamayel Ullah is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Internet of Things, Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. Raja M Shamayel Ullah is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1093,22 +1119,15 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "shussain.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-9701-3579",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 8,
-    "citation_count": 40,
-    "topics": [
-      {
-        "topic_id": 2,
-        "topic_name": "Deep Learning"
-      },
-      {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
-      }
-    ],
-    "profile_bio": "Mr. Syed Junaid Hussain is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Deep Learning, Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. Syed Junaid Hussain is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1117,22 +1136,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "srahman.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-2113-4853",
+    "email": "Saeedurrahman.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 48,
+    "expertise": "Information Retrieval",
+    "publication_count": 2,
+    "citation_count": 46,
     "topics": [
       {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
-      },
-      {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
+        "topic_id": 15,
+        "topic_name": "Information Retrieval"
       }
     ],
-    "profile_bio": "Mr. Saeed Ur Rahman is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Human-Computer Interaction, Computer Vision. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Saeed Ur Rahman is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Information Retrieval. Holds a MS in Software Engineering from Bahria University E-8 Islamabad (2018). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Software Engineering from Bahria University E-8 Islamabad (2018)",
     "source": "scraped"
   },
   {
@@ -1141,22 +1158,32 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "snazim.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-2343-7868",
+    "email": "sadianazim.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 4,
-    "citation_count": 100,
+    "expertise": "Machine Learning/Deep Learning, Explainable AI (XAI), Generative AI, Agentic AI, Image processing and Cybersecurity",
+    "publication_count": 3,
+    "citation_count": 63,
     "topics": [
       {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
+      },
+      {
+        "topic_id": 3,
+        "topic_name": "Deep Learning"
+      },
+      {
+        "topic_id": 5,
+        "topic_name": "Image Processing"
       }
     ],
-    "profile_bio": "Ms. Sadia Nazim is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing, Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Sadia Nazim is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning/Deep Learning, Explainable AI (XAI), Generative AI, Agentic AI, Image processing and Cybersecurity. Holds a PhD in Computer Science from Universiti Kuala Lumpur, Malaysia (2025). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "PhD in Computer Science from Universiti Kuala Lumpur, Malaysia (2025)",
     "source": "scraped"
   },
   {
@@ -1165,22 +1192,15 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "msiddique.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-4346-6147",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 66,
-    "topics": [
-      {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
-      },
-      {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
-      }
-    ],
-    "profile_bio": "Mr. Muhammad Siddique is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Networks, Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. Muhammad Siddique is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1189,22 +1209,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "asalam.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-8491-6180",
+    "email": "abdulsalam.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 84,
+    "expertise": "Requirement Prioritization & Traceability Software Regression Testing Aspects Based Requirements Analysis Android Application Development Software Product lines Software Verification & Validation Situational Method Engineering Component Based System Using A.I. Techniques Highly Configurable Systems Agile Practices",
+    "publication_count": 4,
+    "citation_count": 36,
     "topics": [
       {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Network Security"
+        "topic_id": 12,
+        "topic_name": "Software Engineering"
       }
     ],
-    "profile_bio": "Mr. Abdul Salam is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Signal Processing, Network Security. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Abdul Salam is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Requirement Prioritization & Traceability Software Regression Testing Aspects Based Requirements Analysis Android Application Development Software Product lines Software Verification & Validation Situational Method Engineering Component Based System Using A.I. Techniques Highly Configurable Systems Agile Practices. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1213,22 +1231,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "jijaz.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-2200-9808",
+    "email": "jawadijaz.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
+    "expertise": "Artificial Intelligence",
     "publication_count": 8,
-    "citation_count": 80,
+    "citation_count": 128,
     "topics": [
       {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
-      },
-      {
         "topic_id": 1,
-        "topic_name": "Machine Learning"
+        "topic_name": "Artificial Intelligence"
       }
     ],
-    "profile_bio": "Mr. Jawwad Ijaz is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision, Machine Learning. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Jawwad Ijaz is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1237,22 +1253,20 @@
     "designation": "Sr. Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ransar.buic@bahria.edu.pk",
-    "orcid_id": "0000-0006-2127-5002",
+    "email": "raheelaansar.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 45,
+    "expertise": "E-Learning, HCI and UI/UX",
+    "publication_count": 5,
+    "citation_count": 120,
     "topics": [
       {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
-      },
-      {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
+        "topic_id": 20,
+        "topic_name": "Human Computer Interaction"
       }
     ],
-    "profile_bio": "Ms. Raheela Ansar is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Human-Computer Interaction, Signal Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Raheela Ansar is a Sr. Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include E-Learning, HCI and UI/UX. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1261,22 +1275,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "fkazmi.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-5956-9666",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 8,
-    "citation_count": 32,
-    "topics": [
-      {
-        "topic_id": 10,
-        "topic_name": "Internet of Things"
-      },
-      {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
-      }
-    ],
-    "profile_bio": "Ms. Farwa Kazmi is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Internet of Things, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Farwa Kazmi is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1285,22 +1292,24 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "nkhalid.buic@bahria.edu.pk",
-    "orcid_id": "0000-0002-3200-5333",
+    "email": "nabia.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 35,
+    "expertise": "Specializes in artificial intelligence, computer vision and precision agriculture applications",
+    "publication_count": 4,
+    "citation_count": 100,
     "topics": [
       {
-        "topic_id": 22,
-        "topic_name": "Pattern Recognition"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
+        "topic_id": 4,
+        "topic_name": "Computer Vision"
       }
     ],
-    "profile_bio": "Ms. Nabia Khalid is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Pattern Recognition, Bioinformatics. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Nabia Khalid is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Specializes in artificial intelligence, computer vision and precision agriculture applications. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1309,22 +1318,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "arahman.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-5616-4450",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 78,
-    "topics": [
-      {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
-      },
-      {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
-      }
-    ],
-    "profile_bio": "Mr. Abdul Rahman is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing, Bioinformatics. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. Abdul Rahman is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1333,22 +1335,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "qijaz.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-9004-5114",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 25,
-    "topics": [
-      {
-        "topic_id": 11,
-        "topic_name": "Cloud Computing"
-      },
-      {
-        "topic_id": 7,
-        "topic_name": "Data Science"
-      }
-    ],
-    "profile_bio": "Mr. Qazi Mohsin Ijaz is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cloud Computing, Data Science. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. Qazi Mohsin Ijaz is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1357,22 +1352,28 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "nkalsoom.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-1722-1058",
+    "email": "nadiak.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 98,
+    "expertise": "Fog/Edge Computing Security, Internet of Vehicles (IoV), Network Load Balancing, Digital Banking & Online Security, Comparative Cybersecurity Analysis, E-Commerce Market Analysis, Data Analytics & Price Surveillance, Telecom Service Optimization",
+    "publication_count": 1,
+    "citation_count": 11,
     "topics": [
       {
-        "topic_id": 3,
-        "topic_name": "Computer Vision"
+        "topic_id": 7,
+        "topic_name": "Cybersecurity"
       },
       {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
+        "topic_id": 8,
+        "topic_name": "Computer Networks"
+      },
+      {
+        "topic_id": 11,
+        "topic_name": "Data Science"
       }
     ],
-    "profile_bio": "Ms. Nadia Kalsoom is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Computer Vision, Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Nadia Kalsoom is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Fog/Edge Computing Security, Internet of Vehicles (IoV), Network Load Balancing, Digital Banking & Online Security, Comparative Cybersecurity Analysis, E-Commerce Market Analysis, Data Analytics & Price Surveillance, Telecom Service Optimization. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1381,22 +1382,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "afrah.buic@bahria.edu.pk",
-    "orcid_id": "0000-0003-8239-8007",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 105,
-    "topics": [
-      {
-        "topic_id": 5,
-        "topic_name": "Cybersecurity"
-      },
-      {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
-      }
-    ],
-    "profile_bio": "Ms. Afrah is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cybersecurity, Cryptography. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Afrah is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1405,22 +1399,28 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "asaeed.buic@bahria.edu.pk",
-    "orcid_id": "0000-0003-9938-1590",
+    "email": "Ameena.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 2,
-    "citation_count": 60,
+    "expertise": "Machine Learning, NLP, AI",
+    "publication_count": 1,
+    "citation_count": 29,
     "topics": [
       {
         "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
+      },
+      {
+        "topic_id": 2,
         "topic_name": "Machine Learning"
       },
       {
-        "topic_id": 4,
+        "topic_id": 6,
         "topic_name": "Natural Language Processing"
       }
     ],
-    "profile_bio": "Ms. Ameena Saeed is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Machine Learning, Natural Language Processing. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Ameena Saeed is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning, NLP, AI. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1429,22 +1429,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "mnoor.buic@bahria.edu.pk",
-    "orcid_id": "0000-0007-3088-1685",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 39,
-    "topics": [
-      {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
-      },
-      {
-        "topic_id": 19,
-        "topic_name": "Computer Networks"
-      }
-    ],
-    "profile_bio": "Mr. M Ahtesham Noor is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Software Engineering, Computer Networks. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Mr. M Ahtesham Noor is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1453,22 +1446,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "abasit.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-5088-2684",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 90,
-    "topics": [
-      {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
-      },
-      {
-        "topic_id": 2,
-        "topic_name": "Deep Learning"
-      }
-    ],
-    "profile_bio": "Ms. Asma Basit is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Software Engineering, Deep Learning. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Asma Basit is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1477,22 +1463,20 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "ajelani.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-3662-3900",
+    "email": "adnanjelani.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 3,
-    "citation_count": 51,
+    "expertise": "AI (Evolutionary Computations)",
+    "publication_count": 5,
+    "citation_count": 30,
     "topics": [
       {
-        "topic_id": 18,
-        "topic_name": "Bioinformatics"
-      },
-      {
-        "topic_id": 14,
+        "topic_id": 1,
         "topic_name": "Artificial Intelligence"
       }
     ],
-    "profile_bio": "Mr. Adnan Jelani is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Bioinformatics, Artificial Intelligence. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Adnan Jelani is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include AI (Evolutionary Computations). Holds a MS in Computer Science from FAST - National University of Computer and Emerging Sciences (2022). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Computer Science from FAST - National University of Computer and Emerging Sciences (2022)",
     "source": "scraped"
   },
   {
@@ -1501,22 +1485,20 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "urahman.buic@bahria.edu.pk",
-    "orcid_id": "0000-0007-5065-5371",
+    "email": "Ubaidurrahman.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 54,
+    "expertise": "Machine Learning",
+    "publication_count": 4,
+    "citation_count": 88,
     "topics": [
       {
-        "topic_id": 1,
+        "topic_id": 2,
         "topic_name": "Machine Learning"
-      },
-      {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
       }
     ],
-    "profile_bio": "Mr. Ubaid ur Rahman is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Machine Learning, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Ubaid ur Rahman is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1525,22 +1507,20 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "aaleem.buic@bahria.edu.pk",
-    "orcid_id": "0000-0008-4644-4269",
+    "email": "abdulraheem.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 1,
-    "citation_count": 30,
+    "expertise": "Deep Learning",
+    "publication_count": 6,
+    "citation_count": 60,
     "topics": [
       {
-        "topic_id": 4,
-        "topic_name": "Natural Language Processing"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Network Security"
+        "topic_id": 3,
+        "topic_name": "Deep Learning"
       }
     ],
-    "profile_bio": "Mr. Abdul Raheem Aleem is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Natural Language Processing, Network Security. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Mr. Abdul Raheem Aleem is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Deep Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1549,22 +1529,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "skiran.buic@bahria.edu.pk",
-    "orcid_id": "0000-0004-4652-1387",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 125,
-    "topics": [
-      {
-        "topic_id": 15,
-        "topic_name": "Image Processing"
-      },
-      {
-        "topic_id": 12,
-        "topic_name": "Software Engineering"
-      }
-    ],
-    "profile_bio": "Ms. Samia Kiran is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Image Processing, Software Engineering. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Samia Kiran is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1573,22 +1546,20 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "shameed.buic@bahria.edu.pk",
-    "orcid_id": "0000-0005-2137-5573",
+    "email": "sairahameed.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 6,
-    "citation_count": 90,
+    "expertise": "Machine Learning",
+    "publication_count": 8,
+    "citation_count": 128,
     "topics": [
       {
-        "topic_id": 7,
-        "topic_name": "Data Science"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Network Security"
+        "topic_id": 2,
+        "topic_name": "Machine Learning"
       }
     ],
-    "profile_bio": "Ms. Saira Hameed is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Data Science, Network Security. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Saira Hameed is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Machine Learning. Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1597,22 +1568,15 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "azahoor.buic@bahria.edu.pk",
-    "orcid_id": "0000-0009-6425-1452",
+    "email": null,
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 7,
-    "citation_count": 49,
-    "topics": [
-      {
-        "topic_id": 21,
-        "topic_name": "Cryptography"
-      },
-      {
-        "topic_id": 17,
-        "topic_name": "Human-Computer Interaction"
-      }
-    ],
-    "profile_bio": "Ms. Aima Zahoor is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Cryptography, Human-Computer Interaction. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "expertise": "",
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
+    "profile_bio": "Ms. Aima Zahoor is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "",
     "source": "scraped"
   },
   {
@@ -1621,22 +1585,32 @@
     "designation": "Lecturer",
     "department": "Computer Science",
     "institution": "Bahria University, Islamabad (E-8)",
-    "email": "bamna.buic@bahria.edu.pk",
-    "orcid_id": "0000-0001-2776-8119",
+    "email": "bibiamna.buic@bahria.edu.pk",
+    "orcid_id": null,
     "photo_url": null,
-    "publication_count": 5,
-    "citation_count": 75,
+    "expertise": "Artificial Intelligence and Deep Learning for Bioinformatics, Agriculture, and Healthcare Applications",
+    "publication_count": 8,
+    "citation_count": 64,
     "topics": [
       {
-        "topic_id": 9,
-        "topic_name": "Signal Processing"
+        "topic_id": 1,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 6,
-        "topic_name": "Blockchain"
+        "topic_id": 3,
+        "topic_name": "Deep Learning"
+      },
+      {
+        "topic_id": 17,
+        "topic_name": "Information Systems"
+      },
+      {
+        "topic_id": 21,
+        "topic_name": "Bioinformatics"
       }
     ],
-    "profile_bio": "Ms. Bibi Amna is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Research focuses on Signal Processing, Blockchain. Active in teaching, supervision and collaborative research within the School of Engineering and Applied Sciences.",
+    "profile_bio": "Ms. Bibi Amna is a Lecturer in the Department of Computer Science at Bahria University, Islamabad (E-8). Areas of expertise include Artificial Intelligence and Deep Learning for Bioinformatics, Agriculture, and Healthcare Applications. Holds a MS in Data Science from Bahria University E-8 Islamabad (2024). Active in teaching, supervision and research within the School of Engineering and Applied Sciences.",
+    "education": "MS in Data Science from Bahria University E-8 Islamabad (2024)",
     "source": "scraped"
   }
 ]

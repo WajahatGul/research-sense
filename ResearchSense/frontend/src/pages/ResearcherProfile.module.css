@@ -134,6 +134,13 @@
   gap: 7px;
 }
 
+.education {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .collabs {
   list-style: none;
   margin: 0;

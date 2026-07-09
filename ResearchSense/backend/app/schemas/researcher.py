@@ -29,6 +29,7 @@ class Researcher(BaseModel):
     email: str | None = None
     orcid_id: str | None = None
     photo_url: str | None = None
+    expertise: str = ""  # real research areas text from the faculty page
     publication_count: int = 0
     citation_count: int = 0
     topics: list[TopicRef] = []
@@ -39,6 +40,7 @@ class ResearcherDetail(Researcher):
     """Full profile including bio, publications and collaboration hints."""
 
     profile_bio: str = ""
+    education: str = ""  # real degree, field and university from the faculty page
     google_scholar_id: str | None = None
     scopus_id: str | None = None
     publications: list[PublicationRef] = []

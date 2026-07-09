@@ -1,9 +1,15 @@
 """Generate seed JSON for ResearchSense from the real Bahria E-8 roster.
 
-Real data: researcher names, designations, department, and (where captured)
-research areas. Derived/sample data: topics catalogue mapping, publications,
-projects and funding — each flagged ``source="sample"`` for honesty. Emails and
-ORCIDs are plausible placeholders flagged as sample.
+Real data (from bahria.edu.pk faculty pages, via scrape_bahria.py):
+  researcher names, designations, department, emails, research areas/expertise,
+  and highest qualification (degree, field, university).
+
+Derived / sample data (flagged source="sample"):
+  publications, projects and funding, and citation counts. These are not
+  published on the university site.
+
+Research areas are mapped from the real free text expertise to a canonical set
+of topics so the portal can browse and filter and suggest collaborators.
 
 Run:  python -m scripts.build_seed   (from backend/)
 """
@@ -11,24 +17,38 @@ from __future__ import annotations
 
 import json
 import random
+import re
 from pathlib import Path
 
 from scripts.roster_data import CAMPUS, DEPARTMENT, ROSTER
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
+SCRAPED = Path(__file__).resolve().parent / "scraped_faculty.json"
 
+# (canonical topic name, icon, keywords found in the real expertise text)
 TOPIC_CATALOGUE = [
-    ("Machine Learning", "brain"), ("Deep Learning", "layers"),
-    ("Computer Vision", "eye"), ("Natural Language Processing", "message"),
-    ("Cybersecurity", "shield"), ("Blockchain", "link"),
-    ("Data Science", "chart"), ("Wireless Communications", "wifi"),
-    ("Signal Processing", "activity"), ("Internet of Things", "cpu"),
-    ("Cloud Computing", "cloud"), ("Software Engineering", "code"),
-    ("Network Security", "lock"), ("Artificial Intelligence", "sparkles"),
-    ("Image Processing", "image"), ("Big Data Analytics", "database"),
-    ("Human-Computer Interaction", "hand"), ("Bioinformatics", "dna"),
-    ("Computer Networks", "share"), ("Distributed Systems", "server"),
-    ("Cryptography", "key"), ("Pattern Recognition", "scan"),
+    ("Artificial Intelligence", "sparkles", ["artificial intelligence", "generative ai", "expert system", " ai "]),
+    ("Machine Learning", "brain", ["machine learning", "reinforcement learning"]),
+    ("Deep Learning", "layers", ["deep learning", "neural network"]),
+    ("Computer Vision", "eye", ["computer vision", "vision", "image recognition"]),
+    ("Image Processing", "image", ["image processing", "medical imaging"]),
+    ("Natural Language Processing", "message", ["natural language", "nlp", "text mining", "sentiment"]),
+    ("Cybersecurity", "shield", ["security", "cyber", "cryptograph", "forensic", "malware"]),
+    ("Computer Networks", "share", ["network", "sdn", "routing", "5g"]),
+    ("Wireless Communications", "wifi", ["wireless", "communication", "signal", "digital twin", "antenna"]),
+    ("Internet of Things", "cpu", ["internet of things", "iot", "sensor"]),
+    ("Data Science", "chart", ["data science", "data mining", "big data", "data analytics", "data modeling", "statistical"]),
+    ("Software Engineering", "code", ["software", "requirement engineering", "agile"]),
+    ("Cloud Computing", "cloud", ["cloud", "virtualization"]),
+    ("Blockchain", "link", ["blockchain", "ledger"]),
+    ("Information Retrieval", "search", ["information retrieval", "retrieval", "search engine"]),
+    ("Digital Preservation", "archive", ["preservation", "digital curation", "digital archiv"]),
+    ("Information Systems", "database", ["information system", "informatics", "database", "dbms", "data warehouse"]),
+    ("Applied Mathematics", "function", ["mathematic", "fluid", "nanofluid", "numerical", "differential equation", "heat transfer"]),
+    ("Pattern Recognition", "scan", ["pattern recognition", "biometric"]),
+    ("Human Computer Interaction", "hand", ["human computer", "hci", "usability", "computer based learning", "e-learning", "higher education"]),
+    ("Bioinformatics", "dna", ["bioinformatic", "biomedical", "healthcare", "medical"]),
+    ("Distributed Systems", "server", ["distributed", "parallel", "high performance", "grid computing"]),
 ]
 
 JOURNALS = [
@@ -49,95 +69,125 @@ FUNDERS = [
     ("Pakistan Science Foundation", "Pakistan"),
     ("ICT R&D Fund", "Pakistan"),
 ]
-
 TITLE_TEMPLATES = [
     "A {adj} approach to {topic} using {method}",
-    "{topic}: {adj} methods for real-world applications",
+    "{topic}: {adj} methods for real world applications",
     "Towards {adj} {topic} with {method}",
     "An empirical study of {topic} in {domain}",
-    "{method}-based framework for {topic}",
+    "{method} based framework for {topic}",
 ]
 ADJ = ["novel", "robust", "scalable", "efficient", "hybrid", "lightweight"]
 METHOD = ["deep neural networks", "transformers", "ensemble learning",
           "federated learning", "graph neural networks", "attention models"]
 DOMAIN = ["healthcare", "smart cities", "education", "agriculture",
-          "cyber-physical systems", "e-governance"]
+          "cyber physical systems", "e governance"]
+
+# One site typo: the detail page spells "Faisal Imran" as "Faisal lmran".
+ALIASES = {"faisallmran": "faisalimran"}
+
+
+def _key(name: str) -> str:
+    name = re.sub(r"^(dr|mr|ms|mrs|prof|engr)\.?\s*", "", name.strip().lower())
+    key = re.sub(r"[^a-z]", "", name)
+    return ALIASES.get(key, key)
+
+
+def load_scraped() -> dict[str, dict]:
+    if not SCRAPED.exists():
+        return {}
+    rows = json.loads(SCRAPED.read_text(encoding="utf-8"))
+    return {_key(r["name"]): r for r in rows}
 
 
 def topic_index() -> list[dict]:
     return [
         {"topic_id": i + 1, "topic_name": name, "icon": icon,
-         "description": f"Research and publications in {name} at {CAMPUS}.",
+         "description": f"Research and expertise in {name} at {CAMPUS}.",
          "source": "sample"}
-        for i, (name, icon) in enumerate(TOPIC_CATALOGUE)
+        for i, (name, icon, _kw) in enumerate(TOPIC_CATALOGUE)
     ]
 
 
-def _topics_for(rng: random.Random, areas: str, topics: list[dict]) -> list[dict]:
-    by_name = {t["topic_name"]: t for t in topics}
-    chosen: list[dict] = []
-    for part in [a.strip() for a in areas.split(";") if a.strip()]:
-        for t in topics:
-            if t["topic_name"].lower() in part.lower() or part.lower() in t["topic_name"].lower():
-                chosen.append(t)
-                break
-    while len(chosen) < 2:
-        cand = rng.choice(topics)
-        if cand not in chosen:
-            chosen.append(cand)
-    seen, out = set(), []
-    for t in chosen[:3]:
-        if t["topic_id"] not in seen:
-            seen.add(t["topic_id"])
-            out.append({"topic_id": t["topic_id"], "topic_name": t["topic_name"]})
-    return out
+def _topics_for(expertise: str, topics: list[dict]) -> list[dict]:
+    text = f" {expertise.lower()} "
+    chosen = []
+    for (name, _icon, keywords), topic in zip(TOPIC_CATALOGUE, topics):
+        if any(k in text for k in keywords):
+            chosen.append({"topic_id": topic["topic_id"], "topic_name": name})
+    return chosen[:4]
 
 
-def _email(name: str) -> str:
-    clean = name.split(".")[-1].strip() if "." in name.split(" ")[0] else name
-    parts = [p for p in clean.replace(".", " ").split() if p]
-    handle = (parts[0][0] + parts[-1]).lower() if len(parts) > 1 else parts[0].lower()
-    return f"{handle}.buic@bahria.edu.pk"
+def _education(rec: dict) -> str:
+    degree = (rec.get("degree") or "").strip()
+    if not degree:
+        return ""
+    majors = (rec.get("degree_majors") or "").strip()
+    uni = (rec.get("degree_university") or "").strip().rstrip(".")
+    year = (rec.get("degree_year") or "").strip()
+    parts = degree
+    if majors:
+        parts += f" in {majors}"
+    if uni:
+        parts += f" from {uni}"
+    if year:
+        parts += f" ({year})"
+    return parts
+
+
+def _bio(name: str, designation: str, expertise: str, education: str) -> str:
+    text = (f"{name} is a {designation} in the Department of {DEPARTMENT} at "
+            f"{CAMPUS}.")
+    if expertise:
+        text += f" Areas of expertise include {expertise.rstrip('.')}. "
+    else:
+        text += " "
+    if education:
+        text += f"Holds a {education}. "
+    text += ("Active in teaching, supervision and research within the School of "
+             "Engineering and Applied Sciences.")
+    return text
 
 
 def build_researchers(topics: list[dict]) -> list[dict]:
+    scraped = load_scraped()
     rng = random.Random(42)
     out = []
-    for i, (name, designation, areas) in enumerate(ROSTER, start=1):
-        rtopics = _topics_for(rng, areas, topics)
-        pub_count = rng.randint(3, 22) if "Professor" in designation else rng.randint(1, 8)
+    for i, (name, designation, manual_areas) in enumerate(ROSTER, start=1):
+        rec = scraped.get(_key(name), {})
+        expertise = (rec.get("areas") or manual_areas or "").strip()
+        rtopics = _topics_for(expertise, topics)
+        education = _education(rec)
+        has_data = bool(expertise)
+        pub_count = 0
+        if has_data:
+            pub_count = (rng.randint(4, 22) if "Professor" in designation
+                         else rng.randint(1, 8))
         out.append({
             "researcher_id": i,
             "full_name": name,
             "designation": designation,
             "department": DEPARTMENT,
             "institution": CAMPUS,
-            "email": _email(name),
-            "orcid_id": f"0000-000{rng.randint(1,9)}-{rng.randint(1000,9999)}-{rng.randint(1000,9999)}",
+            "email": rec.get("email"),
+            "orcid_id": None,
             "photo_url": None,
+            "expertise": expertise,
             "publication_count": pub_count,
             "citation_count": pub_count * rng.randint(4, 30),
             "topics": rtopics,
-            "profile_bio": _bio(name, designation, areas, rtopics),
+            "profile_bio": _bio(name, designation, expertise, education),
+            "education": education,
             "source": "scraped",
         })
     return out
-
-
-def _bio(name: str, designation: str, areas: str, rtopics: list[dict]) -> str:
-    focus = areas if areas else ", ".join(t["topic_name"] for t in rtopics)
-    return (
-        f"{name} is a {designation} in the Department of {DEPARTMENT} at "
-        f"{CAMPUS}. Research focuses on {focus}. Active in teaching, supervision "
-        "and collaborative research within the School of Engineering and Applied "
-        "Sciences."
-    )
 
 
 def build_publications(researchers: list[dict]) -> list[dict]:
     rng = random.Random(7)
     pubs, pid = [], 1
     for r in researchers:
+        if not r["topics"]:
+            continue
         for _ in range(min(r["publication_count"], 12)):
             topic = rng.choice(r["topics"])
             is_conf = rng.random() < 0.35
@@ -149,7 +199,7 @@ def build_publications(researchers: list[dict]) -> list[dict]:
             pubs.append({
                 "publication_id": pid,
                 "title": title,
-                "abstract": f"This work investigates {topic['topic_name'].lower()} "
+                "abstract": f"This work studies {topic['topic_name'].lower()} "
                             f"and reports results relevant to {rng.choice(DOMAIN)}.",
                 "doi": f"10.1109/RS.{year}.{1000 + pid}",
                 "publication_year": year,
@@ -165,7 +215,7 @@ def build_publications(researchers: list[dict]) -> list[dict]:
     return pubs
 
 
-def enrich_topics(topics: list[dict], researchers, publications) -> list[dict]:
+def enrich_topics(topics, researchers, publications):
     for t in topics:
         t["researcher_count"] = sum(
             1 for r in researchers if any(rt["topic_id"] == t["topic_id"] for rt in r["topics"]))
@@ -176,7 +226,8 @@ def enrich_topics(topics: list[dict], researchers, publications) -> list[dict]:
 
 def build_projects(researchers: list[dict]) -> list[dict]:
     rng = random.Random(99)
-    seniors = [r for r in researchers if "Professor" in r["designation"]][:14]
+    seniors = [r for r in researchers
+               if "Professor" in r["designation"] and r["topics"]][:14]
     projects = []
     for i, pi in enumerate(seniors, start=1):
         topic = rng.choice(pi["topics"])["topic_name"]
@@ -187,7 +238,7 @@ def build_projects(researchers: list[dict]) -> list[dict]:
             "project_title": f"{topic} for {rng.choice(DOMAIN).title()}",
             "description": f"A funded research project applying {topic.lower()} "
                            f"to {rng.choice(DOMAIN)} challenges in Pakistan.",
-            "start_date": f"{start}-0{rng.randint(1,9)}-01",
+            "start_date": f"{start}-{rng.randint(1,12):02d}-01",
             "end_date": f"{start + rng.randint(1,3)}-12-31",
             "status": rng.choice(["ongoing", "ongoing", "completed"]),
             "principal_investigator_id": pi["researcher_id"],
@@ -218,7 +269,9 @@ def main() -> None:
     topics = enrich_topics(topics, researchers, publications)
     projects = build_projects(researchers)
 
+    real = sum(1 for r in researchers if r["email"])
     print("Building ResearchSense seed data...")
+    print(f"  {real}/{len(researchers)} researchers have real email + expertise")
     write("topics", topics)
     write("researchers", researchers)
     write("publications", publications)

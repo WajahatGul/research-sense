@@ -88,6 +88,13 @@ export default function ResearcherProfile() {
             </div>
           </div>
 
+          {data.education && (
+            <div className={styles.card}>
+              <h3 className={styles.h3}>Education</h3>
+              <p className={styles.education}>{data.education}</p>
+            </div>
+          )}
+
           <div className={styles.card}>
             <h3 className={styles.h3}>Suggested collaborators</h3>
             <ul className={styles.collabs}>

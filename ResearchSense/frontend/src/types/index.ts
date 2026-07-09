@@ -67,6 +67,7 @@ export interface Researcher {
   email: string | null;
   orcid_id: string | null;
   photo_url: string | null;
+  expertise: string;
   publication_count: number;
   citation_count: number;
   topics: TopicRef[];
@@ -84,6 +85,7 @@ export interface CollaborationSuggestion {
 
 export interface ResearcherDetail extends Researcher {
   profile_bio: string;
+  education: string;
   google_scholar_id: string | null;
   scopus_id: string | null;
   publications: PublicationRef[];
