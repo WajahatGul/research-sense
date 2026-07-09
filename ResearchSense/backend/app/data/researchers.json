@@ -9,8 +9,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Digital Twin (Wireless/RF), AI Enabled Next-GEN Networks SDNs, Information/Signal Processing and Statistical Data Modeling/Analysis",
-    "publication_count": 7,
-    "citation_count": 28,
+    "publication_count": 25,
+    "citation_count": 447,
     "topics": [
       {
         "topic_id": 1,
@@ -43,8 +43,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning; Medical Imaging; Data Science",
-    "publication_count": 12,
-    "citation_count": 132,
+    "publication_count": 1,
+    "citation_count": 24,
     "topics": [
       {
         "topic_id": 2,
@@ -77,8 +77,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer Vision; Pattern Recognition; Artificial Intelligence",
-    "publication_count": 11,
-    "citation_count": 88,
+    "publication_count": 7,
+    "citation_count": 222,
     "topics": [
       {
         "topic_id": 1,
@@ -107,8 +107,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Digital Preservation, Database Preservation, Information Retrieval, Information Systems",
-    "publication_count": 7,
-    "citation_count": 175,
+    "publication_count": 4,
+    "citation_count": 15,
     "topics": [
       {
         "topic_id": 15,
@@ -137,8 +137,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Computer Vision, Generative AI",
-    "publication_count": 21,
-    "citation_count": 126,
+    "publication_count": 6,
+    "citation_count": 55,
     "topics": [
       {
         "topic_id": 1,
@@ -163,8 +163,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer Based Learning, Quality in Higher Education",
-    "publication_count": 22,
-    "citation_count": 374,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 20,
@@ -185,8 +185,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Applied Mathematics. Fluid mechanics, Nanofluid",
-    "publication_count": 5,
-    "citation_count": 20,
+    "publication_count": 62,
+    "citation_count": 951,
     "topics": [
       {
         "topic_id": 18,
@@ -207,8 +207,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Pattern Recognition, Computer Vision",
-    "publication_count": 6,
-    "citation_count": 60,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -237,8 +237,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Semantic Data Engineering, Data Analytics, Ontology Modelling, Text mining, Natural language Processing, Machine Learning",
-    "publication_count": 11,
-    "citation_count": 220,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -267,8 +267,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Distributed Algorithms, Formal Methods, Model Checking",
-    "publication_count": 4,
-    "citation_count": 84,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 22,
@@ -289,8 +289,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Informatics",
-    "publication_count": 10,
-    "citation_count": 260,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 17,
@@ -311,8 +311,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Communication networks, IoT systems, energy-efficient WSNs, V2X communication, Smart city infrastructure, Industry 5.0 collaboration and AI/ML-driven automation.",
-    "publication_count": 21,
-    "citation_count": 357,
+    "publication_count": 6,
+    "citation_count": 15,
     "topics": [
       {
         "topic_id": 8,
@@ -341,8 +341,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Machine Learning",
-    "publication_count": 11,
-    "citation_count": 198,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -367,8 +367,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning, Information Security, Data Science for Cyber Security, IoT",
-    "publication_count": 22,
-    "citation_count": 264,
+    "publication_count": 9,
+    "citation_count": 141,
     "topics": [
       {
         "topic_id": 2,
@@ -401,8 +401,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Information Security",
-    "publication_count": 4,
-    "citation_count": 112,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 7,
@@ -423,8 +423,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Decision Support System, Data Mining, Rule Base System",
-    "publication_count": 9,
-    "citation_count": 234,
+    "publication_count": 5,
+    "citation_count": 82,
     "topics": [
       {
         "topic_id": 1,
@@ -449,8 +449,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Network Security; Cloud Computing",
-    "publication_count": 17,
-    "citation_count": 238,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 7,
@@ -479,8 +479,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Data Science, Machine Learning, Health Informatics",
-    "publication_count": 12,
-    "citation_count": 96,
+    "publication_count": 5,
+    "citation_count": 109,
     "topics": [
       {
         "topic_id": 2,
@@ -509,8 +509,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Fluid Dynamics",
-    "publication_count": 10,
-    "citation_count": 280,
+    "publication_count": 25,
+    "citation_count": 448,
     "topics": [
       {
         "topic_id": 18,
@@ -548,8 +548,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Cybersecurity, IoT, Sensor Network, Pervasive Computing, Computational Intelligence",
-    "publication_count": 7,
-    "citation_count": 42,
+    "publication_count": 5,
+    "citation_count": 17,
     "topics": [
       {
         "topic_id": 7,
@@ -578,8 +578,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence",
-    "publication_count": 16,
-    "citation_count": 112,
+    "publication_count": 2,
+    "citation_count": 1,
     "topics": [
       {
         "topic_id": 1,
@@ -600,8 +600,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Privacy and Security, AI, Privacy in ML",
-    "publication_count": 15,
-    "citation_count": 225,
+    "publication_count": 2,
+    "citation_count": 1,
     "topics": [
       {
         "topic_id": 7,
@@ -639,8 +639,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "AI for wireless communication and security",
-    "publication_count": 12,
-    "citation_count": 348,
+    "publication_count": 7,
+    "citation_count": 30,
     "topics": [
       {
         "topic_id": 1,
@@ -669,8 +669,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Software Engineering",
-    "publication_count": 5,
-    "citation_count": 135,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 12,
@@ -691,8 +691,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Malware Analysis, Machine Learning, Computer Forensics",
-    "publication_count": 18,
-    "citation_count": 378,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -717,8 +717,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Applied Artificial Intelligence in Games, Robotics, and Intelligent Systems",
-    "publication_count": 7,
-    "citation_count": 112,
+    "publication_count": 1,
+    "citation_count": 1,
     "topics": [
       {
         "topic_id": 1,
@@ -739,8 +739,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Fluid Dynamic, Numerical and AI",
-    "publication_count": 6,
-    "citation_count": 126,
+    "publication_count": 24,
+    "citation_count": 620,
     "topics": [
       {
         "topic_id": 1,
@@ -765,8 +765,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "EH Wireless Sensor Networks, UAVs",
-    "publication_count": 13,
-    "citation_count": 390,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 8,
@@ -795,8 +795,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Applied Mathematics, Cryptography, Information Security, GEO-AI integration",
-    "publication_count": 15,
-    "citation_count": 330,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 7,
@@ -872,8 +872,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Web Systems, Databases, IT Project Management",
-    "publication_count": 5,
-    "citation_count": 125,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 17,
@@ -894,8 +894,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning",
-    "publication_count": 11,
-    "citation_count": 308,
+    "publication_count": 1,
+    "citation_count": 8,
     "topics": [
       {
         "topic_id": 2,
@@ -916,8 +916,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence",
-    "publication_count": 5,
-    "citation_count": 30,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -938,8 +938,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Information Security",
-    "publication_count": 4,
-    "citation_count": 28,
+    "publication_count": 3,
+    "citation_count": 95,
     "topics": [
       {
         "topic_id": 7,
@@ -977,8 +977,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Software Engineering, Agile methodology and Regression Testing",
-    "publication_count": 5,
-    "citation_count": 90,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 12,
@@ -999,8 +999,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Image Processing, Machine Learning, Pattern Recognition",
-    "publication_count": 6,
-    "citation_count": 54,
+    "publication_count": 1,
+    "citation_count": 29,
     "topics": [
       {
         "topic_id": 2,
@@ -1029,8 +1029,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Applied Game Theory, Software Defined Networks, Internet of Things, Machine Learning",
-    "publication_count": 6,
-    "citation_count": 90,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -1080,8 +1080,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer vision, Machine Learning",
-    "publication_count": 5,
-    "citation_count": 130,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -1140,8 +1140,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Information Retrieval",
-    "publication_count": 2,
-    "citation_count": 46,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 15,
@@ -1162,8 +1162,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning/Deep Learning, Explainable AI (XAI), Generative AI, Agentic AI, Image processing and Cybersecurity",
-    "publication_count": 3,
-    "citation_count": 63,
+    "publication_count": 6,
+    "citation_count": 36,
     "topics": [
       {
         "topic_id": 1,
@@ -1213,8 +1213,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Requirement Prioritization & Traceability Software Regression Testing Aspects Based Requirements Analysis Android Application Development Software Product lines Software Verification & Validation Situational Method Engineering Component Based System Using A.I. Techniques Highly Configurable Systems Agile Practices",
-    "publication_count": 4,
-    "citation_count": 36,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 12,
@@ -1235,8 +1235,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence",
-    "publication_count": 8,
-    "citation_count": 128,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -1257,8 +1257,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "E-Learning, HCI and UI/UX",
-    "publication_count": 5,
-    "citation_count": 120,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 20,
@@ -1296,8 +1296,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Specializes in artificial intelligence, computer vision and precision agriculture applications",
-    "publication_count": 4,
-    "citation_count": 100,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -1356,8 +1356,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Fog/Edge Computing Security, Internet of Vehicles (IoV), Network Load Balancing, Digital Banking & Online Security, Comparative Cybersecurity Analysis, E-Commerce Market Analysis, Data Analytics & Price Surveillance, Telecom Service Optimization",
-    "publication_count": 1,
-    "citation_count": 11,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 7,
@@ -1403,8 +1403,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning, NLP, AI",
-    "publication_count": 1,
-    "citation_count": 29,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -1467,8 +1467,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "AI (Evolutionary Computations)",
-    "publication_count": 5,
-    "citation_count": 30,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,
@@ -1489,8 +1489,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning",
-    "publication_count": 4,
-    "citation_count": 88,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -1511,8 +1511,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Deep Learning",
-    "publication_count": 6,
-    "citation_count": 60,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 3,
@@ -1550,8 +1550,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning",
-    "publication_count": 8,
-    "citation_count": 128,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
@@ -1589,8 +1589,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence and Deep Learning for Bioinformatics, Agriculture, and Healthcare Applications",
-    "publication_count": 8,
-    "citation_count": 64,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 1,

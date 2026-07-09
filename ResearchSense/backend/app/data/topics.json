@@ -6,7 +6,7 @@
     "description": "Research and expertise in Artificial Intelligence at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 17,
-    "publication_count": 69
+    "publication_count": 58
   },
   {
     "topic_id": 2,
@@ -15,7 +15,7 @@
     "description": "Research and expertise in Machine Learning at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 14,
-    "publication_count": 54
+    "publication_count": 34
   },
   {
     "topic_id": 3,
@@ -24,7 +24,7 @@
     "description": "Research and expertise in Deep Learning at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 10
+    "publication_count": 5
   },
   {
     "topic_id": 4,
@@ -33,7 +33,7 @@
     "description": "Research and expertise in Computer Vision at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 5,
-    "publication_count": 16
+    "publication_count": 3
   },
   {
     "topic_id": 5,
@@ -42,7 +42,7 @@
     "description": "Research and expertise in Image Processing at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 6
+    "publication_count": 1
   },
   {
     "topic_id": 6,
@@ -51,7 +51,7 @@
     "description": "Research and expertise in Natural Language Processing at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 2,
-    "publication_count": 5
+    "publication_count": 2
   },
   {
     "topic_id": 7,
@@ -60,7 +60,7 @@
     "description": "Research and expertise in Cybersecurity at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 10,
-    "publication_count": 44
+    "publication_count": 11
   },
   {
     "topic_id": 8,
@@ -69,7 +69,7 @@
     "description": "Research and expertise in Computer Networks at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 7,
-    "publication_count": 16
+    "publication_count": 25
   },
   {
     "topic_id": 9,
@@ -78,7 +78,7 @@
     "description": "Research and expertise in Wireless Communications at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 4,
-    "publication_count": 14
+    "publication_count": 15
   },
   {
     "topic_id": 10,
@@ -87,7 +87,7 @@
     "description": "Research and expertise in Internet of Things at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 5,
-    "publication_count": 17
+    "publication_count": 3
   },
   {
     "topic_id": 11,
@@ -96,7 +96,7 @@
     "description": "Research and expertise in Data Science at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 7,
-    "publication_count": 18
+    "publication_count": 7
   },
   {
     "topic_id": 12,
@@ -105,7 +105,7 @@
     "description": "Research and expertise in Software Engineering at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 4,
-    "publication_count": 15
+    "publication_count": 2
   },
   {
     "topic_id": 13,
@@ -114,7 +114,7 @@
     "description": "Research and expertise in Cloud Computing at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 1,
-    "publication_count": 4
+    "publication_count": 0
   },
   {
     "topic_id": 14,
@@ -132,7 +132,7 @@
     "description": "Research and expertise in Information Retrieval at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 2,
-    "publication_count": 5
+    "publication_count": 0
   },
   {
     "topic_id": 16,
@@ -141,7 +141,7 @@
     "description": "Research and expertise in Digital Preservation at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 1,
-    "publication_count": 3
+    "publication_count": 2
   },
   {
     "topic_id": 17,
@@ -150,7 +150,7 @@
     "description": "Research and expertise in Information Systems at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 5,
-    "publication_count": 21
+    "publication_count": 3
   },
   {
     "topic_id": 18,
@@ -159,7 +159,7 @@
     "description": "Research and expertise in Applied Mathematics at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 4,
-    "publication_count": 28
+    "publication_count": 116
   },
   {
     "topic_id": 19,
@@ -168,7 +168,7 @@
     "description": "Research and expertise in Pattern Recognition at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 7
+    "publication_count": 0
   },
   {
     "topic_id": 20,
@@ -177,7 +177,7 @@
     "description": "Research and expertise in Human Computer Interaction at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 2,
-    "publication_count": 17
+    "publication_count": 0
   },
   {
     "topic_id": 21,
@@ -186,7 +186,7 @@
     "description": "Research and expertise in Bioinformatics at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 2,
-    "publication_count": 9
+    "publication_count": 0
   },
   {
     "topic_id": 22,
@@ -195,6 +195,6 @@
     "description": "Research and expertise in Distributed Systems at Bahria University, Islamabad (E-8).",
     "source": "sample",
     "researcher_count": 1,
-    "publication_count": 4
+    "publication_count": 1
   }
 ]

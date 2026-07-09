@@ -102,10 +102,11 @@ CH1 = {
             "This first version of ResearchSense focuses on the full user "
             "interface and a working service that supplies data to it. The data "
             "for this version comes from the real faculty list of the Computer "
-            "Science department at the E-8 campus, together with sample "
-            "publications, topics, and projects that are clearly marked as "
-            "sample. The system runs as a web application that any modern browser "
-            "can open.",
+            "Science department at the E-8 campus, including real emails, research "
+            "areas, and qualifications, together with real publications collected "
+            "from the OpenAlex scholarly database. Project and funding records are "
+            "sample values that are clearly marked as sample. The system runs as a "
+            "web application that any modern browser can open.",
 
             "The following items are planned for later phases and are not part of "
             "this version: user login and accounts, a live database, automatic "
@@ -293,11 +294,12 @@ CH4 = {
             "the service stay the same.",
         ]),
         ("Design Constraints", [
-            "The design works within a few constraints. The first version uses "
-            "sample data for publications, topics, and projects, since the campus "
-            "does not publish this data in a single feed. These records are marked "
-            "as sample so their origin is always clear. The system does not "
-            "include login or a live database in this phase, which keeps the "
+            "The design works within a few constraints. Publications are real and "
+            "come from the OpenAlex scholarly database, matched to Bahria "
+            "affiliated authors. Project and funding records are sample data, "
+            "since the campus does not publish these in a single feed, and they "
+            "are marked as sample so their origin is always clear. The system does "
+            "not include login or a live database in this phase, which keeps the "
             "current scope focused on the interface and the service.",
 
             "A further constraint is set by the team itself. Every source file is "
@@ -376,10 +378,12 @@ CH4 = {
             "the client forwards these requests to the server through a local "
             "proxy, which keeps the setup simple.",
 
-            "One more external interface is used to prepare the data. A small "
-            "script reads the public faculty list of the E-8 campus to build the "
-            "starting records. This script runs on its own, away from the live "
-            "system, so the running portal does not depend on any outside website.",
+            "Two more external interfaces are used to prepare the data. One script "
+            "reads the public faculty list and profile pages of the E-8 campus to "
+            "build the researcher records. A second script queries the OpenAlex "
+            "scholarly database to collect real publications for the faculty. Both "
+            "scripts run on their own, away from the live system, so the running "
+            "portal does not depend on any outside website.",
         ]),
     ],
 }
