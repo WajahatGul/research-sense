@@ -17,10 +17,34 @@ const SUGGESTIONS = [
   "Find work on Internet of Things",
 ];
 
+// Strip decorations the chat adds to source labels ("Paper: " prefix,
+// trailing "(2022)") so the title can be used as a publications search query.
+function titleFromLabel(label: string): string {
+  return label
+    .replace(/^Paper:\s*/i, "")
+    .replace(/\s*\(\d{4}\)\s*$/, "")
+    .trim();
+}
+
 function sourceLink(s: ChatSource): string {
-  if (s.kind === "researcher" && s.ref_id) return `/researchers/${s.ref_id}`;
-  if (s.kind === "topic" && s.ref_id) return `/publications?topic_id=${s.ref_id}`;
-  return "/researchers";
+  switch (s.kind) {
+    case "researcher":
+      return s.ref_id ? `/researchers/${s.ref_id}` : "/researchers";
+    case "topic":
+      return s.ref_id ? `/publications?topic_id=${s.ref_id}` : "/topics";
+    case "publication":
+      return `/publications?q=${encodeURIComponent(titleFromLabel(s.label))}`;
+    case "paper":
+      // Full-text papers may not be in the publications table, so the
+      // reliable landing is the author's profile.
+      return s.ref_id
+        ? `/researchers/${s.ref_id}`
+        : `/publications?q=${encodeURIComponent(titleFromLabel(s.label))}`;
+    case "project":
+      return "/projects";
+    default:
+      return "/researchers";
+  }
 }
 
 export function ChatPanel() {

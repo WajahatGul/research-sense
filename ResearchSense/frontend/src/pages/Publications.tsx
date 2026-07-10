@@ -17,7 +17,9 @@ export default function Publications() {
   const [params] = useSearchParams();
   const topicId = params.get("topic_id");
 
-  const [q, setQ] = useState("");
+  // Seed the search from the URL so other pages (e.g. chat source chips)
+  // can deep-link straight to a title.
+  const [q, setQ] = useState(params.get("q") ?? "");
   const [year, setYear] = useState("");
   const [campus, setCampus] = useState("");
   const [page, setPage] = useState(1);
@@ -56,6 +58,7 @@ export default function Publications() {
           <div className={styles.search}>
             <SearchBar
               placeholder="Search publication titles…"
+              defaultValue={q}
               onSearch={(v) => {
                 setQ(v);
                 setPage(1);

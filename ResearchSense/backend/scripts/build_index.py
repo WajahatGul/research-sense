@@ -132,11 +132,22 @@ def _split(text: str) -> list[str]:
     return [c.strip() for c in chunks if len(c.strip()) > 120]
 
 
-def paper_chunks() -> list[dict]:
+def _author_researcher_id(researchers: list[dict], name: str) -> int | None:
+    """Match the papers' author to a researcher so paper sources can link
+    to their profile in the UI."""
+    key = re.sub(r"[^a-z]", "", name.lower())
+    for r in researchers:
+        if re.sub(r"[^a-z]", "", r["full_name"].lower()).endswith(key):
+            return r["researcher_id"]
+    return None
+
+
+def paper_chunks(researchers: list[dict]) -> list[dict]:
     manifest_path = PAPERS_DIR / "manifest.json"
     if not manifest_path.exists():
         return []
     manifest = json.loads(manifest_path.read_text("utf-8"))
+    author_id = _author_researcher_id(researchers, "Arif ur Rahman")
     out = []
     for paper in manifest:
         path = PAPERS_DIR / paper["filename"]
@@ -152,7 +163,7 @@ def paper_chunks() -> list[dict]:
             out.append({
                 "text": header + piece,
                 "kind": "paper",
-                "ref_id": None,
+                "ref_id": author_id,  # links the source chip to the author
                 "label": f"Paper: {paper['title'][:70]} ({paper['year']})",
             })
     return out
@@ -160,13 +171,14 @@ def paper_chunks() -> list[dict]:
 
 def main() -> None:
     print("Building RAG index...")
+    researchers = load("researchers")
     chunks = (
-        researcher_chunks(load("researchers"))
+        researcher_chunks(researchers)
         + publication_chunks(load("publications"))
         + project_chunks(load("projects"))
         + topic_chunks(load("topics"))
     )
-    papers = paper_chunks()
+    papers = paper_chunks(researchers)
     chunks += papers
     print(f"  {len(chunks)} chunks ({len(papers)} from paper full text)")
 
