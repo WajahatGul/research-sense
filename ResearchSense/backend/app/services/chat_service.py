@@ -55,15 +55,15 @@ class ChatService:
         # answered from the structured publications table (matching the profile
         # page) rather than fuzzy full-text retrieval, which conflates papers
         # that merely mention the name with papers the person actually wrote.
-        authored_result = authored.answer(question)
+        authored_result = authored.answer(question, history)
         if authored_result is not None:
             return ChatResponse(
                 answer=authored_result.answer,
-                sources=[ChatSource(
-                    label=f"{authored_result.researcher_name} — profile",
-                    kind="researcher",
-                    ref_id=authored_result.researcher_id,
-                )],
+                sources=[
+                    ChatSource(label=f"{name} — profile",
+                               kind="researcher", ref_id=rid)
+                    for name, rid in authored_result.researchers
+                ],
             )
 
         results = Retriever.instance().retrieve(_retrieval_query(question, history))

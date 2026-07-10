@@ -38,15 +38,29 @@ _TITLES = r"(?:dr|mr|ms|mrs|prof|professor|engr|sir|madam)\.?\s+"
 
 # The question must look like an authorship request AND name a person for the
 # fast path to fire. Kept narrow so content questions ("what does the BERT
-# paper say") do not route here.
+# paper say") do not route here. Tolerates typos in surrounding words and
+# words between ("what resarch papers did arif wrote").
+_AUTHOR_VERBS = r"(?:wrote|write|written|writes|authored|author|published|publish|publications?)"
 _AUTHORED_PATTERNS = [
-    r"\bwhat\s+papers?\b.*\b(has|did|by|written|authored|published)\b",
-    r"\bwhich\s+papers?\b.*\b(has|did|by|written|authored|published)\b",
-    r"\b(papers?|publications?|research|work)\b.*\b(written|authored|published)\s+by\b",
-    r"\bwhat\s+(did|has)\b.*\b(publish|written|authored)\b",
-    r"\blist\b.*\b(papers?|publications?)\b.*\bby\b",
-    r"\b(papers?|publications?)\s+of\b",
+    rf"\b(what|which)\b.*\bpapers?\b.*\b(has|did|by|{_AUTHOR_VERBS})\b",
+    rf"\b(papers?|publications?|research|work)\b.*\b{_AUTHOR_VERBS}\b",
+    rf"\b{_AUTHOR_VERBS}\b.*\b(papers?|publications?)\b",
+    rf"\bwhat\s+(did|has)\b.*\b{_AUTHOR_VERBS}\b",
+    r"\blist\b.*\b(papers?|publications?)\b.*\b(by|of|from)\b",
+    r"\b(papers?|publications?)\s+(by|of|from)\b",
 ]
+
+# Query tokens that must never be treated as a person's name when doing
+# partial-name matching (common question words + typo variants).
+_QUERY_STOPWORDS = {
+    "what", "which", "papers", "paper", "publications", "publication",
+    "research", "resarch", "rsearch", "rsrch", "work", "works", "wrote",
+    "write", "written", "writes", "authored", "author", "authors",
+    "published", "publish", "list", "show", "give", "tell", "did", "has",
+    "have", "the", "this", "that", "many", "how", "about", "does", "doctor",
+    "professor", "lecturer", "engineer", "from", "campus", "university",
+    "bahria",
+}
 
 
 def _norm_name(text: str) -> str:
@@ -63,8 +77,9 @@ def is_authored_query(message: str) -> bool:
 @dataclass
 class AuthoredResult:
     answer: str
-    researcher_id: int
-    researcher_name: str
+    # (full_name, researcher_id) for every researcher the answer concerns —
+    # one entry normally, several when asking the user to disambiguate.
+    researchers: list[tuple[str, int]]
 
 
 class _Store:
@@ -93,23 +108,48 @@ class _Store:
         cls._pubs = None
 
 
-def _resolve_researcher(message: str) -> dict | None:
-    """Find the researcher whose (title-stripped) name appears in the question.
+def _resolve_researchers(message: str) -> list[dict]:
+    """Find researcher(s) named in the question.
 
-    Prefers the longest matching name so 'Arif Ur Rahman' wins over a bare
-    'Rahman' that could match several people.
+    Two stages:
+    1. Full-name containment (normalized, title-stripped) — an unambiguous
+       match like 'Arif Ur Rahman'; the longest wins and is returned alone.
+    2. Partial-name tokens — a bare 'arif' matches every researcher with that
+       name token, so ALL matches are returned and the caller asks the user
+       which one they meant instead of guessing.
     """
     q_norm = _norm_name(message)
+    researchers = _Store.researchers()
+
+    # Stage 1: full-name match (longest wins — 'Arif Ur Rahman' over 'Rahman').
     best: dict | None = None
     best_len = 0
-    for r in _Store.researchers():
+    for r in researchers:
         raw = re.sub(rf"^{_TITLES}", "", r["full_name"].strip(), flags=re.I)
         name_norm = _norm_name(raw)
-        # Require a reasonably long full-name match so a common single token
-        # doesn't produce a false hit; prefer the longest match.
         if len(name_norm) >= 6 and name_norm in q_norm and len(name_norm) > best_len:
             best, best_len = r, len(name_norm)
-    return best
+    if best is not None:
+        return [best]
+
+    # Stage 2: partial-name tokens from the question (skip question words).
+    q_tokens = {
+        _NAME_VARIANTS.get(t, t)
+        for t in re.findall(r"[a-z]+", message.lower())
+        if len(t) >= 3 and t not in _QUERY_STOPWORDS
+    }
+    if not q_tokens:
+        return []
+    matches = []
+    for r in researchers:
+        raw = re.sub(rf"^{_TITLES}", "", r["full_name"].strip(), flags=re.I)
+        name_tokens = {
+            _NAME_VARIANTS.get(t, t)
+            for t in re.findall(r"[a-z]+", raw.lower()) if len(t) >= 3
+        }
+        if q_tokens & name_tokens:
+            matches.append(r)
+    return matches
 
 
 def _publications_for(researcher_id: int) -> list[dict]:
@@ -124,14 +164,45 @@ def _publications_for(researcher_id: int) -> list[dict]:
     return out
 
 
-def answer(message: str) -> AuthoredResult | None:
-    """Return a structured authored-papers answer, or None to fall through."""
-    if not is_authored_query(message):
+_DISAMBIGUATION_MARKER = "Which one do you mean?"
+
+
+def answer(message: str, history: list | None = None) -> AuthoredResult | None:
+    """Return a structured authored-papers answer, or None to fall through.
+
+    One matched researcher -> their publication list (from the structured
+    table). Several matches (e.g. a bare 'arif' when two researchers carry
+    that name) -> ask the user which one they meant rather than guessing.
+    A reply naming one of the candidates right after that question is treated
+    as the answer to it, even without authorship words.
+    """
+    replying_to_disambiguation = bool(
+        history
+        and getattr(history[-1], "role", "") == "assistant"
+        and _DISAMBIGUATION_MARKER in getattr(history[-1], "content", "")
+    )
+    if not is_authored_query(message) and not replying_to_disambiguation:
         return None
-    researcher = _resolve_researcher(message)
-    if researcher is None:
+    matches = _resolve_researchers(message)
+    if not matches:
         return None
 
+    if len(matches) > 1:
+        # Ambiguous partial name: never guess — ask.
+        shown = matches[:5]
+        lines = [f"I found {len(matches)} researchers matching that name. "
+                 f"{_DISAMBIGUATION_MARKER}"]
+        for r in shown:
+            lines.append(f"- {r['full_name']} ({r['designation']}, "
+                         f"{r['campus']} campus)")
+        if len(matches) > len(shown):
+            lines.append(f"...and {len(matches) - len(shown)} more.")
+        return AuthoredResult(
+            answer="\n".join(lines),
+            researchers=[(r["full_name"], r["researcher_id"]) for r in shown],
+        )
+
+    researcher = matches[0]
     rid = researcher["researcher_id"]
     name = researcher["full_name"]
     pubs = _publications_for(rid)
@@ -140,8 +211,7 @@ def answer(message: str) -> AuthoredResult | None:
         return AuthoredResult(
             answer=(f"I don't have any publications on record for {name} in the "
                     f"ResearchSense database."),
-            researcher_id=rid,
-            researcher_name=name,
+            researchers=[(name, rid)],
         )
 
     # Cap very long lists so a prolific author's answer stays readable; the
@@ -165,6 +235,5 @@ def answer(message: str) -> AuthoredResult | None:
 
     return AuthoredResult(
         answer="\n".join(lines),
-        researcher_id=rid,
-        researcher_name=name,
+        researchers=[(name, rid)],
     )
