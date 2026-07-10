@@ -22,3 +22,7 @@ dist/
 *.tsbuildinfo
 frontend/vite.config.js
 frontend/vite.config.d.ts
+
+# RAG: downloaded PDFs and local embedding model cache
+backend/papers/*.pdf
+backend/.fastembed_cache/

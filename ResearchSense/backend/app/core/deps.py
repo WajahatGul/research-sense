@@ -47,4 +47,4 @@ def get_stats_service() -> StatsService:
 
 @lru_cache
 def get_chat_service() -> ChatService:
-    return ChatService(MockResearcherRepository(), MockTopicRepository())
+    return ChatService()

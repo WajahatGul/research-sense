@@ -1,0 +1,203 @@
+[
+  {
+    "openalex_id": "W3001654774",
+    "title": "News Recommendation Systems - Accomplishments, Challenges &amp; Future Directions",
+    "year": 2020,
+    "doi": "10.1109/access.2020.2967792",
+    "cited_by": 93,
+    "pdf_urls": [
+      "https://ieeexplore.ieee.org/ielx7/6287639/8948470/08963698.pdf"
+    ],
+    "landing_pages": [
+      "https://doi.org/10.1109/access.2020.2967792",
+      "https://doaj.org/article/ca0e6cd0216942debbffd898ba705dac"
+    ],
+    "filename": "W3001654774-news-recommendation-systems-accomplishments-challenges-amp-f.pdf"
+  },
+  {
+    "openalex_id": "W4391651879",
+    "title": "A deep learning framework for non-functional requirement classification",
+    "year": 2024,
+    "doi": "10.1038/s41598-024-52802-0",
+    "cited_by": 24,
+    "pdf_urls": [
+      "https://www.nature.com/articles/s41598-024-52802-0.pdf",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC10853538/pdf/41598_2024_Article_52802.pdf"
+    ],
+    "landing_pages": [
+      "https://doi.org/10.1038/s41598-024-52802-0",
+      "https://pubmed.ncbi.nlm.nih.gov/38331920",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/10853538",
+      "https://doaj.org/article/cf05d154f709497f8d5724db50922f05",
+      "https://hdl.handle.net/11250/3121443",
+      "https://hdl.handle.net/11250/3122207"
+    ],
+    "filename": "W4391651879-a-deep-learning-framework-for-non-functional-requirement-cla.pdf"
+  },
+  {
+    "openalex_id": "W2921689717",
+    "title": "A Systematic Approach Towards Web Preservation",
+    "year": 2019,
+    "doi": "10.6017/ital.v38i1.10181",
+    "cited_by": 22,
+    "pdf_urls": [
+      "https://ejournals.bc.edu/index.php/ital/article/download/10181/pdf"
+    ],
+    "landing_pages": [
+      "https://doi.org/10.6017/ital.v38i1.10181",
+      "https://ital.corejournals.org/index.php/ital/article/view/10181",
+      "https://ejournals.bc.edu/index.php/ital/article/view/10181",
+      "https://www.openaccessrepository.it/record/71246"
+    ],
+    "filename": "W2921689717-a-systematic-approach-towards-web-preservation.pdf"
+  },
+  {
+    "openalex_id": "W2978338406",
+    "title": "Rotation invariant person tracker using top view",
+    "year": 2019,
+    "doi": "10.1007/s12652-019-01526-5",
+    "cited_by": 18,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://doi.org/10.1007/s12652-019-01526-5"
+    ],
+    "filename": "W2978338406-rotation-invariant-person-tracker-using-top-view.pdf"
+  },
+  {
+    "openalex_id": "W3091533860",
+    "title": "Habitat mapping using deep neural networks",
+    "year": 2020,
+    "doi": "10.1007/s00530-020-00695-0",
+    "cited_by": 12,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://doi.org/10.1007/s00530-020-00695-0"
+    ],
+    "filename": "W3091533860-habitat-mapping-using-deep-neural-networks.pdf"
+  },
+  {
+    "openalex_id": "W2119171113",
+    "title": "Model Migration Approach for Database Preservation",
+    "year": 2010,
+    "doi": "10.1007/978-3-642-13654-2_10",
+    "cited_by": 10,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://hdl.handle.net/10216/24333",
+      "https://doi.org/10.1007/978-3-642-13654-2_10",
+      "http://repositorio.inesctec.pt/handle/123456789/7216"
+    ],
+    "filename": "W2119171113-model-migration-approach-for-database-preservation.pdf"
+  },
+  {
+    "openalex_id": "W3095965833",
+    "title": "Foreground detection using motion histogram threshold algorithm in high-resolution large datasets",
+    "year": 2020,
+    "doi": "10.1007/s00530-020-00676-3",
+    "cited_by": 10,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://doi.org/10.1007/s00530-020-00676-3"
+    ],
+    "filename": "W3095965833-foreground-detection-using-motion-histogram-threshold-algori.pdf"
+  },
+  {
+    "openalex_id": "W4406937094",
+    "title": "Comparative analysis of sensors and classification algorithms for land cover classification in Islamabad, Pakistan",
+    "year": 2025,
+    "doi": "10.1007/s12145-025-01720-4",
+    "cited_by": 10,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://doi.org/10.1007/s12145-025-01720-4"
+    ],
+    "filename": "W4406937094-comparative-analysis-of-sensors-and-classification-algorithm.pdf"
+  },
+  {
+    "openalex_id": "W2884784173",
+    "title": "Promoting Collaborative Construction Process Management by Means of a Normalized Workload Approach",
+    "year": 2018,
+    "doi": "10.24928/2018/0488",
+    "cited_by": 4,
+    "pdf_urls": [
+      "https://iglcstorage.blob.core.windows.net/papers/attachment-e74423b0-4567-4725-bda6-019e4f99a82d.pdf"
+    ],
+    "landing_pages": [
+      "https://doi.org/10.24928/2018/0488",
+      "https://bia.unibz.it/esploro/outputs/conferenceProceeding/Promoting-Collaborative-Construction-Process-Management-by/991006419695201241",
+      "http://publica.fraunhofer.de/documents/N-581804.html",
+      "https://publica.fraunhofer.de/handle/publica/407622",
+      "https://www.openaccessrepository.it/record/146112"
+    ],
+    "filename": "W2884784173-promoting-collaborative-construction-process-management-by-m.pdf"
+  },
+  {
+    "openalex_id": "W3122646685",
+    "title": "Increasing Control in Construction Processes: The Role of Digitalization",
+    "year": 2020,
+    "doi": "10.1007/978-3-030-66498-5_20",
+    "cited_by": 3,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://link.springer.com/chapter/10.1007/978-3-030-66498-5_20",
+      "https://doi.org/10.1007/978-3-030-66498-5_20"
+    ],
+    "filename": "W3122646685-increasing-control-in-construction-processes-the-role-of-dig.pdf"
+  },
+  {
+    "openalex_id": "W4283455099",
+    "title": "Urdu News Article Recommendation Model using Natural Language Processing Techniques",
+    "year": 2022,
+    "doi": "10.48550/arxiv.2206.11862",
+    "cited_by": 2,
+    "pdf_urls": [
+      "https://arxiv.org/pdf/2206.11862"
+    ],
+    "landing_pages": [
+      "http://arxiv.org/abs/2206.11862",
+      "https://doi.org/10.48550/arxiv.2206.11862"
+    ],
+    "filename": "W4283455099-urdu-news-article-recommendation-model-using-natural-languag.pdf"
+  },
+  {
+    "openalex_id": "W4410027006",
+    "title": "A Comprehensive Metadata Framework for Preservation and Accessibility of Digital News and Educational Resource Management",
+    "year": 2025,
+    "doi": "10.1007/s42979-025-04000-6",
+    "cited_by": 1,
+    "pdf_urls": [],
+    "landing_pages": [
+      "https://doi.org/10.1007/s42979-025-04000-6"
+    ],
+    "filename": "W4410027006-a-comprehensive-metadata-framework-for-preservation-and-acce.pdf"
+  },
+  {
+    "openalex_id": "W4283449137",
+    "title": "Exploiting Transliterated Words for Finding Similarity in Inter-Language News Articles using Machine Learning",
+    "year": 2022,
+    "doi": "10.48550/arxiv.2206.11860",
+    "cited_by": 1,
+    "pdf_urls": [
+      "https://arxiv.org/pdf/2206.11860"
+    ],
+    "landing_pages": [
+      "http://arxiv.org/abs/2206.11860",
+      "https://doi.org/10.48550/arxiv.2206.11860"
+    ],
+    "filename": "W4283449137-exploiting-transliterated-words-for-finding-similarity-in-in.pdf"
+  },
+  {
+    "openalex_id": "W7127882198",
+    "title": "A LLM-Augmented Code Generation and Optimization Framework for API-First Integration in Java and Python Microservice Pipelines",
+    "year": 2026,
+    "doi": "10.32628/cseit2612124",
+    "cited_by": 0,
+    "pdf_urls": [
+      "https://ijsrcseit.com/index.php/home/article/download/CSEIT2612124/CSEIT2612124"
+    ],
+    "landing_pages": [
+      "https://doi.org/10.32628/cseit2612124"
+    ],
+    "filename": "W7127882198-a-llm-augmented-code-generation-and-optimization-framework-f.pdf"
+  }
+]
