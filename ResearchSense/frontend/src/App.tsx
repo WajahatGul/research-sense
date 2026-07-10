@@ -8,6 +8,8 @@ import Publications from "./pages/Publications";
 import Topics from "./pages/Topics";
 import Projects from "./pages/Projects";
 import Collaboration from "./pages/Collaboration";
+import Analytics from "./pages/Analytics";
+import Portal from "./pages/Portal";
 import Ask from "./pages/Ask";
 import NotFound from "./pages/NotFound";
 
@@ -22,6 +24,8 @@ export default function App() {
         <Route path="/topics" element={<Topics />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/collaboration" element={<Collaboration />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/portal" element={<Portal />} />
         <Route path="/ask" element={<Ask />} />
         <Route path="*" element={<NotFound />} />
       </Route>

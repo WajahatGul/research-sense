@@ -25,4 +25,8 @@ frontend/vite.config.d.ts
 
 # RAG: downloaded PDFs and local embedding model cache
 backend/papers/*.pdf
+backend/papers/uploads/
 backend/.fastembed_cache/
+
+# Mutable runtime data (accounts, uploads, refresh log)
+backend/app/data/researchsense.db

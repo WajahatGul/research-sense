@@ -12,6 +12,8 @@ from app.repositories.mock.publications import MockPublicationRepository
 from app.repositories.mock.researchers import MockResearcherRepository
 from app.repositories.mock.stats import MockStatsRepository
 from app.repositories.mock.topics import MockTopicRepository
+from app.services.analytics_service import AnalyticsService
+from app.services.auth_service import AuthService
 from app.services.chat_service import ChatService
 from app.services.project_service import ProjectService
 from app.services.publication_service import PublicationService
@@ -48,3 +50,13 @@ def get_stats_service() -> StatsService:
 @lru_cache
 def get_chat_service() -> ChatService:
     return ChatService()
+
+
+@lru_cache
+def get_auth_service() -> AuthService:
+    return AuthService(MockResearcherRepository())
+
+
+@lru_cache
+def get_analytics_service() -> AnalyticsService:
+    return AnalyticsService()

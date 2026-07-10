@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
+import { fetchClaimedIds } from "../api/auth";
 import { fetchResearcher } from "../api/researchers";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
@@ -14,6 +15,11 @@ export default function ResearcherProfile() {
     queryFn: () => fetchResearcher(Number(id)),
     enabled: Boolean(id),
   });
+  const { data: claimedIds } = useQuery({
+    queryKey: ["claimed-ids"],
+    queryFn: fetchClaimedIds,
+  });
+  const isClaimed = Boolean(data && claimedIds?.includes(data.researcher_id));
 
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState message="Researcher not found." />;
@@ -27,7 +33,14 @@ export default function ResearcherProfile() {
             <span className="eyebrow">
               {data.department} · {data.campus}
             </span>
-            <h1 className={styles.name}>{data.full_name}</h1>
+            <h1 className={styles.name}>
+              {data.full_name}
+              {isClaimed && (
+                <span className={styles.claimed} title="This profile is managed by the researcher">
+                  ✓ Claimed
+                </span>
+              )}
+            </h1>
             <p className={styles.role}>{data.designation}</p>
             <p className={styles.inst}>
               {data.institution}, {data.campus} campus

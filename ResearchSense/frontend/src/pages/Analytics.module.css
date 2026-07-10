@@ -1,0 +1,104 @@
+.body {
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.h2 {
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin-bottom: 18px;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 8px;
+  vertical-align: baseline;
+}
+
+.pairs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+.pairLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pairLink {
+  color: var(--faint);
+  font-size: 0.8rem;
+  margin: 0 4px;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.note {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+
+@media (max-width: 860px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}

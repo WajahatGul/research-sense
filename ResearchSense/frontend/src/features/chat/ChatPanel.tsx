@@ -12,9 +12,9 @@ interface Turn {
 }
 
 const SUGGESTIONS = [
-  "Who works on machine learning?",
-  "Show cybersecurity researchers",
-  "Find work on Internet of Things",
+  "Who works on machine learning in Karachi?",
+  "What papers has Dr. Arif ur Rahman written?",
+  "Explain the news recommendation systems paper",
 ];
 
 // Strip decorations the chat adds to source labels ("Paper: " prefix,

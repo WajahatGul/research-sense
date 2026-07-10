@@ -87,6 +87,11 @@ class Retriever:
         return ((DATA_DIR / "rag_chunks.json").exists()
                 and (DATA_DIR / "rag_index.npz").exists())
 
+    @classmethod
+    def reset(cls) -> None:
+        """Drop the cached instance so the next query reloads the index."""
+        cls._instance = None
+
     def retrieve(self, query: str, k: int | None = None) -> list[ScoredChunk]:
         """Hybrid ranking: cosine similarity + a lexical bonus.
 

@@ -22,6 +22,21 @@
   font-size: var(--step-4);
 }
 
+.claimed {
+  display: inline-block;
+  margin-left: 14px;
+  padding: 4px 12px;
+  vertical-align: middle;
+  border-radius: 999px;
+  background: rgba(201, 162, 39, 0.18);
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  color: var(--gold-soft);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .role {
   margin: 6px 0 0;
   font-size: 1.05rem;

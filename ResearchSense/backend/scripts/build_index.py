@@ -132,14 +132,22 @@ def _split(text: str) -> list[str]:
     return [c.strip() for c in chunks if len(c.strip()) > 120]
 
 
-def _author_researcher_id(researchers: list[dict], name: str) -> int | None:
-    """Match the papers' author to a researcher so paper sources can link
-    to their profile in the UI."""
-    key = re.sub(r"[^a-z]", "", name.lower())
-    for r in researchers:
-        if re.sub(r"[^a-z]", "", r["full_name"].lower()).endswith(key):
-            return r["researcher_id"]
-    return None
+def chunk_pdf(path: Path, title: str, year, author_name: str,
+              researcher_id: int | None) -> list[dict]:
+    """Chunk one PDF into attributed index entries (shared with live uploads)."""
+    reader = PdfReader(path)
+    raw = " ".join((page.extract_text() or "") for page in reader.pages)
+    text = re.sub(r"\s+", " ", raw).strip()
+    header = f"From the paper \"{title}\" ({year}) by {author_name}: "
+    return [
+        {
+            "text": header + piece,
+            "kind": "paper",
+            "ref_id": researcher_id,  # links the source chip to the author
+            "label": f"Paper: {title[:70]} ({year})",
+        }
+        for piece in _split(text)
+    ]
 
 
 def paper_chunks(researchers: list[dict]) -> list[dict]:
@@ -147,25 +155,16 @@ def paper_chunks(researchers: list[dict]) -> list[dict]:
     if not manifest_path.exists():
         return []
     manifest = json.loads(manifest_path.read_text("utf-8"))
-    author_id = _author_researcher_id(researchers, "Arif ur Rahman")
+    names = {r["researcher_id"]: r["full_name"] for r in researchers}
     out = []
     for paper in manifest:
-        path = PAPERS_DIR / paper["filename"]
+        rid = paper.get("researcher_id")
+        author = paper.get("author_name") or names.get(rid, "a Bahria researcher")
         try:
-            reader = PdfReader(path)
-            raw = " ".join((page.extract_text() or "") for page in reader.pages)
+            out.extend(chunk_pdf(PAPERS_DIR / paper["filename"], paper["title"],
+                                 paper["year"], author, rid))
         except Exception as exc:  # noqa: BLE001 - skip unreadable files
             print(f"  ! could not read {paper['filename']}: {exc}")
-            continue
-        text = re.sub(r"\s+", " ", raw).strip()
-        header = f"From the paper \"{paper['title']}\" ({paper['year']}) by Arif Ur Rahman: "
-        for piece in _split(text):
-            out.append({
-                "text": header + piece,
-                "kind": "paper",
-                "ref_id": author_id,  # links the source chip to the author
-                "label": f"Paper: {paper['title'][:70]} ({paper['year']})",
-            })
     return out
 
 

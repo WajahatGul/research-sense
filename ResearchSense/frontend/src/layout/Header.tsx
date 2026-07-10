@@ -10,6 +10,8 @@ const NAV = [
   { to: "/topics", label: "Research Areas" },
   { to: "/projects", label: "Projects" },
   { to: "/collaboration", label: "Collaboration" },
+  { to: "/analytics", label: "Analytics" },
+  { to: "/portal", label: "Portal" },
 ];
 
 export default function Header() {
