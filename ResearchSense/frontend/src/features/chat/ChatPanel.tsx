@@ -30,11 +30,16 @@ export function ChatPanel() {
 
   const ask = async (message: string) => {
     if (!message.trim() || busy) return;
+    // Recent turns travel with the request so follow-up questions work.
+    const history = turns.slice(-6).map((t) => ({
+      role: t.role,
+      content: t.text,
+    }));
     setTurns((t) => [...t, { role: "user", text: message }]);
     setInput("");
     setBusy(true);
     try {
-      const res = await sendChat(message);
+      const res = await sendChat(message, history);
       setTurns((t) => [
         ...t,
         { role: "assistant", text: res.answer, sources: res.sources },

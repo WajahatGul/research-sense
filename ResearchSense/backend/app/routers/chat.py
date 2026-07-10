@@ -15,4 +15,4 @@ def ask(
     payload: ChatRequest,
     service: ChatService = Depends(get_chat_service),
 ):
-    return service.answer(payload.message)
+    return service.answer(payload.message, payload.history)

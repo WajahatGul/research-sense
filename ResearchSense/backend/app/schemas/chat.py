@@ -4,10 +4,18 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
+class ChatTurn(BaseModel):
+    """One earlier message in the conversation."""
+
+    role: str  # "user" | "assistant"
+    content: str
+
+
 class ChatRequest(BaseModel):
-    """Inbound user question for the assistant."""
+    """Inbound user question, with recent conversation history for follow-ups."""
 
     message: str
+    history: list[ChatTurn] = []
 
 
 class ChatSource(BaseModel):

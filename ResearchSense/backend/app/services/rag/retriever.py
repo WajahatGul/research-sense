@@ -22,6 +22,26 @@ EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 MODEL_CACHE = Path(__file__).resolve().parents[3] / ".fastembed_cache"
 
 
+# Common transliteration variants in Pakistani names, applied per token so
+# "Arif ur Rehman" in a question matches "Arif Ur Rahman" in the data.
+_NAME_VARIANTS = {
+    "rehman": "rahman", "rahmaan": "rahman",
+    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
+    "muhammd": "muhammad", "mohd": "muhammad",
+    "syed": "syed", "sayed": "syed", "sayyed": "syed",
+    "hussain": "hussain", "husain": "hussain", "hussein": "hussain",
+    "usman": "usman", "othman": "usman", "uthman": "usman",
+    "fatima": "fatima", "fatimah": "fatima",
+    "ali": "ali", "aly": "ali",
+}
+
+
+def _norm_name(text: str) -> str:
+    """Normalize a name (or question) for variant-tolerant containment."""
+    tokens = re.findall(r"[a-z]+", text.lower())
+    return "".join(_NAME_VARIANTS.get(t, t) for t in tokens)
+
+
 @dataclass
 class ScoredChunk:
     text: str
@@ -45,11 +65,16 @@ class Retriever:
         self._vectors: np.ndarray = np.load(DATA_DIR / "rag_index.npz")["vectors"]
         self._lowered: list[str] = [c["text"].lower() for c in self._chunks]
         # Known researcher names (without titles) for entity-aware boosting.
-        self._names: list[str] = sorted({
+        # Stored both raw (for chunk matching) and normalized (for matching
+        # transliteration variants in the question, e.g. Rehman vs Rahman).
+        raw_names = sorted({
             re.sub(r"^(dr|mr|ms|mrs|prof|engr)\.?\s+", "",
                    c["label"].split(" — ")[0].strip().lower())
             for c in self._chunks if c["kind"] == "researcher"
         })
+        self._names: list[tuple[str, str]] = [
+            (name, _norm_name(name)) for name in raw_names
+        ]
 
     @classmethod
     def instance(cls) -> "Retriever":
@@ -119,8 +144,8 @@ class Retriever:
         every chunk mentioning that name is boosted; if the question also
         names a year, chunks with both name and year are boosted further.
         """
-        lowered_query = query.lower()
-        named = [n for n in self._names if n in lowered_query]
+        normalized_query = _norm_name(query)
+        named = [raw for raw, norm in self._names if norm in normalized_query]
         bonus = np.zeros(len(self._chunks), dtype=np.float32)
         if not named:
             return bonus

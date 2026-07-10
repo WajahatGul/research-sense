@@ -36,11 +36,12 @@ def _format_context(chunks: list[ScoredChunk]) -> str:
     return "\n\n".join(f"[{i + 1}] {c.text}" for i, c in enumerate(chunks))
 
 
-def generate(question: str, chunks: list[ScoredChunk]) -> tuple[str, bool]:
+def generate(question: str, chunks: list[ScoredChunk],
+             history: list | None = None) -> tuple[str, bool]:
     """Return (answer, used_llm). Falls back to extractive mode on any failure."""
     if settings.groq_api_key:
         try:
-            answer = _groq_answer(question, chunks)
+            answer = _groq_answer(question, chunks, history or [])
             if answer is not None:
                 if REFUSAL_TOKEN in answer:
                     return REFUSAL_MESSAGE, True
@@ -50,7 +51,14 @@ def generate(question: str, chunks: list[ScoredChunk]) -> tuple[str, bool]:
     return _extractive_answer(chunks), False
 
 
-def _groq_answer(question: str, chunks: list[ScoredChunk]) -> str | None:
+def _groq_answer(question: str, chunks: list[ScoredChunk],
+                 history: list) -> str | None:
+    # Recent turns give the model the thread of the conversation; the context
+    # block still contains everything it is allowed to state as fact.
+    past = [
+        {"role": t.role, "content": t.content[:1200]}
+        for t in history[-6:] if t.role in ("user", "assistant")
+    ]
     response = httpx.post(
         GROQ_URL,
         headers={"Authorization": f"Bearer {settings.groq_api_key}"},
@@ -60,6 +68,7 @@ def _groq_answer(question: str, chunks: list[ScoredChunk]) -> str | None:
             "max_tokens": 600,
             "messages": [
                 {"role": "system", "content": SYSTEM_PROMPT},
+                *past,
                 {"role": "user", "content": (
                     f"Context:\n{_format_context(chunks)}\n\n"
                     f"Question: {question}")},
