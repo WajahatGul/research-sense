@@ -8,6 +8,7 @@ refused honestly; the LLM is never called for them.
 from __future__ import annotations
 
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
+from app.services.rag import authored
 from app.services.rag.generator import REFUSAL_MESSAGE, generate
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
 
@@ -49,6 +50,21 @@ class ChatService:
 
         if not Retriever.available():
             return ChatResponse(answer=INDEX_MISSING_MESSAGE)
+
+        # Fast path: "what papers has X written?" is an authorship lookup, best
+        # answered from the structured publications table (matching the profile
+        # page) rather than fuzzy full-text retrieval, which conflates papers
+        # that merely mention the name with papers the person actually wrote.
+        authored_result = authored.answer(question)
+        if authored_result is not None:
+            return ChatResponse(
+                answer=authored_result.answer,
+                sources=[ChatSource(
+                    label=f"{authored_result.researcher_name} — profile",
+                    kind="researcher",
+                    ref_id=authored_result.researcher_id,
+                )],
+            )
 
         results = Retriever.instance().retrieve(_retrieval_query(question, history))
 
