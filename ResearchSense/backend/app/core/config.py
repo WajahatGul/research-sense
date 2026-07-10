@@ -29,5 +29,22 @@ class Settings:
     rag_score_threshold: float = float(os.getenv("RAG_SCORE_THRESHOLD", "0.38"))
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "12"))
 
+    # --- Agentic pipeline (ported from Pdf_RAG_Chatbot) ---
+    # Fast model for Pass 1 (intent) and Pass 2 (evidence extraction).
+    groq_fast_model: str = os.getenv("GROQ_FAST_MODEL", "llama-3.1-8b-instant")
+    # Pass 3 (synthesis) walks this chain of high-quality models: each Groq
+    # model has its own daily token budget, so a rate-limited model rolls to the
+    # next full bucket before finally degrading to the fast model. Env override:
+    # GROQ_MODEL_CHAIN="model-a,model-b,...".
+    groq_model_chain: list[str] = [
+        m.strip() for m in os.getenv(
+            "GROQ_MODEL_CHAIN",
+            "openai/gpt-oss-120b,"
+            "llama-3.3-70b-versatile,"
+            "qwen/qwen3-32b,"
+            "meta-llama/llama-4-scout-17b-16e-instruct",
+        ).split(",") if m.strip()
+    ]
+
 
 settings = Settings()
