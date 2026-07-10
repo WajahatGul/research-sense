@@ -134,6 +134,10 @@ def _groq_call(
                         "max_tokens": max_tokens,
                         "top_p": 0.9,
                         "stream": False,
+                        # Fixed seed: with temperature 0 this makes repeated
+                        # identical requests return the same answer (best-effort;
+                        # the API honours it when the backend can).
+                        "seed": 42,
                     },
                     timeout=45,
                 )
@@ -227,7 +231,7 @@ def _pass2_extract_evidence(
         [{"role": "system", "content": system},
          {"role": "user", "content": user_prompt}],
         model=FAST_MODEL,
-        temperature=0.1,
+        temperature=0.0,
         max_tokens=800,
         label="pass2-evidence",
     )
@@ -247,18 +251,26 @@ def _pass3_synthesise_answer(
         "indexed ResearchSense data (faculty profiles, publications, projects, "
         "and the research papers in the library). Do not invent facts.\n\n"
         "RULES:\n"
-        "1. Use bullet points or numbered lists when listing multiple items.\n"
-        "2. Keep the answer concise but complete.\n"
-        "3. If the evidence has GAPS, say what you could not find.\n"
-        "4. Never invent or modify names, numbers, dates, or titles.\n"
-        "5. Maintain a formal academic tone.\n"
-        "6. Do NOT repeat the question back to the user.\n"
-        "7. If a context item is marked as a demonstration/sample record, say so "
+        "1. FORMAT: Reply in clean PLAIN TEXT only. Do NOT use Markdown of any "
+        "   kind — no asterisks for bold/italics (never write **like this**), no "
+        "   '#' headings, no backticks, no tables. The interface shows your reply "
+        "   verbatim, so markdown symbols appear as ugly literal characters.\n"
+        "2. When listing multiple items, put each on its own line beginning with "
+        "   a hyphen and a space ('- '). Keep each line short and scannable. Do "
+        "   NOT bold the names.\n"
+        "3. Start with one short plain sentence of context, then the list. Do not "
+        "   add a trailing summary sentence unless it adds real information.\n"
+        "4. Keep the answer concise but complete.\n"
+        "5. If the evidence has GAPS, say plainly what you could not find.\n"
+        "6. Never invent or modify names, numbers, dates, or titles.\n"
+        "7. Maintain a formal, professional tone.\n"
+        "8. Do NOT repeat the question back to the user.\n"
+        "9. If a context item is marked as a demonstration/sample record, say so "
         "   when using it.\n"
-        f"8. STRICT GROUNDING: Answer ONLY from the evidence below. If the answer "
-        f"   is not contained there, reply with EXACTLY: {REFUSAL_TOKEN} and stop. "
-        "   NEVER use outside or general knowledge, and NEVER answer unrelated "
-        "   questions (e.g. trivia, current events) even if you know the answer.\n\n"
+        f"10. STRICT GROUNDING: Answer ONLY from the evidence below. If the answer "
+        f"    is not contained there, reply with EXACTLY: {REFUSAL_TOKEN} and stop. "
+        "    NEVER use outside or general knowledge, and NEVER answer unrelated "
+        "    questions (e.g. trivia, current events) even if you know the answer.\n\n"
         f"INTENT: {intent.get('intent', 'other')}\n\n"
         f"EXTRACTED EVIDENCE:\n{evidence_block}"
     )
@@ -270,10 +282,33 @@ def _pass3_synthesise_answer(
     return _groq_call(
         messages,
         model=MAIN_MODEL,
-        temperature=0.3,
+        temperature=0.0,
         max_tokens=1500,
         label="pass3-synthesis",
     )
+
+
+def _strip_markdown(text: str) -> str:
+    """Remove markdown decorations the plain-text frontend cannot render, so a
+    stray '**bold**' or '### heading' from the model never reaches the user as
+    literal symbols. Keeps hyphen bullets and the text content intact."""
+    if not text:
+        return text
+    # Bold/italic: **x** __x__ *x* _x_  ->  x
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"__([^_]+)__", r"\1", text)
+    text = re.sub(r"(?<!\w)\*([^*\n]+)\*(?!\w)", r"\1", text)
+    text = re.sub(r"(?<!\w)_([^_\n]+)_(?!\w)", r"\1", text)
+    # Inline code `x` -> x
+    text = re.sub(r"`([^`]+)`", r"\1", text)
+    # Leading heading markers and blockquotes at line start
+    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
+    text = re.sub(r"(?m)^\s{0,3}>\s?", "", text)
+    # Normalise markdown bullets (* or +) to a hyphen
+    text = re.sub(r"(?m)^(\s*)[*+]\s+", r"\1- ", text)
+    # Collapse 3+ blank lines
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def run_agentic_pipeline(
@@ -299,4 +334,8 @@ def run_agentic_pipeline(
     answer = _pass3_synthesise_answer(
         user_message, intent, evidence, conversation_history
     )
+    # Keep the refusal token exact for matching; clean everything else so no
+    # raw markdown reaches the plain-text frontend.
+    if answer and REFUSAL_TOKEN not in answer:
+        answer = _strip_markdown(answer)
     return answer
