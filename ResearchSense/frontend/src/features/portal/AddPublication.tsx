@@ -130,6 +130,11 @@ export function AddPublication({ onAdded }: { onAdded: () => void }) {
                   Already in the database{preview.duplicate_of
                     ? ` as "${preview.duplicate_of}"` : ""}.
                 </p>
+              ) : !preview.authorship_ok ? (
+                <p className={styles.error}>
+                  {preview.authorship_message ??
+                    "You do not appear in this paper's author list."}
+                </p>
               ) : (
                 <button className={styles.primary} disabled={busy}
                         onClick={confirmDoi}>

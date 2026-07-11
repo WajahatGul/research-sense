@@ -89,10 +89,11 @@ def doi_preview(
     payload: DoiRequest,
     token_payload: dict = Depends(current_user),
 ):
-    """Step 1 of DOI submission: fetch Crossref metadata for verification."""
-    _submitting_researcher(token_payload)  # auth gate only
+    """Step 1 of DOI submission: registry metadata + authorship verdict."""
+    researcher = _submitting_researcher(token_payload)
     try:
-        return submission_service.preview_doi(payload.doi)
+        return submission_service.preview_doi(
+            payload.doi, researcher, token_payload.get("sub"))
     except SubmissionError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
 
@@ -102,10 +103,12 @@ def doi_submit(
     payload: DoiRequest,
     token_payload: dict = Depends(current_user),
 ):
-    """Step 2 of DOI submission: verified by the user — store the record."""
+    """Step 2 of DOI submission: verified by the user — store the record.
+    Authorship is re-verified server-side; the preview verdict is advisory."""
     researcher = _submitting_researcher(token_payload)
     try:
-        record = submission_service.submit_doi(payload.doi, researcher)
+        record = submission_service.submit_doi(
+            payload.doi, researcher, token_payload.get("sub"))
     except SubmissionError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
     return SubmissionResult(

@@ -73,11 +73,13 @@ def _fetch_crossref(doi: str) -> dict | None:
     if not title:
         return None
 
-    authors = [
-        " ".join(filter(None, [a.get("given"), a.get("family")])).strip()
-        for a in msg.get("author", []) or []
-    ]
-    authors = [a for a in authors if a]
+    authors, author_orcids = [], []
+    for a in msg.get("author", []) or []:
+        name = " ".join(filter(None, [a.get("given"), a.get("family")])).strip()
+        if name:
+            authors.append(name)
+        if a.get("ORCID"):
+            author_orcids.append(a["ORCID"])
 
     date_parts = ((msg.get("published-print") or msg.get("published-online")
                    or msg.get("issued") or {}).get("date-parts") or [[None]])
@@ -91,6 +93,7 @@ def _fetch_crossref(doi: str) -> dict | None:
         "doi": doi,
         "title": title,
         "authors": authors,
+        "author_orcids": author_orcids,
         "publication_year": int(year) if year else 0,
         "journal_name": venue or "Preprint or unindexed venue",
         "publication_type": pub_type,
@@ -116,7 +119,7 @@ def _fetch_datacite(doi: str) -> dict | None:
     if not title:
         return None
 
-    authors = []
+    authors, author_orcids = [], []
     for c in attrs.get("creators") or []:
         name = (" ".join(filter(None, [c.get("givenName"), c.get("familyName")]))
                 or c.get("name") or "").strip()
@@ -126,6 +129,9 @@ def _fetch_datacite(doi: str) -> dict | None:
             name = f"{given.strip()} {family.strip()}".strip()
         if name:
             authors.append(name)
+        for ident in c.get("nameIdentifiers") or []:
+            if (ident.get("nameIdentifierScheme") or "").upper() == "ORCID":
+                author_orcids.append(ident.get("nameIdentifier") or "")
 
     abstract = " ".join(
         d.get("description", "") for d in attrs.get("descriptions") or []
@@ -135,6 +141,7 @@ def _fetch_datacite(doi: str) -> dict | None:
         "doi": doi,
         "title": title,
         "authors": authors,
+        "author_orcids": author_orcids,
         "publication_year": int(attrs.get("publicationYear") or 0),
         "journal_name": (attrs.get("container") or {}).get("title")
                         or attrs.get("publisher")
@@ -145,30 +152,37 @@ def _fetch_datacite(doi: str) -> dict | None:
     }
 
 
-def _fetch_openalex_concepts(doi: str) -> list[str]:
-    """Concept fingerprint from OpenAlex: their ML-assigned concepts for this
-    DOI (a free analogue of a commercial fingerprint engine). Best-effort —
-    an OpenAlex miss never blocks a submission."""
+def _fetch_openalex_extras(doi: str) -> dict:
+    """OpenAlex enrichment: the concept fingerprint (their ML-assigned
+    concepts — a free analogue of a commercial fingerprint engine) plus any
+    author ORCID iDs. Best-effort — an OpenAlex miss never blocks anything."""
+    empty = {"concepts": [], "author_orcids": []}
     try:
         resp = httpx.get(f"{OPENALEX_API}/https://doi.org/{doi}",
                          headers=HEADERS, timeout=20, follow_redirects=True)
         if resp.status_code != 200:
-            return []
+            return empty
         work = resp.json()
     except (httpx.HTTPError, ValueError):
-        return []
+        return empty
     concepts = [
         c.get("display_name", "")
         for c in sorted(work.get("concepts") or [],
                         key=lambda c: c.get("score") or 0, reverse=True)
         if (c.get("score") or 0) >= 0.3
     ]
-    return [c for c in concepts if c][:6]
+    orcids = [
+        (a.get("author") or {}).get("orcid") or ""
+        for a in work.get("authorships") or []
+    ]
+    return {"concepts": [c for c in concepts if c][:6],
+            "author_orcids": [o for o in orcids if o]}
 
 
 def fetch_doi_metadata(doi: str) -> dict:
     """Resolve a DOI: Crossref first, DataCite as fallback, then enrich with
-    OpenAlex concepts. Raises SubmissionError when no registry knows the DOI.
+    OpenAlex concepts + author ORCIDs. Raises SubmissionError when no
+    registry knows the DOI.
     """
     doi = _norm_doi(doi)
     if not re.match(r"^10\.\d{4,9}/\S+$", doi):
@@ -178,8 +192,93 @@ def fetch_doi_metadata(doi: str) -> dict:
     if meta is None:
         raise SubmissionError(
             "Neither Crossref nor DataCite has a record for that DOI.")
-    meta["concepts"] = _fetch_openalex_concepts(doi)
+    extras = _fetch_openalex_extras(doi)
+    meta["concepts"] = extras["concepts"]
+    meta["author_orcids"] = (meta.get("author_orcids") or []) + extras["author_orcids"]
     return meta
+
+
+# ---------------------------------------------------------------------------
+# Authorship verification (the submitter must be an author of the paper)
+# ---------------------------------------------------------------------------
+
+# Transliteration variants + connector particles, same family as the ORCID
+# verification so both identity checks agree.
+_VARIANTS = {
+    "rehman": "rahman", "rahmaan": "rahman",
+    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
+    "muhammd": "muhammad", "mohd": "muhammad",
+    "sayed": "syed", "sayyed": "syed",
+    "husain": "hussain", "hussein": "hussain",
+    "othman": "usman", "uthman": "usman",
+    "fatimah": "fatima",
+}
+_PARTICLES = {"ur", "ul", "al", "bin", "binti", "ibn", "abu", "el", "de"}
+
+
+def _norm_orcid_id(orcid: str) -> str:
+    return re.sub(r"^https?://(www\.)?orcid\.org/", "", orcid.strip()).upper()
+
+
+def _name_parts(name: str) -> tuple[set[str], set[str], set[str]]:
+    """(identifying tokens, single-letter initials, first letters of ALL
+    tokens including particles) for authorship matching. Particles count for
+    initials — 'A. U. Rahman' abbreviates the 'Ur' in 'Arif Ur Rahman'."""
+    name = re.sub(r"^(dr|mr|ms|mrs|prof|professor|engr)\.?\s+", "",
+                  name.strip(), flags=re.I)
+    raw = re.findall(r"[a-zA-Z]+", name.lower())
+    full = {_VARIANTS.get(t, t) for t in raw
+            if len(t) >= 2 and t not in _PARTICLES}
+    initials = {t for t in raw if len(t) == 1}
+    first_letters = {t[0] for t in raw}
+    return full, initials, first_letters
+
+
+def _author_matches(roster_name: str, author_name: str) -> bool:
+    """Does this paper author plausibly equal this roster researcher?
+
+    Handles initials ("A. Rahman"), missing middle names, particles, and
+    transliteration variants. A single shared surname alone is NOT enough —
+    it must be backed by compatible initials.
+    """
+    r_full, _, r_letters = _name_parts(roster_name)
+    a_full, a_init, _ = _name_parts(author_name)
+    if not r_full or not a_full:
+        return False
+    if len(r_full & a_full) >= 2:
+        return True
+    # One name contained in the other, both carrying 2+ identifying tokens
+    # ("Arif Rahman" vs "Arif Ur Rahman Khan").
+    if (r_full <= a_full or a_full <= r_full) and min(len(r_full), len(a_full)) >= 2:
+        return True
+    # Initials style ("A. Rahman", "A. U. Rahman"): shared surname + every
+    # initial matches the first letter of some roster token (particles too).
+    if r_full & a_full and a_init:
+        return a_init <= r_letters
+    return False
+
+
+def verify_authorship(meta: dict, submitter: dict,
+                      submitter_orcid: str | None) -> str:
+    """Confirm the submitter is an author of the paper described by meta.
+
+    Returns how they matched ("orcid" or "name"); raises SubmissionError when
+    they do not appear in the author list. Mirrors the attribution guard the
+    bulk OpenAlex pipeline applies, so both ingestion paths share one
+    integrity standard.
+    """
+    if submitter_orcid:
+        paper_orcids = {_norm_orcid_id(o)
+                        for o in meta.get("author_orcids") or [] if o}
+        if _norm_orcid_id(submitter_orcid) in paper_orcids:
+            return "orcid"
+    for name in meta.get("authors") or []:
+        if _author_matches(submitter["full_name"], name):
+            return "name"
+    shown = ", ".join((meta.get("authors") or [])[:6]) or "no public author list"
+    raise SubmissionError(
+        f"Your name does not appear in this paper's author list ({shown}). "
+        f"You can only add publications you authored.")
 
 
 # ---------------------------------------------------------------------------
@@ -225,21 +324,29 @@ def _topics_for(title: str, abstract: str,
 
 
 def _link_authors(author_names: list[str], submitter: dict) -> list[dict]:
-    """Link author names to the researcher roster; ensure the submitter is
-    linked even if their name is spelled differently on the paper."""
+    """Link author names to the researcher roster. The submitter is linked to
+    THEIR OWN entry in the paper's author list (matched fuzzily — initials,
+    variants), never appended as an extra author. Only the manual path, which
+    has no author metadata at all, records the submitter directly."""
     roster = {_name_key(r["full_name"]): r["researcher_id"]
               for r in loader.load("researchers")}
     authors, linked_ids = [], set()
     for order, name in enumerate(author_names[:12], start=1):
         rid = roster.get(_name_key(name))
+        # The submitter's name on the paper may differ from the roster form
+        # ("A. Rahman" / "Arif Rahman") — claim exactly one matching entry.
+        if (rid is None and submitter["researcher_id"] not in linked_ids
+                and _author_matches(submitter["full_name"], name)):
+            rid = submitter["researcher_id"]
         if rid is not None:
             linked_ids.add(rid)
         authors.append({"researcher_id": rid, "full_name": name, "order": order})
-    if submitter["researcher_id"] not in linked_ids:
+    if not author_names:
+        # Manual entry (no metadata): the submitter records their own paper.
         authors.append({
             "researcher_id": submitter["researcher_id"],
             "full_name": submitter["full_name"],
-            "order": len(authors) + 1,
+            "order": 1,
         })
     return authors
 
@@ -328,24 +435,39 @@ def _bump_researcher_counts(record: dict) -> None:
 # Public entry points
 # ---------------------------------------------------------------------------
 
-def preview_doi(doi: str) -> dict:
-    """Metadata preview for the verify step; flags duplicates and shows the
-    topic fingerprint (matched topics + OpenAlex concepts)."""
+def preview_doi(doi: str, submitter: dict | None = None,
+                submitter_orcid: str | None = None) -> dict:
+    """Metadata preview for the verify step: duplicates, the topic
+    fingerprint, and the authorship verdict (so the user learns they cannot
+    submit someone else's paper BEFORE clicking confirm)."""
     meta = fetch_doi_metadata(doi)
     dup = find_duplicate(meta["doi"], meta["title"])
     topics = _topics_for(meta["title"], meta.get("abstract", ""),
                          meta.get("concepts"))
+    authorship_ok, authorship_message = True, None
+    if submitter is not None:
+        try:
+            verify_authorship(meta, submitter, submitter_orcid)
+        except SubmissionError as exc:
+            authorship_ok, authorship_message = False, str(exc)
     return {**meta, "duplicate": bool(dup),
             "duplicate_of": dup["title"] if dup else None,
-            "topics": [t["topic_name"] for t in topics]}
+            "topics": [t["topic_name"] for t in topics],
+            "authorship_ok": authorship_ok,
+            "authorship_message": authorship_message}
 
 
-def submit_doi(doi: str, submitter: dict) -> dict:
-    """Create a publication from a DOI for the submitting researcher."""
+def submit_doi(doi: str, submitter: dict,
+               submitter_orcid: str | None = None) -> dict:
+    """Create a publication from a DOI for the submitting researcher.
+
+    The submitter must appear in the paper's author list (ORCID or name
+    match) — the same attribution standard as the bulk pipeline."""
     meta = fetch_doi_metadata(doi)
     if find_duplicate(meta["doi"], meta["title"]):
         raise SubmissionError(
             "This publication is already in the database.")
+    verify_authorship(meta, submitter, submitter_orcid)
     return _create(meta, submitter, source="doi")
 
 
@@ -371,6 +493,16 @@ def submit_manual(title: str, journal_name: str, publication_year: int,
 
 
 def _create(meta: dict, submitter: dict, source: str) -> dict:
+    authors = _link_authors(meta.get("authors", []), submitter)
+    if not any(a.get("researcher_id") == submitter["researcher_id"]
+               for a in authors):
+        # Verified as an author (e.g. by ORCID) but the name form on the
+        # paper defeated fuzzy matching — record the attribution explicitly.
+        authors.append({
+            "researcher_id": submitter["researcher_id"],
+            "full_name": submitter["full_name"],
+            "order": len(authors) + 1,
+        })
     record = {
         "publication_id": 0,  # assigned in _persist
         "title": meta["title"],
@@ -381,7 +513,7 @@ def _create(meta: dict, submitter: dict, source: str) -> dict:
         "publication_type": meta["publication_type"],
         "citation_count": meta.get("citation_count", 0),
         "campus": submitter.get("campus", ""),
-        "authors": _link_authors(meta.get("authors", []), submitter),
+        "authors": authors,
         "topics": _topics_for(meta["title"], meta.get("abstract", ""),
                               meta.get("concepts")),
         "source": source,

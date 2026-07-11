@@ -26,6 +26,9 @@ class DoiPreview(BaseModel):
     topics: list[str] = []
     duplicate: bool
     duplicate_of: str | None = None
+    # False when the submitting researcher is not in the paper's author list.
+    authorship_ok: bool = True
+    authorship_message: str | None = None
 
 
 class ManualSubmission(BaseModel):

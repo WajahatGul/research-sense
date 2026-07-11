@@ -85,6 +85,8 @@ export interface DoiPreview {
   topics: string[];
   duplicate: boolean;
   duplicate_of: string | null;
+  authorship_ok: boolean;
+  authorship_message: string | null;
 }
 
 export interface SubmissionResult {
