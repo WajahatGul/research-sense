@@ -81,6 +81,8 @@ export interface DoiPreview {
   publication_type: string;
   citation_count: number;
   abstract: string;
+  concepts: string[];
+  topics: string[];
   duplicate: boolean;
   duplicate_of: string | null;
 }

@@ -11,7 +11,8 @@ class DoiRequest(BaseModel):
 
 
 class DoiPreview(BaseModel):
-    """Normalized Crossref metadata shown at the verify step."""
+    """Normalized registry metadata (Crossref, DataCite fallback) shown at
+    the verify step, with the OpenAlex concept fingerprint."""
 
     doi: str
     title: str
@@ -21,6 +22,8 @@ class DoiPreview(BaseModel):
     publication_type: str
     citation_count: int
     abstract: str
+    concepts: list[str] = []
+    topics: list[str] = []
     duplicate: bool
     duplicate_of: str | None = None
 

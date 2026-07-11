@@ -23,6 +23,8 @@ from app.repositories import loader
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 CROSSREF_API = "https://api.crossref.org/works"
+DATACITE_API = "https://api.datacite.org/dois"
+OPENALEX_API = "https://api.openalex.org/works"
 HEADERS = {"User-Agent": "ResearchSense/0.1 (mailto:dev@stocklenshq.com)"}
 
 
@@ -51,32 +53,25 @@ def _strip_jats(text: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Crossref metadata retrieval
+# DOI metadata retrieval: Crossref, DataCite fallback, OpenAlex concepts
 # ---------------------------------------------------------------------------
 
-def fetch_doi_metadata(doi: str) -> dict:
-    """Fetch and normalize Crossref metadata for a DOI.
-
-    Raises SubmissionError when the DOI cannot be resolved.
-    """
-    doi = _norm_doi(doi)
-    if not re.match(r"^10\.\d{4,9}/\S+$", doi):
-        raise SubmissionError("That does not look like a valid DOI "
-                              "(expected e.g. 10.1234/abcd.5678).")
+def _fetch_crossref(doi: str) -> dict | None:
+    """Crossref record for a DOI, or None when Crossref has no record."""
     try:
         resp = httpx.get(f"{CROSSREF_API}/{doi}", headers=HEADERS, timeout=30,
                          follow_redirects=True)
     except httpx.HTTPError as exc:
         raise SubmissionError(f"Could not reach Crossref: {exc}") from exc
     if resp.status_code == 404:
-        raise SubmissionError("Crossref has no record for that DOI.")
+        return None
     if resp.status_code != 200:
         raise SubmissionError(f"Crossref lookup failed (HTTP {resp.status_code}).")
 
     msg = resp.json().get("message", {})
     title = " ".join(msg.get("title") or []).strip()
     if not title:
-        raise SubmissionError("The Crossref record has no title.")
+        return None
 
     authors = [
         " ".join(filter(None, [a.get("given"), a.get("family")])).strip()
@@ -104,6 +99,89 @@ def fetch_doi_metadata(doi: str) -> dict:
     }
 
 
+def _fetch_datacite(doi: str) -> dict | None:
+    """DataCite record fallback (datasets, preprints, Zenodo, etc.)."""
+    try:
+        resp = httpx.get(f"{DATACITE_API}/{doi}", headers=HEADERS, timeout=30,
+                         follow_redirects=True)
+    except httpx.HTTPError as exc:
+        raise SubmissionError(f"Could not reach DataCite: {exc}") from exc
+    if resp.status_code == 404:
+        return None
+    if resp.status_code != 200:
+        raise SubmissionError(f"DataCite lookup failed (HTTP {resp.status_code}).")
+
+    attrs = (resp.json().get("data") or {}).get("attributes") or {}
+    title = " ".join(t.get("title", "") for t in attrs.get("titles") or []).strip()
+    if not title:
+        return None
+
+    authors = []
+    for c in attrs.get("creators") or []:
+        name = (" ".join(filter(None, [c.get("givenName"), c.get("familyName")]))
+                or c.get("name") or "").strip()
+        # DataCite "name" is often "Family, Given" — normalise the comma form.
+        if "," in name:
+            family, _, given = name.partition(",")
+            name = f"{given.strip()} {family.strip()}".strip()
+        if name:
+            authors.append(name)
+
+    abstract = " ".join(
+        d.get("description", "") for d in attrs.get("descriptions") or []
+        if d.get("descriptionType") in (None, "Abstract"))
+
+    return {
+        "doi": doi,
+        "title": title,
+        "authors": authors,
+        "publication_year": int(attrs.get("publicationYear") or 0),
+        "journal_name": (attrs.get("container") or {}).get("title")
+                        or attrs.get("publisher")
+                        or "Preprint or unindexed venue",
+        "publication_type": "journal",
+        "citation_count": int(attrs.get("citationCount") or 0),
+        "abstract": _strip_jats(abstract)[:700],
+    }
+
+
+def _fetch_openalex_concepts(doi: str) -> list[str]:
+    """Concept fingerprint from OpenAlex: their ML-assigned concepts for this
+    DOI (a free analogue of a commercial fingerprint engine). Best-effort —
+    an OpenAlex miss never blocks a submission."""
+    try:
+        resp = httpx.get(f"{OPENALEX_API}/https://doi.org/{doi}",
+                         headers=HEADERS, timeout=20, follow_redirects=True)
+        if resp.status_code != 200:
+            return []
+        work = resp.json()
+    except (httpx.HTTPError, ValueError):
+        return []
+    concepts = [
+        c.get("display_name", "")
+        for c in sorted(work.get("concepts") or [],
+                        key=lambda c: c.get("score") or 0, reverse=True)
+        if (c.get("score") or 0) >= 0.3
+    ]
+    return [c for c in concepts if c][:6]
+
+
+def fetch_doi_metadata(doi: str) -> dict:
+    """Resolve a DOI: Crossref first, DataCite as fallback, then enrich with
+    OpenAlex concepts. Raises SubmissionError when no registry knows the DOI.
+    """
+    doi = _norm_doi(doi)
+    if not re.match(r"^10\.\d{4,9}/\S+$", doi):
+        raise SubmissionError("That does not look like a valid DOI "
+                              "(expected e.g. 10.1234/abcd.5678).")
+    meta = _fetch_crossref(doi) or _fetch_datacite(doi)
+    if meta is None:
+        raise SubmissionError(
+            "Neither Crossref nor DataCite has a record for that DOI.")
+    meta["concepts"] = _fetch_openalex_concepts(doi)
+    return meta
+
+
 # ---------------------------------------------------------------------------
 # Duplicate detection
 # ---------------------------------------------------------------------------
@@ -124,12 +202,19 @@ def find_duplicate(doi: str | None, title: str) -> dict | None:
 # Record building + persistence
 # ---------------------------------------------------------------------------
 
-def _topics_for(title: str, abstract: str) -> list[dict]:
-    """Match the publication text against the topic catalogue keywords."""
+def _topics_for(title: str, abstract: str,
+                concepts: list[str] | None = None) -> list[dict]:
+    """Match the publication text against the topic catalogue keywords.
+
+    OpenAlex concepts (the DOI's ML-assigned fingerprint) are folded into the
+    matching text, so a paper whose title never says "deep learning" still
+    lands in the right topic when its concepts do.
+    """
     from scripts.build_seed import TOPIC_CATALOGUE  # same source as pipeline
 
     topic_ids = {t["topic_name"]: t["topic_id"] for t in loader.load("topics")}
-    text = f" {title.lower()} {abstract.lower()} "
+    concept_text = " ".join(concepts or [])
+    text = f" {title.lower()} {abstract.lower()} {concept_text.lower()} "
     chosen = []
     for name, _icon, keywords in TOPIC_CATALOGUE:
         if name in topic_ids and any(k in text for k in keywords):
@@ -244,11 +329,15 @@ def _bump_researcher_counts(record: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def preview_doi(doi: str) -> dict:
-    """Metadata preview for the verify step; flags duplicates."""
+    """Metadata preview for the verify step; flags duplicates and shows the
+    topic fingerprint (matched topics + OpenAlex concepts)."""
     meta = fetch_doi_metadata(doi)
     dup = find_duplicate(meta["doi"], meta["title"])
+    topics = _topics_for(meta["title"], meta.get("abstract", ""),
+                         meta.get("concepts"))
     return {**meta, "duplicate": bool(dup),
-            "duplicate_of": dup["title"] if dup else None}
+            "duplicate_of": dup["title"] if dup else None,
+            "topics": [t["topic_name"] for t in topics]}
 
 
 def submit_doi(doi: str, submitter: dict) -> dict:
@@ -293,7 +382,8 @@ def _create(meta: dict, submitter: dict, source: str) -> dict:
         "citation_count": meta.get("citation_count", 0),
         "campus": submitter.get("campus", ""),
         "authors": _link_authors(meta.get("authors", []), submitter),
-        "topics": _topics_for(meta["title"], meta.get("abstract", "")),
+        "topics": _topics_for(meta["title"], meta.get("abstract", ""),
+                              meta.get("concepts")),
         "source": source,
     }
     record = _persist(record)

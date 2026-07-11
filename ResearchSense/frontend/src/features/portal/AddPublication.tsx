@@ -115,6 +115,16 @@ export function AddPublication({ onAdded }: { onAdded: () => void }) {
                 {preview.publication_type} ·{" "}
                 {preview.citation_count.toLocaleString()} citations
               </p>
+              {preview.topics.length > 0 && (
+                <p className={styles.previewMeta}>
+                  Topics: {preview.topics.join(", ")}
+                </p>
+              )}
+              {preview.concepts.length > 0 && (
+                <p className={styles.previewMeta}>
+                  Concept fingerprint: {preview.concepts.join(" · ")}
+                </p>
+              )}
               {preview.duplicate ? (
                 <p className={styles.error}>
                   Already in the database{preview.duplicate_of
