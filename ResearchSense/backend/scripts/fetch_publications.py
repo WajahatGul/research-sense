@@ -162,6 +162,30 @@ def main() -> None:
             "source": "openalex",
         })
 
+    # Re-merge faculty-submitted publications (DOI-based / manual entries from
+    # the portal) so a refresh never wipes them. Dedupe by DOI, then title.
+    submitted_path = DATA_DIR / "submitted_publications.json"
+    if submitted_path.exists():
+        submitted = json.loads(submitted_path.read_text("utf-8"))
+        have_dois = {(p.get("doi") or "").lower() for p in publications if p.get("doi")}
+        have_titles = {re.sub(r"[^a-z0-9]", "", p["title"].lower())
+                       for p in publications}
+        merged = 0
+        for s in submitted:
+            doi = (s.get("doi") or "").lower()
+            title_key = re.sub(r"[^a-z0-9]", "", s["title"].lower())
+            if (doi and doi in have_dois) or title_key in have_titles:
+                continue  # OpenAlex now covers it — keep the fetched version
+            s["publication_id"] = len(publications) + 1
+            publications.append(s)
+            for a in s.get("authors", []):
+                rid = a.get("researcher_id")
+                if rid in pub_stats:
+                    pub_stats[rid].append(s.get("citation_count", 0))
+            merged += 1
+        if merged:
+            print(f"  re-merged {merged} faculty-submitted publication(s)")
+
     # Update researcher counts from real works.
     for r in researchers:
         cites = pub_stats.get(r["researcher_id"], [])

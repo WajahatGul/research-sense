@@ -201,3 +201,33 @@
   color: var(--faint);
   font-size: 0.8rem;
 }
+
+/* --- Publication submission (DOI preview + manual entry) --- */
+
+.preview {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper, #fafbfc);
+  display: grid;
+  gap: 6px;
+}
+
+.previewTitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.previewMeta {
+  margin: 0;
+  color: var(--faint);
+  font-size: 0.84rem;
+}
+
+.rowPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import type { Me } from "../../api/auth";
 import { uploadPaper } from "../../api/auth";
+import { AddPublication } from "./AddPublication";
 import styles from "./portal.module.css";
 
 export function FacultyDashboard({ me, onChanged, onSignOut }: {
@@ -47,6 +48,8 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
         </div>
         <button className={styles.secondary} onClick={onSignOut}>Sign out</button>
       </div>
+
+      <AddPublication onAdded={onChanged} />
 
       <section className={styles.section}>
         <h3 className={styles.h3}>Upload a paper</h3>

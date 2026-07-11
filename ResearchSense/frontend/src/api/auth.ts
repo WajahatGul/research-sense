@@ -70,6 +70,53 @@ export async function uploadPaper(title: string, file: File) {
   return data as { status: string; chunks_added: number; message: string };
 }
 
+// --- publication submission (DOI-based + manual, proposal ingestion) ---
+
+export interface DoiPreview {
+  doi: string;
+  title: string;
+  authors: string[];
+  publication_year: number;
+  journal_name: string;
+  publication_type: string;
+  citation_count: number;
+  abstract: string;
+  duplicate: boolean;
+  duplicate_of: string | null;
+}
+
+export interface SubmissionResult {
+  publication_id: number;
+  title: string;
+  publication_year: number;
+  journal_name: string;
+  message: string;
+}
+
+async function authedPost<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail ?? "Request failed");
+  return data as T;
+}
+
+export const previewDoi = (doi: string) =>
+  authedPost<DoiPreview>("/api/papers/doi/preview", { doi });
+
+export const submitDoi = (doi: string) =>
+  authedPost<SubmissionResult>("/api/papers/doi/submit", { doi });
+
+export const submitManualPublication = (fields: {
+  title: string;
+  journal_name: string;
+  publication_year: number;
+  publication_type: string;
+}) => authedPost<SubmissionResult>("/api/papers/manual", fields);
+
 export async function fetchAdminAccounts(): Promise<ClaimedAccount[]> {
   const res = await fetch("/api/admin/accounts", { headers: authHeaders() });
   if (!res.ok) throw new Error("Admin access required");
