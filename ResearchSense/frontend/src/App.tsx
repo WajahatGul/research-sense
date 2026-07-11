@@ -9,6 +9,7 @@ import Topics from "./pages/Topics";
 import Projects from "./pages/Projects";
 import Collaboration from "./pages/Collaboration";
 import Analytics from "./pages/Analytics";
+import Library from "./pages/Library";
 import Portal from "./pages/Portal";
 import Ask from "./pages/Ask";
 import NotFound from "./pages/NotFound";
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/analytics" element={<Analytics />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/portal" element={<Portal />} />
         <Route path="/ask" element={<Ask />} />
         <Route path="*" element={<NotFound />} />

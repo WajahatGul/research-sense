@@ -208,3 +208,24 @@
     text-align: left;
   }
 }
+
+.pubLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pubLink:hover {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+.pubAction {
+  color: var(--navy);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pubAction:hover {
+  text-decoration: underline;
+}

@@ -58,6 +58,7 @@ export interface PublicationRef {
   publication_year: number;
   journal_name: string;
   citation_count: number;
+  doi: string | null;
 }
 
 export interface Researcher {

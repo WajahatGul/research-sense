@@ -13,6 +13,7 @@ from app.routers import (
     analytics,
     auth,
     chat,
+    library,
     papers,
     projects,
     publications,
@@ -43,7 +44,7 @@ def create_app() -> FastAPI:
     )
 
     for module in (stats, researchers, publications, topics, projects, chat,
-                   auth, papers, admin, analytics):
+                   auth, papers, admin, analytics, library):
         app.include_router(module.router)
 
     @app.get("/api/health", tags=["health"])

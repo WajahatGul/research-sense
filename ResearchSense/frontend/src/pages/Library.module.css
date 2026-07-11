@@ -1,0 +1,98 @@
+.body {
+  padding-top: 32px;
+  padding-bottom: 56px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.cardMain {
+  min-width: 0;
+  flex: 1 1 320px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ask {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.ask:hover {
+  opacity: 0.92;
+}
+
+.remove {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: none;
+  color: var(--muted);
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.remove:hover {
+  color: #b4232a;
+  border-color: #b4232a;
+}
+
+.link {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+.error {
+  color: #b4232a;
+  font-size: 0.9rem;
+}
+
+.empty {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.emptyHint {
+  font-size: 0.9rem;
+}

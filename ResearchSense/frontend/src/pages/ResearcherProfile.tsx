@@ -78,11 +78,36 @@ export default function ResearcherProfile() {
             <ul className={styles.pubs}>
               {data.publications.map((p) => (
                 <li key={p.publication_id} className={styles.pub}>
-                  <span className={styles.pubTitle}>{p.title}</span>
+                  <span className={styles.pubTitle}>
+                    {p.doi ? (
+                      <a href={`https://doi.org/${p.doi}`} target="_blank"
+                         rel="noreferrer" className={styles.pubLink}
+                         title="Open the paper at its publisher (via DOI)">
+                        {p.title}
+                      </a>
+                    ) : p.title}
+                  </span>
                   <span className={styles.pubMeta}>
                     <span className="mono">{p.publication_year}</span> ·{" "}
                     {p.journal_name} ·{" "}
                     <span className="mono">{p.citation_count}</span> citations
+                    {" · "}
+                    {p.doi && (
+                      <>
+                        <a href={`https://doi.org/${p.doi}`} target="_blank"
+                           rel="noreferrer" className={styles.pubAction}>
+                          View paper ↗
+                        </a>
+                        {" · "}
+                      </>
+                    )}
+                    <Link
+                      to={`/ask?q=${encodeURIComponent(
+                        `Tell me about the paper "${p.title}"`)}`}
+                      className={styles.pubAction}
+                    >
+                      Ask AI
+                    </Link>
                   </span>
                 </li>
               ))}

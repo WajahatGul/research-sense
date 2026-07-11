@@ -197,3 +197,48 @@ def study_upload(data: bytes, title: str, added_by: int | None = None) -> dict:
     path = LIBRARY_DIR / _safe_filename(title)
     path.write_bytes(data)
     return _index_and_record(path, None, title, "n.d.", added_by)
+
+
+def list_library() -> list[dict]:
+    """All library entries, newest first."""
+    return sorted(_manifest(), key=lambda e: e.get("added_at", ""),
+                  reverse=True)
+
+
+def remove_paper(filename: str, requester_id: int | None,
+                 is_admin: bool) -> dict:
+    """Remove one library paper: its index chunks, manifest entry, and PDF.
+
+    Allowed for the researcher who added it and for admins.
+    """
+    entries = _manifest()
+    entry = next((e for e in entries if e["filename"] == filename), None)
+    if entry is None:
+        raise LibraryError("This paper is not in the library.")
+    if not is_admin and entry.get("added_by") != requester_id:
+        raise LibraryError(
+            "Only the person who added this paper (or an admin) can remove it.")
+
+    # Drop the paper's chunks from the live index. The label is deterministic
+    # (same formula as library_chunks), so it identifies exactly this paper.
+    import json as _json
+
+    import numpy as np
+
+    from app.services.rag.retriever import DATA_DIR as INDEX_DIR
+    from app.services.rag.retriever import Retriever
+
+    label = f"Library: {entry['title'][:60]} ({entry.get('year', 'n.d.')})"
+    chunks = _json.loads((INDEX_DIR / "rag_chunks.json").read_text("utf-8"))
+    vectors = np.load(INDEX_DIR / "rag_index.npz")["vectors"]
+    keep = [i for i, c in enumerate(chunks) if c.get("label") != label]
+    removed = len(chunks) - len(keep)
+    if removed:
+        (INDEX_DIR / "rag_chunks.json").write_text(
+            _json.dumps([chunks[i] for i in keep], ensure_ascii=False), "utf-8")
+        np.savez_compressed(INDEX_DIR / "rag_index.npz", vectors=vectors[keep])
+        Retriever.reset()
+
+    (LIBRARY_DIR / filename).unlink(missing_ok=True)
+    _save_manifest([e for e in entries if e["filename"] != filename])
+    return {"title": entry["title"], "chunks_removed": removed}

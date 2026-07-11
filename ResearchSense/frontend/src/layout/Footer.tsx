@@ -27,6 +27,7 @@ export default function Footer() {
         <nav className={styles.col}>
           <span className={styles.head}>Tools</span>
           <Link to="/collaboration">Collaboration finder</Link>
+          <Link to="/library">Library</Link>
           <Link to="/ask">Ask ResearchSense</Link>
         </nav>
 

@@ -76,6 +76,7 @@ class MockResearcherRepository(ResearcherRepository):
                     "publication_year": p["publication_year"],
                     "journal_name": p.get("journal_name", ""),
                     "citation_count": p.get("citation_count", 0),
+                    "doi": p.get("doi"),
                 })
         pubs.sort(key=lambda p: p["publication_year"], reverse=True)
         return pubs

@@ -39,3 +39,4 @@ class PublicationRef(BaseModel):
     publication_year: int
     journal_name: str = ""
     citation_count: int = 0
+    doi: str | None = None
