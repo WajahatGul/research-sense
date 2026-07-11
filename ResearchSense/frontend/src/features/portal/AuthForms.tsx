@@ -127,6 +127,10 @@ function ClaimForm({ onSubmit }: { onSubmit: Submit }) {
                pattern="\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
                onChange={(e) => setOrcid(e.target.value.trim())} />
       </label>
+      <p className={styles.hint}>
+        It must be your own iD: the name on the public ORCID record is
+        verified against the profile you are claiming.
+      </p>
       <label className={styles.label}>Choose a password (8+ characters)
         <input className={styles.input} type="password" value={password}
                required minLength={8}
