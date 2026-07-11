@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { studyDoi, studyUpload } from "../../api/auth";
 import styles from "./portal.module.css";
@@ -52,8 +53,9 @@ export function StudyPaper() {
     <section className={styles.section}>
       <h3 className={styles.h3}>Study a paper</h3>
       <p className={styles.hint}>
-        Add any paper — yours or not — to the assistant's library and ask
-        questions about it. It is not attributed to your profile.{" "}
+        Add any paper — yours or not — to the library, then ask about it on the{" "}
+        <Link to="/ask" className={styles.link}>Ask ResearchSense</Link> page.
+        It is not attributed to your profile.{" "}
         <button
           type="button"
           className={styles.link}
@@ -96,8 +98,27 @@ export function StudyPaper() {
         </form>
       )}
 
-      {status && <p className={styles.status}>{status}</p>}
-      {error && <p className={styles.error}>{error}</p>}
+      {status && (
+        <p className={styles.status}>
+          {status}{" "}
+          <Link to="/ask" className={styles.link}>
+            Open the assistant →
+          </Link>
+        </p>
+      )}
+      {error && (
+        <p className={styles.error}>
+          {error}
+          {error.toLowerCase().includes("already in the library") && (
+            <>
+              {" "}
+              <Link to="/ask" className={styles.link}>
+                Ask the assistant about it →
+              </Link>
+            </>
+          )}
+        </p>
+      )}
     </section>
   );
 }
