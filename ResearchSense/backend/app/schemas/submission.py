@@ -48,3 +48,11 @@ class SubmissionResult(BaseModel):
     publication_year: int
     journal_name: str
     message: str
+
+
+class StudyResult(BaseModel):
+    """A paper added to the assistant's library (no attribution)."""
+
+    title: str
+    chunks_added: int
+    message: str

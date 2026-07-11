@@ -11,8 +11,9 @@ from app.core.security import current_user
 from app.repositories import loader
 from app.repositories.accounts import AccountStore
 from app.schemas.submission import (DoiPreview, DoiRequest, ManualSubmission,
-                                    SubmissionResult)
-from app.services import submission_service
+                                    StudyResult, SubmissionResult)
+from app.services import library_service, submission_service
+from app.services.library_service import LibraryError
 from app.services.rag import indexer
 from app.services.submission_service import SubmissionError
 
@@ -145,4 +146,46 @@ def manual_submit(
         publication_year=record["publication_year"],
         journal_name=record["journal_name"],
         message="Publication added to your profile and the database.",
+    )
+
+
+@router.post("/study/doi", response_model=StudyResult)
+def study_doi(
+    payload: DoiRequest,
+    token_payload: dict = Depends(current_user),
+):
+    """Add ANY paper to the assistant's library by DOI — fetches the
+    open-access PDF and indexes its full text. No authorship required and no
+    profile attribution: this is for studying papers, not claiming them."""
+    researcher = _submitting_researcher(token_payload)
+    try:
+        result = library_service.study_doi(
+            payload.doi, added_by=researcher["researcher_id"])
+    except LibraryError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return StudyResult(
+        **result,
+        message=("Added to the library. Ask the assistant anything about "
+                 "this paper — it has read the full text."),
+    )
+
+
+@router.post("/study/upload", response_model=StudyResult)
+async def study_upload(
+    title: str = Form(min_length=5, max_length=300),
+    file: UploadFile = File(...),
+    token_payload: dict = Depends(current_user),
+):
+    """Library fallback for papers without an open-access PDF: upload it."""
+    researcher = _submitting_researcher(token_payload)
+    data = await file.read()
+    try:
+        result = library_service.study_upload(
+            data, title, added_by=researcher["researcher_id"])
+    except LibraryError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return StudyResult(
+        **result,
+        message=("Added to the library. Ask the assistant anything about "
+                 "this paper — it has read the full text."),
     )

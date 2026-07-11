@@ -6,6 +6,7 @@ import type { Me } from "../../api/auth";
 import { uploadPaper } from "../../api/auth";
 import { fetchPublications } from "../../api/publications";
 import { AddPublication } from "./AddPublication";
+import { StudyPaper } from "./StudyPaper";
 import styles from "./portal.module.css";
 
 export function FacultyDashboard({ me, onChanged, onSignOut }: {
@@ -98,11 +99,14 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
         )}
       </section>
 
+      <StudyPaper />
+
       <section className={styles.section}>
         <h3 className={styles.h3}>Upload a paper</h3>
         <p className={styles.hint}>
-          PDF up to 15 MB. It is added to the assistant's knowledge immediately,
-          so anyone can ask questions about it.
+          A PDF of your own paper, up to 15 MB. It is attributed to you and
+          added to the assistant's knowledge immediately. For papers that are
+          not yours, use "Study a paper" above.
         </p>
         <form className={styles.form} onSubmit={submit}>
           <label className={styles.label}>Paper title

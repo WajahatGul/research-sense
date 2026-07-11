@@ -168,6 +168,34 @@ def paper_chunks(researchers: list[dict]) -> list[dict]:
     return out
 
 
+def library_paper_chunks() -> list[dict]:
+    """Unattributed library papers ('study any paper'), recorded in
+    papers/library/library_manifest.json — re-included on every rebuild."""
+    manifest_path = PAPERS_DIR / "library" / "library_manifest.json"
+    if not manifest_path.exists():
+        return []
+    manifest = json.loads(manifest_path.read_text("utf-8"))
+    out = []
+    for paper in manifest:
+        path = PAPERS_DIR / "library" / paper["filename"]
+        try:
+            reader = PdfReader(path)
+            raw = " ".join((page.extract_text() or "") for page in reader.pages)
+            text = re.sub(r"\s+", " ", raw).strip()
+        except Exception as exc:  # noqa: BLE001 - skip unreadable files
+            print(f"  ! could not read library {paper['filename']}: {exc}")
+            continue
+        title, year = paper["title"], paper.get("year", "n.d.")
+        header = f"From the paper \"{title}\" ({year}) in the research library: "
+        out.extend({
+            "text": header + piece,
+            "kind": "paper",
+            "ref_id": None,
+            "label": f"Library: {title[:60]} ({year})",
+        } for piece in _split(text))
+    return out
+
+
 def main() -> None:
     print("Building RAG index...")
     researchers = load("researchers")
@@ -179,7 +207,10 @@ def main() -> None:
     )
     papers = paper_chunks(researchers)
     chunks += papers
-    print(f"  {len(chunks)} chunks ({len(papers)} from paper full text)")
+    library = library_paper_chunks()
+    chunks += library
+    print(f"  {len(chunks)} chunks ({len(papers)} from paper full text, "
+          f"{len(library)} from the library)")
 
     model = TextEmbedding(EMBED_MODEL)
     vectors = np.array(

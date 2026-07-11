@@ -28,31 +28,22 @@ def _split(text: str) -> list[str]:
     return [c.strip() for c in chunks if len(c.strip()) > 120]
 
 
-def add_paper(pdf_path: Path, title: str, author_name: str,
-              researcher_id: int) -> int:
-    """Index one uploaded paper. Returns the number of chunks added.
-
-    Raises ValueError when the PDF has no extractable text, so callers can
-    reject scanned/image-only files loudly instead of indexing nothing.
-    """
+def extract_pdf_text(pdf_path: Path) -> str:
+    """Full text of a PDF. Raises ValueError when nothing is extractable, so
+    callers can reject scanned/image-only files loudly."""
     reader = PdfReader(pdf_path)
     raw = " ".join((page.extract_text() or "") for page in reader.pages)
     text = re.sub(r"\s+", " ", raw).strip()
     if len(text) < 300:
         raise ValueError("The PDF contains no extractable text")
+    return text
 
-    header = f"From the paper \"{title}\" by {author_name}: "
-    new_chunks = [
-        {
-            "text": header + piece,
-            "kind": "paper",
-            "ref_id": researcher_id,
-            "label": f"Paper: {title[:70]} (uploaded)",
-        }
-        for piece in _split(text)
-    ]
+
+def append_chunks(new_chunks: list[dict]) -> int:
+    """Embed chunk dicts ({text, kind, ref_id, label}) and append them to the
+    live index; the retriever reloads on the next question."""
     if not new_chunks:
-        raise ValueError("The PDF is too short to index")
+        raise ValueError("Nothing to index")
 
     from fastembed import TextEmbedding  # deferred: slow import
 
@@ -72,3 +63,22 @@ def add_paper(pdf_path: Path, title: str, author_name: str,
 
     Retriever.reset()  # next question loads the updated index
     return len(new_chunks)
+
+
+def add_paper(pdf_path: Path, title: str, author_name: str,
+              researcher_id: int) -> int:
+    """Index one uploaded faculty paper (attributed). Returns chunks added."""
+    text = extract_pdf_text(pdf_path)
+    header = f"From the paper \"{title}\" by {author_name}: "
+    new_chunks = [
+        {
+            "text": header + piece,
+            "kind": "paper",
+            "ref_id": researcher_id,
+            "label": f"Paper: {title[:70]} (uploaded)",
+        }
+        for piece in _split(text)
+    ]
+    if not new_chunks:
+        raise ValueError("The PDF is too short to index")
+    return append_chunks(new_chunks)

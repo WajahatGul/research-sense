@@ -121,6 +121,31 @@ export const submitManualPublication = (fields: {
   publication_type: string;
 }) => authedPost<SubmissionResult>("/api/papers/manual", fields);
 
+// --- library: study any paper (no attribution) ---
+
+export interface StudyResult {
+  title: string;
+  chunks_added: number;
+  message: string;
+}
+
+export const studyDoi = (doi: string) =>
+  authedPost<StudyResult>("/api/papers/study/doi", { doi });
+
+export async function studyUpload(title: string, file: File) {
+  const body = new FormData();
+  body.append("title", title);
+  body.append("file", file);
+  const res = await fetch("/api/papers/study/upload", {
+    method: "POST",
+    headers: authHeaders(),
+    body,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail ?? "Upload failed");
+  return data as StudyResult;
+}
+
 export async function fetchAdminAccounts(): Promise<ClaimedAccount[]> {
   const res = await fetch("/api/admin/accounts", { headers: authHeaders() });
   if (!res.ok) throw new Error("Admin access required");
