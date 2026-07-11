@@ -96,20 +96,30 @@ function ClaimForm({ onSubmit }: { onSubmit: Submit }) {
                onChange={(e) => { setSearch(e.target.value); setSelected(null); }} />
       </label>
       {matches && selected == null && (
-        <ul className={styles.matches}>
-          {matches.items.map((r) => {
-            const taken = claimed?.includes(r.researcher_id);
-            return (
-              <li key={r.researcher_id}>
-                <button type="button" disabled={taken}
-                        className={styles.match}
-                        onClick={() => { setSelected(r.researcher_id); setSearch(r.full_name); }}>
-                  {r.full_name} · {r.campus} {taken && "(already claimed)"}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <p className={styles.hint}>
+            {matches.items.length === 0
+              ? "No matching researcher found — try a different spelling."
+              : "Click your name below to select your profile:"}
+          </p>
+          <ul className={styles.matches}>
+            {matches.items.map((r) => {
+              const taken = claimed?.includes(r.researcher_id);
+              return (
+                <li key={r.researcher_id}>
+                  <button type="button" disabled={taken}
+                          className={styles.match}
+                          onClick={() => { setSelected(r.researcher_id); setSearch(r.full_name); }}>
+                    {r.full_name} · {r.campus} {taken && "(already claimed)"}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+      {selected != null && (
+        <p className={styles.status}>Profile selected: {search} ✓</p>
       )}
       <label className={styles.label}>Your ORCID iD
         <input className={styles.input} value={orcid} required
@@ -122,9 +132,18 @@ function ClaimForm({ onSubmit }: { onSubmit: Submit }) {
                required minLength={8}
                onChange={(e) => setPassword(e.target.value)} />
       </label>
-      <button type="submit" className={styles.primary} disabled={selected == null}>
+      <button type="submit" className={styles.primary} disabled={selected == null}
+              title={selected == null
+                ? "First select your profile from the name search above"
+                : undefined}>
         Claim profile
       </button>
+      {selected == null && (
+        <p className={styles.hint}>
+          The button activates after you select your profile from the search
+          results above.
+        </p>
+      )}
     </form>
   );
 }
