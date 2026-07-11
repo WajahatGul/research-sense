@@ -30,10 +30,14 @@ class AuthService:
                 status_code=409, detail="This ORCID iD already has an account")
         # Identity check: the name on the public ORCID record must match the
         # profile being claimed, so nobody can claim someone else's profile.
-        try:
-            verify_claim(orcid_id, researcher.full_name)
-        except OrcidVerificationError as exc:
-            raise HTTPException(status_code=403, detail=str(exc))
+        # The DEV_ORCID iD from .env bypasses this for local testing.
+        from app.core.config import settings
+
+        if not (settings.dev_orcid and orcid_id == settings.dev_orcid):
+            try:
+                verify_claim(orcid_id, researcher.full_name)
+            except OrcidVerificationError as exc:
+                raise HTTPException(status_code=403, detail=str(exc))
         self._store.create_account(orcid_id, researcher_id, hash_password(password))
         return TokenResponse(
             token=create_token(orcid_id, "researcher"),

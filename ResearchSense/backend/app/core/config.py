@@ -29,6 +29,12 @@ class Settings:
     rag_score_threshold: float = float(os.getenv("RAG_SCORE_THRESHOLD", "0.38"))
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "12"))
 
+    # --- Developer/test account ---
+    # When set, claiming a profile with this exact ORCID iD skips the ORCID
+    # registry identity check. For local testing only; leave unset in
+    # production.
+    dev_orcid: str = os.getenv("DEV_ORCID", "")
+
     # --- Agentic pipeline (ported from Pdf_RAG_Chatbot) ---
     # Fast model for Pass 1 (intent) and Pass 2 (evidence extraction).
     groq_fast_model: str = os.getenv("GROQ_FAST_MODEL", "llama-3.1-8b-instant")
