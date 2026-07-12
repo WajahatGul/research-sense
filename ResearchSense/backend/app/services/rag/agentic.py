@@ -171,6 +171,61 @@ def _groq_call(
 # Multi-pass agentic pipeline
 # ---------------------------------------------------------------------------
 
+def normalize_query(user_message: str,
+                    conversation_history: List[Dict]) -> str:
+    """Pass 0 — Query understanding (fast model).
+
+    Rewrites a contextual follow-up ("and how?", "is it related to AI?",
+    "explain the second one") into a clean, self-contained question by
+    resolving pronouns and ellipsis against the recent conversation. Also
+    fixes typos and casual abbreviations (u=you, pprs=papers, rsrch=research).
+
+    Ported from Pdf_RAG_Chatbot's _pass0_understand_query. Only runs when
+    there IS conversation history to resolve against; returns the message
+    unchanged when normalization is unavailable or fails.
+    """
+    if not GROQ_API_KEYS or not conversation_history:
+        return user_message
+
+    snippet = " | ".join(
+        f"{m['role']}: {m['content'][:300]}"
+        for m in conversation_history[-6:]
+    )
+    system = (
+        "You are a query-understanding module for a university research "
+        "assistant chatbot. The user's message may contain typos, casual "
+        "abbreviations (u=you, ur=your, pprs/ppr=papers, rsrch/rsearch="
+        "research, q=question, info=information), and references to earlier "
+        "turns (it/this/that/them/those/'and how'/'why is that'). Use the "
+        "recent conversation to resolve those references and rewrite the "
+        "message as ONE clean, typo-free, fully self-contained question. "
+        "Keep every name, paper title, and topic explicitly. Respond with "
+        "ONLY a JSON object — no markdown.\n\n"
+        'JSON schema: {"normalized_query": "<self-contained rewrite>"}'
+    )
+    user_prompt = (
+        f"Recent conversation:\n{snippet}\n\n"
+        f"User message: {user_message}"
+    )
+    raw = _groq_call(
+        [{"role": "system", "content": system},
+         {"role": "user", "content": user_prompt}],
+        model=FAST_MODEL,
+        temperature=0.0,
+        max_tokens=200,
+        label="pass0-understand",
+    )
+    try:
+        raw = re.sub(r"```json|```", "", raw).strip()
+        norm = (json.loads(raw).get("normalized_query") or "").strip()
+        if norm:
+            print(f"  [pass0] {user_message!r} -> {norm!r}")
+            return norm
+    except (ValueError, TypeError):
+        pass
+    return user_message
+
+
 def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> Dict:
     """Pass 1 — Intent classification (fast model, tiny prompt)."""
     system = (

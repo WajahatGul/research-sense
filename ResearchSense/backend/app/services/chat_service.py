@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
+from app.services.rag.agentic import normalize_query
 from app.services.rag.generator import REFUSAL_MESSAGE, generate
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
 
@@ -50,6 +51,16 @@ class ChatService:
 
         if not Retriever.available():
             return ChatResponse(answer=INDEX_MISSING_MESSAGE)
+
+        # Pass 0: resolve a contextual follow-up ("and how?", "is it related to
+        # AI?", "what did he write?") into a self-contained question using the
+        # recent conversation, before any routing or retrieval. No-op on the
+        # first turn (no history) or when normalization is unavailable.
+        history_dicts = [
+            {"role": t.role, "content": t.content}
+            for t in history if t.role in ("user", "assistant")
+        ]
+        question = normalize_query(question, history_dicts)
 
         # Fast path: "what papers has X written?" is an authorship lookup, best
         # answered from the structured publications table (matching the profile
