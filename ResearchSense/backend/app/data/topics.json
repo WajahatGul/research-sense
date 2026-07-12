@@ -6,7 +6,7 @@
     "description": "Research and expertise in Artificial Intelligence at Bahria University.",
     "source": "sample",
     "researcher_count": 67,
-    "publication_count": 324
+    "publication_count": 422
   },
   {
     "topic_id": 2,
@@ -15,7 +15,7 @@
     "description": "Research and expertise in Machine Learning at Bahria University.",
     "source": "sample",
     "researcher_count": 71,
-    "publication_count": 188
+    "publication_count": 232
   },
   {
     "topic_id": 3,
@@ -24,7 +24,7 @@
     "description": "Research and expertise in Deep Learning at Bahria University.",
     "source": "sample",
     "researcher_count": 24,
-    "publication_count": 23
+    "publication_count": 29
   },
   {
     "topic_id": 4,
@@ -33,7 +33,7 @@
     "description": "Research and expertise in Computer Vision at Bahria University.",
     "source": "sample",
     "researcher_count": 24,
-    "publication_count": 59
+    "publication_count": 77
   },
   {
     "topic_id": 5,
@@ -51,7 +51,7 @@
     "description": "Research and expertise in Natural Language Processing at Bahria University.",
     "source": "sample",
     "researcher_count": 17,
-    "publication_count": 17
+    "publication_count": 21
   },
   {
     "topic_id": 7,
@@ -60,7 +60,7 @@
     "description": "Research and expertise in Cybersecurity at Bahria University.",
     "source": "sample",
     "researcher_count": 35,
-    "publication_count": 99
+    "publication_count": 166
   },
   {
     "topic_id": 8,
@@ -69,7 +69,7 @@
     "description": "Research and expertise in Computer Networks at Bahria University.",
     "source": "sample",
     "researcher_count": 32,
-    "publication_count": 116
+    "publication_count": 206
   },
   {
     "topic_id": 9,
@@ -78,7 +78,7 @@
     "description": "Research and expertise in Wireless Communications at Bahria University.",
     "source": "sample",
     "researcher_count": 25,
-    "publication_count": 76
+    "publication_count": 132
   },
   {
     "topic_id": 10,
@@ -87,7 +87,7 @@
     "description": "Research and expertise in Internet of Things at Bahria University.",
     "source": "sample",
     "researcher_count": 30,
-    "publication_count": 25
+    "publication_count": 44
   },
   {
     "topic_id": 11,
@@ -96,7 +96,7 @@
     "description": "Research and expertise in Data Science at Bahria University.",
     "source": "sample",
     "researcher_count": 23,
-    "publication_count": 17
+    "publication_count": 30
   },
   {
     "topic_id": 12,
@@ -105,7 +105,7 @@
     "description": "Research and expertise in Software Engineering at Bahria University.",
     "source": "sample",
     "researcher_count": 30,
-    "publication_count": 15
+    "publication_count": 24
   },
   {
     "topic_id": 13,
@@ -114,7 +114,7 @@
     "description": "Research and expertise in Cloud Computing at Bahria University.",
     "source": "sample",
     "researcher_count": 10,
-    "publication_count": 7
+    "publication_count": 10
   },
   {
     "topic_id": 14,
@@ -123,7 +123,7 @@
     "description": "Research and expertise in Blockchain at Bahria University.",
     "source": "sample",
     "researcher_count": 6,
-    "publication_count": 4
+    "publication_count": 6
   },
   {
     "topic_id": 15,
@@ -150,7 +150,7 @@
     "description": "Research and expertise in Information Systems at Bahria University.",
     "source": "sample",
     "researcher_count": 12,
-    "publication_count": 5
+    "publication_count": 6
   },
   {
     "topic_id": 18,
@@ -159,7 +159,7 @@
     "description": "Research and expertise in Applied Mathematics at Bahria University.",
     "source": "sample",
     "researcher_count": 5,
-    "publication_count": 175
+    "publication_count": 183
   },
   {
     "topic_id": 19,
@@ -168,7 +168,7 @@
     "description": "Research and expertise in Pattern Recognition at Bahria University.",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 3
+    "publication_count": 4
   },
   {
     "topic_id": 20,
@@ -186,7 +186,7 @@
     "description": "Research and expertise in Bioinformatics at Bahria University.",
     "source": "sample",
     "researcher_count": 13,
-    "publication_count": 4
+    "publication_count": 13
   },
   {
     "topic_id": 22,
@@ -195,7 +195,7 @@
     "description": "Research and expertise in Robotics at Bahria University.",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 2
+    "publication_count": 4
   },
   {
     "topic_id": 23,
@@ -204,6 +204,6 @@
     "description": "Research and expertise in Distributed Systems at Bahria University.",
     "source": "sample",
     "researcher_count": 3,
-    "publication_count": 3
+    "publication_count": 4
   }
 ]

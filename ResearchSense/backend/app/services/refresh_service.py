@@ -32,8 +32,17 @@ def run_refresh() -> str:
 
         log.info("refresh: fetching publications from OpenAlex")
         fetch_publications.main()
-        log.info("refresh: rebuilding RAG index")
-        build_index.main()
+        log.info("refresh: refreshing index fact cards")
+        # Preserve full-text chunks (downloaded papers, faculty uploads, the
+        # library): the refresh changes structured data, not PDFs, and a
+        # from-scratch rebuild would drop them.
+        build_index.rebuild_preserving_fulltext()
+        # Drop every in-memory cache over the rewritten data files.
+        from app.repositories import loader
+        from app.services.rag import authored
+
+        loader.clear_cache()
+        authored._Store.reset()
         Retriever.reset()
         store.finish_refresh(run_id, "ok")
         log.info("refresh: done")

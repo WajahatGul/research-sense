@@ -33,6 +33,49 @@ def _key(name: str) -> str:
     return re.sub(r"[^a-z]", "", name)
 
 
+# --- Fuzzy co-author matching (second pass) -------------------------------
+# Exact name-key equality misses initials ("M. A. Khan"), transliteration
+# variants (Rehman/Rahman) and dropped middle names, which left most internal
+# co-authorships unlinked. Same matcher family as the portal's authorship
+# verification (unit-tested there).
+
+_VARIANTS = {
+    "rehman": "rahman", "rahmaan": "rahman",
+    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
+    "muhammd": "muhammad", "mohd": "muhammad",
+    "sayed": "syed", "sayyed": "syed",
+    "husain": "hussain", "hussein": "hussain",
+    "othman": "usman", "uthman": "usman",
+    "fatimah": "fatima",
+}
+_PARTICLES = {"ur", "ul", "al", "bin", "binti", "ibn", "abu", "el", "de"}
+
+
+def _name_parts(name: str) -> tuple[set, set, set]:
+    name = re.sub(r"^(dr|mr|ms|mrs|prof|professor|engr)\.?\s+", "",
+                  name.strip(), flags=re.I)
+    raw = re.findall(r"[a-zA-Z]+", name.lower())
+    full = {_VARIANTS.get(t, t) for t in raw
+            if len(t) >= 2 and t not in _PARTICLES}
+    initials = {t for t in raw if len(t) == 1}
+    first_letters = {t[0] for t in raw}
+    return full, initials, first_letters
+
+
+def _fuzzy_name_match(roster_name: str, author_name: str) -> bool:
+    r_full, _, r_letters = _name_parts(roster_name)
+    a_full, a_init, _ = _name_parts(author_name)
+    if not r_full or not a_full:
+        return False
+    if len(r_full & a_full) >= 2:
+        return True
+    if (r_full <= a_full or a_full <= r_full) and min(len(r_full), len(a_full)) >= 2:
+        return True
+    if r_full & a_full and a_init:
+        return a_init <= r_letters
+    return False
+
+
 def clean_title(title: str) -> str:
     """Strip LaTeX math and markup that OpenAlex sometimes leaves in titles."""
     if not title:
@@ -141,6 +184,31 @@ def main() -> None:
                 matched_ids.append(rid)
             authors.append({"researcher_id": rid if link else None,
                             "full_name": disp, "order": order})
+
+        # Fuzzy second pass for authors exact matching missed (initials,
+        # variants, dropped middle names). Safety rules: the author must be
+        # Bahria-affiliated on THIS paper, exactly ONE roster researcher may
+        # match the name (ambiguity -> no link), and the field guard applies
+        # unless another roster author already anchors the paper (an internal
+        # co-authorship is strong evidence the fuzzy match is right).
+        for i, a in enumerate(authorships):
+            if authors[i]["researcher_id"] is not None or not author_at_bahria(a):
+                continue
+            disp = authors[i]["full_name"]
+            cands = [r for r in researchers
+                     if _fuzzy_name_match(r["full_name"], disp)]
+            if len(cands) != 1:
+                continue
+            rid = cands[0]["researcher_id"]
+            if rid in matched_ids:
+                continue
+            r_topics = researcher_topics.get(rid, set())
+            anchored = bool(matched_ids)
+            if r_topics and not (r_topics & work_topic_ids) and not anchored:
+                continue
+            authors[i]["researcher_id"] = rid
+            matched_ids.append(rid)
+
         if not matched_ids:
             continue
         venue, wtype = venue_of(w)

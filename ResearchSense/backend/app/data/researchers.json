@@ -119,7 +119,7 @@
     "photo_url": null,
     "expertise": "Data Science (Data Analytics), Machine Learning, Deep Learning for Smart grids and Health Care Applications, Energy Management systems",
     "publication_count": 2,
-    "citation_count": 32,
+    "citation_count": 33,
     "topics": [
       {
         "topic_id": 2,
@@ -307,7 +307,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "intelligent systems",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [],
     "profile_bio": "Amna Iftikhar is a Senior Lecturer in the Department of Computer Science at Bahria University, Karachi campus. Areas of expertise include intelligent systems. Active in teaching, supervision and research.",
@@ -522,7 +522,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "AI for wireless communication and security",
-    "publication_count": 7,
+    "publication_count": 8,
     "citation_count": 30,
     "topics": [
       {
@@ -554,7 +554,7 @@
     "photo_url": null,
     "expertise": "Applied Mathematics. Fluid mechanics, Nanofluid",
     "publication_count": 62,
-    "citation_count": 951,
+    "citation_count": 954,
     "topics": [
       {
         "topic_id": 18,
@@ -576,8 +576,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Blockchain, Distributed Agile, AI, IoT, Computer Science Education, ML, Software Engineering",
-    "publication_count": 5,
-    "citation_count": 70,
+    "publication_count": 14,
+    "citation_count": 102,
     "topics": [
       {
         "topic_id": 10,
@@ -709,7 +709,7 @@
     "photo_url": null,
     "expertise": "Artificial Intelligence, Computer Vision, Generative AI",
     "publication_count": 6,
-    "citation_count": 55,
+    "citation_count": 56,
     "topics": [
       {
         "topic_id": 1,
@@ -824,8 +824,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer Science-General (Major-Blockchain, Internet of Things (IoT), Digital Forensics, Multimedia Forensics, Cyber Security, Information Security)",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 25,
+    "citation_count": 301,
     "topics": [
       {
         "topic_id": 7,
@@ -882,8 +882,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning / Deep learning / Brain Signals/ Quantitative EEG",
-    "publication_count": 1,
-    "citation_count": 0,
+    "publication_count": 2,
+    "citation_count": 10,
     "topics": [
       {
         "topic_id": 2,
@@ -971,8 +971,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Digital Preservation, Database Preservation, Information Retrieval, Information Systems",
-    "publication_count": 4,
-    "citation_count": 15,
+    "publication_count": 10,
+    "citation_count": 278,
     "topics": [
       {
         "topic_id": 15,
@@ -1153,8 +1153,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Requirements Engineering, Usability Engineering, Software Design & Architecture, Enterprise Modelling & Simulation",
-    "publication_count": 3,
-    "citation_count": 25,
+    "publication_count": 5,
+    "citation_count": 26,
     "topics": [
       {
         "topic_id": 12,
@@ -1180,8 +1180,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Agile Development, Technology Enhanced Learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 10,
     "topics": [
       {
         "topic_id": 12,
@@ -1203,8 +1203,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "AI, CYBERSECURITY, IIOT",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 2,
+    "citation_count": 2,
     "topics": [
       {
         "topic_id": 7,
@@ -1230,8 +1230,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Cloud Computing, AI, IoT, Mobile Communication, SDN, Machine Learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 14,
+    "citation_count": 289,
     "topics": [
       {
         "topic_id": 2,
@@ -1361,8 +1361,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Machine Learning",
-    "publication_count": 4,
-    "citation_count": 0,
+    "publication_count": 7,
+    "citation_count": 2,
     "topics": [
       {
         "topic_id": 1,
@@ -1415,8 +1415,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Fluid Dynamic, Numerical and AI",
-    "publication_count": 24,
-    "citation_count": 620,
+    "publication_count": 25,
+    "citation_count": 626,
     "topics": [
       {
         "topic_id": 1,
@@ -1442,8 +1442,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine learning , computer vision , medical image analysis",
-    "publication_count": 12,
-    "citation_count": 124,
+    "publication_count": 15,
+    "citation_count": 127,
     "topics": [
       {
         "topic_id": 2,
@@ -1566,8 +1566,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Applied AI/ML Image Processing",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 3,
+    "citation_count": 2,
     "topics": [
       {
         "topic_id": 5,
@@ -1740,8 +1740,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Informatics",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 5,
+    "citation_count": 31,
     "topics": [
       {
         "topic_id": 17,
@@ -1798,7 +1798,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Semantic Data Engineering, Data Analytics, Ontology Modelling, Text mining, Natural language Processing, Machine Learning",
-    "publication_count": 13,
+    "publication_count": 14,
     "citation_count": 84,
     "topics": [
       {
@@ -1829,7 +1829,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Decision Support System, Data Mining, Rule Base System",
-    "publication_count": 5,
+    "publication_count": 6,
     "citation_count": 82,
     "topics": [
       {
@@ -1883,8 +1883,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 7,
+    "citation_count": 57,
     "topics": [],
     "profile_bio": "Dr. Muhammad Haroon Mlaik is a Assistant Professor in the Department of Computer Science at Bahria University, Islamabad (E-8) campus. Active in teaching, supervision and research.",
     "education": "",
@@ -1932,8 +1932,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Digital Twin (Wireless/RF), AI Enabled Next-GEN Networks SDNs, Information/Signal Processing and Statistical Data Modeling/Analysis",
-    "publication_count": 25,
-    "citation_count": 447,
+    "publication_count": 26,
+    "citation_count": 473,
     "topics": [
       {
         "topic_id": 1,
@@ -1967,8 +1967,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning, Artificial Intelligence and its application in healthcare",
-    "publication_count": 5,
-    "citation_count": 25,
+    "publication_count": 18,
+    "citation_count": 79,
     "topics": [
       {
         "topic_id": 1,
@@ -2029,8 +2029,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Evolutionary Algorithms, Computer Vision, Biometrics and Machine Learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 5,
+    "citation_count": 32,
     "topics": [
       {
         "topic_id": 2,
@@ -2060,8 +2060,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "EH Wireless Sensor Networks, UAVs",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 5,
+    "citation_count": 20,
     "topics": [
       {
         "topic_id": 8,
@@ -2123,7 +2123,7 @@
     "photo_url": null,
     "expertise": "Artificial Intelligence, Cybersecurity, Smart Healthcare, IoT and NLP",
     "publication_count": 70,
-    "citation_count": 1082,
+    "citation_count": 1086,
     "topics": [
       {
         "topic_id": 1,
@@ -2230,8 +2230,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Deep Learning, Computer Vision, Semi-structured data",
-    "publication_count": 3,
-    "citation_count": 43,
+    "publication_count": 5,
+    "citation_count": 72,
     "topics": [
       {
         "topic_id": 3,
@@ -2423,8 +2423,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning, Computer vision, Machine Learning, Computer vision",
-    "publication_count": 80,
-    "citation_count": 2952,
+    "publication_count": 82,
+    "citation_count": 2975,
     "topics": [
       {
         "topic_id": 2,
@@ -2504,8 +2504,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "DEEP LEARNING, CNN, PROMPT ENGINEERING, GENERATIVE AI, QUANTUM AI AND THE APPLICATION OF AI TECHNOLOGIES IN EDUCATION AND CURRICULUM AUTOMATION",
-    "publication_count": 4,
-    "citation_count": 100,
+    "publication_count": 34,
+    "citation_count": 639,
     "topics": [
       {
         "topic_id": 1,
@@ -2531,8 +2531,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Embedded System, IC fabrication, Renewable Energy, Power Quality, Solar, Wind",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 30,
+    "citation_count": 517,
     "topics": [],
     "profile_bio": "Dr. Syed Khawar Hussain Shah is a Head of the Department in the Department of Computer Engineering at Bahria University, Islamabad (H-11) campus. Areas of expertise include Embedded System, IC fabrication, Renewable Energy, Power Quality, Solar, Wind. Active in teaching, supervision and research.",
     "education": "",
@@ -2572,8 +2572,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "IoT, Security, Artificial Intelligence",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 3,
+    "citation_count": 36,
     "topics": [
       {
         "topic_id": 1,
@@ -2603,8 +2603,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Wireless Communications, AI, Cloud Computing, Blockchain, IoT",
-    "publication_count": 5,
-    "citation_count": 113,
+    "publication_count": 12,
+    "citation_count": 182,
     "topics": [
       {
         "topic_id": 9,
@@ -2638,8 +2638,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "AI, Model-based Testing, e-learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 5,
+    "citation_count": 24,
     "topics": [
       {
         "topic_id": 20,
@@ -2688,8 +2688,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Mental Workload Assessment, Signal processing, Machine learning, Deep Learning, Brain Signals (EEG), Robotics",
-    "publication_count": 2,
-    "citation_count": 31,
+    "publication_count": 3,
+    "citation_count": 66,
     "topics": [
       {
         "topic_id": 2,
@@ -2777,8 +2777,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Radio Frequency Integrated Circuit RFIC Design/Wireless communication/Computer Networks / System and Network Security",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 3,
     "topics": [
       {
         "topic_id": 7,
@@ -2889,8 +2889,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Internet of Things and Cloud Computing",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 2,
+    "citation_count": 4,
     "topics": [
       {
         "topic_id": 10,
@@ -2916,7 +2916,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer Vision , Machine Learning, Embedded Systems, Design Robotics",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -3025,7 +3025,7 @@
     "photo_url": null,
     "expertise": "Artificial Intelligence, Cloud Computing, Swarm Intelligence, Cyber security",
     "publication_count": 12,
-    "citation_count": 167,
+    "citation_count": 169,
     "topics": [
       {
         "topic_id": 1,
@@ -3055,8 +3055,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial intelligence & Machine Learning, Medical Imaging and Signal Processing",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 2,
+    "citation_count": 37,
     "topics": [
       {
         "topic_id": 1,
@@ -3090,8 +3090,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Biomedical Image Analysis",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 6,
     "topics": [
       {
         "topic_id": 21,
@@ -3113,8 +3113,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine leraning, computer vision, medical imaging",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 13,
+    "citation_count": 350,
     "topics": [
       {
         "topic_id": 4,
@@ -3179,8 +3179,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Machine Learning, Ontologies, Natural Language Processing, Software Engineering, Sustainability, Energy sector",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 11,
+    "citation_count": 203,
     "topics": [
       {
         "topic_id": 1,
@@ -3344,7 +3344,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning based Control, Nonlinear Control, Generative AI",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -3371,8 +3371,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Softwre Engineering",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 3,
+    "citation_count": 4,
     "topics": [],
     "profile_bio": "Engr. Majid Kaleem is a Senior Assistant Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Softwre Engineering. Holds a MS in Software Engineering from SZABIST (2013). Active in teaching, supervision and research.",
     "education": "MS in Software Engineering from SZABIST (2013)",
@@ -3389,8 +3389,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Power Electronics, Embedded systems",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 4,
+    "citation_count": 4,
     "topics": [],
     "profile_bio": "Engr. Maryam Hassan is a Senior Lecturer in the Department of Computer Engineering at Bahria University, Islamabad (H-11) campus. Areas of expertise include Power Electronics, Embedded systems. Active in teaching, supervision and research.",
     "education": "",
@@ -3511,8 +3511,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Cloud Computing, Wireless Sensor Networks, Image Processing, Intelligent Systems",
-    "publication_count": 2,
-    "citation_count": 94,
+    "publication_count": 73,
+    "citation_count": 2467,
     "topics": [
       {
         "topic_id": 5,
@@ -3573,8 +3573,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence, Network",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 3,
+    "citation_count": 17,
     "topics": [
       {
         "topic_id": 1,
@@ -3712,8 +3712,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence",
-    "publication_count": 8,
-    "citation_count": 18,
+    "publication_count": 13,
+    "citation_count": 35,
     "topics": [
       {
         "topic_id": 1,
@@ -3897,8 +3897,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Technology Commercialization,Entrepreneurship, Incubation & Energy Simulation",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 2,
+    "citation_count": 7,
     "topics": [],
     "profile_bio": "Engr. Syed Rizwan Ali is a Assistant Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Technology Commercialization,Entrepreneurship, Incubation & Energy Simulation. Active in teaching, supervision and research.",
     "education": "",
@@ -4037,7 +4037,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Software Engineering",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -4109,7 +4109,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "ML , Data Science",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -4218,7 +4218,7 @@
     "photo_url": null,
     "expertise": "Artificial Intelligence",
     "publication_count": 1,
-    "citation_count": 251,
+    "citation_count": 253,
     "topics": [
       {
         "topic_id": 1,
@@ -4601,8 +4601,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Data Science and Block Chain",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 5,
+    "citation_count": 32,
     "topics": [
       {
         "topic_id": 11,
@@ -4655,8 +4655,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computing; Optical Networks; Algorithm Design and Optimization",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 4,
     "topics": [
       {
         "topic_id": 8,
@@ -4732,7 +4732,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Computer Science",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [],
     "profile_bio": "Mehwish Saleem is a Senior Lab Engineer in the Department of Computer Science at Bahria University, Karachi campus. Areas of expertise include Computer Science. Active in teaching, supervision and research.",
@@ -4750,8 +4750,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Data Communication, Digital Designs and Automation",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 6,
     "topics": [
       {
         "topic_id": 9,
@@ -4773,8 +4773,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning",
-    "publication_count": 1,
-    "citation_count": 8,
+    "publication_count": 2,
+    "citation_count": 40,
     "topics": [
       {
         "topic_id": 2,
@@ -4819,8 +4819,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Wireless Communication, Computer Networking, Wireless and Optical Fiber data connectivity, Project Risk Management, Fundamentals of Project Management",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 7,
+    "citation_count": 43,
     "topics": [
       {
         "topic_id": 8,
@@ -4874,7 +4874,7 @@
     "photo_url": null,
     "expertise": "Machine Learning ,Network Security, Data Networks",
     "publication_count": 7,
-    "citation_count": 79,
+    "citation_count": 80,
     "topics": [
       {
         "topic_id": 2,
@@ -4904,8 +4904,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Digital Design, Machine Learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 3,
+    "citation_count": 26,
     "topics": [
       {
         "topic_id": 2,
@@ -4981,8 +4981,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Deep Learning, Attention Mechanism, Biomedical Signal Processing & Machine Learning",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 5,
     "topics": [
       {
         "topic_id": 2,
@@ -5047,8 +5047,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine Learning – Deep Learning -Gen AI – Agentic AI",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 8,
+    "citation_count": 25,
     "topics": [
       {
         "topic_id": 1,
@@ -5078,8 +5078,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Software Defined Networks (SDN), Blockchain, Distributed Computing, Cybersecurity",
-    "publication_count": 2,
-    "citation_count": 7,
+    "publication_count": 4,
+    "citation_count": 11,
     "topics": [
       {
         "topic_id": 7,
@@ -5113,8 +5113,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Artificial Intelligence",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 7,
+    "citation_count": 41,
     "topics": [
       {
         "topic_id": 1,
@@ -5368,7 +5368,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Incremental Learning, BigData Analytics, Distributed learning, Probabilistic Graphical Models, Inference & Representation, Probabilistic Reasoning systems, Business Intelligence/Analytic, NLP, Computer Vision",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -5605,8 +5605,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Information Retrieval",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 1,
+    "citation_count": 39,
     "topics": [
       {
         "topic_id": 15,
@@ -5678,7 +5678,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "NLP, ML , SNA",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {
@@ -5724,8 +5724,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Deep Learning, Medical Image Analysis, and Information Security",
-    "publication_count": 2,
-    "citation_count": 0,
+    "publication_count": 4,
+    "citation_count": 5,
     "topics": [
       {
         "topic_id": 3,
@@ -5778,8 +5778,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "NLP",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 8,
+    "citation_count": 10,
     "topics": [
       {
         "topic_id": 6,
@@ -5824,8 +5824,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "intelligent systems",
-    "publication_count": 0,
-    "citation_count": 0,
+    "publication_count": 4,
+    "citation_count": 32,
     "topics": [],
     "profile_bio": "Syeda Komal Fatima is a Senior Lecturer in the Department of Computer Science at Bahria University, Karachi campus. Areas of expertise include intelligent systems. Active in teaching, supervision and research.",
     "education": "",
@@ -5842,8 +5842,8 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Data Science, Artificial Intelligence & Machine Learning.",
-    "publication_count": 4,
-    "citation_count": 10,
+    "publication_count": 6,
+    "citation_count": 12,
     "topics": [
       {
         "topic_id": 1,
@@ -5988,7 +5988,7 @@
     "orcid_id": null,
     "photo_url": null,
     "expertise": "Machine learning, Deep learning, Bioinformatics, Computer vision, Networking",
-    "publication_count": 0,
+    "publication_count": 1,
     "citation_count": 0,
     "topics": [
       {

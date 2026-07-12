@@ -236,18 +236,96 @@ def library_paper_chunks() -> list[dict]:
     return out
 
 
-def main() -> None:
-    print("Building RAG index...")
+def fact_card_chunks() -> list[dict]:
+    """All chunks derived from the structured JSON data (no PDFs)."""
     researchers = load("researchers")
     publications = load("publications")
-    chunks = (
+    return (
         researcher_chunks(researchers)
         + collaboration_chunks(researchers, publications)
         + publication_chunks(publications)
         + project_chunks(load("projects"))
         + topic_chunks(load("topics"))
     )
-    papers = paper_chunks(researchers)
+
+
+def rebuild_preserving_fulltext() -> None:
+    """Refresh the fact cards while KEEPING every full-text chunk.
+
+    Data refreshes change the structured JSON, not the PDFs — so the paper
+    chunks (downloaded papers, faculty uploads, the library) and their
+    embeddings are carried over from the existing index unchanged. This is
+    what the weekly/admin refresh runs: a from-scratch main() would silently
+    drop faculty uploads (never re-included) and, on machines where the
+    gitignored PDFs are absent, all downloaded-paper full text as well.
+    """
+    print("Refreshing index fact cards (preserving full-text chunks)...")
+    existing_chunks = json.loads((DATA_DIR / "rag_chunks.json").read_text("utf-8"))
+    existing_vectors = np.load(DATA_DIR / "rag_index.npz")["vectors"]
+    keep = [i for i, c in enumerate(existing_chunks) if c["kind"] == "paper"]
+    kept_chunks = [existing_chunks[i] for i in keep]
+    kept_vectors = existing_vectors[keep]
+
+    fresh = fact_card_chunks()
+    model = TextEmbedding(EMBED_MODEL)
+    fresh_vectors = np.array(
+        list(model.embed([c["text"] for c in fresh])), dtype=np.float32)
+    fresh_vectors /= np.linalg.norm(fresh_vectors, axis=1, keepdims=True)
+
+    chunks = fresh + kept_chunks
+    vectors = np.vstack([fresh_vectors, kept_vectors])
+    (DATA_DIR / "rag_chunks.json").write_text(
+        json.dumps(chunks, ensure_ascii=False), "utf-8")
+    np.savez_compressed(DATA_DIR / "rag_index.npz", vectors=vectors)
+    print(f"  {len(fresh)} fact cards rebuilt, {len(kept_chunks)} full-text "
+          f"chunks preserved (matrix {vectors.shape[0]}x{vectors.shape[1]})")
+
+
+def upload_chunks() -> list[dict]:
+    """Faculty-uploaded papers (papers/uploads + the SQLite uploads table),
+    re-chunked for full builds so uploads survive a from-scratch rebuild."""
+    import sqlite3
+
+    db = DATA_DIR / "researchsense.db"
+    uploads_dir = PAPERS_DIR / "uploads"
+    if not db.exists() or not uploads_dir.exists():
+        return []
+    names = {r["researcher_id"]: r["full_name"] for r in load("researchers")}
+    con = sqlite3.connect(db)
+    con.row_factory = sqlite3.Row
+    try:
+        rows = con.execute(
+            "SELECT researcher_id, title, filename FROM uploads").fetchall()
+    finally:
+        con.close()
+    out = []
+    for row in rows:
+        path = uploads_dir / row["filename"]
+        if not path.exists():
+            continue
+        try:
+            reader = PdfReader(path)
+            raw = " ".join((page.extract_text() or "") for page in reader.pages)
+            text = re.sub(r"\s+", " ", raw).strip()
+        except Exception as exc:  # noqa: BLE001 - skip unreadable files
+            print(f"  ! could not read upload {row['filename']}: {exc}")
+            continue
+        author = names.get(row["researcher_id"], "a Bahria researcher")
+        header = f"From the paper \"{row['title']}\" by {author}: "
+        out.extend({
+            "text": header + piece,
+            "kind": "paper",
+            "ref_id": row["researcher_id"],
+            "label": f"Paper: {row['title'][:70]} (uploaded)",
+        } for piece in _split(text))
+    return out
+
+
+def main() -> None:
+    print("Building RAG index...")
+    researchers = load("researchers")
+    chunks = fact_card_chunks()
+    papers = paper_chunks(researchers) + upload_chunks()
     chunks += papers
     library = library_paper_chunks()
     chunks += library
