@@ -81,30 +81,57 @@ class MockResearcherRepository(ResearcherRepository):
         pubs.sort(key=lambda p: p["publication_year"], reverse=True)
         return pubs
 
-    def _collaborators_for(self, rec: dict) -> list[dict]:
-        """Suggest collaborators by shared research areas.
+    def _copublications_with(self, researcher_id: int) -> dict[int, int]:
+        """How many publications this researcher co-authored with each other
+        Bahria researcher — a proven, mutual collaboration signal."""
+        from collections import Counter
 
-        Ranked by the NUMBER of shared areas first (a concrete, meaningful
-        signal), with Jaccard overlap as a tiebreaker. The actual shared area
-        names travel with each suggestion so the UI can show why the person is
-        recommended instead of a single opaque percentage.
+        counts: Counter = Counter()
+        for p in loader.load("publications"):
+            author_ids = [a["researcher_id"] for a in p.get("authors", [])
+                          if a.get("researcher_id") is not None]
+            if researcher_id in author_ids:
+                for other in author_ids:
+                    if other != researcher_id:
+                        counts[other] += 1
+        return dict(counts)
+
+    def _collaborators_for(self, rec: dict) -> list[dict]:
+        """Suggest collaborators from two signals:
+
+        1. Past co-authorship — they have already published together (the
+           strongest, provably mutual signal).
+        2. Shared research areas — overlapping topics suggest a good fit.
+
+        Ranked by co-authored papers first, then number of shared areas, then
+        Jaccard overlap. Each suggestion carries the actual shared area names
+        and the co-authored-paper count so the recommendation is explainable,
+        and the UI can filter by campus or area. Up to 15 are returned; the
+        page shows the top ones and lets the user filter.
         """
+        rid = rec["researcher_id"]
         my_topics = {t["topic_id"]: t["topic_name"] for t in rec.get("topics", [])}
         my_ids = set(my_topics)
         my_campus = rec.get("campus", "")
+        copubs = self._copublications_with(rid)
+
         scored: list[tuple] = []
         for other in self._all():
-            if other["researcher_id"] == rec["researcher_id"]:
+            oid = other["researcher_id"]
+            if oid == rid:
                 continue
             their_ids = {t["topic_id"] for t in other.get("topics", [])}
             shared_ids = my_ids & their_ids
-            if not shared_ids:
+            copub = copubs.get(oid, 0)
+            # A candidate needs at least one signal: a shared area or a paper.
+            if not shared_ids and copub == 0:
                 continue
             shared_names = sorted(my_topics[i] for i in shared_ids)
-            jaccard = len(shared_ids) / max(len(my_ids | their_ids), 1)
-            scored.append((len(shared_ids), jaccard, other, shared_names))
-        # More shared areas first; tighter overlap breaks ties.
-        scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+            union = my_ids | their_ids
+            jaccard = len(shared_ids) / max(len(union), 1)
+            scored.append((copub, len(shared_ids), jaccard, other, shared_names))
+        # Co-authored papers first, then shared-area count, then overlap.
+        scored.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
         return [
             CollaborationSuggestion(
                 researcher_id=o["researcher_id"],
@@ -115,7 +142,9 @@ class MockResearcherRepository(ResearcherRepository):
                 similarity_score=round(jaccard, 2),
                 shared_topics=names,
                 shared_count=count,
+                copublications=copub,
+                past_coauthor=copub > 0,
                 same_campus=(o.get("campus", "") == my_campus),
             ).model_dump()
-            for count, jaccard, o, names in scored[:6]
+            for copub, count, jaccard, o, names in scored[:15]
         ]

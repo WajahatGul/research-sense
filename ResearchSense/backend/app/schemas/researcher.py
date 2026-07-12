@@ -18,6 +18,8 @@ class CollaborationSuggestion(BaseModel):
     similarity_score: float
     shared_topics: list[str] = []
     shared_count: int = 0
+    copublications: int = 0
+    past_coauthor: bool = False
     same_campus: bool = False
 
 

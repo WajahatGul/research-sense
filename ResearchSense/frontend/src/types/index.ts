@@ -87,6 +87,8 @@ export interface CollaborationSuggestion {
   similarity_score: number;
   shared_topics: string[];
   shared_count: number;
+  copublications: number;
+  past_coauthor: boolean;
   same_campus: boolean;
 }
 

@@ -41,7 +41,9 @@ export function NetworkView({ centerName, collaborators }: Props) {
       <svg viewBox={`0 0 ${size} ${size}`} className={styles.svg}>
         {nodes.map((n, i) => {
           const { x, y } = pos(i);
-          const strength = n.shared_count / maxShared;
+          // Past co-authors get the strongest link; otherwise strength tracks
+          // the number of shared research areas.
+          const strength = n.past_coauthor ? 1 : n.shared_count / maxShared;
           return (
             <line
               key={`l-${n.researcher_id}`}
@@ -58,22 +60,29 @@ export function NetworkView({ centerName, collaborators }: Props) {
 
         {nodes.map((n, i) => {
           const { x, y } = pos(i);
+          const cls = n.past_coauthor
+            ? styles.nodeCoauthor
+            : n.same_campus
+              ? styles.node
+              : styles.nodeCross;
+          const initCls = n.past_coauthor ? styles.nodeInitCo : styles.nodeInit;
           return (
             <g key={n.researcher_id}>
-              <circle
-                cx={x}
-                cy={y}
-                r={30}
-                className={n.same_campus ? styles.node : styles.nodeCross}
-              />
+              <circle cx={x} cy={y} r={30} className={cls} />
               <text x={x} y={y - 41} className={styles.nodeLabel}>
                 {shortName(n.full_name)}
               </text>
-              <text x={x} y={y - 2} className={styles.nodeInit}>
+              <text x={x} y={y - 2} className={initCls}>
                 {initials(n.full_name)}
               </text>
-              <text x={x} y={y + 13} className={styles.nodeCount}>
-                {n.shared_count} {n.shared_count === 1 ? "area" : "areas"}
+              <text
+                x={x}
+                y={y + 13}
+                className={n.past_coauthor ? styles.nodeCountCo : styles.nodeCount}
+              >
+                {n.past_coauthor
+                  ? `${n.copublications} paper${n.copublications === 1 ? "" : "s"}`
+                  : `${n.shared_count} ${n.shared_count === 1 ? "area" : "areas"}`}
               </text>
             </g>
           );
@@ -87,7 +96,8 @@ export function NetworkView({ centerName, collaborators }: Props) {
 
       <div className={styles.side}>
         <p className={styles.sideHint}>
-          Suggested by shared research areas, ranked by how many areas overlap.
+          Proven co-authors (filled gold) rank first, then the strongest
+          shared-area matches.
         </p>
         <ul className={styles.legend}>
           {nodes.map((n) => (
@@ -98,21 +108,30 @@ export function NetworkView({ centerName, collaborators }: Props) {
               >
                 <span className={styles.legendTop}>
                   <span className={styles.legendName}>{n.full_name}</span>
-                  {!n.same_campus && (
-                    <span className={styles.crossBadge}>cross-campus</span>
-                  )}
+                  <span className={styles.badges}>
+                    {n.past_coauthor && (
+                      <span className={styles.coBadge}>
+                        {n.copublications} co-authored
+                      </span>
+                    )}
+                    {!n.same_campus && (
+                      <span className={styles.crossBadge}>cross-campus</span>
+                    )}
+                  </span>
                 </span>
                 <span className={styles.legendRole}>
                   {n.designation}
                   {n.campus ? ` · ${n.campus}` : ""}
                 </span>
-                <span className={styles.chips}>
-                  {n.shared_topics.map((t) => (
-                    <span key={t} className={styles.chip}>
-                      {t}
-                    </span>
-                  ))}
-                </span>
+                {n.shared_topics.length > 0 && (
+                  <span className={styles.chips}>
+                    {n.shared_topics.map((t) => (
+                      <span key={t} className={styles.chip}>
+                        {t}
+                      </span>
+                    ))}
+                  </span>
+                )}
               </Link>
             </li>
           ))}
