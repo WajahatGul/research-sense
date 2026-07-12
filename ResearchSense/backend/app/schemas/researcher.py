@@ -14,8 +14,11 @@ class CollaborationSuggestion(BaseModel):
     full_name: str
     designation: str
     department: str
+    campus: str = ""
     similarity_score: float
-    basis: str = "shared topics"
+    shared_topics: list[str] = []
+    shared_count: int = 0
+    same_campus: bool = False
 
 
 class Researcher(BaseModel):

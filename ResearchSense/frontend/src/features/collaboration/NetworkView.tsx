@@ -8,21 +8,40 @@ interface Props {
   collaborators: CollaborationSuggestion[];
 }
 
-// Radial graph: the selected researcher at the centre, suggested collaborators
-// placed around them with link opacity encoding similarity strength.
+function shortName(name: string): string {
+  return name.replace(/^(Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.|Engr\.)\s*/i, "");
+}
+
+function initials(name: string): string {
+  return shortName(name)
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+// Radial graph: the selected researcher at the centre; suggested collaborators
+// around them. Link thickness and node ring encode the NUMBER of shared
+// research areas (the honest signal), and each suggestion lists the actual
+// shared areas so the recommendation is explainable.
 export function NetworkView({ centerName, collaborators }: Props) {
   const size = 460;
   const c = size / 2;
-  const radius = 168;
+  const radius = 165;
   const nodes = collaborators.slice(0, 6);
+  const maxShared = Math.max(1, ...nodes.map((n) => n.shared_count));
+
+  const pos = (i: number) => {
+    const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
+    return { x: c + radius * Math.cos(angle), y: c + radius * Math.sin(angle) };
+  };
 
   return (
     <div className={styles.wrap}>
       <svg viewBox={`0 0 ${size} ${size}`} className={styles.svg}>
         {nodes.map((n, i) => {
-          const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-          const x = c + radius * Math.cos(angle);
-          const y = c + radius * Math.sin(angle);
+          const { x, y } = pos(i);
+          const strength = n.shared_count / maxShared;
           return (
             <line
               key={`l-${n.researcher_id}`}
@@ -31,49 +50,74 @@ export function NetworkView({ centerName, collaborators }: Props) {
               x2={x}
               y2={y}
               stroke="var(--gold)"
-              strokeWidth={1 + n.similarity_score * 4}
-              opacity={0.25 + n.similarity_score * 0.6}
+              strokeWidth={1.5 + strength * 5}
+              opacity={0.3 + strength * 0.55}
             />
           );
         })}
 
         {nodes.map((n, i) => {
-          const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-          const x = c + radius * Math.cos(angle);
-          const y = c + radius * Math.sin(angle);
+          const { x, y } = pos(i);
           return (
             <g key={n.researcher_id}>
-              <circle cx={x} cy={y} r={30} className={styles.node} />
-              <text x={x} y={y - 40} className={styles.nodeLabel}>
-                {n.full_name.replace(/^(Dr\.|Mr\.|Ms\.|Mrs\.)\s*/, "")}
+              <circle
+                cx={x}
+                cy={y}
+                r={30}
+                className={n.same_campus ? styles.node : styles.nodeCross}
+              />
+              <text x={x} y={y - 41} className={styles.nodeLabel}>
+                {shortName(n.full_name)}
               </text>
-              <text x={x} y={y + 4} className={styles.score}>
-                {(n.similarity_score * 100).toFixed(0)}%
+              <text x={x} y={y - 2} className={styles.nodeInit}>
+                {initials(n.full_name)}
+              </text>
+              <text x={x} y={y + 13} className={styles.nodeCount}>
+                {n.shared_count} {n.shared_count === 1 ? "area" : "areas"}
               </text>
             </g>
           );
         })}
 
-        <circle cx={c} cy={c} r={44} className={styles.center} />
-        <text x={c} y={c + 4} className={styles.centerLabel}>
-          {centerName
-            .replace(/^(Dr\.|Mr\.|Ms\.|Mrs\.)\s*/, "")
-            .split(" ")
-            .map((w) => w[0])
-            .join("")}
+        <circle cx={c} cy={c} r={46} className={styles.center} />
+        <text x={c} y={c + 5} className={styles.centerLabel}>
+          {initials(centerName)}
         </text>
       </svg>
 
-      <ul className={styles.legend}>
-        {nodes.map((n) => (
-          <li key={n.researcher_id}>
-            <Link to={`/researchers/${n.researcher_id}`} className={styles.legendItem}>
-              <span className={styles.legendName}>{n.full_name}</span>
-              <span className={styles.legendBasis}>{n.basis}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.side}>
+        <p className={styles.sideHint}>
+          Suggested by shared research areas, ranked by how many areas overlap.
+        </p>
+        <ul className={styles.legend}>
+          {nodes.map((n) => (
+            <li key={n.researcher_id}>
+              <Link
+                to={`/researchers/${n.researcher_id}`}
+                className={styles.legendItem}
+              >
+                <span className={styles.legendTop}>
+                  <span className={styles.legendName}>{n.full_name}</span>
+                  {!n.same_campus && (
+                    <span className={styles.crossBadge}>cross-campus</span>
+                  )}
+                </span>
+                <span className={styles.legendRole}>
+                  {n.designation}
+                  {n.campus ? ` · ${n.campus}` : ""}
+                </span>
+                <span className={styles.chips}>
+                  {n.shared_topics.map((t) => (
+                    <span key={t} className={styles.chip}>
+                      {t}
+                    </span>
+                  ))}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

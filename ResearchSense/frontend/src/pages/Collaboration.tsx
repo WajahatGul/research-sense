@@ -28,7 +28,7 @@ export default function Collaboration() {
       <PageHeader
         eyebrow="Who to work with"
         title="Collaboration finder"
-        description="Researchers are linked by shared research areas. Pick a researcher to see the strongest suggested collaborations across the campus."
+        description="Pick a researcher to see who they could collaborate with, ranked by how many research areas they share. Gold-ringed nodes are cross-campus matches."
       >
         <select
           className={styles.select}

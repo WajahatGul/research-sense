@@ -83,8 +83,11 @@ export interface CollaborationSuggestion {
   full_name: string;
   designation: string;
   department: string;
+  campus: string;
   similarity_score: number;
-  basis: string;
+  shared_topics: string[];
+  shared_count: number;
+  same_campus: boolean;
 }
 
 export interface ResearcherDetail extends Researcher {
