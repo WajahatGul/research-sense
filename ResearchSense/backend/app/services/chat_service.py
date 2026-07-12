@@ -62,6 +62,21 @@ class ChatService:
         ]
         question = normalize_query(question, history_dicts)
 
+        # Fast path: "did X and Y collaborate / write together" is a two-person
+        # co-authorship lookup — answered precisely from shared publications
+        # (or an honest "they haven't, but share these areas"). Checked before
+        # the single-author path, which would otherwise misfire on one name.
+        collab_result = authored.collaboration_answer(question)
+        if collab_result is not None:
+            return ChatResponse(
+                answer=collab_result.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile",
+                               kind="researcher", ref_id=rid)
+                    for name, rid in collab_result.researchers
+                ],
+            )
+
         # Fast path: "what papers has X written?" is an authorship lookup, best
         # answered from the structured publications table (matching the profile
         # page) rather than fuzzy full-text retrieval, which conflates papers

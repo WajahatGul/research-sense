@@ -237,3 +237,159 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
         answer="\n".join(lines),
         researchers=[(name, rid)],
     )
+
+
+# ---------------------------------------------------------------------------
+# Co-authorship fast path ("what did X and Y write together / collaborate")
+# ---------------------------------------------------------------------------
+
+# Name particles never treated as identifying (surname detection skips them).
+_PARTICLES = {"ur", "ul", "al", "bin", "binti", "ibn", "abu", "el", "de"}
+
+_COLLAB_PATTERNS = [
+    r"\b(collaborat\w*|co-?author\w*|jointly|co-?wrote|co-?written)\b",
+    r"\btogether\b",
+    r"\b(wrote|written|write|writes|worked|work|working|published|publish|"
+    r"paper|papers|research)\b[^.?!]*\bwith\b",
+    r"\bbetween\b[^.?!]*\band\b",
+]
+
+
+def is_collaboration_query(message: str) -> bool:
+    """True if the message asks about two people collaborating / co-authoring."""
+    lower = message.lower()
+    return any(re.search(p, lower) for p in _COLLAB_PATTERNS)
+
+
+def _sig_tokens(name: str) -> list[str]:
+    raw = re.sub(rf"^{_TITLES}", "", name.strip(), flags=re.I)
+    return [
+        _NAME_VARIANTS.get(t, t)
+        for t in re.findall(r"[a-z]+", raw.lower())
+        if len(t) >= 3 and t not in _PARTICLES
+    ]
+
+
+def _full_name_matches(message: str) -> list[dict]:
+    """Researchers whose full name appears contiguously in the query — the
+    most reliable signal ('Arif Ur Rahman' won't match 'Wajiha Arif')."""
+    q_norm = _norm_name(message)
+    out = []
+    for r in _Store.researchers():
+        raw = re.sub(rf"^{_TITLES}", "", r["full_name"].strip(), flags=re.I)
+        name_norm = _norm_name(raw)
+        if len(name_norm) >= 8 and name_norm in q_norm:
+            out.append(r)
+    # Longest names first, so the fullest match leads.
+    out.sort(key=lambda r: len(_norm_name(r["full_name"])), reverse=True)
+    return out
+
+
+def _resolve_people(message: str) -> list[dict]:
+    """Ordered, distinct researchers named in the message: contiguous
+    full-name matches first, then researchers matching two or more name tokens
+    (a lone shared first name is not enough to add a second person)."""
+    q_tokens = {
+        _NAME_VARIANTS.get(t, t)
+        for t in re.findall(r"[a-z]+", message.lower())
+        if len(t) >= 3 and t not in _QUERY_STOPWORDS
+    }
+    people = _full_name_matches(message)
+    seen = {r["researcher_id"] for r in people}
+    strong: list[tuple] = []
+    for r in _Store.researchers():
+        if r["researcher_id"] in seen:
+            continue
+        sig = _sig_tokens(r["full_name"])
+        matched = [t for t in sig if t in q_tokens]
+        if len(matched) >= 2:  # two tokens — not a single first-name collision
+            strong.append((len(matched), r))
+    strong.sort(key=lambda x: x[0], reverse=True)
+    people.extend(r for _s, r in strong)
+    return people
+
+
+def _coauthors_of(researcher_id: int) -> list[tuple[str, int]]:
+    from collections import Counter
+
+    names = {r["researcher_id"]: r["full_name"] for r in _Store.researchers()}
+    counter: Counter = Counter()
+    for p in _Store.pubs():
+        ids = {a["researcher_id"] for a in p.get("authors", [])
+               if a.get("researcher_id") in names}
+        if researcher_id in ids:
+            for other in ids:
+                if other != researcher_id:
+                    counter[other] += 1
+    return [(names[o], c) for o, c in counter.most_common()]
+
+
+def _shared_publications(a_id: int, b_id: int) -> list[dict]:
+    out = []
+    for p in _Store.pubs():
+        ids = {au.get("researcher_id") for au in p.get("authors", [])}
+        if a_id in ids and b_id in ids:
+            out.append(p)
+    out.sort(key=lambda p: p.get("publication_year") or 0, reverse=True)
+    return out
+
+
+def collaboration_answer(message: str) -> AuthoredResult | None:
+    """Answer collaboration questions from structured data.
+
+    - Two people ("did X and Y write together") -> their shared publications,
+      or an honest "not co-authored" with any shared research areas.
+    - One person ("who has X collaborated with") -> that person's co-authors.
+
+    Falls through (None) unless it is a collaboration question naming someone.
+    """
+    if not is_collaboration_query(message):
+        return None
+    people = _resolve_people(message)
+    if not people:
+        return None
+
+    if len(people) == 1:
+        r = people[0]
+        coauthors = _coauthors_of(r["researcher_id"])
+        if coauthors:
+            listing = "\n".join(
+                f"- {n} ({c} paper{'s' if c > 1 else ''})" for n, c in coauthors)
+            answer = (f"{r['full_name']} has co-authored papers with:\n{listing}")
+        else:
+            answer = (f"{r['full_name']} has no co-authored papers with other "
+                      f"Bahria University researchers in the database.")
+        return AuthoredResult(
+            answer=answer,
+            researchers=[(r["full_name"], r["researcher_id"])],
+        )
+
+    a, b = people[0], people[1]
+    shared = _shared_publications(a["researcher_id"], b["researcher_id"])
+    if shared:
+        lines = [f"{a['full_name']} and {b['full_name']} have co-authored "
+                 f"{len(shared)} paper(s):"]
+        for p in shared[:12]:
+            year = p.get("publication_year") or "n.d."
+            venue = p.get("journal_name") or ""
+            tail = (f" - {venue}"
+                    if venue and venue != "Preprint or unindexed venue" else "")
+            lines.append(f"- {p['title']} ({year}){tail}")
+        answer = "\n".join(lines)
+    else:
+        a_areas = {t["topic_name"] for t in a.get("topics", [])}
+        b_areas = {t["topic_name"] for t in b.get("topics", [])}
+        common = sorted(a_areas & b_areas)
+        answer = (f"{a['full_name']} and {b['full_name']} have not co-authored "
+                  f"any papers in the ResearchSense database.")
+        if common:
+            answer += (f" They do share research interests in "
+                       f"{', '.join(common)}, so they could be potential "
+                       f"collaborators.")
+        else:
+            answer += " They also have no overlapping research areas on record."
+    return AuthoredResult(
+        answer=answer,
+        researchers=[(a["full_name"], a["researcher_id"]),
+                     (b["full_name"], b["researcher_id"])],
+    )

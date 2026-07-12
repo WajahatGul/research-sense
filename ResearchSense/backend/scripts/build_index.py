@@ -45,21 +45,61 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
             f"{r['full_name']} is a {r['designation']} in the Department of "
             f"{r['department']} at Bahria University, {r['campus']} campus."
         ]
+        # Structured research areas (topic names) alongside the scraped
+        # free-text expertise, so "who works on X" retrieves reliably.
+        if r.get("topics"):
+            areas = ", ".join(t["topic_name"] for t in r["topics"])
+            parts.append(f"Research areas: {areas}.")
         if r.get("expertise"):
-            parts.append(f"Research areas and expertise: {r['expertise']}.")
+            parts.append(f"Expertise: {r['expertise']}.")
         if r.get("education"):
             parts.append(f"Education: {r['education']}.")
         if r.get("email"):
             parts.append(f"Email: {r['email']}.")
         if r.get("publication_count"):
             parts.append(
-                f"Has {r['publication_count']} indexed publications with "
-                f"{r['citation_count']} total citations.")
+                f"{r['full_name']} has {r['publication_count']} indexed "
+                f"publications with {r['citation_count']} total citations.")
         out.append({
             "text": " ".join(parts),
             "kind": "researcher",
             "ref_id": r["researcher_id"],
             "label": f"{r['full_name']} — {r['designation']}",
+        })
+    return out
+
+
+def collaboration_chunks(researchers: list[dict],
+                         publications: list[dict]) -> list[dict]:
+    """One chunk per researcher naming who they have co-authored with, so the
+    assistant can answer "who has X collaborated with" and "did X and Y work
+    together" from retrieval (the fast path handles specific pairs precisely)."""
+    from collections import Counter
+
+    names = {r["researcher_id"]: r["full_name"] for r in researchers}
+    coauth: dict[int, Counter] = {r["researcher_id"]: Counter()
+                                  for r in researchers}
+    for p in publications:
+        ids = list({a["researcher_id"] for a in p.get("authors", [])
+                    if a.get("researcher_id") in names})
+        for a in ids:
+            for b in ids:
+                if a != b:
+                    coauth[a][b] += 1
+
+    out = []
+    for rid, counter in coauth.items():
+        if not counter:
+            continue
+        listing = ", ".join(
+            f"{names[o]} ({c} paper{'s' if c > 1 else ''})"
+            for o, c in counter.most_common(12))
+        out.append({
+            "text": (f"{names[rid]} has co-authored research papers with the "
+                     f"following Bahria University researchers: {listing}."),
+            "kind": "researcher",
+            "ref_id": rid,
+            "label": f"{names[rid]} — collaborators",
         })
     return out
 
@@ -199,9 +239,11 @@ def library_paper_chunks() -> list[dict]:
 def main() -> None:
     print("Building RAG index...")
     researchers = load("researchers")
+    publications = load("publications")
     chunks = (
         researcher_chunks(researchers)
-        + publication_chunks(load("publications"))
+        + collaboration_chunks(researchers, publications)
+        + publication_chunks(publications)
         + project_chunks(load("projects"))
         + topic_chunks(load("topics"))
     )
