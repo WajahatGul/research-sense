@@ -5,7 +5,7 @@
       "destination": "https://research-sense.onrender.com/api/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]
