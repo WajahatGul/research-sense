@@ -1,0 +1,32 @@
+# Render Blueprint for the ResearchSense FastAPI backend.
+# In Render: New + -> Blueprint -> connect this repo. Render reads this file.
+# Set the secret env vars (GROQ_API_KEY..., ADMIN_PASSWORD) in the dashboard.
+services:
+  - type: web
+    name: researchsense-api
+    runtime: python
+    plan: free
+    rootDir: ResearchSense/backend
+    # onnxruntime / fastembed ship cp313 wheels; pin Python to match.
+    pythonVersion: "3.13.4"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      # --- secrets: set these in the Render dashboard (sync:false) ---
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_API_KEY_2
+        sync: false
+      - key: GROQ_API_KEY_3
+        sync: false
+      - key: GROQ_API_KEY_4
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # Requests are same-origin via the Vercel /api rewrite, so CORS is not
+      # exercised in normal use; this stays permissive as a safety net.
+      - key: RS_CORS_ORIGINS
+        value: "*"
