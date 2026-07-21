@@ -89,11 +89,13 @@ export function ChatPanel() {
         ...t,
         { role: "assistant", text: res.answer, sources: res.sources },
       ]);
-    } catch {
-      setTurns((t) => [
-        ...t,
-        { role: "assistant", text: "The assistant is unavailable. Is the API running?" },
-      ]);
+    } catch (e) {
+      // Show the real reason (timeout / server waking / unreachable) rather
+      // than a generic line, so the user knows to just wait and retry.
+      const text = e instanceof Error && e.message
+        ? e.message
+        : "The assistant is unavailable right now. Please try again in a moment.";
+      setTurns((t) => [...t, { role: "assistant", text }]);
     } finally {
       setBusy(false);
     }

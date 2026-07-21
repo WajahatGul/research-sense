@@ -124,7 +124,6 @@ function ClaimForm({ onSubmit }: { onSubmit: Submit }) {
       <label className={styles.label}>Your ORCID iD
         <input className={styles.input} value={orcid} required
                placeholder="0000-0000-0000-0000"
-               pattern="\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
                onChange={(e) => setOrcid(e.target.value.trim())} />
       </label>
       <p className={styles.hint}>
