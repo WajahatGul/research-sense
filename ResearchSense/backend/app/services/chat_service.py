@@ -11,6 +11,7 @@ from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
 from app.services.rag.agentic import normalize_query
 from app.services.rag.generator import REFUSAL_MESSAGE, generate
+from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
 
 INDEX_MISSING_MESSAGE = (
@@ -74,6 +75,21 @@ class ChatService:
                     ChatSource(label=f"{name} — profile",
                                kind="researcher", ref_id=rid)
                     for name, rid in collab_result.researchers
+                ],
+            )
+
+        # Fast path: superlative/leaderboard questions ("who has the most
+        # citations", "top researchers by publications") — answered from the
+        # full sorted data, since retrieval only sees a few chunks and would
+        # pick a wrong maximum.
+        board = leaderboard_answer(question)
+        if board is not None:
+            return ChatResponse(
+                answer=board.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile",
+                               kind="researcher", ref_id=rid)
+                    for name, rid in board.researchers
                 ],
             )
 

@@ -334,11 +334,69 @@ def _shared_publications(a_id: int, b_id: int) -> list[dict]:
     return out
 
 
+# "X and Y", "between X and Y", "X & Y" all name two parties; a bare
+# "who has X collaborated with" does not.
+_PAIR_MARKERS = [r"\bbetween\b", r"\band\b", r"&", r"\bvs\.?\b", r"\bversus\b"]
+
+
+def _is_pair_intent(message: str) -> bool:
+    lower = message.lower()
+    return any(re.search(p, lower) for p in _PAIR_MARKERS)
+
+
+def _other_name(message: str, resolved: list[dict]) -> str:
+    """Best-effort name in the message that did NOT resolve to a researcher, so
+    we can tell the user exactly who we could not find."""
+    resolved_tokens: set[str] = set()
+    for r in resolved:
+        resolved_tokens.update(_sig_tokens(r["full_name"]))
+    skip = (_QUERY_STOPWORDS | _PARTICLES | {
+        "between", "and", "with", "collaborate", "collaborated",
+        "collaboration", "collaborations", "together", "worked", "work",
+        "working", "did", "do", "does", "have", "has", "had", "papers",
+        "paper", "publications", "publication", "wrote", "write", "written",
+        "coauthor", "coauthored", "author", "authored", "jointly", "vs",
+        "versus", "any", "some", "the", "both",
+    })
+    words = []
+    for w in re.findall(r"[A-Za-z]+", message):
+        lw = w.lower()
+        if len(w) < 2 or lw in skip or _NAME_VARIANTS.get(lw, lw) in resolved_tokens:
+            continue
+        words.append(w)
+    return " ".join(words).strip()
+
+
+def _pair_not_coauthored(a: dict, b: dict) -> str:
+    """Honest 'they have not co-authored' with shared-interest or colleague
+    context, so the answer is useful rather than a flat negative."""
+    common = sorted({t["topic_name"] for t in a.get("topics", [])}
+                    & {t["topic_name"] for t in b.get("topics", [])})
+    answer = (f"{a['full_name']} and {b['full_name']} have not co-authored any "
+              f"papers in the database.")
+    if common:
+        return (answer + f" They do share research interests in "
+                f"{', '.join(common)}, so they could be potential collaborators.")
+    bits = []
+    if a.get("campus") and a.get("campus") == b.get("campus"):
+        bits.append(f"both based at the {a['campus']} campus")
+    if a.get("department") and a.get("department") == b.get("department"):
+        bits.append(f"both in the Department of {a['department']}")
+    if bits:
+        return answer + f" They are {' and '.join(bits)}, but their recorded " \
+                        f"research areas do not overlap."
+    return answer + " Their recorded research areas do not overlap either."
+
+
 def collaboration_answer(message: str) -> AuthoredResult | None:
     """Answer collaboration questions from structured data.
 
-    - Two people ("did X and Y write together") -> their shared publications,
-      or an honest "not co-authored" with any shared research areas.
+    - Two named people ("did X and Y write together") -> their shared
+      publications, or an honest "not co-authored" with shared-interest or
+      same-campus context.
+    - A pair question where only one name is recognised -> say which one could
+      not be found, instead of degrading to the other person's collaborator
+      list.
     - One person ("who has X collaborated with") -> that person's co-authors.
 
     Falls through (None) unless it is a collaboration question naming someone.
@@ -346,16 +404,31 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
     if not is_collaboration_query(message):
         return None
     people = _resolve_people(message)
-    if not people:
-        return None
+    pair = _is_pair_intent(message)
 
-    if len(people) == 1:
+    # Pair question but both parties did not resolve: be honest, do not fall
+    # back to a single person's collaborator list (that ignores the question).
+    if pair and len(people) < 2:
+        if not people:
+            return None  # recognised nobody; let the RAG pipeline try
+        found = people[0]
+        other = _other_name(message, people)
+        who = f'"{other}"' if other else "the other researcher you named"
+        return AuthoredResult(
+            answer=(f"I can only find {found['full_name']} in the database; I "
+                    f"could not find {who}. Please check the spelling or use "
+                    f"the person's full name."),
+            researchers=[(found["full_name"], found["researcher_id"])],
+        )
+
+    # Single-person question: list that researcher's co-authors.
+    if not pair and len(people) == 1:
         r = people[0]
         coauthors = _coauthors_of(r["researcher_id"])
         if coauthors:
             listing = "\n".join(
                 f"- {n} ({c} paper{'s' if c > 1 else ''})" for n, c in coauthors)
-            answer = (f"{r['full_name']} has co-authored papers with:\n{listing}")
+            answer = f"{r['full_name']} has co-authored papers with:\n{listing}"
         else:
             answer = (f"{r['full_name']} has no co-authored papers with other "
                       f"researchers in the database.")
@@ -363,6 +436,9 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
             answer=answer,
             researchers=[(r["full_name"], r["researcher_id"])],
         )
+
+    if len(people) < 2:
+        return None
 
     a, b = people[0], people[1]
     shared = _shared_publications(a["researcher_id"], b["researcher_id"])
@@ -377,17 +453,7 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
             lines.append(f"- {p['title']} ({year}){tail}")
         answer = "\n".join(lines)
     else:
-        a_areas = {t["topic_name"] for t in a.get("topics", [])}
-        b_areas = {t["topic_name"] for t in b.get("topics", [])}
-        common = sorted(a_areas & b_areas)
-        answer = (f"{a['full_name']} and {b['full_name']} have not co-authored "
-                  f"any papers in the ResearchSense database.")
-        if common:
-            answer += (f" They do share research interests in "
-                       f"{', '.join(common)}, so they could be potential "
-                       f"collaborators.")
-        else:
-            answer += " They also have no overlapping research areas on record."
+        answer = _pair_not_coauthored(a, b)
     return AuthoredResult(
         answer=answer,
         researchers=[(a["full_name"], a["researcher_id"]),
