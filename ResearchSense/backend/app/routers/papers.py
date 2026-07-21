@@ -73,7 +73,7 @@ async def upload_paper(
     from app.core.deps import get_researcher_service
 
     researcher = get_researcher_service().get(researcher_id)
-    author = researcher.full_name if researcher else "a Bahria researcher"
+    author = researcher.full_name if researcher else "a university researcher"
     try:
         added = indexer.add_paper(path, title.strip(), author, researcher_id)
     except ValueError as exc:

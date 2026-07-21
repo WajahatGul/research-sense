@@ -46,7 +46,7 @@ export default function Researchers() {
       <PageHeader
         eyebrow="Directory"
         title="Researchers"
-        description="Browse faculty across all Bahria University campuses. Filter by campus, department, designation, or search by name and area."
+        description="Browse faculty across all campuses. Filter by campus, department, designation, or search by name and area."
       >
         <div className={styles.search}>
           <SearchBar

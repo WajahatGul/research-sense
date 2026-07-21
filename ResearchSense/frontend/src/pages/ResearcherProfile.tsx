@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
 import { fetchResearcher } from "../api/researchers";
+import { INSTITUTION_NAME } from "../config";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { Loader, ErrorState } from "../components/StateViews";
@@ -43,7 +44,7 @@ export default function ResearcherProfile() {
             </h1>
             <p className={styles.role}>{data.designation}</p>
             <p className={styles.inst}>
-              {data.institution}, {data.campus} campus
+              {INSTITUTION_NAME ? `${INSTITUTION_NAME}, ` : ""}{data.campus} campus
             </p>
             <div className={styles.meta}>
               {data.email && (

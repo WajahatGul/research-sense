@@ -299,8 +299,11 @@ def _pass3_synthesise_answer(
     conversation_history: List[Dict],
 ) -> str:
     """Pass 3 — Answer synthesis (main model chain, high quality)."""
+    who = (f"the research assistant of {settings.institution_name}"
+           if settings.institution_name
+           else "a research assistant for this institution's research portal")
     system = (
-        "You are ResearchSense, the research assistant of Bahria University. "
+        f"You are ResearchSense, {who}. "
         "Write a clear, accurate, well-formatted answer based STRICTLY and "
         "ONLY on the evidence provided below. You have NO knowledge outside the "
         "indexed ResearchSense data (faculty profiles, publications, projects, "

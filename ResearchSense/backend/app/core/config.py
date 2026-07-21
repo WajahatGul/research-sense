@@ -21,6 +21,12 @@ class Settings:
         "http://localhost:5173,http://127.0.0.1:5173",
     ).split(",")
 
+    # Deploying institution's name. ResearchSense is institution-agnostic: leave
+    # this empty for the neutral product-only look, or set RS_INSTITUTION_NAME
+    # (e.g. "Meridian University") to brand every answer and index entry for one
+    # institution.
+    institution_name: str = os.getenv("RS_INSTITUTION_NAME", "").strip()
+
     # --- RAG chatbot ---
     # Accept both spellings; the key is created at console.groq.com (free tier).
     groq_api_key: str = os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY") or ""

@@ -358,7 +358,7 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
             answer = (f"{r['full_name']} has co-authored papers with:\n{listing}")
         else:
             answer = (f"{r['full_name']} has no co-authored papers with other "
-                      f"Bahria University researchers in the database.")
+                      f"researchers in the database.")
         return AuthoredResult(
             answer=answer,
             researchers=[(r["full_name"], r["researcher_id"])],

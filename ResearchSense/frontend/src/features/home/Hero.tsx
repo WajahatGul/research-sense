@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+import { INSTITUTION_NAME } from "../../config";
 import { SearchBar } from "../../components/SearchBar";
 import styles from "./Hero.module.css";
 
@@ -12,8 +13,17 @@ export function Hero() {
       <div className={`container ${styles.inner}`}>
         <span className={styles.eyebrow}>Research Information System</span>
         <h1 className={styles.title}>
-          The research of
-          <span className={styles.accent}> Bahria University</span>
+          {INSTITUTION_NAME ? (
+            <>
+              The research of
+              <span className={styles.accent}> {INSTITUTION_NAME}</span>
+            </>
+          ) : (
+            <>
+              Discover research,
+              <span className={styles.accent}> researchers, and ideas</span>
+            </>
+          )}
         </h1>
         <p className={styles.lead}>
           Search researchers, publications, and projects across every campus.

@@ -31,7 +31,7 @@ class Researcher(BaseModel):
     designation: str
     department: str
     campus: str = "Islamabad (E-8)"
-    institution: str = "Bahria University"
+    institution: str = ""
     email: str | None = None
     orcid_id: str | None = None
     photo_url: str | None = None

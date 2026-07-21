@@ -1,7 +1,8 @@
+import { BRAND_TAGLINE, PRODUCT_NAME } from "../config";
 import styles from "./Wordmark.module.css";
 
-// Navy roundel with a gold compass-star, nodding to Bahria's naval heritage,
-// paired with the ResearchSense wordmark and an E-8 campus subline.
+// Navy roundel with a gold compass-star paired with the product wordmark and a
+// configurable subline (the deploying institution, or a neutral product line).
 export function Wordmark({ light = false }: { light?: boolean }) {
   return (
     <span className={`${styles.mark} ${light ? styles.light : ""}`}>
@@ -14,8 +15,8 @@ export function Wordmark({ light = false }: { light?: boolean }) {
         <circle cx="20" cy="20" r="2.4" className={styles.pivot} />
       </svg>
       <span className={styles.text}>
-        <span className={styles.name}>ResearchSense</span>
-        <span className={styles.sub}>Bahria University</span>
+        <span className={styles.name}>{PRODUCT_NAME}</span>
+        <span className={styles.sub}>{BRAND_TAGLINE}</span>
       </span>
     </span>
   );

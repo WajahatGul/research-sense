@@ -34,7 +34,7 @@ export default function Projects() {
       <PageHeader
         eyebrow="Funded research"
         title="Projects"
-        description="Grant-funded research projects led by Bahria University faculty."
+        description="Grant-funded research projects led by faculty across all campuses."
       >
         <div className={styles.controls}>
           <div className={styles.tabs}>

@@ -52,7 +52,7 @@ export default function Publications() {
       <PageHeader
         eyebrow="Research output"
         title="Publications"
-        description="Journal articles and conference papers from Bahria University researchers."
+        description="Journal articles and conference papers from researchers across all campuses."
       >
         <div className={styles.controls}>
           <div className={styles.search}>

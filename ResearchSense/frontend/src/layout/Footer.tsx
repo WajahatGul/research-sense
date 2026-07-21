@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import { INSTITUTION_NAME } from "../config";
 import { Wordmark } from "../components/Wordmark";
 import styles from "./Footer.module.css";
 
@@ -10,9 +11,10 @@ export default function Footer() {
         <div className={styles.brandCol}>
           <Wordmark light />
           <p className={styles.blurb}>
-            A research information system for Bahria University. Profiles,
-            publications, research areas and projects across all campuses
-            in one place.
+            A research information system {INSTITUTION_NAME
+              ? `for ${INSTITUTION_NAME}`
+              : "for universities"}. Profiles, publications, research areas and
+            projects across all campuses in one place.
           </p>
         </div>
 

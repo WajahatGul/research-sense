@@ -22,6 +22,8 @@ import numpy as np
 from fastembed import TextEmbedding
 from pypdf import PdfReader
 
+import os
+
 BACKEND = Path(__file__).resolve().parent.parent
 DATA_DIR = BACKEND / "app" / "data"
 PAPERS_DIR = BACKEND / "papers"
@@ -29,6 +31,11 @@ PAPERS_DIR = BACKEND / "papers"
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 CHUNK_CHARS = 900
 CHUNK_OVERLAP = 150
+
+# Institution the index is branded for; empty for the neutral product-only look.
+INSTITUTION = os.getenv("RS_INSTITUTION_NAME", "").strip()
+# "... at Meridian University, Karachi campus" vs "... at the Karachi campus".
+_AT_INST = f"{INSTITUTION}, " if INSTITUTION else "the "
 
 
 def load(name: str) -> list[dict]:
@@ -43,7 +50,7 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
     for r in researchers:
         parts = [
             f"{r['full_name']} is a {r['designation']} in the Department of "
-            f"{r['department']} at Bahria University, {r['campus']} campus."
+            f"{r['department']} at {_AT_INST}{r['campus']} campus."
         ]
         # Structured research areas (topic names) alongside the scraped
         # free-text expertise, so "who works on X" retrieves reliably.
@@ -96,7 +103,7 @@ def collaboration_chunks(researchers: list[dict],
             for o, c in counter.most_common(12))
         out.append({
             "text": (f"{names[rid]} has co-authored research papers with the "
-                     f"following Bahria University researchers: {listing}."),
+                     f"following researchers: {listing}."),
             "kind": "researcher",
             "ref_id": rid,
             "label": f"{names[rid]} — collaborators",
@@ -151,7 +158,7 @@ def topic_chunks(topics: list[dict]) -> list[dict]:
     out = []
     for t in topics:
         out.append({
-            "text": (f"Research area {t['topic_name']} at Bahria University has "
+            "text": (f"Research area {t['topic_name']} has "
                      f"{t['researcher_count']} researchers and "
                      f"{t['publication_count']} publications."),
             "kind": "topic",
@@ -199,7 +206,7 @@ def paper_chunks(researchers: list[dict]) -> list[dict]:
     out = []
     for paper in manifest:
         rid = paper.get("researcher_id")
-        author = paper.get("author_name") or names.get(rid, "a Bahria researcher")
+        author = paper.get("author_name") or names.get(rid, "a university researcher")
         try:
             out.extend(chunk_pdf(PAPERS_DIR / paper["filename"], paper["title"],
                                  paper["year"], author, rid))
@@ -310,7 +317,7 @@ def upload_chunks() -> list[dict]:
         except Exception as exc:  # noqa: BLE001 - skip unreadable files
             print(f"  ! could not read upload {row['filename']}: {exc}")
             continue
-        author = names.get(row["researcher_id"], "a Bahria researcher")
+        author = names.get(row["researcher_id"], "a university researcher")
         header = f"From the paper \"{row['title']}\" by {author}: "
         out.extend({
             "text": header + piece,

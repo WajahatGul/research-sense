@@ -17,7 +17,7 @@ export default function Topics() {
       <PageHeader
         eyebrow="Fields of inquiry"
         title="Research areas"
-        description="The topics that organise research at Bahria University. Select an area to see its publications."
+        description="The topics that organise research across the institution. Select an area to see its publications."
       />
       <div className={`container ${styles.body}`}>
         {isLoading && <Loader />}
