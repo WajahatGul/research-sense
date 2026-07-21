@@ -23,9 +23,25 @@ function buildQuery(params?: object): string {
   return s ? `?${s}` : "";
 }
 
+// Prefer the API's own error message (FastAPI puts it in "detail") so users
+// see "Invalid ORCID iD or password" instead of a generic "Request failed".
+async function errorMessage(res: Response): Promise<string> {
+  try {
+    const data = await res.json();
+    const detail = data?.detail;
+    if (typeof detail === "string" && detail.trim()) return detail;
+    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg;
+  } catch {
+    /* body was not JSON; fall through to a status-based message */
+  }
+  if (res.status >= 500) return "The server had a problem. Please try again.";
+  if (res.status === 404) return "Not found.";
+  return "Something went wrong. Please try again.";
+}
+
 export async function get<T>(path: string, params?: object): Promise<T> {
   const res = await fetch(`${BASE}${path}${buildQuery(params)}`);
-  if (!res.ok) throw new ApiError(res.status, `Request failed: ${path}`);
+  if (!res.ok) throw new ApiError(res.status, await errorMessage(res));
   return res.json() as Promise<T>;
 }
 
@@ -35,6 +51,6 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new ApiError(res.status, `Request failed: ${path}`);
+  if (!res.ok) throw new ApiError(res.status, await errorMessage(res));
   return res.json() as Promise<T>;
 }

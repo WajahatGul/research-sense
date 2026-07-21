@@ -144,12 +144,7 @@ export default function ResearcherProfile() {
                 <li key={c.researcher_id}>
                   <Link to={`/researchers/${c.researcher_id}`} className={styles.collab}>
                     <span className={styles.collabName}>{c.full_name}</span>
-                    <span className={styles.collabMeta}>
-                      {c.designation}
-                      <span className={`mono ${styles.score}`}>
-                        {(c.similarity_score * 100).toFixed(0)}%
-                      </span>
-                    </span>
+                    <span className={styles.collabMeta}>{c.designation}</span>
                   </Link>
                 </li>
               ))}

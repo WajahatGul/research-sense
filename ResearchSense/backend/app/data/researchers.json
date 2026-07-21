@@ -340,7 +340,7 @@
   {
     "researcher_id": 14,
     "full_name": "Asifa Bibi",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -487,7 +487,7 @@
   {
     "researcher_id": 19,
     "full_name": "Dawood Akram",
-    "designation": "Sr. Lecturer/ NCEAC Coordinator",
+    "designation": "Senior Lecturer/ NCEAC Coordinator",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -603,7 +603,7 @@
   {
     "researcher_id": 23,
     "full_name": "Dr Moneeb Gohar",
-    "designation": "Sr.Professor",
+    "designation": "Senior Professor",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -789,7 +789,7 @@
   {
     "researcher_id": 29,
     "full_name": "Dr. Abdul Hafeez",
-    "designation": "Sr. Associate Professor",
+    "designation": "Senior Associate Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -932,7 +932,7 @@
   {
     "researcher_id": 34,
     "full_name": "Dr. Ansar Siddique",
-    "designation": "Sr. Associate Professor",
+    "designation": "Senior Associate Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -1087,7 +1087,7 @@
   {
     "researcher_id": 39,
     "full_name": "DR. ASIF MASOOD",
-    "designation": "Sr. Professor",
+    "designation": "Senior Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -1145,7 +1145,7 @@
   {
     "researcher_id": 41,
     "full_name": "Dr. Awais Majeed",
-    "designation": "Sr. Associate Professor",
+    "designation": "Senior Associate Professor",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -1535,7 +1535,7 @@
   {
     "researcher_id": 55,
     "full_name": "Dr. Iram Noreen",
-    "designation": "Sr. Associate Professor",
+    "designation": "Senior Associate Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -2114,7 +2114,7 @@
   {
     "researcher_id": 75,
     "full_name": "Dr. Nadeem Sarwar",
-    "designation": "Sr. Assistant Professor",
+    "designation": "Senior Assistant Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -2496,7 +2496,7 @@
   {
     "researcher_id": 89,
     "full_name": "Dr. Syed Atif Ali Shah",
-    "designation": "Snr.Assistant Professor",
+    "designation": "Senior Assistant Professor",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -2630,7 +2630,7 @@
   {
     "researcher_id": 94,
     "full_name": "Dr. Tamim Ahmad Khan",
-    "designation": "Sr. Professor",
+    "designation": "Senior Professor",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -2800,7 +2800,7 @@
   {
     "researcher_id": 100,
     "full_name": "Engr. Aamir Sohail",
-    "designation": "Sr. Lab Engineer",
+    "designation": "Senior Lab Engineer",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -3047,7 +3047,7 @@
   {
     "researcher_id": 109,
     "full_name": "Engr. Dr Amna Waheed",
-    "designation": "Senior. Assistant Professor",
+    "designation": "Senior Assistant Professor",
     "department": "Computer Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -3082,7 +3082,7 @@
   {
     "researcher_id": 110,
     "full_name": "Engr. Dr. Adeel M Syed",
-    "designation": "Sr. Associate Professor (HoD)",
+    "designation": "Senior Associate Professor (HoD)",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -3136,7 +3136,7 @@
   {
     "researcher_id": 112,
     "full_name": "Engr. Dr. Nida Adnan",
-    "designation": "Senior Assistant professor",
+    "designation": "Senior Assistant Professor",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -3565,7 +3565,7 @@
   {
     "researcher_id": 128,
     "full_name": "Engr. Muhammad Sohaib Naseem",
-    "designation": "Senior Lecture",
+    "designation": "Senior Lecturer",
     "department": "Software Engineering",
     "campus": "Karachi",
     "institution": "Bahria University",
@@ -3862,7 +3862,7 @@
   {
     "researcher_id": 139,
     "full_name": "Engr. Sulman Zafar",
-    "designation": "Snr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -4083,7 +4083,7 @@
   {
     "researcher_id": 148,
     "full_name": "Faiza Khan",
-    "designation": "Senior lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Karachi",
     "institution": "Bahria University",
@@ -4497,7 +4497,7 @@
   {
     "researcher_id": 164,
     "full_name": "Husnain Iqbal",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -5008,7 +5008,7 @@
   {
     "researcher_id": 184,
     "full_name": "Muhammad Sauood",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -5329,7 +5329,7 @@
   {
     "researcher_id": 195,
     "full_name": "Nida Khalid",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -5395,7 +5395,7 @@
   {
     "researcher_id": 197,
     "full_name": "Qasim Mehmood",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
     "institution": "Bahria University",
@@ -5483,7 +5483,7 @@
   {
     "researcher_id": 200,
     "full_name": "Rabia Masood",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -5693,7 +5693,7 @@
   {
     "researcher_id": 209,
     "full_name": "Sarah Chaudhary",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -5770,7 +5770,7 @@
   {
     "researcher_id": 212,
     "full_name": "Summaira Nosheen",
-    "designation": "Sr. Lecturer",
+    "designation": "Senior Lecturer",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",
@@ -5834,7 +5834,7 @@
   {
     "researcher_id": 215,
     "full_name": "Tahir Iqbal",
-    "designation": "Sr Assistant Professor",
+    "designation": "Senior Assistant Professor",
     "department": "Computer Science",
     "campus": "Lahore",
     "institution": "Bahria University",

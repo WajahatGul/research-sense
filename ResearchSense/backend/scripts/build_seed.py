@@ -21,6 +21,27 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
 SCRAPED = Path(__file__).resolve().parent / "scraped_faculty.json"
 INSTITUTION = "Bahria University"
 
+
+def canonical_designation(value: str) -> str:
+    """Collapse the many spelling variants of a designation into one canonical
+    form, so a role appears once in filters and reads consistently on cards.
+
+    Scraped data mixes 'Sr.', 'Snr.', 'Senior.', and 'Sr' for 'Senior', varies
+    the casing of professor/lecturer, and has the typo 'Lecture'. This only
+    normalises those spellings; genuinely distinct compound roles (for example
+    'Senior Lecturer / NCEAC Coordinator') stay separate.
+    """
+    s = (value or "").strip()
+    if not s:
+        return "Lecturer"
+    s = re.sub(r"\b(?:Snr|Sr|Senior)\.?\s*", "Senior ", s, flags=re.I)
+    s = re.sub(r"\blecture\b", "Lecturer", s, flags=re.I)
+    s = re.sub(r"\blecturer\b", "Lecturer", s, flags=re.I)
+    s = re.sub(r"\bprofessor\b", "Professor", s, flags=re.I)
+    s = re.sub(r"\bassistant\b", "Assistant", s, flags=re.I)
+    s = re.sub(r"\bassociate\b", "Associate", s, flags=re.I)
+    return re.sub(r"\s+", " ", s).strip()
+
 # (canonical topic name, icon, keywords found in the real expertise text)
 TOPIC_CATALOGUE = [
     ("Artificial Intelligence", "sparkles", ["artificial intelligence", "generative ai", "expert system", " ai ", "ai(", "ai ("]),
@@ -120,7 +141,7 @@ def build_researchers(topics: list[dict]) -> list[dict]:
         expertise = (rec.get("areas") or "").strip()
         campus = rec.get("campus", "Islamabad (E-8)")
         department = rec.get("department", "Computer Science")
-        designation = rec.get("designation", "Lecturer")
+        designation = canonical_designation(rec.get("designation", "Lecturer"))
         education = _education(rec)
         out.append({
             "researcher_id": i,
