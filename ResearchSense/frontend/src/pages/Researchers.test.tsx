@@ -99,4 +99,23 @@ describe("Researchers", () => {
     await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
     expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
+
+  it("renders exactly one Search button", async () => {
+    renderPage();
+
+    await screen.findByRole("button", { name: "Search researchers" });
+    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    expect(searchButtons).toHaveLength(1);
+  });
+
+  it("fetches researchers when Enter is pressed in the search input", async () => {
+    renderPage();
+
+    const input = await screen.findByPlaceholderText("Search researchers…");
+    fireEvent.change(input, { target: { value: "ayesha" } });
+    fireEvent.submit(input.closest("form")!);
+
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
+  });
 });

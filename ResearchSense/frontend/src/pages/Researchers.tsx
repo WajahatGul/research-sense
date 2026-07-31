@@ -56,14 +56,16 @@ export default function Researchers() {
     placeholderData: keepPreviousData,
   });
 
-  const setQuery = (value: string) => {
-    setPending((p) => ({ ...p, q: value }));
-    setParams(value ? { q: value } : {});
+  const runSearch = (overrides?: Partial<Filters>) => {
+    const next = overrides ? { ...pending, ...overrides } : pending;
+    if (overrides) setPending(next);
+    setApplied(next);
+    setPage(1);
   };
 
-  const runSearch = () => {
-    setApplied(pending);
-    setPage(1);
+  const runQuerySearch = (value: string) => {
+    setParams(value ? { q: value } : {});
+    runSearch({ q: value });
   };
 
   return (
@@ -77,7 +79,8 @@ export default function Researchers() {
           <SearchBar
             placeholder="Search researchers…"
             defaultValue={pending.q}
-            onSearch={setQuery}
+            onSearch={runQuerySearch}
+            hideButton
           />
         </div>
       </PageHeader>
@@ -92,7 +95,7 @@ export default function Researchers() {
           onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
           onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
           onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
-          onSearch={runSearch}
+          onSearch={() => runSearch()}
         />
 
         {!hasSearched && (

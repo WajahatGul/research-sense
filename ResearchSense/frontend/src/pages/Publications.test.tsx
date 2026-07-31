@@ -96,6 +96,25 @@ describe("Publications", () => {
     expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
   });
 
+  it("renders exactly one Search button", async () => {
+    renderPage();
+
+    await screen.findByRole("button", { name: "Search publications" });
+    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    expect(searchButtons).toHaveLength(1);
+  });
+
+  it("fetches publications when Enter is pressed in the search input", async () => {
+    renderPage();
+
+    const input = await screen.findByPlaceholderText("Search publication titles…");
+    fireEvent.change(input, { target: { value: "great paper" } });
+    fireEvent.submit(input.closest("form")!);
+
+    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
+  });
+
   it("does not refetch when a filter changes without pressing Search", async () => {
     renderPage();
 

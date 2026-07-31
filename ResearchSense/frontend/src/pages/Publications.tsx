@@ -85,8 +85,10 @@ export default function Publications() {
     placeholderData: keepPreviousData,
   });
 
-  const runSearch = () => {
-    setApplied(pending);
+  const runSearch = (overrides?: Partial<Filters>) => {
+    const next = overrides ? { ...pending, ...overrides } : pending;
+    if (overrides) setPending(next);
+    setApplied(next);
     setPage(1);
   };
 
@@ -102,7 +104,8 @@ export default function Publications() {
             <SearchBar
               placeholder="Search publication titles…"
               defaultValue={pending.q}
-              onSearch={(v) => setPending((p) => ({ ...p, q: v }))}
+              onSearch={(v) => runSearch({ q: v })}
+              hideButton
             />
           </div>
           <select
@@ -189,7 +192,7 @@ export default function Publications() {
           <button
             type="button"
             className={styles.searchButton}
-            onClick={runSearch}
+            onClick={() => runSearch()}
             aria-label="Search publications"
           >
             Search
