@@ -88,7 +88,8 @@
         "institution": "O. P. Jindal Global University",
         "country": "IN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 2,
@@ -179,7 +180,7 @@
         "country": "CN"
       },
       {
-        "institution": "Universidad Esp\u00c3\u00adritu Santo",
+        "institution": "Universidad EspÃ­ritu Santo",
         "country": "EC"
       },
       {
@@ -222,7 +223,8 @@
         "institution": "University of Economics Ho Chi Minh City",
         "country": "VN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 3,
@@ -277,7 +279,7 @@
     ],
     "international_collaborations": [
       {
-        "institution": "Pontificia Universidad Cat\u00c3\u00b3lica del Per\u00c3\u00ba",
+        "institution": "Pontificia Universidad CatÃ³lica del PerÃº",
         "country": "PE"
       },
       {
@@ -336,7 +338,8 @@
         "institution": "Curtin University",
         "country": "AU"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 4,
@@ -399,7 +402,8 @@
         "institution": "International Institute of Social History",
         "country": "NL"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 5,
@@ -513,7 +517,7 @@
         "country": "AZ"
       },
       {
-        "institution": "Universitatea Na\u00c8\u203aional\u00c4\u0192 de \u00c8\u02dctiin\u00c8\u203a\u00c4\u0192 \u00c8\u2122i Tehnologie Politehnica Bucure\u00c8\u2122ti",
+        "institution": "Universitatea NaÈ›ionalÄƒ de È˜tiinÈ›Äƒ È™i Tehnologie Politehnica BucureÈ™ti",
         "country": "RO"
       },
       {
@@ -544,7 +548,8 @@
         "institution": "University of Castilla-La Mancha",
         "country": "ES"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 6,
@@ -579,7 +584,8 @@
       "Islamic Finance and Banking Studies",
       "Housing Market and Economics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 7,
@@ -626,7 +632,8 @@
       "Advanced Image Processing Techniques",
       "Misinformation and Its Impacts"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 8,
@@ -681,7 +688,7 @@
     ],
     "international_collaborations": [
       {
-        "institution": "\u00c4\u00b0stanbul Geli\u00c5\u0178im \u00c3\u0153niversitesi",
+        "institution": "Ä°stanbul GeliÅŸim Ãœniversitesi",
         "country": "TR"
       },
       {
@@ -736,7 +743,8 @@
         "institution": "Northwestern Polytechnical University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 9,
@@ -784,7 +792,8 @@
       "Iots",
       "Green Computing"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 10,
@@ -896,7 +905,8 @@
         "institution": "Imam Mohammad ibn Saud Islamic University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 11,
@@ -938,7 +948,8 @@
       "Pattern Recognition",
       "Computer Vision"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 12,
@@ -990,7 +1001,7 @@
     ],
     "international_collaborations": [
       {
-        "institution": "Institut Mines-T\u00c3\u00a9l\u00c3\u00a9com",
+        "institution": "Institut Mines-TÃ©lÃ©com",
         "country": "FR"
       },
       {
@@ -1009,7 +1020,8 @@
         "institution": "Majmaah University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 13,
@@ -1105,7 +1117,8 @@
         "institution": "Kabul University",
         "country": "AF"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 14,
@@ -1175,7 +1188,7 @@
         "country": "ES"
       },
       {
-        "institution": "Instituto de Telecomunica\u00c3\u00a7\u00c3\u00b5es",
+        "institution": "Instituto de TelecomunicaÃ§Ãµes",
         "country": "PT"
       },
       {
@@ -1254,7 +1267,8 @@
         "institution": "Chosun University",
         "country": "KR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 15,
@@ -1332,7 +1346,8 @@
         "institution": "Dublin City University",
         "country": "IE"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 16,
@@ -1380,7 +1395,8 @@
       "Digital Twin",
       "Communication Electronics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 17,
@@ -1436,7 +1452,8 @@
         "institution": "Lappeenranta-Lahti University of Technology",
         "country": "FI"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 18,
@@ -1478,7 +1495,8 @@
       "Caching and Content Delivery",
       "Web Data Mining and Analysis"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 19,
@@ -1557,7 +1575,8 @@
         "institution": "University of Business and Technology",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 20,
@@ -1599,7 +1618,8 @@
       "Economic Geography",
       "Institutional Economics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 21,
@@ -1661,7 +1681,8 @@
         "institution": "Kobe Design University",
         "country": "JP"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 22,
@@ -1744,7 +1765,8 @@
         "institution": "Fahd bin Sultan University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 23,
@@ -1807,7 +1829,8 @@
         "institution": "University of Primorska",
         "country": "SI"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 24,
@@ -1885,7 +1908,7 @@
         "country": "IN"
       },
       {
-        "institution": "Universidad Esp\u00c3\u00adritu Santo",
+        "institution": "Universidad EspÃ­ritu Santo",
         "country": "EC"
       },
       {
@@ -1989,7 +2012,7 @@
         "country": "CN"
       },
       {
-        "institution": "Xi\u00e2\u20ac\u2122an International University",
+        "institution": "Xiâ€™an International University",
         "country": "CN"
       },
       {
@@ -2029,7 +2052,7 @@
         "country": "CN"
       },
       {
-        "institution": "Wroc\u00c5\u201aaw University of Environmental and Life Sciences",
+        "institution": "WrocÅ‚aw University of Environmental and Life Sciences",
         "country": "PL"
       },
       {
@@ -2049,7 +2072,7 @@
         "country": "TW"
       },
       {
-        "institution": "\u00c3\u2021a\u00c4\u0178 University",
+        "institution": "Ã‡aÄŸ University",
         "country": "TR"
       },
       {
@@ -2121,7 +2144,7 @@
         "country": "RO"
       },
       {
-        "institution": "West University of Timi\u00c5\u0178oara",
+        "institution": "West University of TimiÅŸoara",
         "country": "RO"
       },
       {
@@ -2252,7 +2275,8 @@
         "institution": "Southwestern University of Finance and Economics",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 25,
@@ -2303,7 +2327,8 @@
       "Knowledge Management and Sharing",
       "Management and Organizational Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 26,
@@ -2382,7 +2407,8 @@
         "institution": "King Fahd University of Petroleum and Minerals",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 27,
@@ -2421,7 +2447,7 @@
       },
       {
         "topic_id": 92,
-        "topic_name": "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+        "topic_name": "Healthcare professionalsâ€™ stress and burnout"
       }
     ],
     "profile_bio": "Aftab Haider is a Associate Professor / HoD HR & Management in the Department of HR and Management at Bahria University, Islamabad (E-8) campus. Areas of expertise include Green HRM, HRM Practices and Artificial Intelligence. Holds a PhD in Management/HRM from Bahria University E-8, Islamabad (2020). Active in teaching, supervision and research.",
@@ -2432,7 +2458,7 @@
       "Employee Performance and Management",
       "Organizational and Employee Performance",
       "COVID-19 and Mental Health",
-      "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+      "Healthcare professionalsâ€™ stress and burnout"
     ],
     "international_collaborations": [
       {
@@ -2447,7 +2473,8 @@
         "institution": "Center for Business Studies",
         "country": "CH"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 28,
@@ -2508,7 +2535,8 @@
         "institution": "University of Sharjah",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 29,
@@ -2540,7 +2568,8 @@
     "research_areas": [
       "Organizational and Employee Performance"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 30,
@@ -2585,7 +2614,8 @@
       "Global Financial Crisis and Policies",
       "Banking stability, regulation, efficiency"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 31,
@@ -2699,7 +2729,7 @@
         "country": "TR"
       },
       {
-        "institution": "University Niccol\u00c3\u00b2 Cusano",
+        "institution": "University NiccolÃ² Cusano",
         "country": "IT"
       },
       {
@@ -2751,7 +2781,7 @@
         "country": "MY"
       },
       {
-        "institution": "Universit\u00c3\u00a9 Le Havre Normandie",
+        "institution": "UniversitÃ© Le Havre Normandie",
         "country": "FR"
       },
       {
@@ -2759,7 +2789,7 @@
         "country": "FR"
       },
       {
-        "institution": "M\u00c3\u00a9tis-Lab",
+        "institution": "MÃ©tis-Lab",
         "country": "FR"
       },
       {
@@ -2770,7 +2800,8 @@
         "institution": "TBS Education",
         "country": "FR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 32,
@@ -2811,7 +2842,7 @@
       },
       {
         "topic_id": 92,
-        "topic_name": "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+        "topic_name": "Healthcare professionalsâ€™ stress and burnout"
       }
     ],
     "profile_bio": "Sana Aroos Khattak is a Associate Professor in the Department of HR and Management at Bahria University, Islamabad (E-8) campus. Areas of expertise include Organization Behavior, Behaviour Modification, Leadership, Diversity & Inclusion, Stress Management & Emotional intelligence. Holds a PhD in HRM from Capital University of Science and Technology Islamabad (2019). Active in teaching, supervision and research.",
@@ -2822,7 +2853,7 @@
       "Construction Project Management and Performance",
       "Supply Chain Resilience and Risk Management",
       "Occupational Health and Safety Research",
-      "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+      "Healthcare professionalsâ€™ stress and burnout"
     ],
     "international_collaborations": [
       {
@@ -2838,7 +2869,7 @@
         "country": "CN"
       },
       {
-        "institution": "Universidad Aut\u00c3\u00b3noma de Chile",
+        "institution": "Universidad AutÃ³noma de Chile",
         "country": "CL"
       },
       {
@@ -2862,7 +2893,7 @@
         "country": "CA"
       },
       {
-        "institution": "Freie Universit\u00c3\u00a4t Berlin",
+        "institution": "Freie UniversitÃ¤t Berlin",
         "country": "DE"
       },
       {
@@ -2873,7 +2904,8 @@
         "institution": "Taif University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 33,
@@ -2918,7 +2950,8 @@
       "Mobile Ad Hoc Networks",
       "Energy Harvesting in Wireless Networks"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 34,
@@ -2981,7 +3014,8 @@
         "institution": "Skolkovo Moscow School of Management",
         "country": "RU"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 35,
@@ -3021,7 +3055,8 @@
       "Workplace Spirituality and Leadership",
       "Job Satisfaction and Organizational Behavior"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 36,
@@ -3061,7 +3096,8 @@
       "Seismic Imaging and Inversion Techniques",
       "Geological and Geophysical Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 37,
@@ -3125,7 +3161,8 @@
         "institution": "University of Malaya",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 38,
@@ -3176,7 +3213,8 @@
       "Social Media and Politics",
       "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 39,
@@ -3234,7 +3272,8 @@
         "institution": "Comsa Emte (Spain)",
         "country": "ES"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 40,
@@ -3282,7 +3321,8 @@
       "Gender",
       "Conflict Resolution"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 41,
@@ -3356,7 +3396,8 @@
         "institution": "Muhammadiyah University of Yogyakarta",
         "country": "ID"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 42,
@@ -3397,7 +3438,8 @@
       "Public Relations and Crisis Communication",
       "Rhetoric and Communication Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 43,
@@ -3451,7 +3493,8 @@
       "Climate Change. Natural Resource Management (land Use Land Cove Changes)",
       "Geographical Information System (GIS)"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 44,
@@ -3463,9 +3506,9 @@
     "email": "naila.bahria@gmail.com",
     "orcid_id": null,
     "photo_url": null,
-    "expertise": "Women\u00e2\u20ac\u2122s empowerment, Tourism, and Microcredit",
+    "expertise": "Womenâ€™s empowerment, Tourism, and Microcredit",
     "expertise_areas": [
-      "Women\u00e2\u20ac\u2122s Empowerment",
+      "Womenâ€™s Empowerment",
       "Tourism",
       "Microcredit"
     ],
@@ -3481,14 +3524,15 @@
         "topic_name": "Halal products and consumer behavior"
       }
     ],
-    "profile_bio": "Naila Masood Ahmed is a Senior Assistant Professor in the Department of Humanities and Social Sciences at Bahria University, Islamabad (E-8) campus. Areas of expertise include Women\u00e2\u20ac\u2122s empowerment, Tourism, and Microcredit. Holds a M.Phil in Socio-Cultural Anthropology from Bahria University, Islamabad (2015). Active in teaching, supervision and research.",
+    "profile_bio": "Naila Masood Ahmed is a Senior Assistant Professor in the Department of Humanities and Social Sciences at Bahria University, Islamabad (E-8) campus. Areas of expertise include Womenâ€™s empowerment, Tourism, and Microcredit. Holds a M.Phil in Socio-Cultural Anthropology from Bahria University, Islamabad (2015). Active in teaching, supervision and research.",
     "education": "M.Phil in Socio-Cultural Anthropology from Bahria University, Islamabad (2015)",
     "source": "scraped",
     "research_areas": [
       "Religious Tourism and Spaces",
       "Halal products and consumer behavior"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 45,
@@ -3533,7 +3577,8 @@
       "Religion, Spirituality, and Psychology",
       "Education and Islamic Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 46,
@@ -3563,7 +3608,8 @@
     "research_areas": [
       "Literature"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 47,
@@ -3621,7 +3667,8 @@
       "Communication Skills",
       "Logic"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 48,
@@ -3657,7 +3704,8 @@
       "Communication Skills",
       "English Language"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 49,
@@ -3713,7 +3761,8 @@
         "institution": "Changzhou University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 50,
@@ -3766,7 +3815,8 @@
       "Cybersecurity and Cyber Warfare Studies",
       "European and Russian Geopolitical Military Strategies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 51,
@@ -3823,7 +3873,8 @@
       "Environmental Justice",
       "Development Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 52,
@@ -3866,7 +3917,8 @@
       "Politics and Conflicts in Afghanistan, Pakistan, and Middle East",
       "Bangladesh Politics, Society, and Development"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 53,
@@ -3918,7 +3970,8 @@
       "Demographic Trends and Gender Preferences",
       "Maternal and Perinatal Health Interventions"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 54,
@@ -3974,7 +4027,8 @@
       "Border Security and International Relations",
       "South Asian Studies and Conflicts"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 55,
@@ -4064,7 +4118,8 @@
         "institution": "Universitas Negeri Surabaya",
         "country": "ID"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 56,
@@ -4112,7 +4167,8 @@
         "institution": "Federal College of Education, Kano",
         "country": "NG"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 57,
@@ -4160,7 +4216,8 @@
       "Global Development & Underdevelopment",
       "Globalization"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 58,
@@ -4219,7 +4276,8 @@
       "Development",
       "Culture"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 59,
@@ -4292,7 +4350,8 @@
         "institution": "Taif University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 60,
@@ -4340,7 +4399,8 @@
       "CPEC",
       "Sdgs"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 61,
@@ -4382,7 +4442,8 @@
       "Criminal Jurisprudence",
       "Islamic Law"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 62,
@@ -4412,7 +4473,8 @@
     "research_areas": [
       "Islamic Finance and Banking Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 63,
@@ -4424,14 +4486,14 @@
     "email": "Msaeed.buic@bahria.edu.pk",
     "orcid_id": null,
     "photo_url": null,
-    "expertise": "\u00ef\u201a\u00b7 Quranic Studies, Hadith Studies, and Seerah \u00ef\u201a\u00b7 Islamic Thought, Jurisprudence, Leadership, and Governance \u00ef\u201a\u00b7 Islamic Society, Peacebuilding, and Counter-Extremism Studies",
+    "expertise": "ï‚· Quranic Studies, Hadith Studies, and Seerah ï‚· Islamic Thought, Jurisprudence, Leadership, and Governance ï‚· Islamic Society, Peacebuilding, and Counter-Extremism Studies",
     "expertise_areas": [
-      "\u00ef\u201a\u00b7 Quranic Studies",
+      "ï‚· Quranic Studies",
       "Hadith Studies",
-      "Seerah \u00ef\u201a\u00b7 Islamic Thought",
+      "Seerah ï‚· Islamic Thought",
       "Jurisprudence",
       "Leadership",
-      "Governance \u00ef\u201a\u00b7 Islamic Society",
+      "Governance ï‚· Islamic Society",
       "Peacebuilding",
       "Counter-extremism Studies"
     ],
@@ -4459,7 +4521,7 @@
         "topic_name": "Linguistic, Cultural, and Literary Studies"
       }
     ],
-    "profile_bio": "Muhammad Saeed is a Assistant Professor in the Department of Islamic Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include \u00ef\u201a\u00b7 Quranic Studies, Hadith Studies, and Seerah \u00ef\u201a\u00b7 Islamic Thought, Jurisprudence, Leadership, and Governance \u00ef\u201a\u00b7 Islamic Society, Peacebuilding, and Counter-Extremism Studies. Active in teaching, supervision and research.",
+    "profile_bio": "Muhammad Saeed is a Assistant Professor in the Department of Islamic Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include ï‚· Quranic Studies, Hadith Studies, and Seerah ï‚· Islamic Thought, Jurisprudence, Leadership, and Governance ï‚· Islamic Society, Peacebuilding, and Counter-Extremism Studies. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
@@ -4474,7 +4536,8 @@
         "institution": "Southeast University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 64,
@@ -4506,7 +4569,7 @@
       },
       {
         "topic_id": 193,
-        "topic_name": "Qur\u00e2\u20ac\u2122anic Interpretation Studies"
+        "topic_name": "Qurâ€™anic Interpretation Studies"
       }
     ],
     "profile_bio": "Rahim Ullah is a Assistant Professor in the Department of Islamic Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include Tafseer & its sciences,Fiqh & Usool e Fiqh,Arabic Language,Islamic Banking & Finance. Holds a PhD in Tafseer & Its sciences from IIUI (2023). Active in teaching, supervision and research.",
@@ -4515,14 +4578,15 @@
     "research_areas": [
       "Gender and Women's Rights",
       "Marriage and Family Dynamics",
-      "Qur\u00e2\u20ac\u2122anic Interpretation Studies"
+      "Qurâ€™anic Interpretation Studies"
     ],
     "international_collaborations": [
       {
         "institution": "International Islamic University Malaysia",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 65,
@@ -4570,7 +4634,8 @@
       "Islamic Theology",
       "Current Islamic Issues"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 66,
@@ -4620,7 +4685,8 @@
       "Religion and Society Interactions",
       "Theology and Philosophy of Evil"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 67,
@@ -4656,7 +4722,8 @@
       "Hadith",
       "Seerah"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 68,
@@ -4712,7 +4779,8 @@
         "institution": "Asia Pacific University of Technology & Innovation",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 69,
@@ -4754,7 +4822,8 @@
       "Jewish and Middle Eastern Studies",
       "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 70,
@@ -4794,7 +4863,8 @@
     "research_areas": [
       "International Law and Human Rights"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 71,
@@ -4860,7 +4930,8 @@
         "institution": "Xiamen University of Technology",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 72,
@@ -4921,7 +4992,8 @@
         "institution": "Materials Resources (United States)",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 73,
@@ -4974,7 +5046,8 @@
       "Corporate Law and Human Rights",
       "International Arbitration and Investment Law"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 74,
@@ -5022,11 +5095,12 @@
       "Corperate Law",
       "Contract Law"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 75,
-    "full_name": "MUHAMMAD SADIQ KAKAR",
+    "full_name": "Muhammad Sadiq Kakar",
     "designation": "Assistant Professor",
     "department": "Law",
     "campus": "Islamabad (E-8)",
@@ -5069,7 +5143,7 @@
         "topic_name": "Islamic Commercial Law"
       }
     ],
-    "profile_bio": "MUHAMMAD SADIQ KAKAR is a Assistant Professor in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include International Law, International Human Rights Law, International Humanitarian Law, Islamic Law, Islamic Commercial Law, Muslim Family Law, Criminal Law, Constitutional Law,. Holds a PhD in International Human Rights Law from Vrije Universiteit Brussel, Belgium (2025). Active in teaching, supervision and research.",
+    "profile_bio": "Muhammad Sadiq Kakar is a Assistant Professor in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include International Law, International Human Rights Law, International Humanitarian Law, Islamic Law, Islamic Commercial Law, Muslim Family Law, Criminal Law, Constitutional Law,. Holds a PhD in International Human Rights Law from Vrije Universiteit Brussel, Belgium (2025). Active in teaching, supervision and research.",
     "education": "PhD in International Human Rights Law from Vrije Universiteit Brussel, Belgium (2025)",
     "source": "scraped",
     "research_areas": [
@@ -5079,7 +5153,8 @@
       "Islamic Law",
       "Islamic Commercial Law"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 76,
@@ -5142,7 +5217,8 @@
         "institution": "Shandong University of Political Science and Law",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 77,
@@ -5199,7 +5275,8 @@
         "institution": "Supreme Court of Virginia",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 78,
@@ -5247,7 +5324,8 @@
       "International Water Laws",
       "Indus Water Treaty"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 79,
@@ -5287,7 +5365,8 @@
       "Climate Change, Adaptation, Migration",
       "International Law and Aviation"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 80,
@@ -5329,12 +5408,13 @@
       "Motor Control and Adaptation",
       "Balance, Gait, and Falls Prevention"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 81,
     "full_name": "Muhammad Imran Khan",
-    "designation": "Senior Assistant Professor \u00e2\u20ac\u201c Public International Law",
+    "designation": "Senior Assistant Professor â€“ Public International Law",
     "department": "Law",
     "campus": "Islamabad (E-8)",
     "institution": "Bahria University",
@@ -5361,7 +5441,7 @@
         "topic_name": "BIM and Construction Integration"
       }
     ],
-    "profile_bio": "Muhammad Imran Khan is a Senior Assistant Professor \u00e2\u20ac\u201c Public International Law in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include Public International Law. Holds a PhD in International law and human rights law from University of Ferrara (2022). Active in teaching, supervision and research.",
+    "profile_bio": "Muhammad Imran Khan is a Senior Assistant Professor â€“ Public International Law in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include Public International Law. Holds a PhD in International law and human rights law from University of Ferrara (2022). Active in teaching, supervision and research.",
     "education": "PhD in International law and human rights law from University of Ferrara (2022)",
     "source": "scraped",
     "research_areas": [
@@ -5374,7 +5454,8 @@
         "institution": "London South Bank University",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 82,
@@ -5428,14 +5509,15 @@
     ],
     "international_collaborations": [
       {
-        "institution": "University of Sk\u00c3\u00b6vde",
+        "institution": "University of SkÃ¶vde",
         "country": "SE"
       },
       {
         "institution": "Lappeenranta-Lahti University of Technology",
         "country": "FI"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 83,
@@ -5499,7 +5581,8 @@
         "institution": "King Abdullah University of Science and Technology",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 84,
@@ -5556,7 +5639,8 @@
         "institution": "North South University",
         "country": "BD"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 85,
@@ -5598,7 +5682,8 @@
       "Decoloniality",
       "Secularism"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 86,
@@ -5628,7 +5713,8 @@
     "research_areas": [
       "Abc"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 87,
@@ -5676,7 +5762,8 @@
         "institution": "Software (Spain)",
         "country": "ES"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 88,
@@ -5749,7 +5836,8 @@
         "institution": "Imam Mohammad ibn Saud Islamic University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 89,
@@ -5791,7 +5879,8 @@
       "Digital Marketing",
       "Research"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 90,
@@ -5860,14 +5949,15 @@
         "country": "CN"
       },
       {
-        "institution": "Universit\u00c3\u00a9 du Qu\u00c3\u00a9bec \u00c3\u00a0 Trois-Rivi\u00c3\u00a8res",
+        "institution": "UniversitÃ© du QuÃ©bec Ã  Trois-RiviÃ¨res",
         "country": "CA"
       },
       {
         "institution": "University of Winchester",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 91,
@@ -5922,7 +6012,8 @@
       "Diverse Topics in Contemporary Research",
       "Diverse Approaches in Healthcare and Education Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 92,
@@ -6005,7 +6096,8 @@
         "institution": "University of Connecticut",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 93,
@@ -6059,7 +6151,8 @@
       "Peace",
       "Critical Journalism Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 94,
@@ -6125,7 +6218,8 @@
         "institution": "University of Gothenburg",
         "country": "SE"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 95,
@@ -6166,7 +6260,8 @@
       "Islamic Finance and Banking Studies",
       "Organizational Leadership and Management Strategies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 96,
@@ -6222,7 +6317,8 @@
         "institution": "Anhui Normal University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 97,
@@ -6293,7 +6389,8 @@
         "institution": "King Saud University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 98,
@@ -6352,7 +6449,8 @@
         "institution": "University of Science and Technology",
         "country": "YE"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 99,
@@ -6394,7 +6492,8 @@
       "Inter-cultural Communication",
       "Digital Advertising"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 100,
@@ -6454,7 +6553,8 @@
         "institution": "Guangzhou Academy of Fine Arts",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 101,
@@ -6504,7 +6604,8 @@
       "Social Media and Politics",
       "Gender, Feminism, and Media"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 102,
@@ -6557,7 +6658,8 @@
       "Digital Marketing and Social Media",
       "Technology Adoption and User Behaviour"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 103,
@@ -6607,7 +6709,8 @@
       "Sustainability, Governance, and Employment Studies",
       "Consumer Behavior and Marketing Influence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 104,
@@ -6654,7 +6757,8 @@
         "institution": "Logistics Management Institute (United States)",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 105,
@@ -6706,7 +6810,8 @@
       "Blockchain Technology Applications and Security",
       "Digital Transformation in Industry"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 106,
@@ -6797,7 +6902,8 @@
         "institution": "Kingston University",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 107,
@@ -6858,7 +6964,8 @@
         "institution": "Regional Health",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 108,
@@ -6912,7 +7019,8 @@
       "Bayesian Belief Network",
       "Data Science"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 109,
@@ -6964,7 +7072,8 @@
         "institution": "Manchester Metropolitan University",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 110,
@@ -7033,7 +7142,8 @@
         "institution": "Lincoln University College",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 111,
@@ -7137,7 +7247,8 @@
         "institution": "21c Consultancy (United Kingdom)",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 112,
@@ -7177,7 +7288,8 @@
       "Supply Chain Resilience and Risk Management",
       "Sustainable Industrial Ecology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 113,
@@ -7217,7 +7329,8 @@
       "Solar Radiation and Photovoltaics",
       "Smart Grid Energy Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 114,
@@ -7259,7 +7372,8 @@
       "Climate Change",
       "Post Disaster Reconstruction Projects"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 115,
@@ -7371,7 +7485,8 @@
         "institution": "American University of Ras Al Khaimah",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 116,
@@ -7413,7 +7528,8 @@
       "Death Anxiety and Social Exclusion",
       "Media Influence and Health"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 117,
@@ -7469,7 +7585,8 @@
       "Career Development",
       "Educational Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 118,
@@ -7526,7 +7643,8 @@
         "institution": "Centers for Medicare and Medicaid Services",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 119,
@@ -7557,7 +7675,7 @@
       },
       {
         "topic_id": 92,
-        "topic_name": "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+        "topic_name": "Healthcare professionalsâ€™ stress and burnout"
       }
     ],
     "profile_bio": "Uzma Masroor is a Dean / Senior Assistant Professor in the Department of Psychology at Bahria University, Islamabad (E-8) campus. Areas of expertise include Social and Cognitive Behavior, Neurolinguistics Programming,. Holds a PhD in Clinical Psychology from Institute of Clinical Psychology (University of Karachi) (2006). Active in teaching, supervision and research.",
@@ -7566,9 +7684,10 @@
     "research_areas": [
       "Resilience and Mental Health",
       "Health, psychology, and well-being",
-      "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+      "Healthcare professionalsâ€™ stress and burnout"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 120,
@@ -7616,7 +7735,8 @@
       "Resilience and Mental Health",
       "Health and Wellbeing Research"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 121,
@@ -7652,7 +7772,8 @@
       "Clinical",
       "Social Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 122,
@@ -7694,7 +7815,8 @@
       "Social Issues In Psychology",
       "Qualitative Research"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 123,
@@ -7765,7 +7887,8 @@
         "institution": "Active Motif (United States)",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 124,
@@ -7813,7 +7936,8 @@
       "Career Counselling",
       "Well-being"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 125,
@@ -7875,7 +7999,8 @@
         "institution": "Centers for Medicare and Medicaid Services",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 126,
@@ -7916,7 +8041,8 @@
       "Leadership, Courage, and Heroism Studies",
       "Death Anxiety and Social Exclusion"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 127,
@@ -7952,7 +8078,8 @@
       "Clinical Psychology",
       "Social Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 128,
@@ -8017,7 +8144,7 @@
         "country": "TR"
       },
       {
-        "institution": "Universit\u00c3\u00a0 di Camerino",
+        "institution": "UniversitÃ  di Camerino",
         "country": "IT"
       },
       {
@@ -8132,7 +8259,8 @@
         "institution": "King Faisal University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 129,
@@ -8221,7 +8349,8 @@
         "institution": "University of Ha'il",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 130,
@@ -8333,10 +8462,11 @@
         "country": "KR"
       },
       {
-        "institution": "Universidade de S\u00c3\u00a3o Paulo",
+        "institution": "Universidade de SÃ£o Paulo",
         "country": "BR"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 131,
@@ -8384,7 +8514,8 @@
         "institution": "Trinity College Dublin",
         "country": "IE"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 132,
@@ -8460,7 +8591,8 @@
         "institution": "Sungkyunkwan University",
         "country": "KR"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 133,
@@ -8523,7 +8655,8 @@
         "institution": "Villanova University",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 134,
@@ -8580,7 +8713,8 @@
         "institution": "Oman Medical College",
         "country": "OM"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 135,
@@ -8660,7 +8794,8 @@
         "institution": "Macquarie University",
         "country": "AU"
       }
-    ]
+    ],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 136,
@@ -8690,7 +8825,8 @@
     "research_areas": [
       "Communication System & Iot Networks"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 137,
@@ -8736,7 +8872,8 @@
         "institution": "Addis Ababa Science and Technology University",
         "country": "ET"
       }
-    ]
+    ],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 138,
@@ -8807,7 +8944,7 @@
         "country": "MY"
       },
       {
-        "institution": "Universitat Polit\u00c3\u00a8cnica de Val\u00c3\u00a8ncia",
+        "institution": "Universitat PolitÃ¨cnica de ValÃ¨ncia",
         "country": "ES"
       },
       {
@@ -8827,7 +8964,7 @@
         "country": "SA"
       },
       {
-        "institution": "Institut Mines-T\u00c3\u00a9l\u00c3\u00a9com",
+        "institution": "Institut Mines-TÃ©lÃ©com",
         "country": "FR"
       },
       {
@@ -8835,7 +8972,7 @@
         "country": "FR"
       },
       {
-        "institution": "T\u00c3\u00a9l\u00c3\u00a9com SudParis",
+        "institution": "TÃ©lÃ©com SudParis",
         "country": "FR"
       },
       {
@@ -8847,7 +8984,7 @@
         "country": "SA"
       },
       {
-        "institution": "Abdullah G\u00c3\u00bcl University",
+        "institution": "Abdullah GÃ¼l University",
         "country": "TR"
       },
       {
@@ -8931,15 +9068,15 @@
         "country": "US"
       },
       {
-        "institution": "\u00c3\u2030cole de Technologie Sup\u00c3\u00a9rieure",
+        "institution": "Ã‰cole de Technologie SupÃ©rieure",
         "country": "CA"
       },
       {
-        "institution": "Universidade Federal do Piau\u00c3\u00ad",
+        "institution": "Universidade Federal do PiauÃ­",
         "country": "BR"
       },
       {
-        "institution": "Instituto de Telecomunica\u00c3\u00a7\u00c3\u00b5es",
+        "institution": "Instituto de TelecomunicaÃ§Ãµes",
         "country": "PT"
       },
       {
@@ -9022,7 +9159,8 @@
         "institution": "Al Yamamah University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 139,
@@ -9079,7 +9217,7 @@
         "country": "CN"
       },
       {
-        "institution": "Lule\u00c3\u00a5 University of Technology",
+        "institution": "LuleÃ¥ University of Technology",
         "country": "SE"
       },
       {
@@ -9090,7 +9228,8 @@
         "institution": "Mansoura University",
         "country": "EG"
       }
-    ]
+    ],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 140,
@@ -9259,7 +9398,8 @@
         "institution": "Jeju National University",
         "country": "KR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 141,
@@ -9359,7 +9499,8 @@
         "institution": "Government of the United States of America",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 142,
@@ -9480,7 +9621,8 @@
         "institution": "King Faisal University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 143,
@@ -9516,7 +9658,8 @@
       "Machine Learning",
       "Deep Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 144,
@@ -9563,7 +9706,8 @@
         "institution": "Chongqing University of Posts and Telecommunications",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 145,
@@ -9618,7 +9762,8 @@
         "institution": "Integral Consulting (United States)",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 146,
@@ -9676,7 +9821,8 @@
         "institution": "University of the Sciences",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 147,
@@ -9718,7 +9864,8 @@
       "Computer Vision",
       "Machine Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 148,
@@ -9760,7 +9907,8 @@
       "Digital System Design",
       "Machine Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 149,
@@ -9802,7 +9950,8 @@
       "Human Computer Interaction",
       "Software Engineering"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 150,
@@ -9823,7 +9972,8 @@
     "education": "MPhil in Econometrics from Pakistan Institute of Development Economics (2019)",
     "source": "scraped",
     "research_areas": [],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 151,
@@ -9865,7 +10015,8 @@
       "Attention Mechanism",
       "Biomedical Signal Processing & Machine Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 152,
@@ -9948,7 +10099,8 @@
         "institution": "Middle East Technical University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 153,
@@ -10050,7 +10202,7 @@
         "country": "HU"
       },
       {
-        "institution": "HUN-REN Szegedi Biol\u00c3\u00b3giai Kutat\u00c3\u00b3k\u00c3\u00b6zpont",
+        "institution": "HUN-REN Szegedi BiolÃ³giai KutatÃ³kÃ¶zpont",
         "country": "HU"
       },
       {
@@ -10117,7 +10269,8 @@
         "institution": "Tsinghua University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 154,
@@ -10201,7 +10354,8 @@
         "institution": "State Key Laboratory of Information Engineering in Surveying Mapping and Remote Sensing",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 155,
@@ -10274,7 +10428,7 @@
         "country": "CA"
       },
       {
-        "institution": "Bolu Abant \u00c4\u00b0zzet Baysal University",
+        "institution": "Bolu Abant Ä°zzet Baysal University",
         "country": "TR"
       },
       {
@@ -10317,7 +10471,8 @@
         "institution": "Beijing Institute of Technology",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 156,
@@ -10408,7 +10563,8 @@
         "institution": "King Saud University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 157,
@@ -10465,7 +10621,7 @@
     ],
     "international_collaborations": [
       {
-        "institution": "Lule\u00c3\u00a5 University of Technology",
+        "institution": "LuleÃ¥ University of Technology",
         "country": "SE"
       },
       {
@@ -10504,7 +10660,8 @@
         "institution": "Harvard University",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 158,
@@ -10572,7 +10729,7 @@
         "country": "NO"
       },
       {
-        "institution": "Universit\u00c3\u00a9 Ibn Zohr",
+        "institution": "UniversitÃ© Ibn Zohr",
         "country": "MA"
       },
       {
@@ -10644,7 +10801,7 @@
         "country": "CN"
       },
       {
-        "institution": "Lule\u00c3\u00a5 University of Technology",
+        "institution": "LuleÃ¥ University of Technology",
         "country": "SE"
       },
       {
@@ -10731,7 +10888,8 @@
         "institution": "University of Warsaw",
         "country": "PL"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 159,
@@ -10807,10 +10965,11 @@
         "country": "TR"
       },
       {
-        "institution": "Dokuz Eyl\u00c3\u00bcl University",
+        "institution": "Dokuz EylÃ¼l University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 160,
@@ -10887,7 +11046,7 @@
         "country": "US"
       },
       {
-        "institution": "Laboratoire de Physico-Chimie de l'Atmosph\u00c3\u00a8re",
+        "institution": "Laboratoire de Physico-Chimie de l'AtmosphÃ¨re",
         "country": "FR"
       },
       {
@@ -10918,7 +11077,8 @@
         "institution": "King Saud University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 161,
@@ -11044,7 +11204,8 @@
         "institution": "Hefei University of Technology",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 162,
@@ -11104,7 +11265,7 @@
         "country": "CN"
       },
       {
-        "institution": "Lule\u00c3\u00a5 University of Technology",
+        "institution": "LuleÃ¥ University of Technology",
         "country": "SE"
       },
       {
@@ -11124,7 +11285,7 @@
         "country": "SA"
       },
       {
-        "institution": "Universitat Aut\u00c3\u00b2noma de Barcelona",
+        "institution": "Universitat AutÃ²noma de Barcelona",
         "country": "ES"
       },
       {
@@ -11136,7 +11297,7 @@
         "country": "US"
       },
       {
-        "institution": "Laboratoire de Physico-Chimie de l'Atmosph\u00c3\u00a8re",
+        "institution": "Laboratoire de Physico-Chimie de l'AtmosphÃ¨re",
         "country": "FR"
       },
       {
@@ -11187,7 +11348,8 @@
         "institution": "Silicon Valley University",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 163,
@@ -11239,7 +11401,8 @@
         "institution": "Central South University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 164,
@@ -11482,7 +11645,8 @@
         "institution": "American University of the Middle East",
         "country": "KW"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 165,
@@ -11512,7 +11676,8 @@
     "research_areas": [
       "Telecommunicaiton"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 166,
@@ -11603,7 +11768,8 @@
         "institution": "Ton Duc Thang University",
         "country": "VN"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 167,
@@ -11662,7 +11828,8 @@
         "institution": "Chungbuk National University",
         "country": "KR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 168,
@@ -11737,7 +11904,8 @@
         "institution": "Xidian University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 169,
@@ -11834,7 +12002,8 @@
         "institution": "King Fahd University of Petroleum and Minerals",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 170,
@@ -11893,7 +12062,8 @@
         "institution": "National Heart Centre Singapore",
         "country": "SG"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 171,
@@ -11923,7 +12093,8 @@
     "research_areas": [
       "Nonlinear Controller Design"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 172,
@@ -11958,7 +12129,8 @@
       "Software Engineering Techniques and Practices",
       "Collaboration in agile enterprises"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 173,
@@ -12038,7 +12210,8 @@
         "institution": "City University of Hong Kong",
         "country": "HK"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 174,
@@ -12068,7 +12241,8 @@
     "research_areas": [
       "Embedded Systems"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 175,
@@ -12104,7 +12278,8 @@
       "Computing",
       "Artificial Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 176,
@@ -12152,7 +12327,8 @@
       "Health Psychology",
       "Clinical Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 177,
@@ -12194,7 +12370,8 @@
       "Health Psychology",
       "Neuropsychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 178,
@@ -12224,7 +12401,8 @@
     "research_areas": [
       "Clinical Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 179,
@@ -12264,7 +12442,8 @@
       "Health and Well-being Studies",
       "Resilience and Mental Health"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 180,
@@ -12294,7 +12473,8 @@
     "research_areas": [
       "NIL"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 181,
@@ -12324,7 +12504,8 @@
     "research_areas": [
       "Social Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 182,
@@ -12381,7 +12562,8 @@
         "institution": "Tashkent Institute of Irrigation and Agricultural Mechanization Engineers",
         "country": "UZ"
       }
-    ]
+    ],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 183,
@@ -12417,7 +12599,8 @@
       "Applied",
       "Clinical Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 184,
@@ -12482,7 +12665,8 @@
         "institution": "Memorial Hospital",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 185,
@@ -12580,7 +12764,8 @@
         "institution": "Universiti Teknologi Petronas",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 186,
@@ -12637,7 +12822,8 @@
         "institution": "Kingston University",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 187,
@@ -12695,7 +12881,8 @@
         "institution": "University of Jeddah",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 188,
@@ -12763,7 +12950,8 @@
         "institution": "South Valley University",
         "country": "EG"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 189,
@@ -12832,7 +13020,8 @@
         "institution": "Princess Nourah bint Abdulrahman University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 190,
@@ -12862,7 +13051,8 @@
     "research_areas": [
       "Information Systems"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 191,
@@ -12937,7 +13127,8 @@
         "institution": "Technical University of Munich",
         "country": "DE"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 192,
@@ -12991,7 +13182,8 @@
       "E-learning",
       "Data Science"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 193,
@@ -13021,7 +13213,8 @@
     "research_areas": [
       "Software Engineering"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 194,
@@ -13051,7 +13244,8 @@
     "research_areas": [
       "Software Engineering - AI"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 195,
@@ -13093,7 +13287,8 @@
       "Glaucoma and retinal disorders",
       "Digital Imaging for Blood Diseases"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 196,
@@ -13123,7 +13318,8 @@
     "research_areas": [
       "Software Engineering"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 197,
@@ -13252,7 +13448,8 @@
         "institution": "Tashkent State University of Economics",
         "country": "UZ"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 198,
@@ -13308,7 +13505,8 @@
         "institution": "University of North Florida",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 199,
@@ -13358,7 +13556,8 @@
       "Organizational and Employee Performance",
       "Big Data and Business Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 200,
@@ -13405,7 +13604,8 @@
         "institution": "Prince Mohammad bin Fahd University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 201,
@@ -13460,7 +13660,8 @@
       "Innovation and Socioeconomic Development",
       "Financial Markets and Investment Strategies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 202,
@@ -13555,7 +13756,8 @@
         "institution": "Sichuan University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 203,
@@ -13591,7 +13793,8 @@
       "Human Resources",
       "Organizational Behavior"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 204,
@@ -13645,7 +13848,8 @@
       "Climate Change",
       "Frugal Innovation"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 205,
@@ -13745,7 +13949,7 @@
         "country": "MY"
       },
       {
-        "institution": "Universit\u00c3\u00a9 de Reims Champagne-Ardenne",
+        "institution": "UniversitÃ© de Reims Champagne-Ardenne",
         "country": "FR"
       },
       {
@@ -13784,7 +13988,8 @@
         "institution": "HOPE Clinic",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 206,
@@ -13836,7 +14041,8 @@
       "Environmental Education and Sustainability",
       "Technology Adoption and User Behaviour"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 207,
@@ -13910,7 +14116,8 @@
         "institution": "Yanbu Industrial College",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 208,
@@ -13969,7 +14176,8 @@
       "SMEs Development and Digital Marketing",
       "Consumer Behavior and Marketing Influence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 209,
@@ -14043,7 +14251,7 @@
         "country": "FR"
       },
       {
-        "institution": "Universit\u00c3\u00a9 de Tours",
+        "institution": "UniversitÃ© de Tours",
         "country": "FR"
       },
       {
@@ -14070,7 +14278,8 @@
         "institution": "Howard College",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 210,
@@ -14124,7 +14333,8 @@
       "Neuroscience and Neural Engineering",
       "Blind Source Separation Techniques"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 211,
@@ -14203,7 +14413,8 @@
         "institution": "Howard College",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 212,
@@ -14251,7 +14462,8 @@
       "Data Science",
       "Embedded Systems"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 213,
@@ -14302,7 +14514,8 @@
       "Interconnection Networks and Systems",
       "Wireless Communication Networks Research"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 214,
@@ -14353,7 +14566,8 @@
       "Internet of Things and AI",
       "Cloud Computing and Resource Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 215,
@@ -14412,7 +14626,8 @@
         "institution": "Southeast University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 216,
@@ -14442,7 +14657,8 @@
     "research_areas": [
       "Networking"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 217,
@@ -14472,7 +14688,8 @@
     "research_areas": [
       "Software Engineering"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 218,
@@ -14508,7 +14725,8 @@
       "Software",
       "Artificial Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 219,
@@ -14544,7 +14762,8 @@
       "Computer Networks",
       "Software Algorithms"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Other"
   },
   {
     "researcher_id": 220,
@@ -14580,7 +14799,8 @@
       "Digital Design",
       "Machine Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 221,
@@ -14659,7 +14879,8 @@
         "institution": "Zagazig University",
         "country": "EG"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 222,
@@ -14713,7 +14934,8 @@
       "Blockchain",
       "Internet of Things"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 223,
@@ -14776,7 +14998,8 @@
         "institution": "Pennsylvania State University",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 224,
@@ -14818,7 +15041,8 @@
       "Artificial Intelligence",
       "Internet of Things"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 225,
@@ -14849,7 +15073,7 @@
       },
       {
         "topic_id": 193,
-        "topic_name": "Qur\u00e2\u20ac\u2122anic Interpretation Studies"
+        "topic_name": "Qurâ€™anic Interpretation Studies"
       },
       {
         "topic_id": 507,
@@ -14866,7 +15090,7 @@
     "research_areas": [
       "Gender and Women's Rights",
       "Marriage and Family Dynamics",
-      "Qur\u00e2\u20ac\u2122anic Interpretation Studies",
+      "Qurâ€™anic Interpretation Studies",
       "Biometric Identification and Security",
       "User Authentication and Security Systems"
     ],
@@ -14887,7 +15111,8 @@
         "institution": "International Islamic University Malaysia",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 226,
@@ -14932,7 +15157,8 @@
       "UAV Applications and Optimization",
       "Optical Wireless Communication Technologies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 227,
@@ -14984,7 +15210,8 @@
       "Cognitive Science and Mapping",
       "Forecasting Techniques and Applications"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 228,
@@ -15133,7 +15360,7 @@
         "country": "AE"
       },
       {
-        "institution": "Ollscoil na Gaillimhe \u00e2\u20ac\u201c University of Galway",
+        "institution": "Ollscoil na Gaillimhe â€“ University of Galway",
         "country": "IE"
       },
       {
@@ -15185,11 +15412,11 @@
         "country": "IN"
       },
       {
-        "institution": "St Xavier\u00e2\u20ac\u2122s College",
+        "institution": "St Xavierâ€™s College",
         "country": "IN"
       },
       {
-        "institution": "Centro de Tecnologia da Informa\u00c3\u00a7\u00c3\u00a3o Renato Archer",
+        "institution": "Centro de Tecnologia da InformaÃ§Ã£o Renato Archer",
         "country": "BR"
       },
       {
@@ -15204,7 +15431,8 @@
         "institution": "Zhejiang University of Science and Technology",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 229,
@@ -15255,7 +15483,8 @@
       "Natural Language Processing Techniques",
       "Advanced Text Analysis Techniques"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 230,
@@ -15310,7 +15539,8 @@
       "Natural Language Processing",
       "Information Retrieval"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 231,
@@ -15352,7 +15582,8 @@
       "Artificial Intelligence (machine Learning)",
       "Cybersecurity"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 232,
@@ -15407,7 +15638,8 @@
         "institution": "University of Wisconsin Health",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 233,
@@ -15497,7 +15729,8 @@
         "institution": "Geospatial Information Authority of Japan",
         "country": "JP"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 234,
@@ -15599,7 +15832,7 @@
         "country": "CN"
       },
       {
-        "institution": "Universit\u00c3\u00a9 Mustapha Stambouli de Mascara",
+        "institution": "UniversitÃ© Mustapha Stambouli de Mascara",
         "country": "DZ"
       },
       {
@@ -15702,7 +15935,8 @@
         "institution": "Abu Dhabi Health Services",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 235,
@@ -15782,7 +16016,8 @@
         "institution": "King Fahd University of Petroleum and Minerals",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 236,
@@ -15838,7 +16073,8 @@
       "Hydrogeology",
       "Occupational Health"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 237,
@@ -15897,7 +16133,8 @@
         "institution": "Geospatial Information Authority of Japan",
         "country": "JP"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 238,
@@ -15933,7 +16170,8 @@
       "Environmental Sciences",
       "Climate Change"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 239,
@@ -15969,7 +16207,8 @@
       "Remote Sensing & GIS",
       "Forestry"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 240,
@@ -16027,7 +16266,8 @@
       "Microbes",
       "Wetland Plants Constructed Wetlands"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 241,
@@ -16063,7 +16303,8 @@
       "Digital Signal Processing",
       "Artificial Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 242,
@@ -16146,7 +16387,8 @@
         "institution": "Southeast University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 243,
@@ -16203,7 +16445,8 @@
         "institution": "Samsung (India)",
         "country": "IN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 244,
@@ -16237,15 +16480,16 @@
         "topic_name": "Advancements in PLL and VCO Technologies"
       }
     ],
-    "profile_bio": "Muhammad Raza is a Senior Associate Professor in the Department of Electrical Engineering at Bahria University, Karachi campus. Areas of expertise include Renewable Energy, HPDC, Microwave. Holds a PhD in Electrical Engineering from Universitat Polit\u00c3\u00a8cnica de Catalunya BarcelonaTech (UPC), Barcelona, Spain (2017). Active in teaching, supervision and research.",
-    "education": "PhD in Electrical Engineering from Universitat Polit\u00c3\u00a8cnica de Catalunya BarcelonaTech (UPC), Barcelona, Spain (2017)",
+    "profile_bio": "Muhammad Raza is a Senior Associate Professor in the Department of Electrical Engineering at Bahria University, Karachi campus. Areas of expertise include Renewable Energy, HPDC, Microwave. Holds a PhD in Electrical Engineering from Universitat PolitÃ¨cnica de Catalunya BarcelonaTech (UPC), Barcelona, Spain (2017). Active in teaching, supervision and research.",
+    "education": "PhD in Electrical Engineering from Universitat PolitÃ¨cnica de Catalunya BarcelonaTech (UPC), Barcelona, Spain (2017)",
     "source": "scraped",
     "research_areas": [
       "Radio Frequency Integrated Circuit Design",
       "Microwave Engineering and Waveguides",
       "Advancements in PLL and VCO Technologies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 245,
@@ -16352,7 +16596,8 @@
         "institution": "CGA Simulations (United Kingdom)",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 246,
@@ -16388,7 +16633,8 @@
       "Environmental Engineering and Cultural Studies",
       "High voltage insulation and dielectric phenomena"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 247,
@@ -16444,7 +16690,8 @@
       "Electrical Fault Detection and Protection",
       "Machine Fault Diagnosis Techniques"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 248,
@@ -16486,7 +16733,8 @@
       "Hardware Acceleration",
       "Embedded Systems"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 249,
@@ -16542,10 +16790,11 @@
         "country": "SA"
       },
       {
-        "institution": "University of Jyv\u00c3\u00a4skyl\u00c3\u00a4",
+        "institution": "University of JyvÃ¤skylÃ¤",
         "country": "FI"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 250,
@@ -16591,7 +16840,8 @@
         "institution": "Southeast University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 251,
@@ -16647,7 +16897,8 @@
         "institution": "Central South University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 252,
@@ -16720,7 +16971,8 @@
         "institution": "Nanfang Hospital",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 253,
@@ -16750,7 +17002,8 @@
     "research_areas": [
       "Applied Linguistics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 254,
@@ -16860,7 +17113,8 @@
         "institution": "Universiti Teknologi Petronas",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 255,
@@ -16908,7 +17162,8 @@
       "Computing Statistics",
       "Analysis"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 256,
@@ -16938,7 +17193,8 @@
     "research_areas": [
       "English Literature"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 257,
@@ -16992,7 +17248,8 @@
       "Probabilistic Method In Data Analysis",
       "Stochastic Processes"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 258,
@@ -17047,7 +17304,8 @@
       "International Relations and Foreign Policy",
       "Global Political and Social Dynamics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 259,
@@ -17098,7 +17356,8 @@
         "institution": "Continental (Canada)",
         "country": "CA"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 260,
@@ -17149,7 +17408,8 @@
         "institution": "Continental (Canada)",
         "country": "CA"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 261,
@@ -17205,7 +17465,8 @@
       "Orientalism",
       "Non-traditional Security"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 262,
@@ -17255,8 +17516,8 @@
         "topic_name": "Indian Economic and Social Development"
       }
     ],
-    "profile_bio": "Sidra Khan is a Assistant Professor in the Department of Humanities and Social Sciences at Bahria University, Karachi campus. Areas of expertise include U.S. Foreign Policy and Strategic Alliances, South Asian Politics and Strategic Stability, Peace Studies and Conflict Resolution, Contemporary Global Issues (traditional and non-traditional security), Foreign Policy of Major Powers, Regional Security Architectures and Global Governance. Holds a PhD in International Relations \u00e2\u20ac\u201c American Foreign Policy from Quaid-e-Azam University, Islamabad (2024). Active in teaching, supervision and research.",
-    "education": "PhD in International Relations \u00e2\u20ac\u201c American Foreign Policy from Quaid-e-Azam University, Islamabad (2024)",
+    "profile_bio": "Sidra Khan is a Assistant Professor in the Department of Humanities and Social Sciences at Bahria University, Karachi campus. Areas of expertise include U.S. Foreign Policy and Strategic Alliances, South Asian Politics and Strategic Stability, Peace Studies and Conflict Resolution, Contemporary Global Issues (traditional and non-traditional security), Foreign Policy of Major Powers, Regional Security Architectures and Global Governance. Holds a PhD in International Relations â€“ American Foreign Policy from Quaid-e-Azam University, Islamabad (2024). Active in teaching, supervision and research.",
+    "education": "PhD in International Relations â€“ American Foreign Policy from Quaid-e-Azam University, Islamabad (2024)",
     "source": "scraped",
     "research_areas": [
       "Politics and Conflicts in Afghanistan, Pakistan, and Middle East",
@@ -17265,7 +17526,8 @@
       "South Asian Studies and Conflicts",
       "Indian Economic and Social Development"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 263,
@@ -17295,7 +17557,8 @@
     "research_areas": [
       "Applied Mathematics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 264,
@@ -17354,7 +17617,8 @@
         "institution": "Asia Pacific University of Technology & Innovation",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 265,
@@ -17397,7 +17661,8 @@
       "Impact of Technology on Adolescents",
       "Emotional Intelligence and Performance"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 266,
@@ -17447,7 +17712,8 @@
       "Personality Disorders and Psychopathology",
       "Psychotherapy Techniques and Applications"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 267,
@@ -17497,7 +17763,8 @@
       "Psychology of Development and Education",
       "Human Health and Disease"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 268,
@@ -17553,7 +17820,8 @@
       "Culture",
       "Psychoanalysis"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 269,
@@ -17605,7 +17873,8 @@
       "Family and Disability Support Research",
       "Family Support in Illness"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 270,
@@ -17653,7 +17922,8 @@
       "Behavioral Psychology",
       "Mixed Experimental Designs"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 271,
@@ -17689,7 +17959,8 @@
       "Organizational Psychology",
       "Health Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 272,
@@ -17747,7 +18018,8 @@
         "institution": "Beacon Hill Academy",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 273,
@@ -17792,7 +18064,8 @@
       "Mindfulness and Compassion Interventions",
       "Health and Well-being Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 274,
@@ -17822,7 +18095,8 @@
     "research_areas": [
       "Clinical Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 275,
@@ -17852,7 +18126,8 @@
     "research_areas": [
       "Clinical Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 276,
@@ -17892,7 +18167,8 @@
       "Psychotherapy Techniques and Applications",
       "Personality Traits and Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 277,
@@ -17934,7 +18210,8 @@
       "Orientalism",
       "Research Methodology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 278,
@@ -17990,7 +18267,8 @@
         "institution": "Islamic University of Indonesia",
         "country": "ID"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 279,
@@ -18017,7 +18295,7 @@
       },
       {
         "topic_id": 193,
-        "topic_name": "Qur\u00e2\u20ac\u2122anic Interpretation Studies"
+        "topic_name": "Qurâ€™anic Interpretation Studies"
       },
       {
         "topic_id": 140,
@@ -18037,12 +18315,13 @@
     "source": "scraped",
     "research_areas": [
       "Biblical Studies and Interpretation",
-      "Qur\u00e2\u20ac\u2122anic Interpretation Studies",
+      "Qurâ€™anic Interpretation Studies",
       "Education and Islamic Studies",
       "Socioeconomic Development in MENA",
       "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 280,
@@ -18105,7 +18384,8 @@
       "Jewish and Middle Eastern Studies",
       "Information Society and Technology Trends"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 281,
@@ -18159,7 +18439,8 @@
       "Socio-legal Issues",
       "Orientalism"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 282,
@@ -18210,7 +18491,8 @@
         "institution": "Al-Azhar University",
         "country": "ID"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 283,
@@ -18265,7 +18547,7 @@
     ],
     "international_collaborations": [
       {
-        "institution": "T\u00c3\u00bcrkisch-Deutsche Universit\u00c3\u00a4t",
+        "institution": "TÃ¼rkisch-Deutsche UniversitÃ¤t",
         "country": "TR"
       },
       {
@@ -18276,7 +18558,8 @@
         "institution": "Istanbul University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 284,
@@ -18318,7 +18601,8 @@
       "Gender and Women's Rights",
       "Marriage and Sexual Relationships"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 285,
@@ -18382,7 +18666,8 @@
         "institution": "University of Malaya",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 286,
@@ -18451,7 +18736,8 @@
         "institution": "University of Brawijaya",
         "country": "ID"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 287,
@@ -18547,7 +18833,8 @@
         "institution": "Rockford University",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 288,
@@ -18589,7 +18876,8 @@
       "Sustainable Supply Chain Management",
       "Environmental Sustainability in Business"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 289,
@@ -18660,7 +18948,8 @@
         "institution": "University of Science and Technology of China",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 290,
@@ -18719,10 +19008,11 @@
         "country": "GB"
       },
       {
-        "institution": "M\u00c3\u00a4lardalen University",
+        "institution": "MÃ¤lardalen University",
         "country": "SE"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 291,
@@ -18763,7 +19053,8 @@
       "Microfinance and Financial Inclusion",
       "Banking stability, regulation, efficiency"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 292,
@@ -18833,7 +19124,8 @@
         "institution": "Sunway University",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 293,
@@ -18875,7 +19167,8 @@
       "Public Policy",
       "& Education"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 294,
@@ -18929,7 +19222,8 @@
       "Macroeconomic Determinants Of Country Risk Across Emerging",
       "Developing Economies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 295,
@@ -18989,7 +19283,7 @@
         "country": "CN"
       },
       {
-        "institution": "Universit\u00c3\u00a9 de Reims Champagne-Ardenne",
+        "institution": "UniversitÃ© de Reims Champagne-Ardenne",
         "country": "FR"
       },
       {
@@ -19004,7 +19298,8 @@
         "institution": "Western Sydney University",
         "country": "AU"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 296,
@@ -19056,7 +19351,8 @@
       "Banking stability, regulation, efficiency",
       "Education and Islamic Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 297,
@@ -19144,15 +19440,15 @@
         "country": "FR"
       },
       {
-        "institution": "Sorbonne Universit\u00c3\u00a9",
+        "institution": "Sorbonne UniversitÃ©",
         "country": "FR"
       },
       {
-        "institution": "Laboratoire d'Oc\u00c3\u00a9anographie et du Climat : Exp\u00c3\u00a9rimentations et Approches Num\u00c3\u00a9riques",
+        "institution": "Laboratoire d'OcÃ©anographie et du Climat : ExpÃ©rimentations et Approches NumÃ©riques",
         "country": "FR"
       },
       {
-        "institution": "Institut de Recherche pour le D\u00c3\u00a9veloppement",
+        "institution": "Institut de Recherche pour le DÃ©veloppement",
         "country": "FR"
       },
       {
@@ -19167,7 +19463,8 @@
         "institution": "Southern Marine Science and Engineering Guangdong Laboratory (Zhuhai)",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 298,
@@ -19250,7 +19547,7 @@
         "country": "IT"
       },
       {
-        "institution": "\u00c3\u2021anakkale Onsekiz Mart \u00c3\u0153niversitesi",
+        "institution": "Ã‡anakkale Onsekiz Mart Ãœniversitesi",
         "country": "TR"
       },
       {
@@ -19265,7 +19562,8 @@
         "institution": "Partners In Health",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 299,
@@ -19295,7 +19593,8 @@
     "research_areas": [
       "Marine Sciences & Oceanography"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 300,
@@ -19347,14 +19646,15 @@
     ],
     "international_collaborations": [
       {
-        "institution": "Universitat Polit\u00c3\u00a8cnica de Val\u00c3\u00a8ncia",
+        "institution": "Universitat PolitÃ¨cnica de ValÃ¨ncia",
         "country": "ES"
       },
       {
         "institution": "Partners In Health",
         "country": "US"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 301,
@@ -19409,7 +19709,8 @@
       "Fisheries",
       "(environmental) Microfluidics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 302,
@@ -19462,7 +19763,8 @@
       "Maritime Security and History",
       "Maritime Ports and Logistics"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 303,
@@ -19507,7 +19809,8 @@
         "institution": "Her Majesty's Revenue and Customs",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 304,
@@ -19563,7 +19866,8 @@
       "South Asian Studies and Conflicts",
       "Bangladesh Politics, Society, and Development"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 305,
@@ -19628,7 +19932,8 @@
         "institution": "University of Foggia",
         "country": "IT"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 306,
@@ -19649,7 +19954,7 @@
     "topics": [
       {
         "topic_id": 92,
-        "topic_name": "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout"
+        "topic_name": "Healthcare professionalsâ€™ stress and burnout"
       },
       {
         "topic_id": 137,
@@ -19672,13 +19977,14 @@
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Healthcare professionals\u00e2\u20ac\u2122 stress and burnout",
+      "Healthcare professionalsâ€™ stress and burnout",
       "Health and Well-being Studies",
       "Emotional Intelligence and Performance",
       "Medical Education and Admissions",
       "Forensic Anthropology and Bioarchaeology Studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 307,
@@ -19732,7 +20038,8 @@
       "Media Communication",
       "Journalism"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 308,
@@ -19780,7 +20087,8 @@
       "TV",
       "Digital Journalism"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 309,
@@ -19825,7 +20133,8 @@
       "Body Image and Dysmorphia Studies",
       "Consumer Behavior in Brand Consumption and Identification"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 310,
@@ -19863,7 +20172,8 @@
       "Heavy metals in environment",
       "Mercury impact and mitigation studies"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 311,
@@ -19899,7 +20209,8 @@
       "Advertising Production",
       "Branded Content"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 312,
@@ -19937,11 +20248,12 @@
       "Job Satisfaction and Organizational Behavior",
       "Customer Service Quality and Loyalty"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 313,
-    "full_name": "GHULAM MUHAMMAD",
+    "full_name": "Ghulam Muhammad",
     "designation": "Professor",
     "department": "Software Engineering",
     "campus": "Karachi",
@@ -19982,7 +20294,7 @@
         "topic_name": "Cooperative Communication and Network Coding"
       }
     ],
-    "profile_bio": "GHULAM MUHAMMAD is a Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Cloud Computing, AI, IoT, Mobile Communication, SDN, Machine Learning. Holds a PhD in Computer Science from Beijing Institute of Technology, Beijing, China (2015). Active in teaching, supervision and research.",
+    "profile_bio": "Ghulam Muhammad is a Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Cloud Computing, AI, IoT, Mobile Communication, SDN, Machine Learning. Holds a PhD in Computer Science from Beijing Institute of Technology, Beijing, China (2015). Active in teaching, supervision and research.",
     "education": "PhD in Computer Science from Beijing Institute of Technology, Beijing, China (2015)",
     "source": "scraped",
     "research_areas": [
@@ -20001,7 +20313,8 @@
         "institution": "Jazan University",
         "country": "SA"
       }
-    ]
+    ],
+    "academic_rank": "Professor"
   },
   {
     "researcher_id": 314,
@@ -20062,7 +20375,8 @@
         "institution": "Global College",
         "country": "CY"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 315,
@@ -20142,7 +20456,8 @@
         "institution": "Muscat College",
         "country": "OM"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 316,
@@ -20185,7 +20500,8 @@
       "Distributed and Parallel Computing Systems",
       "Interconnection Networks and Systems"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 317,
@@ -20261,7 +20577,8 @@
         "institution": "University of Manchester",
         "country": "GB"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 318,
@@ -20309,7 +20626,8 @@
       "Iotswarm Intelligence",
       "Block Chain"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 319,
@@ -20357,7 +20675,8 @@
       "Embedded System",
       "Computer Vision"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 320,
@@ -20387,7 +20706,8 @@
     "research_areas": [
       "Machine Learning Data Mining Big Data"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 321,
@@ -20423,7 +20743,8 @@
       "Computer Engg",
       "Computer Sc. & IT"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 322,
@@ -20453,7 +20774,8 @@
     "research_areas": [
       "Software Engineering Techniques and Practices"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 323,
@@ -20489,7 +20811,8 @@
       "Internet of Things",
       "Machine Learning"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 324,
@@ -20566,11 +20889,12 @@
         "institution": "Synergy University Dubai",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 325,
-    "full_name": "ASIF MASOOD",
+    "full_name": "Asif Masood",
     "designation": "Senior Professor",
     "department": "Computer Science",
     "campus": "Lahore",
@@ -20600,7 +20924,7 @@
         "topic_name": "Network Security"
       }
     ],
-    "profile_bio": "ASIF MASOOD is a Senior Professor in the Department of Computer Science at Bahria University, Lahore campus. Areas of expertise include Machine Learning, Image Processing, Network Security. Active in teaching, supervision and research.",
+    "profile_bio": "Asif Masood is a Senior Professor in the Department of Computer Science at Bahria University, Lahore campus. Areas of expertise include Machine Learning, Image Processing, Network Security. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
@@ -20608,7 +20932,8 @@
       "Image Processing",
       "Network Security"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Professor"
   },
   {
     "researcher_id": 326,
@@ -20650,7 +20975,8 @@
       "Online and Blended Learning",
       "Innovative Teaching and Learning Methods"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 327,
@@ -20714,7 +21040,8 @@
         "institution": "United Arab Emirates University",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 328,
@@ -20793,7 +21120,8 @@
         "institution": "Torrens University Australia",
         "country": "AU"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 329,
@@ -20823,7 +21151,8 @@
     "research_areas": [
       "Artificial Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 330,
@@ -20923,7 +21252,8 @@
         "institution": "National Yunlin University of Science and Technology",
         "country": "TW"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 331,
@@ -20981,7 +21311,8 @@
         "institution": "The University of Melbourne",
         "country": "AU"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 332,
@@ -21035,7 +21366,8 @@
       "Soft Computing",
       "Supply Chain Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 333,
@@ -21113,7 +21445,7 @@
         "country": "ES"
       },
       {
-        "institution": "Universidad Europea del Atl\u00c3\u00a1ntico",
+        "institution": "Universidad Europea del AtlÃ¡ntico",
         "country": "ES"
       },
       {
@@ -21144,7 +21476,8 @@
         "institution": "IMU University",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 334,
@@ -21184,7 +21517,8 @@
         "institution": "United Arab Emirates University",
         "country": "AE"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 335,
@@ -21220,7 +21554,8 @@
       "Machine Learning",
       "Artificial Intelligence"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 336,
@@ -21372,10 +21707,11 @@
         "country": "MY"
       },
       {
-        "institution": "F\u00c4\u00b1rat University",
+        "institution": "FÄ±rat University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 337,
@@ -21446,7 +21782,8 @@
         "institution": "IMU University",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Associate Professor"
   },
   {
     "researcher_id": 338,
@@ -21515,7 +21852,8 @@
         "institution": "Northwestern Polytechnical University",
         "country": "CN"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 339,
@@ -21570,7 +21908,8 @@
         "institution": "IMU University",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 340,
@@ -21632,10 +21971,11 @@
         "country": "SA"
       },
       {
-        "institution": "F\u00c4\u00b1rat University",
+        "institution": "FÄ±rat University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 341,
@@ -21691,7 +22031,8 @@
         "institution": "IMU University",
         "country": "MY"
       }
-    ]
+    ],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 342,
@@ -21721,7 +22062,8 @@
     "research_areas": [
       "Project Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 343,
@@ -21773,7 +22115,8 @@
       "Risk Management in Financial Firms",
       "Insurance and Financial Risk Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 344,
@@ -21815,7 +22158,8 @@
       "Financial Literacy and Behavior",
       "FinTech, Crowdfunding, Digital Finance"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 345,
@@ -21857,7 +22201,8 @@
       "PPP Governance",
       "Hybrid Project Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 346,
@@ -21887,7 +22232,8 @@
     "research_areas": [
       "Entrepreneurial Opportunities"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 347,
@@ -21929,7 +22275,8 @@
       "Sustainable Supply Chain Management",
       "Organizational and Employee Performance"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 348,
@@ -21959,11 +22306,12 @@
     "research_areas": [
       "Project Management"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 349,
-    "full_name": "KHAWER BILAL",
+    "full_name": "Khawer Bilal",
     "designation": "Head of Department & Senior Associate Professor",
     "department": "Professional Psychology",
     "campus": "Lahore",
@@ -22001,7 +22349,7 @@
         "topic_name": "Sleep and Wakefulness Research"
       }
     ],
-    "profile_bio": "KHAWER BILAL is a Head of Department & Senior Associate Professor in the Department of Professional Psychology at Bahria University, Lahore campus. Areas of expertise include Psychological Assessment, Psycho-diagnosis, Psychotherapy. Active in teaching, supervision and research.",
+    "profile_bio": "Khawer Bilal is a Head of Department & Senior Associate Professor in the Department of Professional Psychology at Bahria University, Lahore campus. Areas of expertise include Psychological Assessment, Psycho-diagnosis, Psychotherapy. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
@@ -22016,7 +22364,8 @@
         "institution": "Regione del Veneto",
         "country": "IT"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 350,
@@ -22081,11 +22430,11 @@
         "country": "TR"
       },
       {
-        "institution": "Instituto Polit\u00c3\u00a9cnico de Leiria",
+        "institution": "Instituto PolitÃ©cnico de Leiria",
         "country": "PT"
       },
       {
-        "institution": "University of \u00c3\u2030vora",
+        "institution": "University of Ã‰vora",
         "country": "PT"
       },
       {
@@ -22093,10 +22442,11 @@
         "country": "AZ"
       },
       {
-        "institution": "A\u00c4\u0178r\u00c4\u00b1 \u00c4\u00b0brahim \u00c3\u2021e\u00c3\u00a7en University",
+        "institution": "AÄŸrÄ± Ä°brahim Ã‡eÃ§en University",
         "country": "TR"
       }
-    ]
+    ],
+    "academic_rank": "Senior Associate Professor"
   },
   {
     "researcher_id": 351,
@@ -22157,7 +22507,8 @@
         "institution": "Regione del Veneto",
         "country": "IT"
       }
-    ]
+    ],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 352,
@@ -22207,7 +22558,8 @@
       "Mindfulness and Compassion Interventions",
       "Workplace Spirituality and Leadership"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 353,
@@ -22248,7 +22600,8 @@
       "Religion, Spirituality, and Psychology",
       "Workplace Spirituality and Leadership"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Assistant Professor"
   },
   {
     "researcher_id": 354,
@@ -22284,7 +22637,8 @@
       "Psycho Social Rehabilitation",
       "Community Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Assistant Professor"
   },
   {
     "researcher_id": 355,
@@ -22314,7 +22668,8 @@
     "research_areas": [
       "ADHD"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 356,
@@ -22350,7 +22705,8 @@
       "Child Development",
       "Narcissistic Personality Traits & Mental Health Problems Psychopathology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   },
   {
     "researcher_id": 357,
@@ -22380,7 +22736,8 @@
     "research_areas": [
       "Psychology"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Lecturer"
   },
   {
     "researcher_id": 358,
@@ -22423,6 +22780,7 @@
       "Sleep and Wakefulness Research",
       "Mind wandering and attention"
     ],
-    "international_collaborations": []
+    "international_collaborations": [],
+    "academic_rank": "Senior Lecturer"
   }
 ]
