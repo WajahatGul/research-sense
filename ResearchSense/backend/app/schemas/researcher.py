@@ -39,6 +39,7 @@ class Researcher(BaseModel):
     publication_count: int = 0
     citation_count: int = 0
     topics: list[TopicRef] = []
+    research_areas: list[str] = []
     source: str = "scraped"
 
 
@@ -51,3 +52,4 @@ class ResearcherDetail(Researcher):
     scopus_id: str | None = None
     publications: list[PublicationRef] = []
     collaborators: list[CollaborationSuggestion] = []
+    international_collaborations: list[dict] = []

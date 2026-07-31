@@ -20,6 +20,11 @@ from pathlib import Path
 import httpx
 
 from scripts.build_seed import TOPIC_CATALOGUE
+from scripts.fetch_enrichment import (derive_research_areas,
+                                      expertise_field_guard,
+                                      international_of, merge_supplementary)
+from scripts.fetch_sources import (country_from_affiliation, crossref_works_for,
+                                   s2_works_for)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
 INSTITUTION = "I59225215"  # Bahria University in OpenAlex
@@ -151,13 +156,9 @@ def main() -> None:
     topic_ids = {t["topic_name"]: t["topic_id"] for t in topics}
     roster = {_key(r["full_name"]): r["researcher_id"] for r in researchers}
     campus_of = {r["researcher_id"]: r.get("campus", "") for r in researchers}
-    # Field guard: a paper is only attributed to a researcher when its field
-    # overlaps that researcher's real expertise. This removes same-name authors
-    # from other fields at the same university (a common source of error).
-    researcher_topics = {
-        r["researcher_id"]: {t["topic_id"] for t in r["topics"]}
-        for r in researchers
-    }
+    expertise_of = {r["researcher_id"]:
+                    f"{r.get('expertise','')} {r.get('department','')}"
+                    for r in researchers}
 
     print("Fetching Bahria University works from OpenAlex...")
     all_works = institution_works()
@@ -169,8 +170,16 @@ def main() -> None:
             all_works, key=lambda x: x.get("cited_by_count", 0),
             reverse=True), start=1):
         work_topics = topics_for_work(w.get("title", ""), w.get("concepts", []), topic_ids)
-        work_topic_ids = {t["topic_id"] for t in work_topics}
+        oa_topic_names = [t.get("display_name", "")
+                          for t in (w.get("topics") or [])[:3]]
         authorships = w.get("authorships", [])
+        institutions: list[dict] = []
+        for a in authorships:
+            for inst in a.get("institutions") or []:
+                entry = {"name": inst.get("display_name", ""),
+                         "country": inst.get("country_code")}
+                if entry["name"] and entry not in institutions:
+                    institutions.append(entry)
         authors = []
         matched_ids = []
         for order, a in enumerate(authorships, start=1):
@@ -178,8 +187,11 @@ def main() -> None:
             rid = roster.get(_key(disp))
             # Link only when the paper is Bahria affiliated for this author AND
             # its field overlaps the researcher's real expertise.
+            guard_text = (expertise_of.get(rid, "") if rid is not None else "")
             link = (rid is not None and author_at_bahria(a)
-                    and bool(researcher_topics.get(rid, set()) & work_topic_ids))
+                    and expertise_field_guard(
+                        oa_topic_names or [t["topic_name"] for t in work_topics],
+                        guard_text))
             if link and rid not in matched_ids:
                 matched_ids.append(rid)
             authors.append({"researcher_id": rid if link else None,
@@ -202,9 +214,10 @@ def main() -> None:
             rid = cands[0]["researcher_id"]
             if rid in matched_ids:
                 continue
-            r_topics = researcher_topics.get(rid, set())
             anchored = bool(matched_ids)
-            if r_topics and not (r_topics & work_topic_ids) and not anchored:
+            if not anchored and not expertise_field_guard(
+                    oa_topic_names or [t["topic_name"] for t in work_topics],
+                    expertise_of.get(rid, "")):
                 continue
             authors[i]["researcher_id"] = rid
             matched_ids.append(rid)
@@ -227,8 +240,63 @@ def main() -> None:
             "campus": campus_of.get(matched_ids[0], ""),
             "authors": authors[:12],
             "topics": work_topics,
+            "topic_names": oa_topic_names,
+            "coauthor_institutions": institutions,
+            "international": international_of(institutions),
             "source": "openalex",
         })
+
+    # Supplementary sources for researchers OpenAlex barely covers.
+    covered = {rid for rid, cites in pub_stats.items() if len(cites) >= 3}
+    thin = [r for r in researchers if r["researcher_id"] not in covered]
+    print(f"  querying Semantic Scholar/Crossref for {len(thin)} researchers")
+    extra_norm: list[dict] = []
+    for r in thin:
+        for rec in (s2_works_for(r["full_name"])
+                    + crossref_works_for(r["full_name"])):
+            names = rec["topic_names"]
+            if not expertise_field_guard(
+                    names, f"{r.get('expertise','')} {r.get('department','')}"):
+                continue
+            insts = []
+            for a in rec["authors"]:
+                code = country_from_affiliation(a.get("affiliation", ""))
+                nm = (a.get("affiliation") or "").split(";")[0].strip()
+                if nm and {"name": nm, "country": code} not in insts:
+                    insts.append({"name": nm, "country": code})
+            extra_norm.append({
+                "publication_id": 0,
+                "title": clean_title(rec["title"]),
+                "abstract": "",
+                "doi": rec["doi"],
+                "publication_year": rec["publication_year"],
+                "journal_name": rec["journal_name"],
+                "publication_type": rec["publication_type"],
+                "citation_count": rec["citation_count"],
+                "campus": r.get("campus", ""),
+                "authors": [{"researcher_id":
+                             (r["researcher_id"]
+                              if _fuzzy_name_match(r["full_name"], a["full_name"])
+                              else None),
+                             "full_name": a["full_name"], "order": o}
+                            for o, a in enumerate(rec["authors"][:12], start=1)],
+                "topics": [],
+                "topic_names": names,
+                "coauthor_institutions": insts,
+                "international": international_of(insts),
+                "source": rec["source"],
+            })
+        time.sleep(1.0)  # unauthenticated S2/Crossref rate courtesy
+    before = len(publications)
+    publications = merge_supplementary(publications, extra_norm)
+    for p in publications[before:]:
+        p["publication_id"] = 0  # renumbered below
+        for a in p["authors"]:
+            if a["researcher_id"] is not None:
+                pub_stats[a["researcher_id"]].append(p["citation_count"])
+    for i, p in enumerate(publications, start=1):
+        p["publication_id"] = i
+    print(f"  +{len(publications) - before} from supplementary sources")
 
     # Re-merge faculty-submitted publications (DOI-based / manual entries from
     # the portal) so a refresh never wipes them. Dedupe by DOI, then title.
@@ -260,10 +328,47 @@ def main() -> None:
         r["publication_count"] = len(cites)
         r["citation_count"] = sum(cites)
 
-    # Recompute topic counts from real publications.
-    for t in topics:
-        t["publication_count"] = sum(
-            1 for p in publications if any(pt["topic_id"] == t["topic_id"] for pt in p["topics"]))
+    # Hybrid research areas + international partners (SRS 2, 6).
+    pubs_of: dict[int, list[dict]] = {r["researcher_id"]: [] for r in researchers}
+    for p in publications:
+        for a in p.get("authors", []):
+            rid = a.get("researcher_id")
+            if rid in pubs_of:
+                pubs_of[rid].append(p)
+    for r in researchers:
+        mine = pubs_of[r["researcher_id"]]
+        r["research_areas"] = derive_research_areas(r, mine)
+        partners: list[dict] = []
+        for p in mine:
+            for inst in p.get("coauthor_institutions", []):
+                code = inst.get("country")
+                if code and code != "PK":
+                    entry = {"institution": inst["name"], "country": code}
+                    if entry not in partners:
+                        partners.append(entry)
+        r["international_collaborations"] = partners
+
+    # Dynamic topic index from the union of derived areas (SRS 2).
+    area_names: dict[str, int] = {}
+    for r in researchers:
+        for name in r["research_areas"]:
+            area_names.setdefault(name, len(area_names) + 1)
+    topics = [{"topic_id": tid, "topic_name": name, "icon": "sparkles",
+               "description": f"Research and expertise in {name}.",
+               "source": "derived",
+               "researcher_count": sum(1 for r in researchers
+                                       if name in r["research_areas"]),
+               "publication_count": sum(1 for p in publications
+                                        if name in (p.get("topic_names") or []))}
+              for name, tid in area_names.items()]
+    name_to_id = dict(area_names)
+    for r in researchers:
+        r["topics"] = [{"topic_id": name_to_id[n], "topic_name": n}
+                       for n in r["research_areas"]]
+    for p in publications:
+        p["topics"] = [{"topic_id": name_to_id[n], "topic_name": n}
+                       for n in (p.get("topic_names") or [])
+                       if n in name_to_id][:4]
 
     (DATA_DIR / "publications.json").write_text(
         json.dumps(publications, indent=2, ensure_ascii=False), "utf-8")

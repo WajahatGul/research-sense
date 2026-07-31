@@ -28,6 +28,9 @@ class Publication(BaseModel):
     campus: str = ""
     authors: list[AuthorRef] = []
     topics: list[TopicRef] = []
+    topic_names: list[str] = []
+    coauthor_institutions: list[dict] = []
+    international: bool = False
     source: str = "sample"
 
 
