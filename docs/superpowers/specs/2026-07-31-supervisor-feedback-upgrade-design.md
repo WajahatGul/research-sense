@@ -76,10 +76,19 @@ single faculty roster source.
 
 ## §2 Research areas — hybrid derivation (SRS 2)
 
-**Fetch** (`backend/scripts/fetch_publications.py`):
-- Already pulls OpenAlex works per researcher. Additionally capture each
-  work's `topics` (OpenAlex topic display names) into the publication
-  record.
+**Fetch** (`backend/scripts/fetch_publications.py`) — multi-source:
+- OpenAlex remains the primary source (richest topics + institution
+  metadata). Additionally query **Semantic Scholar** (already used for PDF
+  downloads) and **Crossref** (already used for DOI submissions) per
+  researcher, so faculty poorly covered by OpenAlex still get publications.
+- Records are merged and deduplicated by normalized DOI first, then by
+  normalized title + year. Each publication keeps a `source` field naming
+  where it came from.
+- The same-name author guard (field-overlap check) applies to every source,
+  not just OpenAlex.
+- Capture each work's `topics` into the publication record: OpenAlex topic
+  display names, or Semantic Scholar `fieldsOfStudy` / Crossref `subject`
+  when OpenAlex lacks the work.
 
 **Derivation** (in the seed/fetch pipeline, stored in `researchers.json` and
 `topics.json`):
@@ -94,8 +103,10 @@ single faculty roster source.
 
 ## §3 International collaboration (SRS 6)
 
-- During the OpenAlex fetch, read each work's `authorships[].institutions`
-  (name + `country_code`).
+- From OpenAlex works, read `authorships[].institutions` (name +
+  `country_code`); for works found only via Semantic Scholar/Crossref, use
+  their author-affiliation fields when present (country resolved from the
+  institution string when stated).
 - Per publication store: `coauthor_institutions: [{name, country}]` and
   `international: bool` (true when any institution's country ≠ PK).
 - Per researcher (derived at pipeline time): list of distinct international
@@ -219,8 +230,10 @@ practice of not having a frontend test suite.
 
 - Scraper: departments/rows that fail detail-page fetch keep directory data
   (existing behavior), never abort the run.
-- OpenAlex fetch: missing topics/institutions degrade gracefully (fallback
-  expertise; domestic default).
+- Publication fetch: any single source failing (rate limit, downtime) never
+  aborts the run — the other sources' results are kept; missing
+  topics/institutions degrade gracefully (fallback expertise; domestic
+  default).
 - Approval endpoints are idempotent: approving an already-approved paper is
   a no-op, not an error.
 - Staged chunks for rejected papers are deleted on rejection and swept on
