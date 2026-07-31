@@ -59,6 +59,12 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
             parts.append(f"Research areas: {areas}.")
         if r.get("expertise"):
             parts.append(f"Expertise: {r['expertise']}.")
+        # Derived research areas (hybrid: publication topics, falling back to
+        # directory expertise) are distinct from the structured `topics` list
+        # above, so surface them too when present and different.
+        if r.get("research_areas"):
+            parts.append(
+                f"Derived research areas: {', '.join(r['research_areas'])}.")
         if r.get("education"):
             parts.append(f"Education: {r['education']}.")
         if r.get("email"):
@@ -67,6 +73,11 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
             parts.append(
                 f"{r['full_name']} has {r['publication_count']} indexed "
                 f"publications with {r['citation_count']} total citations.")
+        intl = r.get("international_collaborations") or []
+        if intl:
+            partners = "; ".join(f"{i['institution']} ({i['country']})"
+                                 for i in intl[:5])
+            parts.append(f"International collaborations: {partners}.")
         out.append({
             "text": " ".join(parts),
             "kind": "researcher",
