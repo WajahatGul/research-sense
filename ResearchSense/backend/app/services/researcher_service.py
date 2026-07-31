@@ -35,3 +35,6 @@ class ResearcherService:
 
     def campuses(self) -> list[str]:
         return self._repo.campuses()
+
+    def collaborators(self, researcher_id: int, sort: str = "relevance") -> list[dict]:
+        return self._repo.collaborators(researcher_id, sort=sort)

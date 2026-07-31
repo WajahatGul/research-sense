@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 
 from app.core.deps import get_researcher_service
 from app.schemas.common import Paginated
-from app.schemas.researcher import Researcher, ResearcherDetail
+from app.schemas.researcher import CollaborationSuggestion, Researcher, ResearcherDetail
 from app.services.researcher_service import ResearcherService
 
 router = APIRouter(prefix="/api/researchers", tags=["researchers"])
@@ -55,6 +55,16 @@ def list_campuses(
     service: ResearcherService = Depends(get_researcher_service),
 ):
     return service.campuses()
+
+
+@router.get("/{researcher_id}/collaborators",
+            response_model=list[CollaborationSuggestion])
+def researcher_collaborators(
+    researcher_id: int,
+    sort: str = "relevance",
+    service: ResearcherService = Depends(get_researcher_service),
+):
+    return service.collaborators(researcher_id, sort=sort)
 
 
 @router.get("/{researcher_id}", response_model=ResearcherDetail)

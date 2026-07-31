@@ -10,6 +10,13 @@ from app.schemas.researcher import (
 )
 
 
+def score_of(copub: int, shared_ids: set, topic_freq: dict) -> float:
+    """Relevance: co-authored papers dominate; shared areas count more when
+    they are rare (a shared niche beats a shared 'Machine Learning')."""
+    area_score = sum(1.0 / max(topic_freq.get(t, 1), 1) for t in shared_ids)
+    return copub * 5.0 + area_score
+
+
 def _matches(rec: dict, query: str | None, campus: str | None,
              department: str | None, designation: str | None,
              topic_id: int | None) -> bool:
@@ -81,13 +88,16 @@ class MockResearcherRepository(ResearcherRepository):
         pubs.sort(key=lambda p: p["publication_year"], reverse=True)
         return pubs
 
+    def _pubs(self) -> list[dict]:
+        return loader.load("publications")
+
     def _copublications_with(self, researcher_id: int) -> dict[int, int]:
         """How many publications this researcher co-authored with each other
         Bahria researcher — a proven, mutual collaboration signal."""
         from collections import Counter
 
         counts: Counter = Counter()
-        for p in loader.load("publications"):
+        for p in self._pubs():
             author_ids = [a["researcher_id"] for a in p.get("authors", [])
                           if a.get("researcher_id") is not None]
             if researcher_id in author_ids:
@@ -96,26 +106,38 @@ class MockResearcherRepository(ResearcherRepository):
                         counts[other] += 1
         return dict(counts)
 
+    def collaborators(self, researcher_id: int,
+                      sort: str = "relevance") -> list[dict]:
+        rec = next((r for r in self._all()
+                    if r["researcher_id"] == researcher_id), None)
+        if rec is None:
+            return []
+        rows = self._collaborators_for(rec)
+        keys = {
+            "relevance": lambda c: -c["relevance"],
+            "shared_areas": lambda c: (-c["shared_count"], -c["relevance"]),
+            "coauthored": lambda c: (-c["copublications"], -c["relevance"]),
+            "name": lambda c: c["full_name"],
+            "campus": lambda c: (c["campus"], -c["relevance"]),
+        }
+        rows.sort(key=keys.get(sort, keys["relevance"]))
+        return rows
+
     def _collaborators_for(self, rec: dict) -> list[dict]:
-        """Suggest collaborators from two signals:
-
-        1. Past co-authorship — they have already published together (the
-           strongest, provably mutual signal).
-        2. Shared research areas — overlapping topics suggest a good fit.
-
-        Ranked by co-authored papers first, then number of shared areas, then
-        Jaccard overlap. Each suggestion carries the actual shared area names
-        and the co-authored-paper count so the recommendation is explainable,
-        and the UI can filter by campus or area. Up to 15 are returned; the
-        page shows the top ones and lets the user filter.
-        """
+        """Suggest collaborators: past co-authors, then researchers sharing
+        (rarity-weighted) research areas. No signal -> not suggested (SRS 4).
+        Returns at most 12, relevance-ordered."""
         rid = rec["researcher_id"]
         my_topics = {t["topic_id"]: t["topic_name"] for t in rec.get("topics", [])}
         my_ids = set(my_topics)
         my_campus = rec.get("campus", "")
         copubs = self._copublications_with(rid)
+        topic_freq: dict[int, int] = {}
+        for r in self._all():
+            for t in r.get("topics", []):
+                topic_freq[t["topic_id"]] = topic_freq.get(t["topic_id"], 0) + 1
 
-        scored: list[tuple] = []
+        rows: list[dict] = []
         for other in self._all():
             oid = other["researcher_id"]
             if oid == rid:
@@ -123,28 +145,24 @@ class MockResearcherRepository(ResearcherRepository):
             their_ids = {t["topic_id"] for t in other.get("topics", [])}
             shared_ids = my_ids & their_ids
             copub = copubs.get(oid, 0)
-            # A candidate needs at least one signal: a shared area or a paper.
             if not shared_ids and copub == 0:
                 continue
             shared_names = sorted(my_topics[i] for i in shared_ids)
             union = my_ids | their_ids
-            jaccard = len(shared_ids) / max(len(union), 1)
-            scored.append((copub, len(shared_ids), jaccard, other, shared_names))
-        # Co-authored papers first, then shared-area count, then overlap.
-        scored.sort(key=lambda x: (x[0], x[1], x[2]), reverse=True)
-        return [
-            CollaborationSuggestion(
-                researcher_id=o["researcher_id"],
-                full_name=o["full_name"],
-                designation=o.get("designation", ""),
-                department=o.get("department", ""),
-                campus=o.get("campus", ""),
-                similarity_score=round(jaccard, 2),
-                shared_topics=names,
-                shared_count=count,
+            rows.append(CollaborationSuggestion(
+                researcher_id=oid,
+                full_name=other["full_name"],
+                designation=other.get("designation", ""),
+                department=other.get("department", ""),
+                campus=other.get("campus", ""),
+                similarity_score=round(len(shared_ids) / max(len(union), 1), 2),
+                shared_topics=shared_names,
+                shared_count=len(shared_ids),
                 copublications=copub,
                 past_coauthor=copub > 0,
-                same_campus=(o.get("campus", "") == my_campus),
-            ).model_dump()
-            for copub, count, jaccard, o, names in scored[:15]
-        ]
+                same_campus=(other.get("campus", "") == my_campus),
+                relevance=round(score_of(copub, shared_ids, topic_freq), 3),
+                international=bool(other.get("international_collaborations")),
+            ).model_dump())
+        rows.sort(key=lambda c: -c["relevance"])
+        return rows[:12]

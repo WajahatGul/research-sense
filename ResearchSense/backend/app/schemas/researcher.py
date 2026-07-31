@@ -21,6 +21,8 @@ class CollaborationSuggestion(BaseModel):
     copublications: int = 0
     past_coauthor: bool = False
     same_campus: bool = False
+    relevance: float = 0.0
+    international: bool = False
 
 
 class Researcher(BaseModel):

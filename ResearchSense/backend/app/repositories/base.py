@@ -38,6 +38,10 @@ class ResearcherRepository(ABC):
     @abstractmethod
     def campuses(self) -> list[str]: ...
 
+    def collaborators(self, researcher_id: int,
+                      sort: str = "relevance") -> list[dict]:  # pragma: no cover
+        raise NotImplementedError
+
 
 class PublicationRepository(ABC):
     @abstractmethod
