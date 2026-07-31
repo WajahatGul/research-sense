@@ -24,6 +24,8 @@ class PublicationService:
         year_to=None,
         department=None,
         publication_type=None,
+        date_from=None,
+        date_to=None,
         page=1,
         page_size=10,
     ) -> Paginated[Publication]:
@@ -37,6 +39,8 @@ class PublicationService:
             year_to=year_to,
             department=department,
             publication_type=publication_type,
+            date_from=date_from,
+            date_to=date_to,
         )
         return paginate(rows, page, page_size)
 

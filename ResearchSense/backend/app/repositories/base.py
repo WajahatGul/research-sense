@@ -59,6 +59,8 @@ class PublicationRepository(ABC):
         year_to: int | None = None,
         department: str | None = None,
         publication_type: str | None = None,
+        date_from: str | None = None,
+        date_to: str | None = None,
     ) -> list[Publication]: ...
 
     @abstractmethod

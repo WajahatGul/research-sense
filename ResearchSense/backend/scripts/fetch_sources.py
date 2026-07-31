@@ -112,6 +112,7 @@ def normalize_s2_paper(p: dict) -> dict:
         "title": (p.get("title") or "").strip(),
         "doi": (p.get("externalIds") or {}).get("DOI"),
         "publication_year": int(p.get("year") or 0),
+        "publication_date": p.get("publicationDate") or None,
         "journal_name": p.get("venue") or "Preprint or unindexed venue",
         "publication_type": _pub_type(" ".join(p.get("publicationTypes") or [])),
         "citation_count": int(p.get("citationCount") or 0),
@@ -127,6 +128,13 @@ def normalize_s2_paper(p: dict) -> dict:
     }
 
 
+def _crossref_date(date_parts: list) -> str | None:
+    parts = date_parts[0] if date_parts else []
+    if len(parts) >= 3 and parts[0]:
+        return f"{parts[0]:04d}-{parts[1]:02d}-{parts[2]:02d}"
+    return None
+
+
 def normalize_crossref_item(m: dict) -> dict:
     date_parts = (m.get("issued") or {}).get("date-parts") or [[0]]
     authors = []
@@ -139,6 +147,7 @@ def normalize_crossref_item(m: dict) -> dict:
         "title": " ".join(m.get("title") or []).strip(),
         "doi": m.get("DOI"),
         "publication_year": int(date_parts[0][0] or 0),
+        "publication_date": _crossref_date(date_parts),
         "journal_name": " ".join(m.get("container-title") or [])
         or "Preprint or unindexed venue",
         "publication_type": _pub_type(m.get("type")),
@@ -188,8 +197,8 @@ def s2_works_for(name: str) -> list[dict]:
     papers = _get(
         f"{S2_API}/author/{author['authorId']}/papers",
         {
-            "fields": "title,year,externalIds,venue,citationCount,fieldsOfStudy,"
-            "authors.name,authors.affiliations,publicationTypes",
+            "fields": "title,year,publicationDate,externalIds,venue,citationCount,"
+            "fieldsOfStudy,authors.name,authors.affiliations,publicationTypes",
             "limit": 50,
         },
     )

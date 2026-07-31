@@ -23,6 +23,7 @@ class Publication(BaseModel):
     abstract: str = ""
     doi: str | None = None
     publication_year: int
+    publication_date: str | None = None
     journal_name: str = ""
     publication_type: str = "journal"
     citation_count: int = 0
@@ -41,6 +42,7 @@ class PublicationRef(BaseModel):
     publication_id: int
     title: str
     publication_year: int
+    publication_date: str | None = None
     journal_name: str = ""
     citation_count: int = 0
     doi: str | None = None

@@ -41,6 +41,16 @@ def test_normalize_s2_paper_shapes_record():
     assert rec["source"] == "semanticscholar"
 
 
+def test_normalize_s2_paper_captures_publication_date():
+    raw = {"title": "T", "year": 2022, "publicationDate": "2022-03-15"}
+    assert normalize_s2_paper(raw)["publication_date"] == "2022-03-15"
+
+
+def test_normalize_s2_paper_missing_publication_date_is_none():
+    raw = {"title": "T", "year": 2022}
+    assert normalize_s2_paper(raw)["publication_date"] is None
+
+
 def test_normalize_crossref_item_shapes_record():
     raw = {
         "title": ["T2"],
@@ -63,3 +73,34 @@ def test_normalize_crossref_item_shapes_record():
     assert rec["topic_names"] == ["Economics"]
     assert rec["authors"][0]["full_name"] == "C D"
     assert rec["source"] == "crossref"
+    assert rec["publication_date"] is None
+
+
+def test_normalize_crossref_item_builds_full_date_when_month_day_present():
+    raw = {
+        "title": ["T2"],
+        "DOI": "10.3/y",
+        "container-title": ["J"],
+        "issued": {"date-parts": [[2019, 6, 4]]},
+        "is-referenced-by-count": 5,
+        "subject": ["Economics"],
+        "type": "journal-article",
+        "author": [],
+    }
+    rec = normalize_crossref_item(raw)
+    assert rec["publication_date"] == "2019-06-04"
+
+
+def test_normalize_crossref_item_year_only_gives_no_date():
+    raw = {
+        "title": ["T2"],
+        "DOI": "10.3/y",
+        "container-title": ["J"],
+        "issued": {"date-parts": [[2019]]},
+        "is-referenced-by-count": 5,
+        "subject": ["Economics"],
+        "type": "journal-article",
+        "author": [],
+    }
+    rec = normalize_crossref_item(raw)
+    assert rec["publication_date"] is None
