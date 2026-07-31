@@ -164,10 +164,34 @@ def topics_for_work(title: str, concepts: list[dict], topic_ids: dict) -> list[d
     return chosen
 
 
+_CONFERENCE_WORD_RE = re.compile(r"\b(conference|symposium|workshop|congress)\b", re.I)
+
+
+def classify_publication_type(openalex_type: str | None, venue_name: str) -> str:
+    """Classify a publication as "conference" or "journal".
+
+    OpenAlex's `type` field only says "proceedings-article" for a small
+    fraction of real conference papers, so we fall back to the venue name:
+    an explicit conference/symposium/workshop/congress keyword wins, and a
+    venue containing "proceedings" (but not "journal", since some journals
+    are literally named "Proceedings of ... Journal of ...") also counts as
+    a conference. Everything else defaults to "journal".
+    """
+    if openalex_type == "proceedings-article":
+        return "conference"
+    venue = venue_name or ""
+    if _CONFERENCE_WORD_RE.search(venue):
+        return "conference"
+    venue_lower = venue.lower()
+    if "proceedings" in venue_lower and "journal" not in venue_lower:
+        return "conference"
+    return "journal"
+
+
 def venue_of(work: dict) -> tuple[str, str]:
     loc = (work.get("primary_location") or {}).get("source") or {}
     name = loc.get("display_name") or "Preprint or unindexed venue"
-    wtype = "conference" if work.get("type") == "proceedings-article" else "journal"
+    wtype = classify_publication_type(work.get("type"), name)
     return name, wtype
 
 

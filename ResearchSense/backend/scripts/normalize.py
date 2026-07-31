@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import re
 
-_TITLES = r"(?:dr|prof(?:essor)?|engr|mr|mrs|ms|miss|madam|capt|col|maj|brig|lt)"
+_TITLES = (
+    r"(?:dr|prof(?:essor)?|engineer|engr|mr|mrs|ms|miss|madam|capt|col|maj|brig|lt)"
+)
 _TITLE_RE = re.compile(rf"^(?:{_TITLES})(?:\.\s*|\s+)", re.I)
 
 # Department acronyms to always uppercase (both for recovery of mangled

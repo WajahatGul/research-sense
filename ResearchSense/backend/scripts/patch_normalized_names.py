@@ -9,8 +9,10 @@ import re
 from pathlib import Path
 
 try:
+    from scripts.fetch_publications import classify_publication_type
     from scripts.normalize import canonical_department, normalize_name
 except ImportError:
+    from fetch_publications import classify_publication_type
     from normalize import canonical_department, normalize_name
 
 DATA_DIR = Path(__file__).parent.parent / "app" / "data"
@@ -60,21 +62,42 @@ def patch_researcher(researcher: dict, dept_fixes: dict[str, str]) -> bool:
     return changed
 
 
+def patch_publication(publication: dict) -> bool:
+    """Recompute a single publication's type from its venue name.
+
+    Uses classify_publication_type(None, journal_name) since the persisted
+    data has no reliable OpenAlex `type` field to fall back on -- the venue
+    name heuristic is the only signal available post-hoc. Returns True if
+    publication_type changed.
+    """
+    old_type = publication.get("publication_type")
+    new_type = classify_publication_type(None, publication.get("journal_name") or "")
+    if new_type != old_type:
+        publication["publication_type"] = new_type
+        return True
+    return False
+
+
 def patch_normalized_names():
-    """Patch researchers.json and projects.json with fixed normalizers."""
+    """Patch researchers.json, projects.json, and publications.json with
+    fixed normalizers/classifiers."""
     scraped_path = Path(__file__).parent / "scraped_faculty.json"
     researchers_path = DATA_DIR / "researchers.json"
     projects_path = DATA_DIR / "projects.json"
+    publications_path = DATA_DIR / "publications.json"
 
-    with open(scraped_path) as f:
+    with open(scraped_path, encoding="utf-8") as f:
         scraped = json.load(f)
     dept_fixes = department_fixes(scraped)
 
-    with open(researchers_path) as f:
+    with open(researchers_path, encoding="utf-8") as f:
         researchers = json.load(f)
 
-    with open(projects_path) as f:
+    with open(projects_path, encoding="utf-8") as f:
         projects = json.load(f)
+
+    with open(publications_path, encoding="utf-8") as f:
+        publications = json.load(f)
 
     patched = 0
     for researcher in researchers:
@@ -89,13 +112,25 @@ def patch_normalized_names():
             if fixed and fixed != project["department"]:
                 project["department"] = fixed
 
-    with open(researchers_path, "w") as f:
+    pub_patched = 0
+    for publication in publications:
+        if patch_publication(publication):
+            pub_patched += 1
+
+    with open(researchers_path, "w", encoding="utf-8") as f:
         json.dump(researchers, f, indent=2)
 
-    with open(projects_path, "w") as f:
+    with open(projects_path, "w", encoding="utf-8") as f:
         json.dump(projects, f, indent=2)
 
+    # publications.json is written elsewhere (fetch_publications.py) with
+    # ensure_ascii=False -- match that convention so this patch doesn't
+    # rewrite every non-ASCII character in the file as a \uXXXX escape.
+    with open(publications_path, "w", encoding="utf-8") as f:
+        json.dump(publications, f, indent=2, ensure_ascii=False)
+
     print(f"Patched {patched} researcher records")
+    print(f"Patched {pub_patched} publication records")
 
 
 if __name__ == "__main__":

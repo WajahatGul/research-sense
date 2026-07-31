@@ -36,6 +36,21 @@ class TestNormalizeName:
         # FINDING 1: "Drew" starts with "dr" but is a real name, not a title
         assert normalize_name("Drew Smith") == "Drew Smith"
 
+    def test_strips_spelled_out_engineer(self):
+        # FINDING 1: live data contains "Engineer Muhammad Saim"; "Engineer"
+        # must be stripped, not just the abbreviated "Engr"
+        assert normalize_name("Engineer Muhammad Saim") == "Muhammad Saim"
+
+    def test_strips_engr_still_works(self):
+        # FINDING 1: adding "engineer" to the alternation must not shadow
+        # or break the existing abbreviated "Engr." form
+        assert normalize_name("Engr. Ali Raza") == "Ali Raza"
+
+    def test_name_starting_with_engineer_like_token_kept(self):
+        # "Engrid" starts with the literal "Engr" title text but is a real
+        # name, not a title (mirrors test_name_starting_with_dr_word above)
+        assert normalize_name("Engrid Larsen") == "Engrid Larsen"
+
 
 class TestCanonicalDepartment:
     def test_title_case_and_trim(self):

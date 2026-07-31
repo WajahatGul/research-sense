@@ -1,4 +1,8 @@
-from scripts.patch_normalized_names import department_fixes, patch_researcher
+from scripts.patch_normalized_names import (
+    department_fixes,
+    patch_publication,
+    patch_researcher,
+)
 
 
 class TestDepartmentFixes:
@@ -117,3 +121,59 @@ class TestPatchResearcher:
         assert changed is True
         assert researcher["full_name"] == "Ali"
         assert researcher["profile_bio"] == ""
+
+    def test_fixes_spelled_out_engineer_honorific(self):
+        # FINDING 1: the researcher pass must also catch "Engineer" (not
+        # just the abbreviated "Engr"), e.g. live data's "Engineer Muhammad
+        # Saim"
+        dept_fixes = {}
+        researcher = {
+            "full_name": "Engineer Muhammad Saim",
+            "department": "Software Engineering",
+            "profile_bio": "Engineer Muhammad Saim researches software.",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is True
+        assert researcher["full_name"] == "Muhammad Saim"
+        assert researcher["profile_bio"] == "Muhammad Saim researches software."
+
+
+class TestPatchPublication:
+    def test_reclassifies_conference_venue_missed_by_openalex_type(self):
+        # FINDING 2: OpenAlex's `type` field almost never says
+        # "proceedings-article" in our data, so the venue-name fallback must
+        # requalify a publication_type of "journal" -> "conference".
+        pub = {
+            "journal_name": "2021 International Bhurban Conference on Applied Sciences",
+            "publication_type": "journal",
+        }
+        changed = patch_publication(pub)
+        assert changed is True
+        assert pub["publication_type"] == "conference"
+
+    def test_keeps_proceedings_journal_as_journal(self):
+        # Real example: contains "Proceedings" but is genuinely a journal.
+        pub = {
+            "journal_name": (
+                "Proceedings of the Institution of Mechanical Engineers Part E "
+                "Journal of Process Mechanical Engineering"
+            ),
+            "publication_type": "journal",
+        }
+        changed = patch_publication(pub)
+        assert changed is False
+        assert pub["publication_type"] == "journal"
+
+    def test_no_change_when_already_correct(self):
+        pub = {
+            "journal_name": "IEEE Transactions on Neural Networks",
+            "publication_type": "journal",
+        }
+        changed = patch_publication(pub)
+        assert changed is False
+
+    def test_handles_missing_journal_name(self):
+        pub = {"publication_type": "journal"}
+        changed = patch_publication(pub)
+        assert changed is False
+        assert pub["publication_type"] == "journal"
