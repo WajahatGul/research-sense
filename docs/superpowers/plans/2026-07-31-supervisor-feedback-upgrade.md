@@ -2298,3 +2298,132 @@ Backend running + `npm run dev`: (1) Researchers page shows multiple departments
 git add ResearchSense/README.md ResearchSense/backend/scripts/build_index.py
 git commit -m "docs: all-department scope, approval workflow, multi-source pipeline"
 ```
+
+---
+
+### Task 18: Publications filters — time period, department, paper type (additive)
+
+Modeled on the university's own publications search (Campus / Department / Start–End date / Paper Type). Strictly additive: the existing `q`, `year`, `topic_id`, `author_id`, `campus` params and their UI keep working unchanged.
+
+**Files:**
+- Modify: `ResearchSense/backend/app/routers/publications.py:14-28`
+- Modify: `ResearchSense/backend/app/services/publication_service.py` (pass-through — read it and mirror the existing param plumbing)
+- Modify: `ResearchSense/backend/app/repositories/mock/publications.py` (the filter predicate — read it first; extend its `_matches`-style function)
+- Create: `ResearchSense/backend/tests/test_publication_filters.py`
+- Modify: `ResearchSense/frontend/src/api/publications.ts`
+- Modify: `ResearchSense/frontend/src/pages/Publications.tsx` (+ its module.css — reuse the page's existing select styles)
+
+**Interfaces:**
+- Produces: `GET /api/publications` gains `year_from: int | None`, `year_to: int | None`, `department: str | None`, `publication_type: str | None` ("journal" | "conference"). Department matches when ANY linked author belongs to that department (map built once per call from the cached researcher list — `loader.load` is already in-memory-cached, so this stays O(n) per request).
+
+- [ ] **Step 1: Write the failing tests**
+
+`ResearchSense/backend/tests/test_publication_filters.py`:
+```python
+from app.repositories.mock.publications import publication_matches
+
+
+def _p(year=2020, ptype="journal", authors=(1,)):
+    return {"publication_year": year, "publication_type": ptype,
+            "authors": [{"researcher_id": a} for a in authors]}
+
+
+DEPT_OF = {1: "Computer Science", 2: "Psychology"}
+
+
+def test_year_range_inclusive():
+    assert publication_matches(_p(year=2020), year_from=2019, year_to=2020,
+                               dept_of=DEPT_OF)
+    assert not publication_matches(_p(year=2018), year_from=2019, year_to=2020,
+                                   dept_of=DEPT_OF)
+
+
+def test_open_ended_ranges():
+    assert publication_matches(_p(year=2024), year_from=2020, dept_of=DEPT_OF)
+    assert publication_matches(_p(year=2012), year_to=2015, dept_of=DEPT_OF)
+
+
+def test_department_matches_any_linked_author():
+    assert publication_matches(_p(authors=(1, 2)), department="Psychology",
+                               dept_of=DEPT_OF)
+    assert not publication_matches(_p(authors=(1,)), department="Psychology",
+                                   dept_of=DEPT_OF)
+
+
+def test_publication_type_filter():
+    assert publication_matches(_p(ptype="conference"),
+                               publication_type="conference", dept_of=DEPT_OF)
+    assert not publication_matches(_p(ptype="journal"),
+                                   publication_type="conference", dept_of=DEPT_OF)
+
+
+def test_no_filters_matches_everything():
+    assert publication_matches(_p(), dept_of=DEPT_OF)
+```
+
+- [ ] **Step 2: Run tests to verify they fail**
+
+Run: `cd ResearchSense/backend && .venv/Scripts/python -m pytest tests/test_publication_filters.py -v`
+Expected: FAIL — `publication_matches` not importable.
+
+- [ ] **Step 3: Implement the predicate + plumb the params**
+
+In `app/repositories/mock/publications.py`, add a module-level predicate for the NEW filters (leaving the existing filter logic exactly where it is, and calling this in addition):
+```python
+def publication_matches(p: dict, *, year_from: int | None = None,
+                        year_to: int | None = None,
+                        department: str | None = None,
+                        publication_type: str | None = None,
+                        dept_of: dict[int, str]) -> bool:
+    """Additive filters: inclusive year range, any-author department,
+    and paper type. None means 'no constraint'."""
+    year = p.get("publication_year") or 0
+    if year_from is not None and year < year_from:
+        return False
+    if year_to is not None and year > year_to:
+        return False
+    if publication_type and p.get("publication_type") != publication_type:
+        return False
+    if department:
+        depts = {dept_of.get(a.get("researcher_id"))
+                 for a in p.get("authors", [])}
+        if department not in depts:
+            return False
+    return True
+```
+In the repository's `list` method, build `dept_of` once from `loader.load("researchers")` and apply `publication_matches` alongside the existing conditions. Thread the four new keyword args through `PublicationService.list` and the router:
+```python
+    year_from: int | None = None,
+    year_to: int | None = None,
+    department: str | None = None,
+    publication_type: str | None = None,
+```
+(added to `list_publications`'s signature and passed to `service.list`).
+
+- [ ] **Step 4: Run tests to verify they pass**
+
+Run: `cd ResearchSense/backend && .venv/Scripts/python -m pytest tests/ -v`
+Expected: all PASS.
+
+- [ ] **Step 5: Frontend — extend the filter bar**
+
+`api/publications.ts` — add to `PublicationFilters`:
+```ts
+  year_from?: number;
+  year_to?: number;
+  department?: string;
+  publication_type?: "journal" | "conference";
+```
+In `Publications.tsx` (read it first; follow its existing filter-state + select markup):
+- Add a **Department** select fed by the existing `fetchDepartments()` client from `api/researchers.ts` ("All departments" default).
+- Add a **Paper type** select: All / Journal papers / Conference papers.
+- Add **From year** and **To year** selects both fed by `fetchPublicationYears()` ("Any" default). When the user picks an exact `year` (existing control), leave it untouched — the new range selects are separate controls; the backend ANDs whatever is set.
+- All new state resets `page` to 1 on change, same as the existing filters.
+
+- [ ] **Step 6: Verify build + manual check, then commit**
+
+Run: `cd ResearchSense/frontend && npm run build` — clean. Manual: filter Publications by a year range + department + conference type; confirm existing search/year/campus filters still behave exactly as before.
+```bash
+git add ResearchSense/backend/app/routers/publications.py ResearchSense/backend/app/services/publication_service.py ResearchSense/backend/app/repositories/mock/publications.py ResearchSense/backend/tests/test_publication_filters.py ResearchSense/frontend/src/api/publications.ts ResearchSense/frontend/src/pages/Publications.tsx
+git commit -m "feat: publications time-period, department, and paper-type filters"
+```
