@@ -4,16 +4,70 @@ This is an idempotent post-pass to fix names/departments in existing data
 without re-running the multi-hour fetch. Called by Task 17 before index rebuild.
 """
 import json
+import re
 from pathlib import Path
-from normalize import normalize_name, canonical_department
+
+try:
+    from scripts.normalize import normalize_name, canonical_department
+except ImportError:
+    from normalize import normalize_name, canonical_department
 
 DATA_DIR = Path(__file__).parent.parent / "app" / "data"
 
 
+def department_fixes(scraped: list[dict]) -> dict[str, str]:
+    """Build mapping from lowercased canonical output to corrected output.
+
+    Recovers correct casing for departments that were lowercased in persisted
+    data by using the scraped data (which has original casing).
+    Returns {lowercased_output: corrected_output} for all unique departments.
+    """
+    fixes = {}
+    for rec in scraped:
+        raw_dept = rec.get("department", "")
+        if raw_dept:
+            fixed = canonical_department(raw_dept)
+            fixes[fixed.lower()] = fixed
+    return fixes
+
+
+def patch_researcher(researcher: dict, dept_fixes: dict[str, str]) -> bool:
+    """Patch a single researcher record. Returns True if any changes made."""
+    old_name = researcher.get("full_name", "")
+    old_dept = researcher.get("department", "")
+    bio = researcher.get("profile_bio", "") or ""
+    changed = False
+
+    # Fix department casing from scraped mapping
+    if old_dept:
+        fixed_dept = dept_fixes.get(old_dept.lower())
+        if fixed_dept and fixed_dept != old_dept:
+            researcher["department"] = fixed_dept
+            bio = re.sub(rf"\b{re.escape(old_dept)}\b", fixed_dept, bio)
+            changed = True
+            old_dept = fixed_dept
+
+    # Fix name honorifics
+    new_name = normalize_name(old_name)
+    if new_name != old_name:
+        researcher["full_name"] = new_name
+        bio = re.sub(rf"\b{re.escape(old_name)}\b", new_name, bio)
+        changed = True
+
+    if changed:
+        researcher["profile_bio"] = bio
+    return changed
+
+
 def patch_normalized_names():
     """Patch researchers.json and projects.json with fixed normalizers."""
+    scraped_path = Path(__file__).parent / "scraped_faculty.json"
     researchers_path = DATA_DIR / "researchers.json"
     projects_path = DATA_DIR / "projects.json"
+
+    with open(scraped_path) as f:
+        scraped = json.load(f)
+    dept_fixes = department_fixes(scraped)
 
     with open(researchers_path) as f:
         researchers = json.load(f)
@@ -23,31 +77,15 @@ def patch_normalized_names():
 
     patched = 0
     for researcher in researchers:
-        old_name = researcher.get("full_name", "")
-        old_dept = researcher.get("department", "")
-        new_name = normalize_name(old_name)
-        new_dept = canonical_department(old_dept)
-
-        if new_name != old_name or new_dept != old_dept:
+        if patch_researcher(researcher, dept_fixes):
             patched += 1
-            bio = researcher.get("profile_bio", "")
-            if old_name and new_name != old_name:
-                bio = bio.replace(old_name, new_name)
-            if old_dept and new_dept != old_dept:
-                bio = bio.replace(old_dept, new_dept)
-            researcher["full_name"] = new_name
-            researcher["department"] = new_dept
-            researcher["profile_bio"] = bio
 
+    # Apply department casing fixes to projects
     for project in projects:
-        pi_name = project.get("principal_investigator_name", "")
-        pi_dept = project.get("department", "")
-        new_pi_name = normalize_name(pi_name)
-        new_pi_dept = canonical_department(pi_dept)
-        if new_pi_name != pi_name:
-            project["principal_investigator_name"] = new_pi_name
-        if new_pi_dept != pi_dept:
-            project["department"] = new_pi_dept
+        if "department" in project:
+            fixed = dept_fixes.get(project["department"].lower())
+            if fixed and fixed != project["department"]:
+                project["department"] = fixed
 
     with open(researchers_path, "w") as f:
         json.dump(researchers, f, indent=2)
