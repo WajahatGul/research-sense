@@ -25,6 +25,57 @@
   cursor: pointer;
 }
 
+.dateGroup {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dateLabel {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dateInput {
+  appearance: none;
+  padding: 10px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.dateHint {
+  margin: 6px 0 0;
+  color: var(--faint);
+  font-size: 0.8rem;
+}
+
+.searchButton {
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 11px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.searchButton:hover {
+  background: var(--navy-900);
+}
+
 .body {
   padding-top: var(--sp-6);
 }

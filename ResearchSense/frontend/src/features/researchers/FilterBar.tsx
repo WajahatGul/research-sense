@@ -14,7 +14,9 @@ interface Props {
   onCampus: (v: string) => void;
   onDepartment: (v: string) => void;
   onDesignation: (v: string) => void;
+  onSearch: () => void;
   total: number;
+  hasSearched: boolean;
 }
 
 export function FilterBar({
@@ -24,7 +26,9 @@ export function FilterBar({
   onCampus,
   onDepartment,
   onDesignation,
+  onSearch,
   total,
+  hasSearched,
 }: Props) {
   const { data: campuses } = useQuery({
     queryKey: ["campuses"],
@@ -42,7 +46,7 @@ export function FilterBar({
   return (
     <div className={styles.bar}>
       <span className={`mono ${styles.count}`}>
-        {total.toLocaleString()} researchers
+        {hasSearched ? `${total.toLocaleString()} researchers` : ""}
       </span>
       <div className={styles.filters}>
         <select
@@ -84,6 +88,14 @@ export function FilterBar({
             </option>
           ))}
         </select>
+        <button
+          type="button"
+          className={styles.searchButton}
+          onClick={onSearch}
+          aria-label="Search researchers"
+        >
+          Search
+        </button>
       </div>
     </div>
   );

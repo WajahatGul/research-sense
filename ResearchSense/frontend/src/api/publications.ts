@@ -9,6 +9,8 @@ export interface PublicationFilters {
   campus?: string;
   year_from?: number;
   year_to?: number;
+  date_from?: string;
+  date_to?: string;
   department?: string;
   publication_type?: "journal" | "conference";
   page?: number;

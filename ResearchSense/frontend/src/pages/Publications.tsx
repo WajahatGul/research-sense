@@ -13,20 +13,41 @@ import styles from "./Publications.module.css";
 
 const PAGE_SIZE = 10;
 
+interface Filters {
+  q: string;
+  year: string;
+  campus: string;
+  department: string;
+  publicationType: string;
+  dateFrom: string;
+  dateTo: string;
+}
+
+const blankFilters: Filters = {
+  q: "",
+  year: "",
+  campus: "",
+  department: "",
+  publicationType: "",
+  dateFrom: "",
+  dateTo: "",
+};
+
 export default function Publications() {
   const [params] = useSearchParams();
   const topicId = params.get("topic_id");
 
   // Seed the search from the URL so other pages (e.g. chat source chips)
-  // can deep-link straight to a title.
-  const [q, setQ] = useState(params.get("q") ?? "");
-  const [year, setYear] = useState("");
-  const [campus, setCampus] = useState("");
-  const [department, setDepartment] = useState("");
-  const [publicationType, setPublicationType] = useState("");
-  const [yearFrom, setYearFrom] = useState("");
-  const [yearTo, setYearTo] = useState("");
+  // can deep-link straight to a title. A deep link counts as an implicit
+  // search, so it runs immediately instead of waiting for the button.
+  const initialQ = params.get("q") ?? "";
+  const [pending, setPending] = useState<Filters>({ ...blankFilters, q: initialQ });
+  const [applied, setApplied] = useState<Filters | null>(() =>
+    initialQ || topicId ? { ...blankFilters, q: initialQ } : null,
+  );
   const [page, setPage] = useState(1);
+
+  const hasSearched = applied !== null;
 
   const { data: years } = useQuery({
     queryKey: ["pub-years"],
@@ -42,35 +63,32 @@ export default function Publications() {
   });
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: [
-      "publications",
-      q,
-      year,
-      campus,
-      department,
-      publicationType,
-      yearFrom,
-      yearTo,
-      topicId,
-      page,
-    ],
-    queryFn: () =>
-      fetchPublications({
-        q,
-        year: year ? Number(year) : undefined,
-        campus: campus || undefined,
-        department: department || undefined,
-        publication_type: publicationType
-          ? (publicationType as "journal" | "conference")
+    queryKey: ["publications", applied, topicId, page],
+    queryFn: () => {
+      const f = applied ?? blankFilters;
+      return fetchPublications({
+        q: f.q,
+        year: f.year ? Number(f.year) : undefined,
+        campus: f.campus || undefined,
+        department: f.department || undefined,
+        publication_type: f.publicationType
+          ? (f.publicationType as "journal" | "conference")
           : undefined,
-        year_from: yearFrom ? Number(yearFrom) : undefined,
-        year_to: yearTo ? Number(yearTo) : undefined,
+        date_from: f.dateFrom || undefined,
+        date_to: f.dateTo || undefined,
         topic_id: topicId ? Number(topicId) : undefined,
         page,
         page_size: PAGE_SIZE,
-      }),
+      });
+    },
+    enabled: hasSearched,
     placeholderData: keepPreviousData,
   });
+
+  const runSearch = () => {
+    setApplied(pending);
+    setPage(1);
+  };
 
   return (
     <>
@@ -83,20 +101,14 @@ export default function Publications() {
           <div className={styles.search}>
             <SearchBar
               placeholder="Search publication titles…"
-              defaultValue={q}
-              onSearch={(v) => {
-                setQ(v);
-                setPage(1);
-              }}
+              defaultValue={pending.q}
+              onSearch={(v) => setPending((p) => ({ ...p, q: v }))}
             />
           </div>
           <select
             className={styles.select}
-            value={campus}
-            onChange={(e) => {
-              setCampus(e.target.value);
-              setPage(1);
-            }}
+            value={pending.campus}
+            onChange={(e) => setPending((p) => ({ ...p, campus: e.target.value }))}
             aria-label="Filter by campus"
           >
             <option value="">All campuses</option>
@@ -108,11 +120,8 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={year}
-            onChange={(e) => {
-              setYear(e.target.value);
-              setPage(1);
-            }}
+            value={pending.year}
+            onChange={(e) => setPending((p) => ({ ...p, year: e.target.value }))}
             aria-label="Filter by year"
           >
             <option value="">All years</option>
@@ -124,11 +133,8 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={department}
-            onChange={(e) => {
-              setDepartment(e.target.value);
-              setPage(1);
-            }}
+            value={pending.department}
+            onChange={(e) => setPending((p) => ({ ...p, department: e.target.value }))}
             aria-label="Filter by department"
           >
             <option value="">All departments</option>
@@ -140,63 +146,76 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={publicationType}
-            onChange={(e) => {
-              setPublicationType(e.target.value);
-              setPage(1);
-            }}
+            value={pending.publicationType}
+            onChange={(e) =>
+              setPending((p) => ({ ...p, publicationType: e.target.value }))
+            }
             aria-label="Filter by paper type"
           >
             <option value="">All paper types</option>
             <option value="journal">Journal papers</option>
             <option value="conference">Conference papers</option>
           </select>
-          <select
-            className={styles.select}
-            value={yearFrom}
-            onChange={(e) => {
-              setYearFrom(e.target.value);
-              setPage(1);
-            }}
-            aria-label="Filter by start year"
+          <div className={styles.dateGroup}>
+            <div className={styles.dateField}>
+              <label className={styles.dateLabel} htmlFor="pub-date-from">
+                From date
+              </label>
+              <input
+                id="pub-date-from"
+                type="date"
+                className={styles.dateInput}
+                value={pending.dateFrom}
+                onChange={(e) =>
+                  setPending((p) => ({ ...p, dateFrom: e.target.value }))
+                }
+                aria-label="From date"
+              />
+            </div>
+            <div className={styles.dateField}>
+              <label className={styles.dateLabel} htmlFor="pub-date-to">
+                To date
+              </label>
+              <input
+                id="pub-date-to"
+                type="date"
+                className={styles.dateInput}
+                value={pending.dateTo}
+                onChange={(e) => setPending((p) => ({ ...p, dateTo: e.target.value }))}
+                aria-label="To date"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            className={styles.searchButton}
+            onClick={runSearch}
+            aria-label="Search publications"
           >
-            <option value="">From year</option>
-            {years?.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-          <select
-            className={styles.select}
-            value={yearTo}
-            onChange={(e) => {
-              setYearTo(e.target.value);
-              setPage(1);
-            }}
-            aria-label="Filter by end year"
-          >
-            <option value="">To year</option>
-            {years?.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
+            Search
+          </button>
         </div>
+        <p className={styles.dateHint}>
+          Papers before 2026 are recorded by year; they match from January 1.
+        </p>
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
-        <span className={`mono ${styles.count}`}>
-          {(data?.total ?? 0).toLocaleString()} publications
-        </span>
+        {hasSearched && (
+          <span className={`mono ${styles.count}`}>
+            {(data?.total ?? 0).toLocaleString()} publications
+          </span>
+        )}
 
-        {isLoading && <Loader />}
-        {isError && <ErrorState />}
-        {data && data.items.length === 0 && (
+        {!hasSearched && (
+          <EmptyState message="Choose your filters and press Search to see publications." />
+        )}
+        {hasSearched && isLoading && <Loader />}
+        {hasSearched && isError && <ErrorState />}
+        {hasSearched && data && data.items.length === 0 && (
           <EmptyState message="No publications match your search." />
         )}
-        {data && data.items.length > 0 && (
+        {hasSearched && data && data.items.length > 0 && (
           <div className={styles.list}>
             {data.items.map((p) => (
               <PublicationItem key={p.publication_id} pub={p} />
@@ -204,7 +223,7 @@ export default function Publications() {
           </div>
         )}
 
-        {data && (
+        {hasSearched && data && (
           <Pagination
             page={page}
             pageSize={PAGE_SIZE}

@@ -36,3 +36,19 @@
 .select:hover {
   border-color: var(--navy);
 }
+
+.searchButton {
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 9px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.searchButton:hover {
+  background: var(--navy-900);
+}
