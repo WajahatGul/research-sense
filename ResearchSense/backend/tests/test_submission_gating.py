@@ -17,19 +17,30 @@ def store(tmp_path, monkeypatch):
 
 def test_create_stages_instead_of_publishing(store, monkeypatch):
     staged = {}
-    monkeypatch.setattr(svc, "_stage_submission",
-                        lambda sid, record: staged.setdefault(sid, record))
+    monkeypatch.setattr(
+        svc, "_stage_submission", lambda sid, record: staged.setdefault(sid, record)
+    )
     published = []
-    monkeypatch.setattr(svc, "publish_record",
-                        lambda record: published.append(record))
-    monkeypatch.setattr(svc, "_link_authors",
-                        lambda names, sub: [{"researcher_id": 1,
-                                             "full_name": "A", "order": 1}])
-    meta = {"title": "Pending Paper", "publication_year": 2024,
-            "journal_name": "J", "publication_type": "journal",
-            "citation_count": 0, "abstract": "", "doi": None}
-    result = svc._create(meta, {"researcher_id": 1, "full_name": "A",
-                                "campus": "Karachi"}, source="manual")
+    monkeypatch.setattr(svc, "publish_record", lambda record: published.append(record))
+    monkeypatch.setattr(
+        svc,
+        "_link_authors",
+        lambda names, sub: [{"researcher_id": 1, "full_name": "A", "order": 1}],
+    )
+    meta = {
+        "title": "Pending Paper",
+        "publication_year": 2024,
+        "journal_name": "J",
+        "publication_type": "journal",
+        "citation_count": 0,
+        "abstract": "",
+        "doi": None,
+    }
+    result = svc._create(
+        meta,
+        {"researcher_id": 1, "full_name": "A", "campus": "Karachi"},
+        source="manual",
+    )
     assert result["status"] == "pending"
     assert staged and not published
     sub = store.get_submission(result["submission_id"])

@@ -6,18 +6,22 @@ retrieval: the pipeline only sees a handful of chunks, so the model picks a
 number it happens to see rather than the true maximum over everyone. These are
 answered here directly from the full, sorted structured data.
 """
+
 from __future__ import annotations
 
 import re
 
-from app.services.rag.authored import AuthoredResult, _Store, _resolve_people
+from app.services.rag.authored import AuthoredResult, _resolve_people, _Store
 
 _SUPERLATIVE = re.compile(
     r"\b(most|highest|top|leading|greatest|maximum|max|best|"
-    r"prolific|productive|ranked|ranking|rank)\b", re.I)
+    r"prolific|productive|ranked|ranking|rank)\b",
+    re.I,
+)
 _CITATION = re.compile(r"\b(citation|citations|cited)\b", re.I)
 _PUBLICATION = re.compile(
-    r"\b(publication|publications|papers?|prolific|productive)\b", re.I)
+    r"\b(publication|publications|papers?|prolific|productive)\b", re.I
+)
 
 
 def leaderboard_answer(message: str) -> AuthoredResult | None:
@@ -42,8 +46,10 @@ def leaderboard_answer(message: str) -> AuthoredResult | None:
     ranked = sorted(researchers, key=lambda r: r.get(key, 0), reverse=True)[:5]
     top = ranked[0]
 
-    lines = [f"{top['full_name']} has the most {unit} "
-             f"({top.get(key, 0):,} {unit}).", ""]
+    lines = [
+        f"{top['full_name']} has the most {unit} ({top.get(key, 0):,} {unit}).",
+        "",
+    ]
     lines.append(f"Top researchers by {unit}:")
     for i, r in enumerate(ranked, 1):
         lines.append(f"{i}. {r['full_name']} - {r.get(key, 0):,} {unit}")

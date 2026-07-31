@@ -17,6 +17,7 @@ Run (from backend/):
 
 Output: scripts/scraped_faculty.json
 """
+
 from __future__ import annotations
 
 import json
@@ -72,8 +73,10 @@ DETAIL_JS = """
 }
 """
 
-READY = ("() => { const $=window.jQuery; const t=document.querySelector('table'); "
-         "return $ && t && $(t).DataTable().rows().count() > 100; }")
+READY = (
+    "() => { const $=window.jQuery; const t=document.querySelector('table'); "
+    "return $ && t && $(t).DataTable().rows().count() > 100; }"
+)
 
 
 def main() -> None:
@@ -96,14 +99,22 @@ def main() -> None:
             if not person["id"]:
                 continue
             try:
-                page.goto(DETAIL_URL.format(id=person["id"]),
-                          wait_until="domcontentloaded", timeout=60000)
+                page.goto(
+                    DETAIL_URL.format(id=person["id"]),
+                    wait_until="domcontentloaded",
+                    timeout=60000,
+                )
                 d = page.evaluate(DETAIL_JS)
                 person["email"] = d.get("email")
                 # Directory areas are primary; detail areas are a fallback.
                 if not person["areas"] and d.get("detail_areas"):
                     person["areas"] = d["detail_areas"]
-                for k in ("degree", "degree_year", "degree_majors", "degree_university"):
+                for k in (
+                    "degree",
+                    "degree_year",
+                    "degree_majors",
+                    "degree_university",
+                ):
                     person[k] = d.get(k)
                 if i % 25 == 0:
                     print(f"    detail {i}/{len(roster)}")
@@ -115,8 +126,10 @@ def main() -> None:
     OUTPUT.write_text(json.dumps(roster, indent=2, ensure_ascii=False), "utf-8")
     with_email = sum(1 for p in roster if p.get("email"))
     with_areas = sum(1 for p in roster if p.get("areas"))
-    print(f"Wrote {OUTPUT}: {len(roster)} faculty, "
-          f"{with_email} with email, {with_areas} with research areas.")
+    print(
+        f"Wrote {OUTPUT}: {len(roster)} faculty, "
+        f"{with_email} with email, {with_areas} with research areas."
+    )
     print("Next: python -m scripts.build_seed && python -m scripts.fetch_publications")
 
 

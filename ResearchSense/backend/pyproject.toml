@@ -1,0 +1,32 @@
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+extend-exclude = [".venv", "papers"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+# The app predates the linter; ignores below keep the gate honest without
+# rewriting working code. Remove entries as files get cleaned up.
+ignore = ["B008"]  # FastAPI Depends() in defaults is idiomatic
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["SIM117"]
+# Generic[T]/TypeVar is used at runtime (Paginated[T](...) is constructed, not
+# just annotated); migrating to PEP 695 `class Foo[T]` syntax is a real
+# semantic change to how the type parameter is scoped/resolved, not a
+# no-op reformat, so it's left alone rather than risked here.
+"app/schemas/common.py" = ["UP046"]
+"app/core/pagination.py" = ["UP047"]
+# DIRECTORY_JS/DETAIL_JS are literal browser-evaluated JS snippets, not Python
+# code; reflowing the embedded line for E501 risks subtly changing the script
+# via automatic semicolon insertion, so it's exempted rather than reformatted.
+"scripts/scrape_bahria.py" = ["E501"]
+
+[tool.coverage.run]
+source = ["app", "scripts"]
+omit = ["app/data/*", "scripts/scrape_bahria.py"]
+
+# Gauntlet coverage floor — the runner and CI read this value; it may only
+# ever increase. See docs/QA.md.
+[tool.gauntlet]
+coverage_floor = 0  # placeholder; Task 2 measures and sets the real floor

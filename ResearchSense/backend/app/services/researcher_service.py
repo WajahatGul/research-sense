@@ -1,4 +1,5 @@
 """Business logic for researchers."""
+
 from __future__ import annotations
 
 from app.core.pagination import paginate
@@ -11,11 +12,23 @@ class ResearcherService:
     def __init__(self, repo: ResearcherRepository):
         self._repo = repo
 
-    def list(self, *, query=None, campus=None, department=None, designation=None,
-             topic_id=None, page=1, page_size=12) -> Paginated[Researcher]:
+    def list(
+        self,
+        *,
+        query=None,
+        campus=None,
+        department=None,
+        designation=None,
+        topic_id=None,
+        page=1,
+        page_size=12,
+    ) -> Paginated[Researcher]:
         rows = self._repo.list(
-            query=query, campus=campus, department=department,
-            designation=designation, topic_id=topic_id,
+            query=query,
+            campus=campus,
+            department=department,
+            designation=designation,
+            topic_id=topic_id,
         )
         return paginate(rows, page, page_size)
 

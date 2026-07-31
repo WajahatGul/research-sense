@@ -22,7 +22,9 @@ class TestDepartmentFixes:
     def test_last_entry_wins_on_lowercase_collision(self):
         scraped = [
             {"department": "HR & Management"},
-            {"department": "Hr & Management"},  # Both canonicalize with acronym allowlist
+            {
+                "department": "Hr & Management"
+            },  # Both canonicalize with acronym allowlist
         ]
         fixes = department_fixes(scraped)
         # Both canonicalize to "HR and Management" with the acronym allowlist
@@ -87,7 +89,9 @@ class TestPatchResearcher:
         changed = patch_researcher(researcher, dept_fixes)
         assert changed is True
         # "Dr. Ali Khan" should be replaced, but "throughout" should be untouched
-        assert researcher["profile_bio"] == "Ali Khan works throughout the IT department"
+        assert (
+            researcher["profile_bio"] == "Ali Khan works throughout the IT department"
+        )
 
     def test_both_name_and_department_fixed(self):
         dept_fixes = {"it": "IT"}

@@ -2,8 +2,13 @@ from scripts.build_seed import FACULTY_PER_DEPT, sample_faculty
 
 
 def _rec(name, campus="Karachi", dept="Psychology", desig="Lecturer", areas="x"):
-    return {"name": name, "campus": campus, "department": dept,
-            "designation": desig, "areas": areas}
+    return {
+        "name": name,
+        "campus": campus,
+        "department": dept,
+        "designation": desig,
+        "areas": areas,
+    }
 
 
 def test_cap_respected_per_campus_department_group():
@@ -13,8 +18,9 @@ def test_cap_respected_per_campus_department_group():
 
 
 def test_groups_are_independent():
-    recs = ([_rec(f"A{i}", dept="Law") for i in range(15)]
-            + [_rec(f"B{i}", dept="Psychology") for i in range(15)])
+    recs = [_rec(f"A{i}", dept="Law") for i in range(15)] + [
+        _rec(f"B{i}", dept="Psychology") for i in range(15)
+    ]
     out = sample_faculty(recs, cap=12)
     assert len(out) == 24
 

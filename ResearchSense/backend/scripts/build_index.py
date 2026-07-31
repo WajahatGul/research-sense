@@ -12,17 +12,17 @@ Embeddings: all-MiniLM-L6-v2 via fastembed (local, CPU, free). Output:
 Run (from backend/):  python -m scripts.build_index
 Re-run whenever the seed data or the papers folder changes.
 """
+
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 
 import numpy as np
 from fastembed import TextEmbedding
 from pypdf import PdfReader
-
-import os
 
 BACKEND = Path(__file__).resolve().parent.parent
 DATA_DIR = BACKEND / "app" / "data"
@@ -63,8 +63,7 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
         # directory expertise) are distinct from the structured `topics` list
         # above, so surface them too when present and different.
         if r.get("research_areas"):
-            parts.append(
-                f"Derived research areas: {', '.join(r['research_areas'])}.")
+            parts.append(f"Derived research areas: {', '.join(r['research_areas'])}.")
         if r.get("education"):
             parts.append(f"Education: {r['education']}.")
         if r.get("email"):
@@ -72,34 +71,43 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
         if r.get("publication_count"):
             parts.append(
                 f"{r['full_name']} has {r['publication_count']} indexed "
-                f"publications with {r['citation_count']} total citations.")
+                f"publications with {r['citation_count']} total citations."
+            )
         intl = r.get("international_collaborations") or []
         if intl:
-            partners = "; ".join(f"{i['institution']} ({i['country']})"
-                                 for i in intl[:5])
+            partners = "; ".join(
+                f"{i['institution']} ({i['country']})" for i in intl[:5]
+            )
             parts.append(f"International collaborations: {partners}.")
-        out.append({
-            "text": " ".join(parts),
-            "kind": "researcher",
-            "ref_id": r["researcher_id"],
-            "label": f"{r['full_name']} — {r['designation']}",
-        })
+        out.append(
+            {
+                "text": " ".join(parts),
+                "kind": "researcher",
+                "ref_id": r["researcher_id"],
+                "label": f"{r['full_name']} — {r['designation']}",
+            }
+        )
     return out
 
 
-def collaboration_chunks(researchers: list[dict],
-                         publications: list[dict]) -> list[dict]:
+def collaboration_chunks(
+    researchers: list[dict], publications: list[dict]
+) -> list[dict]:
     """One chunk per researcher naming who they have co-authored with, so the
     assistant can answer "who has X collaborated with" and "did X and Y work
     together" from retrieval (the fast path handles specific pairs precisely)."""
     from collections import Counter
 
     names = {r["researcher_id"]: r["full_name"] for r in researchers}
-    coauth: dict[int, Counter] = {r["researcher_id"]: Counter()
-                                  for r in researchers}
+    coauth: dict[int, Counter] = {r["researcher_id"]: Counter() for r in researchers}
     for p in publications:
-        ids = list({a["researcher_id"] for a in p.get("authors", [])
-                    if a.get("researcher_id") in names})
+        ids = list(
+            {
+                a["researcher_id"]
+                for a in p.get("authors", [])
+                if a.get("researcher_id") in names
+            }
+        )
         for a in ids:
             for b in ids:
                 if a != b:
@@ -111,14 +119,19 @@ def collaboration_chunks(researchers: list[dict],
             continue
         listing = ", ".join(
             f"{names[o]} ({c} paper{'s' if c > 1 else ''})"
-            for o, c in counter.most_common(12))
-        out.append({
-            "text": (f"{names[rid]} has co-authored research papers with the "
-                     f"following researchers: {listing}."),
-            "kind": "researcher",
-            "ref_id": rid,
-            "label": f"{names[rid]} — collaborators",
-        })
+            for o, c in counter.most_common(12)
+        )
+        out.append(
+            {
+                "text": (
+                    f"{names[rid]} has co-authored research papers with the "
+                    f"following researchers: {listing}."
+                ),
+                "kind": "researcher",
+                "ref_id": rid,
+                "label": f"{names[rid]} — collaborators",
+            }
+        )
     return out
 
 
@@ -127,19 +140,21 @@ def publication_chunks(publications: list[dict]) -> list[dict]:
     for p in publications:
         authors = ", ".join(a["full_name"] for a in p["authors"][:8])
         text = (
-            f"Publication: \"{p['title']}\" ({p['publication_year']}), "
+            f'Publication: "{p["title"]}" ({p["publication_year"]}), '
             f"{p['publication_type']} in {p['journal_name']}. "
             f"Authors: {authors}. Citations: {p['citation_count']}. "
             f"Campus: {p['campus']}."
         )
         if p.get("doi"):
             text += f" DOI: {p['doi']}."
-        out.append({
-            "text": text,
-            "kind": "publication",
-            "ref_id": p["publication_id"],
-            "label": f"{p['title'][:70]} ({p['publication_year']})",
-        })
+        out.append(
+            {
+                "text": text,
+                "kind": "publication",
+                "ref_id": p["publication_id"],
+                "label": f"{p['title'][:70]} ({p['publication_year']})",
+            }
+        )
     return out
 
 
@@ -150,32 +165,38 @@ def project_chunks(projects: list[dict]) -> list[dict]:
         amount = f"{fund.get('amount', 0):,.0f} {fund.get('currency', 'PKR')}"
         text = (
             f"Research project (demonstration record, not a confirmed grant): "
-            f"\"{p['project_title']}\", {p['status']}, "
+            f'"{p["project_title"]}", {p["status"]}, '
             f"{p['start_date']} to {p.get('end_date') or 'ongoing'}. "
             f"Principal investigator: {p['principal_investigator_name']} "
             f"({p['campus']}). Funded by {fund.get('agency_name', 'n/a')}, "
             f"amount {amount}."
         )
-        out.append({
-            "text": text,
-            "kind": "project",
-            "ref_id": p["project_id"],
-            "label": p["project_title"],
-        })
+        out.append(
+            {
+                "text": text,
+                "kind": "project",
+                "ref_id": p["project_id"],
+                "label": p["project_title"],
+            }
+        )
     return out
 
 
 def topic_chunks(topics: list[dict]) -> list[dict]:
     out = []
     for t in topics:
-        out.append({
-            "text": (f"Research area {t['topic_name']} has "
-                     f"{t['researcher_count']} researchers and "
-                     f"{t['publication_count']} publications."),
-            "kind": "topic",
-            "ref_id": t["topic_id"],
-            "label": t["topic_name"],
-        })
+        out.append(
+            {
+                "text": (
+                    f"Research area {t['topic_name']} has "
+                    f"{t['researcher_count']} researchers and "
+                    f"{t['publication_count']} publications."
+                ),
+                "kind": "topic",
+                "ref_id": t["topic_id"],
+                "label": t["topic_name"],
+            }
+        )
     return out
 
 
@@ -185,18 +206,19 @@ def topic_chunks(topics: list[dict]) -> list[dict]:
 def _split(text: str) -> list[str]:
     chunks, start = [], 0
     while start < len(text):
-        chunks.append(text[start:start + CHUNK_CHARS])
+        chunks.append(text[start : start + CHUNK_CHARS])
         start += CHUNK_CHARS - CHUNK_OVERLAP
     return [c.strip() for c in chunks if len(c.strip()) > 120]
 
 
-def chunk_pdf(path: Path, title: str, year, author_name: str,
-              researcher_id: int | None) -> list[dict]:
+def chunk_pdf(
+    path: Path, title: str, year, author_name: str, researcher_id: int | None
+) -> list[dict]:
     """Chunk one PDF into attributed index entries (shared with live uploads)."""
     reader = PdfReader(path)
     raw = " ".join((page.extract_text() or "") for page in reader.pages)
     text = re.sub(r"\s+", " ", raw).strip()
-    header = f"From the paper \"{title}\" ({year}) by {author_name}: "
+    header = f'From the paper "{title}" ({year}) by {author_name}: '
     return [
         {
             "text": header + piece,
@@ -219,8 +241,15 @@ def paper_chunks(researchers: list[dict]) -> list[dict]:
         rid = paper.get("researcher_id")
         author = paper.get("author_name") or names.get(rid, "a university researcher")
         try:
-            out.extend(chunk_pdf(PAPERS_DIR / paper["filename"], paper["title"],
-                                 paper["year"], author, rid))
+            out.extend(
+                chunk_pdf(
+                    PAPERS_DIR / paper["filename"],
+                    paper["title"],
+                    paper["year"],
+                    author,
+                    rid,
+                )
+            )
         except Exception as exc:  # noqa: BLE001 - skip unreadable files
             print(f"  ! could not read {paper['filename']}: {exc}")
     return out
@@ -244,13 +273,16 @@ def library_paper_chunks() -> list[dict]:
             print(f"  ! could not read library {paper['filename']}: {exc}")
             continue
         title, year = paper["title"], paper.get("year", "n.d.")
-        header = f"From the paper \"{title}\" ({year}) in the research library: "
-        out.extend({
-            "text": header + piece,
-            "kind": "paper",
-            "ref_id": None,
-            "label": f"Library: {title[:60]} ({year})",
-        } for piece in _split(text))
+        header = f'From the paper "{title}" ({year}) in the research library: '
+        out.extend(
+            {
+                "text": header + piece,
+                "kind": "paper",
+                "ref_id": None,
+                "label": f"Library: {title[:60]} ({year})",
+            }
+            for piece in _split(text)
+        )
     return out
 
 
@@ -287,16 +319,20 @@ def rebuild_preserving_fulltext() -> None:
     fresh = fact_card_chunks()
     model = TextEmbedding(EMBED_MODEL)
     fresh_vectors = np.array(
-        list(model.embed([c["text"] for c in fresh])), dtype=np.float32)
+        list(model.embed([c["text"] for c in fresh])), dtype=np.float32
+    )
     fresh_vectors /= np.linalg.norm(fresh_vectors, axis=1, keepdims=True)
 
     chunks = fresh + kept_chunks
     vectors = np.vstack([fresh_vectors, kept_vectors])
     (DATA_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8")
+        json.dumps(chunks, ensure_ascii=False), "utf-8"
+    )
     np.savez_compressed(DATA_DIR / "rag_index.npz", vectors=vectors)
-    print(f"  {len(fresh)} fact cards rebuilt, {len(kept_chunks)} full-text "
-          f"chunks preserved (matrix {vectors.shape[0]}x{vectors.shape[1]})")
+    print(
+        f"  {len(fresh)} fact cards rebuilt, {len(kept_chunks)} full-text "
+        f"chunks preserved (matrix {vectors.shape[0]}x{vectors.shape[1]})"
+    )
 
 
 def upload_chunks() -> list[dict]:
@@ -313,7 +349,8 @@ def upload_chunks() -> list[dict]:
     con.row_factory = sqlite3.Row
     try:
         rows = con.execute(
-            "SELECT researcher_id, title, filename FROM uploads").fetchall()
+            "SELECT researcher_id, title, filename FROM uploads"
+        ).fetchall()
     finally:
         con.close()
     out = []
@@ -329,13 +366,16 @@ def upload_chunks() -> list[dict]:
             print(f"  ! could not read upload {row['filename']}: {exc}")
             continue
         author = names.get(row["researcher_id"], "a university researcher")
-        header = f"From the paper \"{row['title']}\" by {author}: "
-        out.extend({
-            "text": header + piece,
-            "kind": "paper",
-            "ref_id": row["researcher_id"],
-            "label": f"Paper: {row['title'][:70]} (uploaded)",
-        } for piece in _split(text))
+        header = f'From the paper "{row["title"]}" by {author}: '
+        out.extend(
+            {
+                "text": header + piece,
+                "kind": "paper",
+                "ref_id": row["researcher_id"],
+                "label": f"Paper: {row['title'][:70]} (uploaded)",
+            }
+            for piece in _split(text)
+        )
     return out
 
 
@@ -347,20 +387,24 @@ def main() -> None:
     chunks += papers
     library = library_paper_chunks()
     chunks += library
-    print(f"  {len(chunks)} chunks ({len(papers)} from paper full text, "
-          f"{len(library)} from the library)")
+    print(
+        f"  {len(chunks)} chunks ({len(papers)} from paper full text, "
+        f"{len(library)} from the library)"
+    )
 
     model = TextEmbedding(EMBED_MODEL)
-    vectors = np.array(
-        list(model.embed([c["text"] for c in chunks])), dtype=np.float32)
+    vectors = np.array(list(model.embed([c["text"] for c in chunks])), dtype=np.float32)
     # Normalize so cosine similarity is a plain dot product at query time.
     vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)
 
     (DATA_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8")
+        json.dumps(chunks, ensure_ascii=False), "utf-8"
+    )
     np.savez_compressed(DATA_DIR / "rag_index.npz", vectors=vectors)
-    print(f"  wrote rag_chunks.json + rag_index.npz "
-          f"(matrix {vectors.shape[0]}x{vectors.shape[1]})")
+    print(
+        f"  wrote rag_chunks.json + rag_index.npz "
+        f"(matrix {vectors.shape[0]}x{vectors.shape[1]})"
+    )
     print("Done.")
 
 

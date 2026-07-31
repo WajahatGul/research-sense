@@ -5,6 +5,7 @@ supplementary-source merging.
 Split out of fetch_publications.py to keep that module under the repo's
 line-count guideline; re-exported there for backward-compatible imports.
 """
+
 from __future__ import annotations
 
 import re
@@ -20,18 +21,24 @@ def expertise_field_guard(work_topic_names: list[str], expertise_text: str) -> b
     if not (expertise_text or "").strip():
         return False
     exp = set(re.findall(r"[a-z]{4,}", expertise_text.lower()))
-    work = {t for name in work_topic_names
-            for t in re.findall(r"[a-z]{4,}", (name or "").lower())}
+    work = {
+        t
+        for name in work_topic_names
+        for t in re.findall(r"[a-z]{4,}", (name or "").lower())
+    }
     return bool(exp & work)
 
 
 def international_of(institutions: list[dict]) -> bool:
-    return any((i.get("country") or "") not in ("", "PK", None) and
-               i.get("country") != "PK" for i in institutions)
+    return any(
+        (i.get("country") or "") not in ("", "PK", None) and i.get("country") != "PK"
+        for i in institutions
+    )
 
 
-def derive_research_areas(researcher: dict, linked_pubs: list[dict],
-                          top_n: int = 5) -> list[str]:
+def derive_research_areas(
+    researcher: dict, linked_pubs: list[dict], top_n: int = 5
+) -> list[str]:
     """Hybrid areas: most frequent topic names across the researcher's actual
     publications; fallback to their cleaned directory expertise."""
     counts: Counter = Counter()

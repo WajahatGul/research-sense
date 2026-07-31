@@ -3,6 +3,7 @@
 Services depend on these ABCs, never on a concrete data source. A future
 SQL/ORM layer implements the same methods and is injected in place of the mock.
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -38,8 +39,9 @@ class ResearcherRepository(ABC):
     @abstractmethod
     def campuses(self) -> list[str]: ...
 
-    def collaborators(self, researcher_id: int,
-                      sort: str = "relevance") -> list[dict]:  # pragma: no cover
+    def collaborators(
+        self, researcher_id: int, sort: str = "relevance"
+    ) -> list[dict]:  # pragma: no cover
         raise NotImplementedError
 
 
@@ -69,8 +71,9 @@ class TopicRepository(ABC):
 
 class ProjectRepository(ABC):
     @abstractmethod
-    def list(self, *, status: str | None = None,
-             campus: str | None = None) -> list[Project]: ...
+    def list(
+        self, *, status: str | None = None, campus: str | None = None
+    ) -> list[Project]: ...
 
     @abstractmethod
     def get(self, project_id: int) -> Project | None: ...

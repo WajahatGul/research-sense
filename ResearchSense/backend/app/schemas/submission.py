@@ -1,4 +1,5 @@
 """Publication submission (DOI-based and manual) schemas."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel, Field

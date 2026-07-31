@@ -1,5 +1,6 @@
 """Faculty paper endpoints: PDF upload (RAG index) and publication submission
 (DOI-based via Crossref, or manual entry) per the proposal's ingestion pipeline."""
+
 from __future__ import annotations
 
 import re
@@ -10,9 +11,14 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from app.core.security import current_user
 from app.repositories import loader
 from app.repositories.accounts import AccountStore
-from app.schemas.submission import (DoiPreview, DoiRequest, ManualSubmission,
-                                    StudyResult, SubmissionResult,
-                                    SubmissionStatus)
+from app.schemas.submission import (
+    DoiPreview,
+    DoiRequest,
+    ManualSubmission,
+    StudyResult,
+    SubmissionResult,
+    SubmissionStatus,
+)
 from app.services import library_service, submission_service
 from app.services.library_service import LibraryError
 from app.services.rag import indexer
@@ -35,11 +41,15 @@ def _submitting_researcher(token_payload: dict) -> dict:
         raise HTTPException(status_code=403, detail="Faculty account required")
     account = AccountStore.instance().get_account(token_payload["sub"])
     if account is None or not account["active"]:
-        raise HTTPException(status_code=401,
-                            detail="Account not found or disabled")
+        raise HTTPException(status_code=401, detail="Account not found or disabled")
     researcher = next(
-        (r for r in loader.load("researchers")
-         if r["researcher_id"] == account["researcher_id"]), None)
+        (
+            r
+            for r in loader.load("researchers")
+            if r["researcher_id"] == account["researcher_id"]
+        ),
+        None,
+    )
     if researcher is None:
         raise HTTPException(status_code=404, detail="Researcher not found")
     return researcher
@@ -81,25 +91,36 @@ async def upload_paper(
         text = indexer.extract_pdf_text(path)
     except ValueError as exc:
         path.unlink(missing_ok=True)
-        raise HTTPException(status_code=400, detail=str(exc))
-    header = f"From the paper \"{title.strip()}\" by {author}: "
-    chunks = [{"text": header + piece, "kind": "paper",
-               "ref_id": researcher_id,
-               "label": f"Paper: {title.strip()[:70]} (uploaded)"}
-              for piece in indexer._split(text)]
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    header = f'From the paper "{title.strip()}" by {author}: '
+    chunks = [
+        {
+            "text": header + piece,
+            "kind": "paper",
+            "ref_id": researcher_id,
+            "label": f"Paper: {title.strip()[:70]} (uploaded)",
+        }
+        for piece in indexer._split(text)
+    ]
     if not chunks:
         path.unlink(missing_ok=True)
-        raise HTTPException(status_code=400,
-                            detail="The PDF is too short to index")
+        raise HTTPException(status_code=400, detail="The PDF is too short to index")
     import json as _json
+
     sub_id = _Store.instance().create_submission(
-        "upload", researcher_id, title.strip(),
-        _json.dumps({"filename": filename, "title": title.strip()}))
+        "upload",
+        researcher_id,
+        title.strip(),
+        _json.dumps({"filename": filename, "title": title.strip()}),
+    )
     staging.stage_chunks(sub_id, chunks)
     store.record_upload(researcher_id, title.strip(), filename)
-    return {"status": "pending", "submission_id": sub_id,
-            "message": "Your paper is awaiting admin approval. It will be "
-                       "searchable the moment it is approved."}
+    return {
+        "status": "pending",
+        "submission_id": sub_id,
+        "message": "Your paper is awaiting admin approval. It will be "
+        "searchable the moment it is approved.",
+    }
 
 
 @router.get("/mine", response_model=list[SubmissionStatus])
@@ -118,9 +139,10 @@ def doi_preview(
     researcher = _submitting_researcher(token_payload)
     try:
         return submission_service.preview_doi(
-            payload.doi, researcher, token_payload.get("sub"))
+            payload.doi, researcher, token_payload.get("sub")
+        )
     except SubmissionError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.post("/doi/submit", response_model=SubmissionResult)
@@ -133,16 +155,19 @@ def doi_submit(
     researcher = _submitting_researcher(token_payload)
     try:
         record = submission_service.submit_doi(
-            payload.doi, researcher, token_payload.get("sub"))
+            payload.doi, researcher, token_payload.get("sub")
+        )
     except SubmissionError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return SubmissionResult(
         publication_id=None,
         title=record["title"],
         publication_year=record["publication_year"],
         journal_name=record["journal_name"],
-        message=("Submitted for admin approval. It will appear on your "
-                 "profile and in Publications once approved."),
+        message=(
+            "Submitted for admin approval. It will appear on your "
+            "profile and in Publications once approved."
+        ),
     )
 
 
@@ -162,14 +187,16 @@ def manual_submit(
             submitter=researcher,
         )
     except SubmissionError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return SubmissionResult(
         publication_id=None,
         title=record["title"],
         publication_year=record["publication_year"],
         journal_name=record["journal_name"],
-        message=("Submitted for admin approval. It will appear on your "
-                 "profile and in Publications once approved."),
+        message=(
+            "Submitted for admin approval. It will appear on your "
+            "profile and in Publications once approved."
+        ),
     )
 
 
@@ -184,13 +211,16 @@ def study_doi(
     researcher = _submitting_researcher(token_payload)
     try:
         result = library_service.study_doi(
-            payload.doi, added_by=researcher["researcher_id"])
+            payload.doi, added_by=researcher["researcher_id"]
+        )
     except LibraryError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return StudyResult(
         **result,
-        message=("Added to the library. Ask the assistant anything about "
-                 "this paper — it has read the full text."),
+        message=(
+            "Added to the library. Ask the assistant anything about "
+            "this paper — it has read the full text."
+        ),
     )
 
 
@@ -205,11 +235,14 @@ async def study_upload(
     data = await file.read()
     try:
         result = library_service.study_upload(
-            data, title, added_by=researcher["researcher_id"])
+            data, title, added_by=researcher["researcher_id"]
+        )
     except LibraryError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return StudyResult(
         **result,
-        message=("Added to the library. Ask the assistant anything about "
-                 "this paper — it has read the full text."),
+        message=(
+            "Added to the library. Ask the assistant anything about "
+            "this paper — it has read the full text."
+        ),
     )

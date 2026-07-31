@@ -15,6 +15,7 @@ Run (from backend/):
 
 Output: papers/*.pdf + papers/manifest.json
 """
+
 from __future__ import annotations
 
 import json
@@ -42,11 +43,14 @@ def _clean_name(name: str) -> str:
 
 def find_author_id(client: httpx.Client, name: str) -> str | None:
     try:
-        r = client.get(f"{API}/authors", params={
-            "search": _clean_name(name),
-            "filter": f"affiliations.institution.id:{INSTITUTION}",
-            "per_page": 3,
-        })
+        r = client.get(
+            f"{API}/authors",
+            params={
+                "search": _clean_name(name),
+                "filter": f"affiliations.institution.id:{INSTITUTION}",
+                "per_page": 3,
+            },
+        )
         results = r.json().get("results", []) if r.status_code == 200 else []
     except httpx.HTTPError:
         return None
@@ -57,8 +61,9 @@ def find_author_id(client: httpx.Client, name: str) -> str | None:
 
 def _pdf_candidates(work: dict) -> list[str]:
     urls: list[str] = []
-    for loc in ([work.get("best_oa_location"), work.get("primary_location")]
-                + (work.get("locations") or [])):
+    for loc in [work.get("best_oa_location"), work.get("primary_location")] + (
+        work.get("locations") or []
+    ):
         pdf = (loc or {}).get("pdf_url")
         if pdf and pdf not in urls:
             urls.append(pdf)
@@ -67,8 +72,9 @@ def _pdf_candidates(work: dict) -> list[str]:
 
 def _landing_pages(work: dict) -> list[str]:
     pages: list[str] = []
-    for loc in ([work.get("best_oa_location"), work.get("primary_location")]
-                + (work.get("locations") or [])):
+    for loc in [work.get("best_oa_location"), work.get("primary_location")] + (
+        work.get("locations") or []
+    ):
         url = (loc or {}).get("landing_page_url")
         if url and url not in pages:
             pages.append(url)
@@ -81,7 +87,9 @@ def _semantic_scholar_pdf(doi: str | None, client: httpx.Client) -> str | None:
     try:
         r = client.get(
             f"https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}",
-            params={"fields": "openAccessPdf"}, timeout=30)
+            params={"fields": "openAccessPdf"},
+            timeout=30,
+        )
         if r.status_code == 200:
             return (r.json().get("openAccessPdf") or {}).get("url")
     except httpx.HTTPError:
@@ -125,10 +133,14 @@ def author_papers(client: httpx.Client, researcher: dict) -> list[dict]:
     if not author_id:
         return []
     try:
-        r = client.get(f"{API}/works", params={
-            "filter": f"author.id:{author_id}",
-            "per_page": 50, "sort": "cited_by_count:desc",
-        })
+        r = client.get(
+            f"{API}/works",
+            params={
+                "filter": f"author.id:{author_id}",
+                "per_page": 50,
+                "sort": "cited_by_count:desc",
+            },
+        )
         works = r.json().get("results", []) if r.status_code == 200 else []
     except httpx.HTTPError:
         return []
@@ -193,13 +205,17 @@ def main() -> None:
         fresh = [p for p in papers if p["filename"] not in seen_files]
         seen_files.update(p["filename"] for p in fresh)
         manifest.extend(fresh)
-        print(f"  [{i:>3}/{len(with_pubs)}] {r['full_name'][:32]:32} {len(fresh)} papers")
+        print(
+            f"  [{i:>3}/{len(with_pubs)}] {r['full_name'][:32]:32} {len(fresh)} papers"
+        )
         time.sleep(0.2)
     client.close()
 
     MANIFEST.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), "utf-8")
-    print(f"Wrote {MANIFEST}: {len(manifest)} papers for "
-          f"{len({p['researcher_id'] for p in manifest})} researchers.")
+    print(
+        f"Wrote {MANIFEST}: {len(manifest)} papers for "
+        f"{len({p['researcher_id'] for p in manifest})} researchers."
+    )
     print("Next: python -m scripts.build_index")
 
 

@@ -1,4 +1,5 @@
 """Publication endpoints."""
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -27,10 +28,17 @@ def list_publications(
     service: PublicationService = Depends(get_publication_service),
 ):
     return service.list(
-        query=q, year=year, topic_id=topic_id, author_id=author_id,
-        campus=campus, year_from=year_from, year_to=year_to,
-        department=department, publication_type=publication_type,
-        page=page, page_size=page_size,
+        query=q,
+        year=year,
+        topic_id=topic_id,
+        author_id=author_id,
+        campus=campus,
+        year_from=year_from,
+        year_to=year_to,
+        department=department,
+        publication_type=publication_type,
+        page=page,
+        page_size=page_size,
     )
 
 

@@ -4,12 +4,13 @@ Runs weekly from a background task in the app lifespan, and on demand from the
 admin API. Every run is recorded in SQLite; failures are logged and recorded,
 never swallowed.
 """
+
 from __future__ import annotations
 
 import asyncio
 import logging
 import threading
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from app.repositories.accounts import AccountStore
 from app.services.rag.retriever import Retriever
@@ -59,9 +60,8 @@ def is_due() -> bool:
     last = AccountStore.instance().last_refresh()
     if last is None:
         return False  # first fill is done by the setup scripts, not the app
-    finished = datetime.fromisoformat(last["finished_at"]).replace(
-        tzinfo=timezone.utc)
-    return datetime.now(timezone.utc) - finished > REFRESH_EVERY
+    finished = datetime.fromisoformat(last["finished_at"]).replace(tzinfo=UTC)
+    return datetime.now(UTC) - finished > REFRESH_EVERY
 
 
 async def weekly_refresh_loop() -> None:

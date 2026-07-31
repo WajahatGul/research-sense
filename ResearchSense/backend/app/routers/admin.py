@@ -1,4 +1,5 @@
 """Admin endpoints: claimed accounts, activation, and data refresh."""
+
 from __future__ import annotations
 
 import asyncio
@@ -13,8 +14,9 @@ from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount
 from app.services import refresh_service, staging, submission_service
 
-router = APIRouter(prefix="/api/admin", tags=["admin"],
-                   dependencies=[Depends(current_admin)])
+router = APIRouter(
+    prefix="/api/admin", tags=["admin"], dependencies=[Depends(current_admin)]
+)
 
 
 class RejectBody(BaseModel):
@@ -27,13 +29,15 @@ def list_accounts():
     out = []
     for account in AccountStore.instance().list_accounts():
         researcher = service.get(account["researcher_id"])
-        out.append(ClaimedAccount(
-            orcid_id=account["orcid_id"],
-            researcher_id=account["researcher_id"],
-            full_name=researcher.full_name if researcher else "(unknown)",
-            active=bool(account["active"]),
-            created_at=account["created_at"],
-        ))
+        out.append(
+            ClaimedAccount(
+                orcid_id=account["orcid_id"],
+                researcher_id=account["researcher_id"],
+                full_name=researcher.full_name if researcher else "(unknown)",
+                active=bool(account["active"]),
+                created_at=account["created_at"],
+            )
+        )
     return out
 
 
@@ -61,10 +65,16 @@ def pending_papers():
     """Papers awaiting review, oldest first, with the full record payload."""
     out = []
     for s in AccountStore.instance().pending_submissions():
-        out.append({"id": s["id"], "kind": s["kind"],
-                    "researcher_id": s["researcher_id"], "title": s["title"],
-                    "submitted_at": s["submitted_at"],
-                    "record": json.loads(s["record_json"])})
+        out.append(
+            {
+                "id": s["id"],
+                "kind": s["kind"],
+                "researcher_id": s["researcher_id"],
+                "title": s["title"],
+                "submitted_at": s["submitted_at"],
+                "record": json.loads(s["record_json"]),
+            }
+        )
     return out
 
 

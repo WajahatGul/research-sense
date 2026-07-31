@@ -1,4 +1,5 @@
 """Researcher endpoints."""
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -23,8 +24,13 @@ def list_researchers(
     service: ResearcherService = Depends(get_researcher_service),
 ):
     return service.list(
-        query=q, campus=campus, department=department, designation=designation,
-        topic_id=topic_id, page=page, page_size=page_size,
+        query=q,
+        campus=campus,
+        department=department,
+        designation=designation,
+        topic_id=topic_id,
+        page=page,
+        page_size=page_size,
     )
 
 
@@ -57,8 +63,9 @@ def list_campuses(
     return service.campuses()
 
 
-@router.get("/{researcher_id}/collaborators",
-            response_model=list[CollaborationSuggestion])
+@router.get(
+    "/{researcher_id}/collaborators", response_model=list[CollaborationSuggestion]
+)
 def researcher_collaborators(
     researcher_id: int,
     sort: str = "relevance",

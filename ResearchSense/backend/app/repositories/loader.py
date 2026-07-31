@@ -3,16 +3,17 @@
 This is the ONLY place that knows data currently comes from JSON. Swapping to a
 real database means writing SQL repositories and leaving this untouched.
 """
+
 from __future__ import annotations
 
 import json
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
-@lru_cache(maxsize=None)
+@cache
 def load(name: str) -> list[dict]:
     """Load a seed file (e.g. ``"researchers"``) as a list of dicts.
 

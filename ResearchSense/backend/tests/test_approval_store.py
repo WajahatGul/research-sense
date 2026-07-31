@@ -44,19 +44,20 @@ def test_stage_merge_roundtrip(tmp_path, monkeypatch):
     class FakeModel:
         def __init__(self, *a, **k): ...
         def embed(self, texts):
-            return [np.ones(4, dtype=np.float32) * (i + 1)
-                    for i, _ in enumerate(texts)]
+            return [np.ones(4, dtype=np.float32) * (i + 1) for i, _ in enumerate(texts)]
 
     monkeypatch.setattr(staging, "_embedder", lambda: FakeModel())
     monkeypatch.setattr(staging, "STAGED_DIR", tmp_path / "staged")
     monkeypatch.setattr(staging, "INDEX_DIR", tmp_path)
     (tmp_path / "rag_chunks.json").write_text("[]", "utf-8")
-    np.savez_compressed(tmp_path / "rag_index.npz",
-                        vectors=np.zeros((0, 4), dtype=np.float32))
+    np.savez_compressed(
+        tmp_path / "rag_index.npz", vectors=np.zeros((0, 4), dtype=np.float32)
+    )
     monkeypatch.setattr(staging, "_reset_retriever", lambda: None)
 
-    n = staging.stage_chunks(5, [{"text": "hello world chunk", "kind": "paper",
-                                  "ref_id": 1, "label": "L"}])
+    n = staging.stage_chunks(
+        5, [{"text": "hello world chunk", "kind": "paper", "ref_id": 1, "label": "L"}]
+    )
     assert n == 1
     assert (tmp_path / "staged" / "sub-5.json").exists()
 

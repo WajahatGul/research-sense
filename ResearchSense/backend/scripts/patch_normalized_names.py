@@ -3,14 +3,15 @@
 This is an idempotent post-pass to fix names/departments in existing data
 without re-running the multi-hour fetch. Called by Task 17 before index rebuild.
 """
+
 import json
 import re
 from pathlib import Path
 
 try:
-    from scripts.normalize import normalize_name, canonical_department
+    from scripts.normalize import canonical_department, normalize_name
 except ImportError:
-    from normalize import normalize_name, canonical_department
+    from normalize import canonical_department, normalize_name
 
 DATA_DIR = Path(__file__).parent.parent / "app" / "data"
 

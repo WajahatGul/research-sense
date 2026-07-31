@@ -4,6 +4,7 @@ Embedding runs at submission time so approval is instant: merge_staged only
 appends the precomputed vectors to the live index. Rejection discards the
 staged files. Nothing here touches publications.json.
 """
+
 from __future__ import annotations
 
 import json
@@ -11,14 +12,15 @@ from pathlib import Path
 
 import numpy as np
 
-from app.services.rag.retriever import (DATA_DIR as INDEX_DIR, EMBED_MODEL,
-                                        MODEL_CACHE, Retriever)
+from app.services.rag.retriever import DATA_DIR as INDEX_DIR
+from app.services.rag.retriever import EMBED_MODEL, MODEL_CACHE, Retriever
 
 STAGED_DIR = Path(__file__).resolve().parents[1] / "data" / "staged"
 
 
 def _embedder():
     from fastembed import TextEmbedding  # deferred: slow import
+
     return TextEmbedding(EMBED_MODEL, cache_dir=str(MODEL_CACHE))
 
 
@@ -35,7 +37,8 @@ def stage_chunks(sub_id: int, chunks: list[dict]) -> int:
     if not chunks:
         raise ValueError("Nothing to stage")
     vectors = np.array(
-        list(_embedder().embed([c["text"] for c in chunks])), dtype=np.float32)
+        list(_embedder().embed([c["text"] for c in chunks])), dtype=np.float32
+    )
     vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)
     STAGED_DIR.mkdir(parents=True, exist_ok=True)
     cpath, vpath = _paths(sub_id)
@@ -55,11 +58,16 @@ def merge_staged(sub_id: int) -> int:
     existing = np.load(INDEX_DIR / "rag_index.npz")["vectors"]
     chunks.extend(new_chunks)
     (INDEX_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8")
-    base = existing if existing.size else np.zeros((0, new_vecs.shape[1]),
-                                                  dtype=np.float32)
-    np.savez_compressed(INDEX_DIR / "rag_index.npz",
-                        vectors=np.vstack([base, new_vecs]))
+        json.dumps(chunks, ensure_ascii=False), "utf-8"
+    )
+    base = (
+        existing
+        if existing.size
+        else np.zeros((0, new_vecs.shape[1]), dtype=np.float32)
+    )
+    np.savez_compressed(
+        INDEX_DIR / "rag_index.npz", vectors=np.vstack([base, new_vecs])
+    )
     cpath.unlink()
     vpath.unlink()
     _reset_retriever()

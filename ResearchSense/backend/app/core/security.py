@@ -5,12 +5,13 @@ Tokens: signed JWT (PyJWT), 7-day expiry. The signing secret comes from the
 JWT_SECRET env var when set; otherwise a generated secret is persisted in the
 accounts database so tokens survive restarts without any configuration.
 """
+
 from __future__ import annotations
 
 import hashlib
 import os
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from fastapi import Depends, HTTPException
@@ -26,7 +27,8 @@ _bearer = HTTPBearer(auto_error=False)
 def hash_password(password: str) -> str:
     salt = secrets.token_hex(16)
     digest = hashlib.pbkdf2_hmac(
-        "sha256", password.encode(), bytes.fromhex(salt), _ITERATIONS).hex()
+        "sha256", password.encode(), bytes.fromhex(salt), _ITERATIONS
+    ).hex()
     return f"{salt}${digest}"
 
 
@@ -36,7 +38,8 @@ def verify_password(password: str, stored: str) -> bool:
     except ValueError:
         return False
     candidate = hashlib.pbkdf2_hmac(
-        "sha256", password.encode(), bytes.fromhex(salt), _ITERATIONS).hex()
+        "sha256", password.encode(), bytes.fromhex(salt), _ITERATIONS
+    ).hex()
     return secrets.compare_digest(candidate, digest)
 
 
@@ -51,7 +54,7 @@ def create_token(subject: str, role: str) -> str:
     payload = {
         "sub": subject,
         "role": role,
-        "exp": datetime.now(timezone.utc) + timedelta(days=TOKEN_DAYS),
+        "exp": datetime.now(UTC) + timedelta(days=TOKEN_DAYS),
     }
     return jwt.encode(payload, _secret(), algorithm="HS256")
 
@@ -62,7 +65,9 @@ def _decode(credentials: HTTPAuthorizationCredentials | None) -> dict:
     try:
         return jwt.decode(credentials.credentials, _secret(), algorithms=["HS256"])
     except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Session expired or invalid")
+        raise HTTPException(
+            status_code=401, detail="Session expired or invalid"
+        ) from None
 
 
 def current_user(

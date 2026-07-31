@@ -1,4 +1,5 @@
 """JSON-backed ResearcherRepository implementation."""
+
 from __future__ import annotations
 
 from app.repositories import loader
@@ -17,13 +18,20 @@ def score_of(copub: int, shared_ids: set, topic_freq: dict) -> float:
     return copub * 5.0 + area_score
 
 
-def _matches(rec: dict, query: str | None, campus: str | None,
-             department: str | None, designation: str | None,
-             topic_id: int | None) -> bool:
+def _matches(
+    rec: dict,
+    query: str | None,
+    campus: str | None,
+    department: str | None,
+    designation: str | None,
+    topic_id: int | None,
+) -> bool:
     if query:
         q = query.lower()
-        hay = (f"{rec['full_name']} {rec.get('designation','')} "
-               f"{rec.get('department','')} {rec.get('expertise','')}").lower()
+        hay = (
+            f"{rec['full_name']} {rec.get('designation', '')} "
+            f"{rec.get('department', '')} {rec.get('expertise', '')}"
+        ).lower()
         if q not in hay:
             return False
     if campus and rec.get("campus") != campus:
@@ -32,20 +40,27 @@ def _matches(rec: dict, query: str | None, campus: str | None,
         return False
     if designation and rec.get("designation") != designation:
         return False
-    if topic_id is not None:
-        if topic_id not in {t["topic_id"] for t in rec.get("topics", [])}:
-            return False
-    return True
+    return topic_id is None or topic_id in {
+        t["topic_id"] for t in rec.get("topics", [])
+    }
 
 
 class MockResearcherRepository(ResearcherRepository):
     def _all(self) -> list[dict]:
         return loader.load("researchers")
 
-    def list(self, *, query=None, campus=None, department=None,
-             designation=None, topic_id=None):
+    def list(
+        self,
+        *,
+        query=None,
+        campus=None,
+        department=None,
+        designation=None,
+        topic_id=None,
+    ):
         rows = [
-            r for r in self._all()
+            r
+            for r in self._all()
             if _matches(r, query, campus, department, designation, topic_id)
         ]
         rows.sort(key=lambda r: r["full_name"])
@@ -76,15 +91,19 @@ class MockResearcherRepository(ResearcherRepository):
     def _publications_for(self, researcher_id: int) -> list[dict]:
         pubs = []
         for p in loader.load("publications"):
-            if any(a.get("researcher_id") == researcher_id for a in p.get("authors", [])):
-                pubs.append({
-                    "publication_id": p["publication_id"],
-                    "title": p["title"],
-                    "publication_year": p["publication_year"],
-                    "journal_name": p.get("journal_name", ""),
-                    "citation_count": p.get("citation_count", 0),
-                    "doi": p.get("doi"),
-                })
+            if any(
+                a.get("researcher_id") == researcher_id for a in p.get("authors", [])
+            ):
+                pubs.append(
+                    {
+                        "publication_id": p["publication_id"],
+                        "title": p["title"],
+                        "publication_year": p["publication_year"],
+                        "journal_name": p.get("journal_name", ""),
+                        "citation_count": p.get("citation_count", 0),
+                        "doi": p.get("doi"),
+                    }
+                )
         pubs.sort(key=lambda p: p["publication_year"], reverse=True)
         return pubs
 
@@ -98,18 +117,21 @@ class MockResearcherRepository(ResearcherRepository):
 
         counts: Counter = Counter()
         for p in self._pubs():
-            author_ids = [a["researcher_id"] for a in p.get("authors", [])
-                          if a.get("researcher_id") is not None]
+            author_ids = [
+                a["researcher_id"]
+                for a in p.get("authors", [])
+                if a.get("researcher_id") is not None
+            ]
             if researcher_id in author_ids:
                 for other in author_ids:
                     if other != researcher_id:
                         counts[other] += 1
         return dict(counts)
 
-    def collaborators(self, researcher_id: int,
-                      sort: str = "relevance") -> list[dict]:
-        rec = next((r for r in self._all()
-                    if r["researcher_id"] == researcher_id), None)
+    def collaborators(self, researcher_id: int, sort: str = "relevance") -> list[dict]:
+        rec = next(
+            (r for r in self._all() if r["researcher_id"] == researcher_id), None
+        )
         if rec is None:
             return []
         rows = self._collaborators_for(rec)
@@ -149,20 +171,22 @@ class MockResearcherRepository(ResearcherRepository):
                 continue
             shared_names = sorted(my_topics[i] for i in shared_ids)
             union = my_ids | their_ids
-            rows.append(CollaborationSuggestion(
-                researcher_id=oid,
-                full_name=other["full_name"],
-                designation=other.get("designation", ""),
-                department=other.get("department", ""),
-                campus=other.get("campus", ""),
-                similarity_score=round(len(shared_ids) / max(len(union), 1), 2),
-                shared_topics=shared_names,
-                shared_count=len(shared_ids),
-                copublications=copub,
-                past_coauthor=copub > 0,
-                same_campus=(other.get("campus", "") == my_campus),
-                relevance=round(score_of(copub, shared_ids, topic_freq), 3),
-                international=bool(other.get("international_collaborations")),
-            ).model_dump())
+            rows.append(
+                CollaborationSuggestion(
+                    researcher_id=oid,
+                    full_name=other["full_name"],
+                    designation=other.get("designation", ""),
+                    department=other.get("department", ""),
+                    campus=other.get("campus", ""),
+                    similarity_score=round(len(shared_ids) / max(len(union), 1), 2),
+                    shared_topics=shared_names,
+                    shared_count=len(shared_ids),
+                    copublications=copub,
+                    past_coauthor=copub > 0,
+                    same_campus=(other.get("campus", "") == my_campus),
+                    relevance=round(score_of(copub, shared_ids, topic_freq), 3),
+                    international=bool(other.get("international_collaborations")),
+                ).model_dump()
+            )
         rows.sort(key=lambda c: -c["relevance"])
         return rows[:12]

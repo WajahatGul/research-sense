@@ -3,6 +3,7 @@
 Used by the pipeline scripts (scrape, seed, fetch) so every honorific strip
 and department/area spelling decision lives in exactly one place (SRS 3, 2).
 """
+
 from __future__ import annotations
 
 import re
@@ -10,7 +11,8 @@ import re
 _TITLES = r"(?:dr|prof(?:essor)?|engr|mr|mrs|ms|miss|madam|capt|col|maj|brig|lt)"
 _TITLE_RE = re.compile(rf"^(?:{_TITLES})(?:\.\s*|\s+)", re.I)
 
-# Department acronyms to always uppercase (both for recovery of mangled input and future all-caps preservation).
+# Department acronyms to always uppercase (both for recovery of mangled
+# input and future all-caps preservation).
 _DEPT_ACRONYMS = {"hr", "ipp"}
 
 # Compound-variant map applied to individual expertise phrases (lowercased).
@@ -81,7 +83,6 @@ def split_expertise(raw: str) -> list[str]:
             continue
         canon = _AREA_VARIANTS.get(p.lower())
         if canon is None:
-            canon = " ".join(w if w.isupper() else w.capitalize()
-                             for w in p.split(" "))
+            canon = " ".join(w if w.isupper() else w.capitalize() for w in p.split(" "))
         seen.setdefault(canon.lower(), canon)
     return list(seen.values())

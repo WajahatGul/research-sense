@@ -1,4 +1,5 @@
 """JSON-backed ProjectRepository implementation."""
+
 from __future__ import annotations
 
 from app.repositories import loader
@@ -12,7 +13,8 @@ class MockProjectRepository(ProjectRepository):
 
     def list(self, *, status=None, campus=None):
         rows = [
-            p for p in self._all()
+            p
+            for p in self._all()
             if (not status or p.get("status") == status)
             and (not campus or p.get("campus") == campus)
         ]

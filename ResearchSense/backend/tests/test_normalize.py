@@ -45,8 +45,10 @@ class TestCanonicalDepartment:
         assert canonical_department("Department of Psychology") == "Psychology"
 
     def test_ampersand_normalized(self):
-        assert canonical_department("Humanities & Social Sciences") == \
-            "Humanities and Social Sciences"
+        assert (
+            canonical_department("Humanities & Social Sciences")
+            == "Humanities and Social Sciences"
+        )
 
     def test_empty_becomes_general(self):
         assert canonical_department("") == "General"
@@ -74,12 +76,17 @@ class TestCanonicalDepartment:
 
 class TestSplitExpertise:
     def test_splits_on_commas_and_semicolons(self):
-        assert split_expertise("Machine Learning, NLP; Data Mining") == \
-            ["Machine Learning", "Natural Language Processing", "Data Mining"]
+        assert split_expertise("Machine Learning, NLP; Data Mining") == [
+            "Machine Learning",
+            "Natural Language Processing",
+            "Data Mining",
+        ]
 
     def test_canonicalizes_variants(self):
-        assert split_expertise("AI and ML") == \
-            ["Artificial Intelligence", "Machine Learning"]
+        assert split_expertise("AI and ML") == [
+            "Artificial Intelligence",
+            "Machine Learning",
+        ]
 
     def test_dedupes_case_variants(self):
         assert split_expertise("deep learning, Deep Learning") == ["Deep Learning"]

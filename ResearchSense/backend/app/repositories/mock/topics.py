@@ -1,4 +1,5 @@
 """JSON-backed TopicRepository implementation."""
+
 from __future__ import annotations
 
 from app.repositories import loader
@@ -12,7 +13,8 @@ class MockTopicRepository(TopicRepository):
 
     def list(self, *, query=None):
         rows = [
-            t for t in self._all()
+            t
+            for t in self._all()
             if not query or query.lower() in t["topic_name"].lower()
         ]
         rows.sort(key=lambda t: t.get("publication_count", 0), reverse=True)

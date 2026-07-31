@@ -1,4 +1,5 @@
 """Shared/generic schemas used across resources."""
+
 from __future__ import annotations
 
 from typing import Generic, TypeVar

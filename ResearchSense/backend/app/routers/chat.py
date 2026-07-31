@@ -1,4 +1,5 @@
 """Chatbot endpoint (mock RAG shell)."""
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends
