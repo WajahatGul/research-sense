@@ -2,12 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { Me } from "../../api/auth";
-import { uploadPaper } from "../../api/auth";
+import type { Me, MySubmission } from "../../api/auth";
+import { fetchMySubmissions, uploadPaper } from "../../api/auth";
 import { fetchPublications } from "../../api/publications";
 import { AddPublication } from "./AddPublication";
 import { StudyPaper } from "./StudyPaper";
 import styles from "./portal.module.css";
+
+function kindLabel(kind: string): string {
+  if (kind === "publication") return "Publication";
+  if (kind === "upload") return "PDF upload";
+  return kind;
+}
+
+function statusClass(status: MySubmission["status"]): string {
+  if (status === "approved") return styles.statusApproved;
+  if (status === "rejected") return styles.statusRejected;
+  return styles.statusPending;
+}
 
 export function FacultyDashboard({ me, onChanged, onSignOut }: {
   me: Me;
@@ -28,6 +40,14 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
       author_id: me.researcher_id ?? undefined, page_size: 100 }),
     enabled: me.researcher_id != null,
   });
+  // Submissions awaiting/reviewed by an admin — publications and uploads
+  // don't show up elsewhere on the profile until approved, so this is the
+  // only place a researcher can see them in the meantime.
+  const { data: mySubmissions } = useQuery({
+    queryKey: ["my-submissions", me.researcher_id],
+    queryFn: fetchMySubmissions,
+    enabled: me.researcher_id != null,
+  });
 
   // A submission changes publications, profiles, analytics, and the chat
   // index — drop every cached query so all pages refetch fresh data.
@@ -46,7 +66,7 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
       setStatus(res.message);
       setTitle("");
       setFile(null);
-      onChanged();
+      afterSubmission();
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -70,6 +90,34 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
       </div>
 
       <AddPublication onAdded={afterSubmission} />
+
+      <section className={styles.section}>
+        <h3 className={styles.h3}>My submissions</h3>
+        <p className={styles.hint}>
+          Publications and uploads you've submitted, and their review status.
+          Once approved, they appear below and on your public profile.
+        </p>
+        {!mySubmissions || mySubmissions.length === 0 ? (
+          <p className={styles.hint}>You haven't submitted anything for review yet.</p>
+        ) : (
+          <ul className={styles.uploads}>
+            {mySubmissions.map((s) => (
+              <li key={`${s.kind}-${s.id}`} className={styles.pendingItem}>
+                <div className={styles.pendingHead}>
+                  <span className={styles.pendingTitle}>{s.title}</span>
+                  <span className={styles.pendingMeta}>{kindLabel(s.kind)}</span>
+                  <span className={`${styles.statusChip} ${statusClass(s.status)}`}>
+                    {s.status.charAt(0).toUpperCase() + s.status.slice(1)}
+                  </span>
+                </div>
+                {s.status === "rejected" && s.note && (
+                  <p className={styles.reviewNote}>Reviewer note: {s.note}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <section className={styles.section}>
         <h3 className={styles.h3}>Your publications</h3>
@@ -105,8 +153,9 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
         <h3 className={styles.h3}>Upload a paper</h3>
         <p className={styles.hint}>
           A PDF of your own paper, up to 15 MB. It is attributed to you and
-          added to the assistant's knowledge immediately. For papers that are
-          not yours, use "Study a paper" above.
+          added to the assistant's knowledge once an admin approves it — see
+          "My submissions" above for status. For papers that are not yours,
+          use "Study a paper" above.
         </p>
         <form className={styles.form} onSubmit={submit}>
           <label className={styles.label}>Paper title

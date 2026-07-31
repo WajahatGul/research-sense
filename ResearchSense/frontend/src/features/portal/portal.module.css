@@ -231,3 +231,84 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
+/* --- Pending review queue / submission status --- */
+
+.pendingItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pendingItem:last-child {
+  border-bottom: none;
+}
+
+.pendingHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pendingTitle {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.pendingMeta {
+  color: var(--faint);
+  font-size: 0.8rem;
+}
+
+.pendingActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rejectRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reviewNote {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.statusPending {
+  background: rgba(201, 162, 39, 0.12);
+  color: #8a6d14;
+  border: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.statusApproved {
+  background: rgba(46, 125, 50, 0.12);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+.statusRejected {
+  background: rgba(160, 48, 48, 0.12);
+  color: #a03030;
+  border: 1px solid rgba(160, 48, 48, 0.3);
+}

@@ -146,6 +146,45 @@ export async function studyUpload(title: string, file: File) {
   return data as StudyResult;
 }
 
+// --- admin approval queue / submission status ---
+
+export interface PendingPaper {
+  id: number;
+  kind: "publication" | "upload";
+  researcher_id: number;
+  title: string;
+  submitted_at: string;
+  record: Record<string, unknown>;
+}
+
+export interface MySubmission {
+  id: number;
+  kind: string;
+  title: string;
+  status: "pending" | "approved" | "rejected";
+  submitted_at: string;
+  reviewed_at: string | null;
+  note: string | null;
+}
+
+export async function fetchPendingPapers(): Promise<PendingPaper[]> {
+  const res = await fetch("/api/admin/papers/pending", { headers: authHeaders() });
+  if (!res.ok) throw new Error("Admin access required");
+  return res.json();
+}
+
+export const approvePaper = (id: number) =>
+  authedPost<{ status: string }>(`/api/admin/papers/${id}/approve`, {});
+
+export const rejectPaper = (id: number, note: string) =>
+  authedPost<{ status: string }>(`/api/admin/papers/${id}/reject`, { note });
+
+export async function fetchMySubmissions(): Promise<MySubmission[]> {
+  const res = await fetch("/api/papers/mine", { headers: authHeaders() });
+  if (!res.ok) throw new Error("Could not load submissions");
+  return res.json();
+}
+
 export async function fetchAdminAccounts(): Promise<ClaimedAccount[]> {
   const res = await fetch("/api/admin/accounts", { headers: authHeaders() });
   if (!res.ok) throw new Error("Admin access required");
