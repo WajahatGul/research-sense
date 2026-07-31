@@ -35,17 +35,29 @@ export default function Collaboration() {
 
   const activeId = selected ?? list?.items[0]?.researcher_id ?? null;
 
-  const { data: detail, isLoading, isError } = useQuery({
+  const {
+    data: detail,
+    isLoading: detailLoading,
+    isError: detailError,
+  } = useQuery({
     queryKey: ["researcher", activeId],
     queryFn: () => fetchResearcher(activeId as number),
     enabled: activeId != null,
   });
 
-  const { data: collabRows } = useQuery({
+  const {
+    data: collabRows,
+    isLoading: collabLoading,
+    isError: collabError,
+  } = useQuery({
     queryKey: ["collaborators", activeId, sort],
     queryFn: () => fetchCollaborators(activeId as number, sort),
     enabled: activeId != null,
+    placeholderData: (prev) => prev,
   });
+
+  const isLoading = detailLoading || collabLoading;
+  const isError = detailError || collabError;
 
   const all = collabRows ?? [];
 
@@ -102,7 +114,7 @@ export default function Collaboration() {
         {isLoading && <Loader />}
         {isError && <ErrorState />}
 
-        {detail && all.length > 0 && (
+        {detail && collabRows !== undefined && all.length > 0 && (
           <>
             <div className={styles.filters}>
               <div className={styles.tabs}>
@@ -160,7 +172,7 @@ export default function Collaboration() {
           </>
         )}
 
-        {detail && all.length === 0 && (
+        {detail && collabRows !== undefined && all.length === 0 && (
           <p className={styles.none}>
             No shared-area or co-authored collaborators found for{" "}
             {detail.full_name} yet.
