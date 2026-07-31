@@ -39,6 +39,17 @@ CREATE TABLE IF NOT EXISTS refresh_log (
     finished_at TEXT,
     status      TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS submissions (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind          TEXT NOT NULL,
+    researcher_id INTEGER NOT NULL,
+    title         TEXT NOT NULL,
+    record_json   TEXT NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'pending',
+    submitted_at  TEXT NOT NULL,
+    reviewed_at   TEXT,
+    note          TEXT
+);
 """
 
 
@@ -118,6 +129,44 @@ class AccountStore:
                 "SELECT title, filename, uploaded_at FROM uploads "
                 "WHERE researcher_id = ? ORDER BY id DESC",
                 (researcher_id,)).fetchall()
+        return [dict(r) for r in rows]
+
+    # --- paper submissions (admin approval workflow) ---
+    def create_submission(self, kind: str, researcher_id: int, title: str,
+                          record_json: str) -> int:
+        with self._connect() as con:
+            cur = con.execute(
+                "INSERT INTO submissions (kind, researcher_id, title,"
+                " record_json, submitted_at) VALUES (?, ?, ?, ?, ?)",
+                (kind, researcher_id, title, record_json, _now()))
+            return int(cur.lastrowid)
+
+    def get_submission(self, sub_id: int) -> dict | None:
+        with self._connect() as con:
+            row = con.execute("SELECT * FROM submissions WHERE id = ?",
+                              (sub_id,)).fetchone()
+        return dict(row) if row else None
+
+    def pending_submissions(self) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT * FROM submissions WHERE status = 'pending' "
+                "ORDER BY id").fetchall()
+        return [dict(r) for r in rows]
+
+    def set_submission_status(self, sub_id: int, status: str,
+                              note: str | None = None) -> None:
+        with self._connect() as con:
+            con.execute(
+                "UPDATE submissions SET status = ?, reviewed_at = ?, note = ?"
+                " WHERE id = ?", (status, _now(), note, sub_id))
+
+    def submissions_for(self, researcher_id: int) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT id, kind, title, status, submitted_at, reviewed_at,"
+                " note FROM submissions WHERE researcher_id = ?"
+                " ORDER BY id DESC", (researcher_id,)).fetchall()
         return [dict(r) for r in rows]
 
     # --- meta / refresh ---
