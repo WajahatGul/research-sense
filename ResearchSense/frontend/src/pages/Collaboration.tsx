@@ -53,7 +53,13 @@ export default function Collaboration() {
     queryKey: ["collaborators", activeId, sort],
     queryFn: () => fetchCollaborators(activeId as number, sort),
     enabled: activeId != null,
-    placeholderData: (prev) => prev,
+    // Keep showing the previous rows across a sort change (smooth re-sort),
+    // but NOT across a researcher change — otherwise the new researcher's
+    // name would render alongside the old researcher's stale collaborators
+    // (or a false "no collaborators" empty state, if the old researcher had
+    // none). Only reuse the placeholder when it came from the same activeId.
+    placeholderData: (prev, prevQuery) =>
+      prevQuery?.queryKey[1] === activeId ? prev : undefined,
   });
 
   const isLoading = detailLoading || collabLoading;
