@@ -10,10 +10,20 @@ from pathlib import Path
 
 try:
     from scripts.fetch_publications import classify_publication_type
-    from scripts.normalize import canonical_department, normalize_name
+    from scripts.normalize import (
+        academic_rank,
+        canonical_department,
+        normalize_name,
+        title_case_name,
+    )
 except ImportError:
     from fetch_publications import classify_publication_type
-    from normalize import canonical_department, normalize_name
+    from normalize import (
+        academic_rank,
+        canonical_department,
+        normalize_name,
+        title_case_name,
+    )
 
 DATA_DIR = Path(__file__).parent.parent / "app" / "data"
 
@@ -50,12 +60,20 @@ def patch_researcher(researcher: dict, dept_fixes: dict[str, str]) -> bool:
             changed = True
             old_dept = fixed_dept
 
-    # Fix name honorifics
-    new_name = normalize_name(old_name)
+    # Fix name honorifics, then fix ALL-CAPS names to title case.
+    new_name = title_case_name(normalize_name(old_name))
     if new_name != old_name:
         researcher["full_name"] = new_name
         bio = re.sub(rf"\b{re.escape(old_name)}\b", new_name, bio)
         changed = True
+
+    # Refresh the academic rank derived from the designation, when present
+    # (older/synthetic records without a designation field are untouched).
+    if "designation" in researcher:
+        new_rank = academic_rank(researcher.get("designation", ""))
+        if researcher.get("academic_rank") != new_rank:
+            researcher["academic_rank"] = new_rank
+            changed = True
 
     if changed:
         researcher["profile_bio"] = bio

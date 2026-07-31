@@ -122,6 +122,67 @@ class TestPatchResearcher:
         assert researcher["full_name"] == "Ali"
         assert researcher["profile_bio"] == ""
 
+    def test_fixes_all_caps_name(self):
+        dept_fixes = {}
+        researcher = {
+            "full_name": "ASIF MASOOD",
+            "department": "Computer Science",
+            "profile_bio": "ASIF MASOOD is a lecturer.",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is True
+        assert researcher["full_name"] == "Asif Masood"
+        assert researcher["profile_bio"] == "Asif Masood is a lecturer."
+
+    def test_sets_academic_rank_from_designation(self):
+        dept_fixes = {}
+        researcher = {
+            "full_name": "Ali Khan",
+            "department": "Psychology",
+            "designation": "Associate Professor / HoD HR & Management",
+            "profile_bio": "Works in Psychology",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is True
+        assert researcher["academic_rank"] == "Associate Professor"
+
+    def test_refreshes_stale_academic_rank(self):
+        dept_fixes = {}
+        researcher = {
+            "full_name": "Ali Khan",
+            "department": "Psychology",
+            "designation": "Senior Assistant Professor",
+            "academic_rank": "Assistant Professor",
+            "profile_bio": "Works in Psychology",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is True
+        assert researcher["academic_rank"] == "Senior Assistant Professor"
+
+    def test_academic_rank_already_correct_no_change(self):
+        dept_fixes = {"psychology": "Psychology"}
+        researcher = {
+            "full_name": "Ali Khan",
+            "department": "Psychology",
+            "designation": "Lecturer",
+            "academic_rank": "Lecturer",
+            "profile_bio": "Works in Psychology",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is False
+
+    def test_no_designation_key_skips_academic_rank(self):
+        # Synthetic/older records without a designation field are left alone.
+        dept_fixes = {}
+        researcher = {
+            "full_name": "Ali Khan",
+            "department": "Psychology",
+            "profile_bio": "Works in Psychology",
+        }
+        changed = patch_researcher(researcher, dept_fixes)
+        assert changed is False
+        assert "academic_rank" not in researcher
+
     def test_fixes_spelled_out_engineer_honorific(self):
         # FINDING 1: the researcher pass must also catch "Engineer" (not
         # just the abbreviated "Engr"), e.g. live data's "Engineer Muhammad

@@ -56,6 +56,13 @@ def list_designations(
     return service.designations()
 
 
+@router.get("/academic-ranks", response_model=list[str])
+def list_academic_ranks(
+    service: ResearcherService = Depends(get_researcher_service),
+):
+    return service.academic_ranks()
+
+
 @router.get("/campuses", response_model=list[str])
 def list_campuses(
     service: ResearcherService = Depends(get_researcher_service),

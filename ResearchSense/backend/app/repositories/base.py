@@ -37,6 +37,9 @@ class ResearcherRepository(ABC):
     def designations(self) -> list[str]: ...
 
     @abstractmethod
+    def academic_ranks(self) -> list[str]: ...
+
+    @abstractmethod
     def campuses(self) -> list[str]: ...
 
     def collaborators(

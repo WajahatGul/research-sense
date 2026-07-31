@@ -17,6 +17,20 @@ _TITLE_RE = re.compile(rf"^(?:{_TITLES})(?:\.\s*|\s+)", re.I)
 # input and future all-caps preservation).
 _DEPT_ACRONYMS = {"hr", "ipp"}
 
+# Canonical academic ranks, in match-priority order: longest/most-specific
+# first so "Senior Assistant Professor" is matched before the "Professor"
+# (or "Assistant Professor") substring it contains.
+ACADEMIC_RANKS: tuple[str, ...] = (
+    "Senior Assistant Professor",
+    "Senior Associate Professor",
+    "Senior Professor",
+    "Senior Lecturer",
+    "Assistant Professor",
+    "Associate Professor",
+    "Professor",
+    "Lecturer",
+)
+
 # Compound-variant map applied to individual expertise phrases (lowercased).
 _AREA_VARIANTS = {
     "ai": "Artificial Intelligence",
@@ -43,6 +57,32 @@ def normalize_name(raw: str) -> str:
     while _TITLE_RE.match(name):
         name = _TITLE_RE.sub("", name, count=1)
     return name.strip()
+
+
+def academic_rank(designation: str | None) -> str:
+    """Extract the underlying academic rank from a (possibly compound)
+    designation string, e.g. 'Associate Professor / HoD HR & Management'
+    -> 'Associate Professor'.
+
+    Case-insensitive substring match against ACADEMIC_RANKS, in priority
+    order (most specific first). No match -> 'Other'.
+    """
+    s = (designation or "").lower()
+    if not s.strip():
+        return "Other"
+    for rank in ACADEMIC_RANKS:
+        if rank.lower() in s:
+            return rank
+    return "Other"
+
+
+def title_case_name(name: str) -> str:
+    """Convert a fully-uppercase name to title case; leave any name that is
+    not fully uppercase untouched (so mixed-case names, including those
+    containing acronyms, are left alone)."""
+    if name and name.isupper():
+        return name.title()
+    return name
 
 
 def canonical_department(raw: str) -> str:

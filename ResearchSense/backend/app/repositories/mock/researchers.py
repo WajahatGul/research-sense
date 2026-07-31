@@ -9,6 +9,7 @@ from app.schemas.researcher import (
     Researcher,
     ResearcherDetail,
 )
+from scripts.normalize import ACADEMIC_RANKS
 
 
 def score_of(copub: int, shared_ids: set, topic_freq: dict) -> float:
@@ -38,7 +39,10 @@ def _matches(
         return False
     if department and rec.get("department") != department:
         return False
-    if designation and rec.get("designation") != designation:
+    if designation and designation not in (
+        rec.get("designation"),
+        rec.get("academic_rank"),
+    ):
         return False
     return topic_id is None or topic_id in {
         t["topic_id"] for t in rec.get("topics", [])
@@ -82,6 +86,11 @@ class MockResearcherRepository(ResearcherRepository):
 
     def designations(self) -> list[str]:
         return sorted({r["designation"] for r in self._all() if r.get("designation")})
+
+    def academic_ranks(self) -> list[str]:
+        present = {r["academic_rank"] for r in self._all() if r.get("academic_rank")}
+        order = [*ACADEMIC_RANKS, "Other"]
+        return [rank for rank in order if rank in present]
 
     def campuses(self) -> list[str]:
         order = ["Islamabad (E-8)", "Islamabad (H-11)", "Karachi", "Lahore"]

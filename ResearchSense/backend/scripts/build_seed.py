@@ -18,7 +18,12 @@ import random
 import re
 from pathlib import Path
 
-from scripts.normalize import normalize_name, split_expertise
+from scripts.normalize import (
+    academic_rank,
+    normalize_name,
+    split_expertise,
+    title_case_name,
+)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
 SCRAPED = Path(__file__).resolve().parent / "scraped_faculty.json"
@@ -262,12 +267,13 @@ def build_researchers(topics: list[dict]) -> list[dict]:
         department = rec.get("department", "Computer Science")
         designation = canonical_designation(rec.get("designation", "Lecturer"))
         education = _education(rec)
-        name = normalize_name(rec["name"])
+        name = title_case_name(normalize_name(rec["name"]))
         out.append(
             {
                 "researcher_id": i,
                 "full_name": name,
                 "designation": designation,
+                "academic_rank": academic_rank(designation),
                 "department": department,
                 "campus": campus,
                 "institution": INSTITUTION,

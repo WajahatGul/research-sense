@@ -32,6 +32,7 @@ class Researcher(BaseModel):
     researcher_id: int
     full_name: str
     designation: str
+    academic_rank: str = ""
     department: str
     campus: str = "Islamabad (E-8)"
     institution: str = ""

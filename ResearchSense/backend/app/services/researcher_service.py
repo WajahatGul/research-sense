@@ -46,6 +46,9 @@ class ResearcherService:
     def designations(self) -> list[str]:
         return self._repo.designations()
 
+    def academic_ranks(self) -> list[str]:
+        return self._repo.academic_ranks()
+
     def campuses(self) -> list[str]:
         return self._repo.campuses()
 

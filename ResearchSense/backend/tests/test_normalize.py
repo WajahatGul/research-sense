@@ -1,4 +1,10 @@
-from scripts.normalize import canonical_department, normalize_name, split_expertise
+from scripts.normalize import (
+    academic_rank,
+    canonical_department,
+    normalize_name,
+    split_expertise,
+    title_case_name,
+)
 
 
 class TestNormalizeName:
@@ -87,6 +93,89 @@ class TestCanonicalDepartment:
     def test_raw_case_preserved_with_acronym(self):
         # ROUND 3: verify "HR & Management" still works (raw all-caps)
         assert canonical_department("HR & Management") == "HR and Management"
+
+
+class TestAcademicRank:
+    def test_compound_hod_role(self):
+        assert (
+            academic_rank("Associate Professor / HoD HR & Management")
+            == "Associate Professor"
+        )
+
+    def test_senior_assistant_professor_program_manager(self):
+        assert (
+            academic_rank("Senior Assistant Professor/ Program Manager")
+            == "Senior Assistant Professor"
+        )
+
+    def test_dean_and_principal_role(self):
+        assert academic_rank("Dean & Principal / Associate Professor") == (
+            "Associate Professor"
+        )
+
+    def test_professor_of_law(self):
+        assert academic_rank("Professor of Law") == "Professor"
+
+    def test_senior_professor_hod(self):
+        assert (
+            academic_rank("Senior Professor / HoD Media Studies") == "Senior Professor"
+        )
+
+    def test_no_rank_found_returns_other(self):
+        assert academic_rank("Departmental Coordinator") == "Other"
+
+    def test_head_of_department_returns_other(self):
+        assert academic_rank("Head of Department") == "Other"
+
+    def test_empty_returns_other(self):
+        assert academic_rank("") == "Other"
+
+    def test_none_returns_other(self):
+        assert academic_rank(None) == "Other"
+
+    def test_senior_assistant_professor_does_not_collapse_to_assistant(self):
+        rank = academic_rank("Senior Assistant Professor")
+        assert rank == "Senior Assistant Professor"
+        assert rank != "Assistant Professor"
+        assert rank != "Professor"
+
+    def test_senior_associate_professor_does_not_collapse(self):
+        rank = academic_rank("Senior Associate Professor")
+        assert rank == "Senior Associate Professor"
+        assert rank != "Associate Professor"
+        assert rank != "Professor"
+
+    def test_senior_lecturer_does_not_collapse_to_lecturer(self):
+        rank = academic_rank("Senior Lecturer")
+        assert rank == "Senior Lecturer"
+        assert rank != "Lecturer"
+
+    def test_plain_lecturer(self):
+        assert academic_rank("Lecturer") == "Lecturer"
+
+    def test_case_insensitive(self):
+        assert (
+            academic_rank("senior assistant professor") == "Senior Assistant Professor"
+        )
+
+
+class TestTitleCaseName:
+    def test_all_caps_converted(self):
+        assert title_case_name("ASIF MASOOD") == "Asif Masood"
+
+    def test_mixed_case_untouched(self):
+        assert title_case_name("Muhammad Arif Khattak") == "Muhammad Arif Khattak"
+
+    def test_empty_string(self):
+        assert title_case_name("") == ""
+
+    def test_mixed_case_with_acronym_untouched(self):
+        assert title_case_name("Ali Khan (IT)") == "Ali Khan (IT)"
+
+    def test_other_allcaps_examples(self):
+        assert title_case_name("GHULAM MUHAMMAD") == "Ghulam Muhammad"
+        assert title_case_name("MUHAMMAD SADIQ KAKAR") == "Muhammad Sadiq Kakar"
+        assert title_case_name("KHAWER BILAL") == "Khawer Bilal"
 
 
 class TestSplitExpertise:
