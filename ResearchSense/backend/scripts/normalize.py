@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 
 _TITLES = r"(?:dr|prof(?:essor)?|engr|mr|mrs|ms|miss|madam|capt|col|maj|brig|lt)"
-_TITLE_RE = re.compile(rf"^(?:{_TITLES})\.?\s+", re.I)
+_TITLE_RE = re.compile(rf"^(?:{_TITLES})(?:\.\s*|\s+)", re.I)
 
 # Compound-variant map applied to individual expertise phrases (lowercased).
 _AREA_VARIANTS = {
@@ -40,15 +40,25 @@ def normalize_name(raw: str) -> str:
 
 def canonical_department(raw: str) -> str:
     """One display form per department: no 'Department of', '&'->'and',
-    title case, whitespace collapsed. Empty input maps to 'General'."""
+    title case, whitespace collapsed. Empty input maps to 'General'.
+    Preserves fully-uppercase words (len >= 2)."""
     s = re.sub(r"\s+", " ", (raw or "").strip())
+    # Track which words in the normalized string are fully uppercase
+    all_caps_words = {w.lower() for w in s.split(" ") if w.isupper() and len(w) >= 2}
     s = re.sub(r"^department\s+of\s+", "", s, flags=re.I)
     s = s.replace("&", "and")
     if not s:
         return "General"
     small = {"of", "and", "in", "for", "the"}
-    words = [w if w.lower() in small and i > 0 else w.capitalize()
-             for i, w in enumerate(s.split(" "))]
+    words = []
+    for i, w in enumerate(s.split(" ")):
+        w_lower = w.lower()
+        if w_lower in all_caps_words:
+            words.append(w_lower.upper())
+        elif w_lower in small and i > 0:
+            words.append(w)
+        else:
+            words.append(w.capitalize())
     return " ".join(words)
 
 
