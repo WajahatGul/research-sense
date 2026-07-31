@@ -1,9 +1,8 @@
-"""Headless Playwright scraper for Bahria University computing faculty.
+"""Headless Playwright scraper for Bahria University faculty.
 
 Source: the university faculty directory at bahria.edu.pk/Home/Faculty, a single
 searchable table covering every campus with name, campus, department,
-designation, and research areas. This script pulls the computing departments
-(Computer Science, Software Engineering, Computer Engineering) across the four
+designation, and research areas. This script pulls every department across the four
 teaching campuses and then visits each faculty detail page for the real email
 and qualification.
 
@@ -38,18 +37,15 @@ DIRECTORY_JS = """
   const nodes = $(table).DataTable().rows().nodes().toArray();
   const CAMPUS = { BUIC_E8:'Islamabad (E-8)', BUIC_H11:'Islamabad (H-11)',
                    BUKC:'Karachi', BUKC_IPP:'Karachi', BULC:'Lahore' };
-  const computing = /computer science|software engineering|computer engineering/i;
   const out = [];
   for (const tr of nodes) {
     const c = [...tr.querySelectorAll('td')].map(x => x.innerText.trim().replace(/\\s+/g,' '));
     const a = tr.querySelector('a[href*="facultyId="]');
     const id = a ? a.getAttribute('href').split('facultyId=')[1].split('&')[0] : null;
     const [name, code, dept, designation, areas] = c;
-    if (!CAMPUS[code] || !computing.test(dept || '')) continue;
+    if (!CAMPUS[code] || !(dept || '').trim()) continue;
     out.push({ id, name, campus: CAMPUS[code],
-               department: /software/i.test(dept) ? 'Software Engineering'
-                 : /computer engineering/i.test(dept) ? 'Computer Engineering'
-                 : 'Computer Science',
+               department: dept,
                designation, areas: areas || '' });
   }
   return out;
@@ -88,7 +84,13 @@ def main() -> None:
         page.goto(FACULTY_URL, wait_until="networkidle", timeout=90000)
         page.wait_for_function(READY, timeout=60000)
         roster = page.evaluate(DIRECTORY_JS)
-        print(f"  directory: {len(roster)} computing faculty across 4 campuses")
+
+        from scripts.normalize import canonical_department
+
+        for person in roster:
+            person["department"] = canonical_department(person.get("department", ""))
+        roster = [p for p in roster if p["department"] != "General"]
+        print(f"  directory: {len(roster)} faculty across all departments")
 
         for i, person in enumerate(roster, start=1):
             if not person["id"]:
