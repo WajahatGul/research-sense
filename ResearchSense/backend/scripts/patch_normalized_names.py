@@ -82,8 +82,9 @@ def patch_normalized_names():
 
     # Apply department casing fixes to projects
     for project in projects:
-        if "department" in project:
-            fixed = dept_fixes.get(project["department"].lower())
+        dept = (project.get("department") or "").lower()
+        if dept:
+            fixed = dept_fixes.get(dept)
             if fixed and fixed != project["department"]:
                 project["department"] = fixed
 

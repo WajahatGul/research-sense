@@ -10,6 +10,9 @@ import re
 _TITLES = r"(?:dr|prof(?:essor)?|engr|mr|mrs|ms|miss|madam|capt|col|maj|brig|lt)"
 _TITLE_RE = re.compile(rf"^(?:{_TITLES})(?:\.\s*|\s+)", re.I)
 
+# Department acronyms to always uppercase (both for recovery of mangled input and future all-caps preservation).
+_DEPT_ACRONYMS = {"hr", "ipp"}
+
 # Compound-variant map applied to individual expertise phrases (lowercased).
 _AREA_VARIANTS = {
     "ai": "Artificial Intelligence",
@@ -53,7 +56,7 @@ def canonical_department(raw: str) -> str:
     words = []
     for i, w in enumerate(s.split(" ")):
         w_lower = w.lower()
-        if w_lower in all_caps_words:
+        if w_lower in all_caps_words or w_lower in _DEPT_ACRONYMS:
             words.append(w_lower.upper())
         elif w_lower in small and i > 0:
             words.append(w)

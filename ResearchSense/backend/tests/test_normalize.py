@@ -59,6 +59,18 @@ class TestCanonicalDepartment:
         # FINDING 2: single fully-uppercase word should stay uppercase
         assert canonical_department("IPP") == "IPP"
 
+    def test_repairs_mangled_hr_from_scraper(self):
+        # ROUND 3: scraper already mangles to "Hr and Management", must repair
+        assert canonical_department("Hr and Management") == "HR and Management"
+
+    def test_repairs_mangled_ipp_from_scraper(self):
+        # ROUND 3: scraper already mangles to "Ipp", must repair
+        assert canonical_department("ipp") == "IPP"
+
+    def test_raw_case_preserved_with_acronym(self):
+        # ROUND 3: verify "HR & Management" still works (raw all-caps)
+        assert canonical_department("HR & Management") == "HR and Management"
+
 
 class TestSplitExpertise:
     def test_splits_on_commas_and_semicolons(self):

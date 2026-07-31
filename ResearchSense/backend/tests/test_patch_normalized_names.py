@@ -22,12 +22,24 @@ class TestDepartmentFixes:
     def test_last_entry_wins_on_lowercase_collision(self):
         scraped = [
             {"department": "HR & Management"},
-            {"department": "Hr & Management"},  # Same lowercase key, different value
+            {"department": "Hr & Management"},  # Both canonicalize with acronym allowlist
         ]
         fixes = department_fixes(scraped)
-        # Both canonicalize to a key of "hr and management", last one wins
+        # Both canonicalize to "HR and Management" with the acronym allowlist
         assert len(fixes) == 1
-        assert fixes["hr and management"] == "Hr and Management"
+        assert fixes["hr and management"] == "HR and Management"
+
+    def test_repairs_already_mangled_scraped_input(self):
+        # The scraper already mangles "HR & Management" to "Hr and Management"
+        # When we re-canonicalize with the acronym allowlist, we can recover it
+        scraped = [
+            {"department": "Hr and Management"},  # Already mangled by scraper
+            {"department": "Ipp"},  # Already mangled
+        ]
+        fixes = department_fixes(scraped)
+        # Now with the acronym allowlist in canonical_department, these repair
+        assert fixes["hr and management"] == "HR and Management"
+        assert fixes["ipp"] == "IPP"
 
 
 class TestPatchResearcher:
