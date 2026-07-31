@@ -11,7 +11,8 @@ from app.core.security import current_user
 from app.repositories import loader
 from app.repositories.accounts import AccountStore
 from app.schemas.submission import (DoiPreview, DoiRequest, ManualSubmission,
-                                    StudyResult, SubmissionResult)
+                                    StudyResult, SubmissionResult,
+                                    SubmissionStatus)
 from app.services import library_service, submission_service
 from app.services.library_service import LibraryError
 from app.services.rag import indexer
@@ -71,18 +72,41 @@ async def upload_paper(
     path.write_bytes(data)
 
     from app.core.deps import get_researcher_service
+    from app.repositories.accounts import AccountStore as _Store
+    from app.services import staging
 
     researcher = get_researcher_service().get(researcher_id)
     author = researcher.full_name if researcher else "a university researcher"
     try:
-        added = indexer.add_paper(path, title.strip(), author, researcher_id)
+        text = indexer.extract_pdf_text(path)
     except ValueError as exc:
-        path.unlink(missing_ok=True)  # reject unindexable files loudly
+        path.unlink(missing_ok=True)
         raise HTTPException(status_code=400, detail=str(exc))
-
+    header = f"From the paper \"{title.strip()}\" by {author}: "
+    chunks = [{"text": header + piece, "kind": "paper",
+               "ref_id": researcher_id,
+               "label": f"Paper: {title.strip()[:70]} (uploaded)"}
+              for piece in indexer._split(text)]
+    if not chunks:
+        path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400,
+                            detail="The PDF is too short to index")
+    import json as _json
+    sub_id = _Store.instance().create_submission(
+        "upload", researcher_id, title.strip(),
+        _json.dumps({"filename": filename, "title": title.strip()}))
+    staging.stage_chunks(sub_id, chunks)
     store.record_upload(researcher_id, title.strip(), filename)
-    return {"status": "indexed", "chunks_added": added,
-            "message": "Your paper is now part of the assistant's knowledge."}
+    return {"status": "pending", "submission_id": sub_id,
+            "message": "Your paper is awaiting admin approval. It will be "
+                       "searchable the moment it is approved."}
+
+
+@router.get("/mine", response_model=list[SubmissionStatus])
+def my_submissions(token_payload: dict = Depends(current_user)):
+    """The signed-in researcher's paper submissions with approval status."""
+    researcher = _submitting_researcher(token_payload)
+    return AccountStore.instance().submissions_for(researcher["researcher_id"])
 
 
 @router.post("/doi/preview", response_model=DoiPreview)
@@ -113,13 +137,12 @@ def doi_submit(
     except SubmissionError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
     return SubmissionResult(
-        publication_id=record["publication_id"],
+        publication_id=None,
         title=record["title"],
         publication_year=record["publication_year"],
         journal_name=record["journal_name"],
-        message=("Publication added. It now appears on your profile, in "
-                 "Publications, in Analytics, and the assistant can answer "
-                 "questions about it."),
+        message=("Submitted for admin approval. It will appear on your "
+                 "profile and in Publications once approved."),
     )
 
 
@@ -141,11 +164,12 @@ def manual_submit(
     except SubmissionError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
     return SubmissionResult(
-        publication_id=record["publication_id"],
+        publication_id=None,
         title=record["title"],
         publication_year=record["publication_year"],
         journal_name=record["journal_name"],
-        message="Publication added to your profile and the database.",
+        message=("Submitted for admin approval. It will appear on your "
+                 "profile and in Publications once approved."),
     )
 
 

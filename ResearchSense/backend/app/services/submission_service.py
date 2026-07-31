@@ -492,19 +492,51 @@ def submit_manual(title: str, journal_name: str, publication_year: int,
     return _create(meta, submitter, source="manual")
 
 
+def publish_record(record: dict) -> dict:
+    """Publish an APPROVED record: publications.json + counts + live chunk.
+    This is the pre-approval-era immediate path, now called on approve."""
+    record = _persist(record)
+    _bump_researcher_counts(record)
+    try:
+        _index_chunk(record)
+    except Exception:  # noqa: BLE001 - the record is saved; index can rebuild
+        pass
+    return record
+
+
+def _stage_submission(sub_id: int, record: dict) -> None:
+    """Embed the record's fact-card into the staged store (approval-ready)."""
+    from app.services import staging
+
+    authors = ", ".join(a["full_name"] for a in record["authors"][:8])
+    text = (
+        f"Publication: \"{record['title']}\" ({record['publication_year']}), "
+        f"{record['publication_type']} in {record['journal_name']}. "
+        f"Authors: {authors}. Citations: {record['citation_count']}. "
+        f"Campus: {record['campus']}."
+    )
+    if record.get("doi"):
+        text += f" DOI: {record['doi']}."
+    staging.stage_chunks(sub_id, [{
+        "text": text, "kind": "publication", "ref_id": None,
+        "label": f"{record['title'][:70]} ({record['publication_year']})",
+    }])
+
+
 def _create(meta: dict, submitter: dict, source: str) -> dict:
+    """Store the submission as PENDING; admins publish it (SRS 7)."""
+    from app.repositories.accounts import AccountStore
+
     authors = _link_authors(meta.get("authors", []), submitter)
     if not any(a.get("researcher_id") == submitter["researcher_id"]
                for a in authors):
-        # Verified as an author (e.g. by ORCID) but the name form on the
-        # paper defeated fuzzy matching — record the attribution explicitly.
         authors.append({
             "researcher_id": submitter["researcher_id"],
             "full_name": submitter["full_name"],
             "order": len(authors) + 1,
         })
     record = {
-        "publication_id": 0,  # assigned in _persist
+        "publication_id": 0,  # assigned when published on approval
         "title": meta["title"],
         "abstract": meta.get("abstract", ""),
         "doi": meta.get("doi"),
@@ -518,10 +550,14 @@ def _create(meta: dict, submitter: dict, source: str) -> dict:
                               meta.get("concepts")),
         "source": source,
     }
-    record = _persist(record)
-    _bump_researcher_counts(record)
+    sub_id = AccountStore.instance().create_submission(
+        "publication", submitter["researcher_id"], record["title"],
+        json.dumps(record, ensure_ascii=False))
     try:
-        _index_chunk(record)
-    except Exception:  # noqa: BLE001 - the record is saved; index can rebuild
+        _stage_submission(sub_id, record)
+    except Exception:  # noqa: BLE001 - approval merge falls back to rebuild
         pass
-    return record
+    return {"status": "pending", "submission_id": sub_id,
+            "title": record["title"],
+            "publication_year": record["publication_year"],
+            "journal_name": record["journal_name"]}
