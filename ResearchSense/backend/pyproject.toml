@@ -29,4 +29,4 @@ omit = ["app/data/*", "scripts/scrape_bahria.py"]
 # Gauntlet coverage floor — the runner and CI read this value; it may only
 # ever increase. See docs/QA.md.
 [tool.gauntlet]
-coverage_floor = 0  # placeholder; Task 2 measures and sets the real floor
+coverage_floor = 41
