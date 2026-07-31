@@ -18,13 +18,19 @@ def list_publications(
     topic_id: int | None = None,
     author_id: int | None = None,
     campus: str | None = None,
+    year_from: int | None = None,
+    year_to: int | None = None,
+    department: str | None = None,
+    publication_type: str | None = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     service: PublicationService = Depends(get_publication_service),
 ):
     return service.list(
         query=q, year=year, topic_id=topic_id, author_id=author_id,
-        campus=campus, page=page, page_size=page_size,
+        campus=campus, year_from=year_from, year_to=year_to,
+        department=department, publication_type=publication_type,
+        page=page, page_size=page_size,
     )
 
 

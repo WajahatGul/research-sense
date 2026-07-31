@@ -12,10 +12,13 @@ class PublicationService:
         self._repo = repo
 
     def list(self, *, query=None, year=None, topic_id=None, author_id=None,
-             campus=None, page=1, page_size=10) -> Paginated[Publication]:
+             campus=None, year_from=None, year_to=None, department=None,
+             publication_type=None, page=1, page_size=10) -> Paginated[Publication]:
         rows = self._repo.list(
             query=query, year=year, topic_id=topic_id,
             author_id=author_id, campus=campus,
+            year_from=year_from, year_to=year_to,
+            department=department, publication_type=publication_type,
         )
         return paginate(rows, page, page_size)
 
