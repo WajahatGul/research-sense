@@ -197,6 +197,29 @@
   font-weight: 600;
 }
 
+.intlList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.intlItem {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.intlMore {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 @media (max-width: 860px) {
   .grid {
     grid-template-columns: 1fr;

@@ -28,7 +28,7 @@ export function NetworkView({ centerName, collaborators }: Props) {
   const size = 460;
   const c = size / 2;
   const radius = 165;
-  const nodes = collaborators.slice(0, 6);
+  const nodes = collaborators.slice(0, 8);
   const maxShared = Math.max(1, ...nodes.map((n) => n.shared_count));
 
   const pos = (i: number) => {
@@ -42,8 +42,12 @@ export function NetworkView({ centerName, collaborators }: Props) {
         {nodes.map((n, i) => {
           const { x, y } = pos(i);
           // Past co-authors get the strongest link; otherwise strength tracks
-          // the number of shared research areas.
+          // the number of shared research areas (drives opacity).
           const strength = n.past_coauthor ? 1 : n.shared_count / maxShared;
+          // Stroke width encodes proven collaboration strength directly:
+          // proven co-author links (higher copublications) read heavier
+          // than shared-area-only links (spec §6 edge weighting).
+          const strokeWidth = 1 + Math.min(n.copublications, 4);
           return (
             <line
               key={`l-${n.researcher_id}`}
@@ -52,7 +56,7 @@ export function NetworkView({ centerName, collaborators }: Props) {
               x2={x}
               y2={y}
               stroke="var(--gold)"
-              strokeWidth={1.5 + strength * 5}
+              strokeWidth={strokeWidth}
               opacity={0.3 + strength * 0.55}
             />
           );
@@ -84,6 +88,16 @@ export function NetworkView({ centerName, collaborators }: Props) {
                   ? `${n.copublications} paper${n.copublications === 1 ? "" : "s"}`
                   : `${n.shared_count} ${n.shared_count === 1 ? "area" : "areas"}`}
               </text>
+              {n.international && (
+                <text
+                  x={x + 21}
+                  y={y - 20}
+                  className={styles.globeGlyph}
+                  aria-label="International collaborator"
+                >
+                  🌐
+                </text>
+              )}
             </g>
           );
         })}
@@ -98,6 +112,10 @@ export function NetworkView({ centerName, collaborators }: Props) {
         <p className={styles.sideHint}>
           Proven co-authors (filled gold) rank first, then the strongest
           shared-area matches.
+        </p>
+        <p className={styles.sideHint}>
+          Gold-ringed nodes are cross-campus; a 🌐 marker means the
+          collaboration crosses an institution border.
         </p>
         <ul className={styles.legend}>
           {nodes.map((n) => (
@@ -116,6 +134,9 @@ export function NetworkView({ centerName, collaborators }: Props) {
                     )}
                     {!n.same_campus && (
                       <span className={styles.crossBadge}>cross-campus</span>
+                    )}
+                    {n.international && (
+                      <span className={styles.intlBadge}>🌐 international</span>
                     )}
                   </span>
                 </span>

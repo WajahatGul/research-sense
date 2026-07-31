@@ -138,6 +138,24 @@ export default function ResearcherProfile() {
             </div>
           )}
 
+          {data.international_collaborations.length > 0 && (
+            <div className={styles.card}>
+              <h3 className={styles.h3}>International collaborations</h3>
+              <ul className={styles.intlList}>
+                {data.international_collaborations.slice(0, 10).map((c, i) => (
+                  <li key={`${c.institution}-${i}`} className={styles.intlItem}>
+                    {c.institution} · {c.country}
+                  </li>
+                ))}
+              </ul>
+              {data.international_collaborations.length > 10 && (
+                <p className={styles.intlMore}>
+                  +{data.international_collaborations.length - 10} more
+                </p>
+              )}
+            </div>
+          )}
+
           <div className={styles.card}>
             <h3 className={styles.h3}>Suggested collaborators</h3>
             <ul className={styles.collabs}>
