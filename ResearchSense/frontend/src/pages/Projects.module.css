@@ -46,7 +46,7 @@
 }
 
 .body {
-  padding-top: 32px;
+  padding-top: var(--sp-6);
 }
 
 .grid {
@@ -58,7 +58,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: var(--sp-5);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -91,7 +91,7 @@
 
 .footer {
   margin-top: 20px;
-  padding-top: 16px;
+  padding-top: var(--sp-4);
   border-top: 1px solid var(--line);
   display: flex;
   flex-direction: column;

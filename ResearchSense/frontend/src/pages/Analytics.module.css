@@ -1,5 +1,5 @@
 .body {
-  padding-top: 32px;
+  padding-top: var(--sp-6);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -9,7 +9,7 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: var(--sp-5);
 }
 
 .h2 {

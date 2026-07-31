@@ -22,14 +22,24 @@
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  /* Scale */
-  --step--1: 0.82rem;
-  --step-0: 1rem;
-  --step-1: 1.2rem;
-  --step-2: 1.5rem;
-  --step-3: 2rem;
-  --step-4: 2.75rem;
-  --step-5: 3.6rem;
+  /* Fluid type scale: min at ~360px viewports, max at ~1280px */
+  --step--1: clamp(0.78rem, 0.74rem + 0.2vw, 0.85rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  --step-1: clamp(1.08rem, 1rem + 0.5vw, 1.28rem);
+  --step-2: clamp(1.28rem, 1.14rem + 0.8vw, 1.6rem);
+  --step-3: clamp(1.55rem, 1.3rem + 1.3vw, 2.1rem);
+  --step-4: clamp(1.95rem, 1.55rem + 2vw, 2.85rem);
+  --step-5: clamp(2.35rem, 1.8rem + 2.9vw, 3.7rem);
+
+  /* Fluid space scale */
+  --sp-1: clamp(0.25rem, 0.23rem + 0.1vw, 0.3rem);
+  --sp-2: clamp(0.5rem, 0.45rem + 0.2vw, 0.6rem);
+  --sp-3: clamp(0.75rem, 0.65rem + 0.4vw, 0.95rem);
+  --sp-4: clamp(1rem, 0.85rem + 0.6vw, 1.3rem);
+  --sp-5: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --sp-6: clamp(2rem, 1.6rem + 1.6vw, 2.8rem);
+  --sp-7: clamp(3rem, 2.4rem + 2.4vw, 4.2rem);
+  --sp-8: clamp(4rem, 3.1rem + 3.5vw, 5.8rem);
 
   --radius: 10px;
   --radius-sm: 6px;
@@ -85,10 +95,8 @@ button {
 }
 
 .container {
-  width: 100%;
-  max-width: var(--container);
+  width: min(100% - 2 * var(--sp-5), var(--container));
   margin: 0 auto;
-  padding: 0 24px;
 }
 
 .mono {

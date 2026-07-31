@@ -1,5 +1,5 @@
 .body {
-  padding-top: 32px;
+  padding-top: var(--sp-6);
 }
 
 .grid {

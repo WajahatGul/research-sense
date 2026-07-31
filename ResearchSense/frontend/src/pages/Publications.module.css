@@ -26,7 +26,7 @@
 }
 
 .body {
-  padding-top: 28px;
+  padding-top: var(--sp-6);
 }
 
 .count {

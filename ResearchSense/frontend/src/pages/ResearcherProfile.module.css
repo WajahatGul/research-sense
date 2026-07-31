@@ -3,7 +3,7 @@
     radial-gradient(80% 120% at 90% -20%, rgba(201, 162, 39, 0.14), transparent 55%),
     linear-gradient(160deg, var(--navy), var(--navy-900));
   color: #fff;
-  padding: 52px 0;
+  padding: var(--sp-7) 0;
 }
 
 .heroInner {
@@ -65,7 +65,7 @@
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 40px;
-  padding-top: 44px;
+  padding-top: var(--sp-7);
 }
 
 .main {
@@ -131,7 +131,7 @@
 }
 
 .card {
-  padding: 22px;
+  padding: var(--sp-5);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);

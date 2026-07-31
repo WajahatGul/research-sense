@@ -15,7 +15,7 @@
 }
 
 .body {
-  padding-top: 32px;
+  padding-top: var(--sp-6);
 }
 
 .filters {
@@ -67,7 +67,7 @@
 }
 
 .none {
-  padding: 40px 0;
+  padding: var(--sp-7) 0;
   color: var(--muted);
   text-align: center;
 }
