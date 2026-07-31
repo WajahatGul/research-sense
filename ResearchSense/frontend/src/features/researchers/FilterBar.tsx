@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  fetchAcademicRanks,
   fetchCampuses,
   fetchDepartments,
-  fetchDesignations,
 } from "../../api/researchers";
 import styles from "./FilterBar.module.css";
 
@@ -38,9 +38,9 @@ export function FilterBar({
     queryKey: ["departments"],
     queryFn: fetchDepartments,
   });
-  const { data: designations } = useQuery({
-    queryKey: ["designations"],
-    queryFn: fetchDesignations,
+  const { data: academicRanks } = useQuery({
+    queryKey: ["academic-ranks"],
+    queryFn: fetchAcademicRanks,
   });
 
   return (
@@ -81,8 +81,8 @@ export function FilterBar({
           onChange={(e) => onDesignation(e.target.value)}
           aria-label="Filter by designation"
         >
-          <option value="">All designations</option>
-          {designations?.map((d) => (
+          <option value="">All ranks</option>
+          {academicRanks?.map((d) => (
             <option key={d} value={d}>
               {d}
             </option>

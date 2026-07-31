@@ -198,9 +198,6 @@ export default function Publications() {
             Search
           </button>
         </div>
-        <p className={styles.dateHint}>
-          Papers before 2026 are recorded by year; they match from January 1.
-        </p>
       </PageHeader>
 
       <div className={`container ${styles.body}`}>

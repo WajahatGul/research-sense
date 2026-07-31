@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -87,12 +87,62 @@ beforeEach(() => {
 });
 
 describe("Collaboration", () => {
+  it("does not fetch researcher detail or collaborators on mount", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
+    expect(mockFetchResearcher).not.toHaveBeenCalled();
+    expect(mockFetchCollaborators).not.toHaveBeenCalled();
+  });
+
+  it("shows the pick-a-researcher prompt before a researcher is selected", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    expect(
+      await screen.findByText(
+        "Pick a researcher to see who they could collaborate with.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
+
+  it("fetches researcher detail and collaborators once a researcher is selected", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockResolvedValue(detail);
+    mockFetchCollaborators.mockResolvedValue([collaborator]);
+
+    renderPage();
+
+    const select = await screen.findByLabelText("Select a researcher");
+    expect(select).toHaveValue("");
+    await screen.findByText("Dr. Ayesha Khan — Professor");
+
+    fireEvent.change(select, { target: { value: "1" } });
+
+    await waitFor(() => expect(mockFetchResearcher).toHaveBeenCalledWith(1));
+    await waitFor(() =>
+      expect(mockFetchCollaborators).toHaveBeenCalledWith(1, "relevance"),
+    );
+  });
+
   it("shows a loader before the collaborators query resolves", async () => {
     mockFetchResearchers.mockResolvedValue(researcherPage);
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
     renderPage();
+
+    const select = await screen.findByLabelText("Select a researcher");
+    await screen.findByText("Dr. Ayesha Khan — Professor");
+    fireEvent.change(select, { target: { value: "1" } });
 
     await waitFor(() => expect(screen.getByRole("status")).toBeInTheDocument());
   });
@@ -103,6 +153,10 @@ describe("Collaboration", () => {
     mockFetchCollaborators.mockResolvedValue([]);
 
     renderPage();
+
+    const select = await screen.findByLabelText("Select a researcher");
+    await screen.findByText("Dr. Ayesha Khan — Professor");
+    fireEvent.change(select, { target: { value: "1" } });
 
     expect(
       await screen.findByText(/no shared-area or co-authored collaborators found/i),
@@ -115,6 +169,10 @@ describe("Collaboration", () => {
     mockFetchCollaborators.mockResolvedValue([collaborator]);
 
     renderPage();
+
+    const researcherSelect = await screen.findByLabelText("Select a researcher");
+    await screen.findByText("Dr. Ayesha Khan — Professor");
+    fireEvent.change(researcherSelect, { target: { value: "1" } });
 
     const select = await screen.findByLabelText("Sort collaborators");
     expect(select.querySelectorAll("option")).toHaveLength(5);

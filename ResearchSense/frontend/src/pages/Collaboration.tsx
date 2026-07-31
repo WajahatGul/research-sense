@@ -8,7 +8,7 @@ import {
   type CollabSort,
 } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
-import { Loader, ErrorState } from "../components/StateViews";
+import { Loader, ErrorState, EmptyState } from "../components/StateViews";
 import { NetworkView } from "../features/collaboration/NetworkView";
 import styles from "./Collaboration.module.css";
 
@@ -33,7 +33,7 @@ export default function Collaboration() {
     queryFn: () => fetchResearchers({ page_size: 100 }),
   });
 
-  const activeId = selected ?? list?.items[0]?.researcher_id ?? null;
+  const activeId = selected;
 
   const {
     data: detail,
@@ -103,11 +103,13 @@ export default function Collaboration() {
           className={styles.select}
           value={activeId ?? ""}
           onChange={(e) => {
-            setSelected(Number(e.target.value));
+            const value = e.target.value;
+            setSelected(value ? Number(value) : null);
             setAreaFilter("");
           }}
           aria-label="Select a researcher"
         >
+          <option value="">Select a researcher…</option>
           {list?.items.map((r) => (
             <option key={r.researcher_id} value={r.researcher_id}>
               {r.full_name} — {r.designation}
@@ -117,10 +119,14 @@ export default function Collaboration() {
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
-        {isLoading && <Loader />}
-        {isError && <ErrorState />}
+        {activeId == null && (
+          <EmptyState message="Pick a researcher to see who they could collaborate with." />
+        )}
 
-        {detail && collabRows !== undefined && all.length > 0 && (
+        {activeId != null && isLoading && <Loader />}
+        {activeId != null && isError && <ErrorState />}
+
+        {activeId != null && detail && collabRows !== undefined && all.length > 0 && (
           <>
             <div className={styles.filters}>
               <div className={styles.tabs}>
@@ -178,7 +184,7 @@ export default function Collaboration() {
           </>
         )}
 
-        {detail && collabRows !== undefined && all.length === 0 && (
+        {activeId != null && detail && collabRows !== undefined && all.length === 0 && (
           <p className={styles.none}>
             No shared-area or co-authored collaborators found for{" "}
             {detail.full_name} yet.

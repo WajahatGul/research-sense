@@ -2,7 +2,7 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: end;
 }
 
 .search {
@@ -52,12 +52,6 @@
   font-size: 0.9rem;
   color: var(--ink);
   cursor: pointer;
-}
-
-.dateHint {
-  margin: 6px 0 0;
-  color: var(--faint);
-  font-size: 0.8rem;
 }
 
 .searchButton {

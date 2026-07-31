@@ -28,6 +28,9 @@ export const fetchDepartments = () =>
 export const fetchDesignations = () =>
   get<string[]>("/api/researchers/designations");
 
+export const fetchAcademicRanks = () =>
+  get<string[]>("/api/researchers/academic-ranks");
+
 export const fetchCampuses = () =>
   get<string[]>("/api/researchers/campuses");
 

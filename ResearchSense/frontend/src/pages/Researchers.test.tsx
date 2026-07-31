@@ -5,9 +5,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Paginated, Researcher } from "../types";
 import {
+  fetchAcademicRanks,
   fetchCampuses,
   fetchDepartments,
-  fetchDesignations,
   fetchResearchers,
 } from "../api/researchers";
 import Researchers from "./Researchers";
@@ -16,13 +16,13 @@ vi.mock("../api/researchers", () => ({
   fetchResearchers: vi.fn(),
   fetchCampuses: vi.fn(),
   fetchDepartments: vi.fn(),
-  fetchDesignations: vi.fn(),
+  fetchAcademicRanks: vi.fn(),
 }));
 
 const mockFetchResearchers = vi.mocked(fetchResearchers);
 const mockFetchCampuses = vi.mocked(fetchCampuses);
 const mockFetchDepartments = vi.mocked(fetchDepartments);
-const mockFetchDesignations = vi.mocked(fetchDesignations);
+const mockFetchAcademicRanks = vi.mocked(fetchAcademicRanks);
 
 const researcher: Researcher = {
   researcher_id: 1,
@@ -66,7 +66,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   mockFetchCampuses.mockResolvedValue(["Islamabad (E-8)"]);
   mockFetchDepartments.mockResolvedValue(["Computer Science"]);
-  mockFetchDesignations.mockResolvedValue(["Professor"]);
+  mockFetchAcademicRanks.mockResolvedValue(["Professor"]);
   mockFetchResearchers.mockResolvedValue(researcherPage);
 });
 
@@ -106,6 +106,28 @@ describe("Researchers", () => {
     await screen.findByRole("button", { name: "Search researchers" });
     const searchButtons = screen.getAllByRole("button", { name: /search/i });
     expect(searchButtons).toHaveLength(1);
+  });
+
+  it("populates the designation dropdown from the academic ranks endpoint", async () => {
+    mockFetchAcademicRanks.mockResolvedValue([
+      "Senior Assistant Professor",
+      "Senior Associate Professor",
+      "Senior Professor",
+    ]);
+
+    renderPage();
+
+    const select = await screen.findByLabelText("Filter by designation");
+    await waitFor(() => expect(mockFetchAcademicRanks).toHaveBeenCalled());
+    const options = Array.from(select.querySelectorAll("option")).map(
+      (o) => o.textContent,
+    );
+    expect(options).toEqual([
+      "All ranks",
+      "Senior Assistant Professor",
+      "Senior Associate Professor",
+      "Senior Professor",
+    ]);
   });
 
   it("fetches researchers when Enter is pressed in the search input", async () => {
