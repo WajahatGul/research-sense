@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS uploads (
     researcher_id INTEGER NOT NULL,
     title         TEXT NOT NULL,
     filename      TEXT NOT NULL,
-    uploaded_at   TEXT NOT NULL
+    uploaded_at   TEXT NOT NULL,
+    submission_id INTEGER
 );
 CREATE TABLE IF NOT EXISTS meta (
     key   TEXT PRIMARY KEY,
@@ -64,12 +65,21 @@ class AccountStore:
     def __init__(self) -> None:
         with self._connect() as con:
             con.executescript(_SCHEMA)
+            self._migrate(con)
 
     @classmethod
     def instance(cls) -> AccountStore:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance
+
+    def _migrate(self, con: sqlite3.Connection) -> None:
+        """Idempotent additive migrations for databases created before a
+        schema change. `CREATE TABLE IF NOT EXISTS` in _SCHEMA never alters
+        an existing table, so new nullable columns are added here."""
+        cols = {row["name"] for row in con.execute("PRAGMA table_info(uploads)")}
+        if "submission_id" not in cols:
+            con.execute("ALTER TABLE uploads ADD COLUMN submission_id INTEGER")
 
     def _connect(self) -> sqlite3.Connection:
         con = sqlite3.connect(DB_PATH)
@@ -124,12 +134,18 @@ class AccountStore:
         return {r["researcher_id"] for r in rows}
 
     # --- uploads ---
-    def record_upload(self, researcher_id: int, title: str, filename: str) -> None:
+    def record_upload(
+        self,
+        researcher_id: int,
+        title: str,
+        filename: str,
+        submission_id: int | None = None,
+    ) -> None:
         with self._connect() as con:
             con.execute(
-                "INSERT INTO uploads (researcher_id, title, filename, uploaded_at)"
-                " VALUES (?, ?, ?, ?)",
-                (researcher_id, title, filename, _now()),
+                "INSERT INTO uploads (researcher_id, title, filename,"
+                " uploaded_at, submission_id) VALUES (?, ?, ?, ?, ?)",
+                (researcher_id, title, filename, _now(), submission_id),
             )
 
     def uploads_for(self, researcher_id: int) -> list[dict]:
@@ -140,6 +156,26 @@ class AccountStore:
                 (researcher_id,),
             ).fetchall()
         return [dict(r) for r in rows]
+
+    def approved_uploads(self) -> list[dict]:
+        """Uploads eligible for a full index rebuild: those with no linked
+        submission (pre-approval-era rows, before the review gate existed —
+        treated as already approved) plus those whose linked submission was
+        actually approved. Pending and rejected uploads are excluded so
+        scripts.build_index never indexes an unreviewed or rejected paper."""
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT u.researcher_id, u.title, u.filename FROM uploads u "
+                "LEFT JOIN submissions s ON u.submission_id = s.id "
+                "WHERE u.submission_id IS NULL OR s.status = 'approved' "
+                "ORDER BY u.id"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def delete_upload_for_submission(self, submission_id: int) -> None:
+        """Remove the uploads row linked to a rejected submission."""
+        with self._connect() as con:
+            con.execute("DELETE FROM uploads WHERE submission_id = ?", (submission_id,))
 
     # --- paper submissions (admin approval workflow) ---
     def create_submission(

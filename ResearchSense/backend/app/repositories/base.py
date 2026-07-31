@@ -55,6 +55,10 @@ class PublicationRepository(ABC):
         topic_id: int | None = None,
         author_id: int | None = None,
         campus: str | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
+        department: str | None = None,
+        publication_type: str | None = None,
     ) -> list[Publication]: ...
 
     @abstractmethod

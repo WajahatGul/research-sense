@@ -14,14 +14,16 @@ also embedded into the live RAG index so the chatbot can answer about it.
 
 from __future__ import annotations
 
-import contextlib
 import json
+import logging
 import re
 from pathlib import Path
 
 import httpx
 
 from app.repositories import loader
+
+log = logging.getLogger(__name__)
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 CROSSREF_API = "https://api.crossref.org/works"
@@ -414,46 +416,6 @@ def _persist(record: dict) -> dict:
     return record
 
 
-def _index_chunk(record: dict) -> None:
-    """Embed one publication fact-card into the live RAG index (same format
-    as scripts.build_index.publication_chunks) so the chatbot knows it."""
-    import numpy as np
-
-    from app.services.rag.retriever import DATA_DIR as INDEX_DIR
-    from app.services.rag.retriever import EMBED_MODEL, MODEL_CACHE, Retriever
-
-    authors = ", ".join(a["full_name"] for a in record["authors"][:8])
-    text = (
-        f'Publication: "{record["title"]}" ({record["publication_year"]}), '
-        f"{record['publication_type']} in {record['journal_name']}. "
-        f"Authors: {authors}. Citations: {record['citation_count']}. "
-        f"Campus: {record['campus']}."
-    )
-    if record.get("doi"):
-        text += f" DOI: {record['doi']}."
-    chunk = {
-        "text": text,
-        "kind": "publication",
-        "ref_id": record["publication_id"],
-        "label": f"{record['title'][:70]} ({record['publication_year']})",
-    }
-
-    from fastembed import TextEmbedding  # deferred: slow import
-
-    model = TextEmbedding(EMBED_MODEL, cache_dir=str(MODEL_CACHE))
-    vec = np.array(list(model.embed([chunk["text"]])), dtype=np.float32)
-    vec /= np.linalg.norm(vec, axis=1, keepdims=True)
-
-    chunks = json.loads((INDEX_DIR / "rag_chunks.json").read_text("utf-8"))
-    existing = np.load(INDEX_DIR / "rag_index.npz")["vectors"]
-    chunks.append(chunk)
-    (INDEX_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8"
-    )
-    np.savez_compressed(INDEX_DIR / "rag_index.npz", vectors=np.vstack([existing, vec]))
-    Retriever.reset()
-
-
 def _bump_researcher_counts(record: dict) -> None:
     path = DATA_DIR / "researchers.json"
     researchers = json.loads(path.read_text("utf-8"))
@@ -543,13 +505,15 @@ def submit_manual(
 
 
 def publish_record(record: dict) -> dict:
-    """Publish an APPROVED record: publications.json + counts + live chunk.
-    This is the pre-approval-era immediate path, now called on approve."""
+    """Publish an APPROVED record: publications.json + researcher counts.
+
+    Does NOT touch the RAG index. The record's fact-card was already embedded
+    at submission time (see _stage_submission) and staging.merge_staged is
+    the only thing that appends it to the live index on approval — indexing
+    it again here would duplicate the chunk and would also defeat staging's
+    purpose of making approval instant (embedding is slow)."""
     record = _persist(record)
     _bump_researcher_counts(record)
-    # The record is saved; index can rebuild, so a failure here is non-fatal.
-    with contextlib.suppress(Exception):
-        _index_chunk(record)
     return record
 
 
@@ -614,9 +578,14 @@ def _create(meta: dict, submitter: dict, source: str) -> dict:
         record["title"],
         json.dumps(record, ensure_ascii=False),
     )
-    # Approval merge falls back to rebuild, so a failure here is non-fatal.
-    with contextlib.suppress(Exception):
+    # No fallback exists if this fails: merge_staged just returns 0 staged
+    # chunks and the submission is approved with nothing indexed (see
+    # admin.approve_paper, which logs a warning in that case). Log here too
+    # so the root cause (this failure) is visible, not just the symptom.
+    try:
         _stage_submission(sub_id, record)
+    except Exception:
+        log.exception("Failed to stage RAG chunks for submission %s", sub_id)
     return {
         "status": "pending",
         "submission_id": sub_id,

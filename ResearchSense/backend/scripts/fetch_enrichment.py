@@ -30,10 +30,7 @@ def expertise_field_guard(work_topic_names: list[str], expertise_text: str) -> b
 
 
 def international_of(institutions: list[dict]) -> bool:
-    return any(
-        (i.get("country") or "") not in ("", "PK", None) and i.get("country") != "PK"
-        for i in institutions
-    )
+    return any((i.get("country") or "") not in ("", "PK") for i in institutions)
 
 
 def derive_research_areas(

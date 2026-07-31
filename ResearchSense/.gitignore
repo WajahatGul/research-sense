@@ -31,3 +31,6 @@ backend/.fastembed_cache/
 
 # Mutable runtime data (accounts, uploads, refresh log)
 backend/app/data/researchsense.db
+
+# Staged RAG chunks for submissions awaiting admin approval
+backend/app/data/staged/

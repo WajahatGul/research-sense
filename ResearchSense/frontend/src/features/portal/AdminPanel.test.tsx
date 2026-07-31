@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -80,7 +80,9 @@ describe("AdminPanel", () => {
     const approveButton = await screen.findByRole("button", { name: "Approve" });
     fireEvent.click(approveButton);
 
-    expect(mockApprovePaper).toHaveBeenCalledWith(42);
+    await waitFor(() =>
+      expect(mockApprovePaper).toHaveBeenCalledWith(42, expect.anything()),
+    );
   });
 
   it("renders the empty state when there are no pending papers", async () => {
@@ -90,6 +92,42 @@ describe("AdminPanel", () => {
 
     expect(
       await screen.findByText("No papers waiting for review."),
+    ).toBeInTheDocument();
+  });
+
+  it("disables Approve while the approval request is in flight", async () => {
+    mockFetchPendingPapers.mockResolvedValue([pendingPaper]);
+    let resolveApprove: (v: { status: string }) => void = () => {};
+    mockApprovePaper.mockReturnValue(
+      new Promise((resolve) => {
+        resolveApprove = resolve;
+      }),
+    );
+
+    renderPanel();
+
+    const approveButton = await screen.findByRole("button", { name: "Approve" });
+    fireEvent.click(approveButton);
+
+    expect(await screen.findByRole("button", { name: "Approving..." })).toBeDisabled();
+
+    resolveApprove({ status: "approved" });
+    await waitFor(() =>
+      expect(screen.queryByRole("button", { name: "Approving..." })).not.toBeInTheDocument(),
+    );
+  });
+
+  it("shows an error message instead of an unhandled rejection when approve fails", async () => {
+    mockFetchPendingPapers.mockResolvedValue([pendingPaper]);
+    mockApprovePaper.mockRejectedValue(new Error("This submission was rejected."));
+
+    renderPanel();
+
+    const approveButton = await screen.findByRole("button", { name: "Approve" });
+    fireEvent.click(approveButton);
+
+    expect(
+      await screen.findByText("This submission was rejected."),
     ).toBeInTheDocument();
   });
 });

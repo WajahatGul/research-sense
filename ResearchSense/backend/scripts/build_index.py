@@ -337,22 +337,21 @@ def rebuild_preserving_fulltext() -> None:
 
 def upload_chunks() -> list[dict]:
     """Faculty-uploaded papers (papers/uploads + the SQLite uploads table),
-    re-chunked for full builds so uploads survive a from-scratch rebuild."""
-    import sqlite3
+    re-chunked for full builds so uploads survive a from-scratch rebuild.
 
+    Only APPROVED uploads (plus pre-approval-era rows with no linked
+    submission) are included — a pending or rejected upload must never be
+    indexed by a from-scratch rebuild, since that would bypass the admin
+    review gate. Selection lives in AccountStore.approved_uploads() so it is
+    unit-testable without going through this script."""
     db = DATA_DIR / "researchsense.db"
     uploads_dir = PAPERS_DIR / "uploads"
     if not db.exists() or not uploads_dir.exists():
         return []
+    from app.repositories.accounts import AccountStore
+
     names = {r["researcher_id"]: r["full_name"] for r in load("researchers")}
-    con = sqlite3.connect(db)
-    con.row_factory = sqlite3.Row
-    try:
-        rows = con.execute(
-            "SELECT researcher_id, title, filename FROM uploads"
-        ).fetchall()
-    finally:
-        con.close()
+    rows = AccountStore.instance().approved_uploads()
     out = []
     for row in rows:
         path = uploads_dir / row["filename"]

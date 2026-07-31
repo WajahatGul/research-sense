@@ -67,7 +67,7 @@ export async function uploadPaper(title: string, file: File) {
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.detail ?? "Upload failed");
-  return data as { status: string; chunks_added: number; message: string };
+  return data as { status: string; submission_id: number; message: string };
 }
 
 // --- publication submission (DOI-based + manual, proposal ingestion) ---
@@ -90,7 +90,7 @@ export interface DoiPreview {
 }
 
 export interface SubmissionResult {
-  publication_id: number;
+  publication_id: number | null;
   title: string;
   publication_year: number;
   journal_name: string;

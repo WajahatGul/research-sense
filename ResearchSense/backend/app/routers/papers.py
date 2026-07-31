@@ -61,14 +61,9 @@ async def upload_paper(
     file: UploadFile = File(...),
     token_payload: dict = Depends(current_user),
 ):
-    if token_payload.get("role") != "researcher":
-        raise HTTPException(status_code=403, detail="Faculty account required")
-
+    researcher = _submitting_researcher(token_payload)
+    researcher_id = researcher["researcher_id"]
     store = AccountStore.instance()
-    account = store.get_account(token_payload["sub"])
-    if account is None or not account["active"]:
-        raise HTTPException(status_code=401, detail="Account not found or disabled")
-    researcher_id = account["researcher_id"]
 
     data = await file.read()
     if len(data) > MAX_BYTES:
@@ -81,12 +76,9 @@ async def upload_paper(
     path = UPLOADS_DIR / filename
     path.write_bytes(data)
 
-    from app.core.deps import get_researcher_service
-    from app.repositories.accounts import AccountStore as _Store
     from app.services import staging
 
-    researcher = get_researcher_service().get(researcher_id)
-    author = researcher.full_name if researcher else "a university researcher"
+    author = researcher["full_name"]
     try:
         text = indexer.extract_pdf_text(path)
     except ValueError as exc:
@@ -107,14 +99,14 @@ async def upload_paper(
         raise HTTPException(status_code=400, detail="The PDF is too short to index")
     import json as _json
 
-    sub_id = _Store.instance().create_submission(
+    sub_id = store.create_submission(
         "upload",
         researcher_id,
         title.strip(),
         _json.dumps({"filename": filename, "title": title.strip()}),
     )
     staging.stage_chunks(sub_id, chunks)
-    store.record_upload(researcher_id, title.strip(), filename)
+    store.record_upload(researcher_id, title.strip(), filename, submission_id=sub_id)
     return {
         "status": "pending",
         "submission_id": sub_id,

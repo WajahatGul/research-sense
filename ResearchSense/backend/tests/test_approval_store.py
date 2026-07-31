@@ -75,3 +75,67 @@ def test_discard_removes_files(tmp_path, monkeypatch):
     (tmp_path / "staged" / "sub-9.npz").write_bytes(b"x")
     staging.discard_staged(9)
     assert not list((tmp_path / "staged").iterdir())
+
+
+# --- FINDING 2: uploads must be linked to their submission, and a full
+# index rebuild must only ever pick up approved (or legacy pre-approval)
+# uploads — never pending or rejected ones. ---
+
+
+def test_approved_uploads_excludes_pending_and_rejected(store):
+    # Legacy row: no linked submission at all (pre-approval-era data) —
+    # treated as already approved so existing installs keep working.
+    store.record_upload(1, "Legacy Paper", "legacy.pdf")
+
+    sid_pending = store.create_submission("upload", 2, "Pending Paper", "{}")
+    store.record_upload(2, "Pending Paper", "pending.pdf", submission_id=sid_pending)
+
+    sid_approved = store.create_submission("upload", 3, "Approved Paper", "{}")
+    store.record_upload(3, "Approved Paper", "approved.pdf", submission_id=sid_approved)
+    store.set_submission_status(sid_approved, "approved")
+
+    sid_rejected = store.create_submission("upload", 4, "Rejected Paper", "{}")
+    store.record_upload(4, "Rejected Paper", "rejected.pdf", submission_id=sid_rejected)
+    store.set_submission_status(sid_rejected, "rejected")
+
+    filenames = {row["filename"] for row in store.approved_uploads()}
+    assert filenames == {"legacy.pdf", "approved.pdf"}
+
+
+def test_delete_upload_for_submission_removes_row(store):
+    sid = store.create_submission("upload", 5, "T", "{}")
+    store.record_upload(5, "T", "t.pdf", submission_id=sid)
+    store.set_submission_status(sid, "approved")
+    assert {r["filename"] for r in store.approved_uploads()} == {"t.pdf"}
+
+    store.delete_upload_for_submission(sid)
+    assert store.approved_uploads() == []
+
+
+def test_migration_adds_submission_id_column_to_existing_db(tmp_path, monkeypatch):
+    """A database created before this change has an `uploads` table with no
+    `submission_id` column. `CREATE TABLE IF NOT EXISTS` won't alter it, so
+    AccountStore must migrate it on startup."""
+    import sqlite3
+
+    db_path = tmp_path / "pre_existing.db"
+    con = sqlite3.connect(db_path)
+    con.execute(
+        "CREATE TABLE uploads (id INTEGER PRIMARY KEY, researcher_id INTEGER,"
+        " title TEXT, filename TEXT, uploaded_at TEXT)"
+    )
+    con.execute(
+        "INSERT INTO uploads (researcher_id, title, filename, uploaded_at)"
+        " VALUES (1, 'Old Paper', 'old.pdf', '2020-01-01')"
+    )
+    con.commit()
+    con.close()
+
+    monkeypatch.setattr(accounts_mod, "DB_PATH", db_path)
+    AccountStore._instance = None
+    migrated_store = AccountStore.instance()
+
+    # Pre-existing rows survive the migration with submission_id NULL, so
+    # they are treated as legacy/approved.
+    assert {r["filename"] for r in migrated_store.approved_uploads()} == {"old.pdf"}
+    AccountStore._instance = None

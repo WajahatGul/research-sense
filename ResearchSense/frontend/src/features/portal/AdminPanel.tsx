@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import type { PendingPaper } from "../../api/auth";
@@ -60,10 +60,37 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
     queryClient.invalidateQueries({ queryKey: ["admin-refresh"] });
   };
 
-  const approve = async (id: number) => {
-    await approvePaper(id);
-    queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
-  };
+  // Approve/reject go through useMutation (rather than plain async handlers)
+  // so the button can be disabled via isPending while the request is in
+  // flight — a bare async handler leaves the button clickable, and a
+  // double-click can fire two approve/reject requests for the same paper.
+  const approveMutation = useMutation({
+    mutationFn: approvePaper,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+    },
+    onError: (err: unknown) => {
+      setMessage(err instanceof Error ? err.message : "Could not approve the paper.");
+    },
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: ({ id, note: rejectNote }: { id: number; note: string }) =>
+      rejectPaper(id, rejectNote),
+    onSuccess: () => {
+      setRejectingId(null);
+      setNote("");
+      queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+    },
+    onError: (err: unknown) => {
+      setMessage(err instanceof Error ? err.message : "Could not reject the paper.");
+    },
+  });
+
+  const approvingId = approveMutation.isPending ? approveMutation.variables : null;
+  const rejectingBusyId = rejectMutation.isPending
+    ? rejectMutation.variables?.id
+    : null;
 
   const startReject = (id: number) => {
     setRejectingId(id);
@@ -73,13 +100,6 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
   const cancelReject = () => {
     setRejectingId(null);
     setNote("");
-  };
-
-  const confirmReject = async (id: number) => {
-    await rejectPaper(id, note);
-    setRejectingId(null);
-    setNote("");
-    queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
   };
 
   return (
@@ -113,6 +133,7 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
           <ul className={styles.uploads}>
             {pending.map((p) => {
               const subtitle = pendingSubtitle(p);
+              const rowBusy = approvingId === p.id || rejectingBusyId === p.id;
               return (
                 <li key={`${p.kind}-${p.id}`} className={styles.pendingItem}>
                   <div className={styles.pendingHead}>
@@ -127,8 +148,12 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
                     {subtitle && ` · ${subtitle}`}
                   </span>
                   <div className={styles.pendingActions}>
-                    <button className={styles.primary} onClick={() => approve(p.id)}>
-                      Approve
+                    <button
+                      className={styles.primary}
+                      onClick={() => approveMutation.mutate(p.id)}
+                      disabled={rowBusy}
+                    >
+                      {approvingId === p.id ? "Approving..." : "Approve"}
                     </button>
                     {rejectingId === p.id ? (
                       <div className={styles.rejectRow}>
@@ -137,16 +162,29 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
                           placeholder="Optional note for the researcher"
                           value={note}
                           onChange={(e) => setNote(e.target.value)}
+                          disabled={rowBusy}
                         />
-                        <button className={styles.secondary} onClick={() => confirmReject(p.id)}>
-                          Confirm reject
+                        <button
+                          className={styles.secondary}
+                          onClick={() => rejectMutation.mutate({ id: p.id, note })}
+                          disabled={rowBusy}
+                        >
+                          {rejectingBusyId === p.id ? "Rejecting..." : "Confirm reject"}
                         </button>
-                        <button className={styles.secondary} onClick={cancelReject}>
+                        <button
+                          className={styles.secondary}
+                          onClick={cancelReject}
+                          disabled={rowBusy}
+                        >
                           Cancel
                         </button>
                       </div>
                     ) : (
-                      <button className={styles.secondary} onClick={() => startReject(p.id)}>
+                      <button
+                        className={styles.secondary}
+                        onClick={() => startReject(p.id)}
+                        disabled={rowBusy}
+                      >
                         Reject
                       </button>
                     )}

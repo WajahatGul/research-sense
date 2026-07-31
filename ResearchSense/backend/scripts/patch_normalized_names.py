@@ -117,15 +117,15 @@ def patch_normalized_names():
         if patch_publication(publication):
             pub_patched += 1
 
+    # researchers.json and projects.json are also written elsewhere with
+    # ensure_ascii=False -- match that convention everywhere so this patch
+    # doesn't rewrite every non-ASCII character as a \uXXXX escape.
     with open(researchers_path, "w", encoding="utf-8") as f:
-        json.dump(researchers, f, indent=2)
+        json.dump(researchers, f, indent=2, ensure_ascii=False)
 
     with open(projects_path, "w", encoding="utf-8") as f:
-        json.dump(projects, f, indent=2)
+        json.dump(projects, f, indent=2, ensure_ascii=False)
 
-    # publications.json is written elsewhere (fetch_publications.py) with
-    # ensure_ascii=False -- match that convention so this patch doesn't
-    # rewrite every non-ASCII character in the file as a \uXXXX escape.
     with open(publications_path, "w", encoding="utf-8") as f:
         json.dump(publications, f, indent=2, ensure_ascii=False)
 
