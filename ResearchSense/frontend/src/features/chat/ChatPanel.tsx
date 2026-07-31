@@ -67,6 +67,7 @@ export function ChatPanel() {
   useEffect(() => {
     const q = searchParams.get("q");
     if (q) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time consumption of the "q" URL param on mount, not a render loop.
       setInput(q);
       setSearchParams({}, { replace: true });
     }

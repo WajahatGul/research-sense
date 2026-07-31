@@ -10,6 +10,7 @@ export function useCountUp(target: number, durationMs = 1100): number {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (prefersReduced || target <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reduced-motion/zero-target bail-out sets the final value once; not a cascading update.
       setValue(target);
       return;
     }
