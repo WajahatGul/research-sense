@@ -1,5 +1,10 @@
 import { get } from "./client";
-import type { Paginated, Researcher, ResearcherDetail } from "../types";
+import type {
+  CollaborationSuggestion,
+  Paginated,
+  Researcher,
+  ResearcherDetail,
+} from "../types";
 
 export interface ResearcherFilters {
   q?: string;
@@ -28,3 +33,9 @@ export const fetchCampuses = () =>
 
 export const fetchResearcher = (id: number) =>
   get<ResearcherDetail>(`/api/researchers/${id}`);
+
+export type CollabSort =
+  | "relevance" | "shared_areas" | "coauthored" | "name" | "campus";
+
+export const fetchCollaborators = (id: number, sort: CollabSort = "relevance") =>
+  get<CollaborationSuggestion[]>(`/api/researchers/${id}/collaborators`, { sort });

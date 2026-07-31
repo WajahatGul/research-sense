@@ -76,6 +76,7 @@ export interface Researcher {
   citation_count: number;
   topics: TopicRef[];
   source: string;
+  research_areas: string[];
 }
 
 export interface CollaborationSuggestion {
@@ -90,6 +91,8 @@ export interface CollaborationSuggestion {
   copublications: number;
   past_coauthor: boolean;
   same_campus: boolean;
+  relevance: number;
+  international: boolean;
 }
 
 export interface ResearcherDetail extends Researcher {
@@ -99,6 +102,7 @@ export interface ResearcherDetail extends Researcher {
   scopus_id: string | null;
   publications: PublicationRef[];
   collaborators: CollaborationSuggestion[];
+  international_collaborations: { institution: string; country: string }[];
 }
 
 export interface Funding {

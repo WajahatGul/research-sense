@@ -1,7 +1,12 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { fetchResearchers, fetchResearcher } from "../api/researchers";
+import {
+  fetchResearchers,
+  fetchResearcher,
+  fetchCollaborators,
+  type CollabSort,
+} from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { Loader, ErrorState } from "../components/StateViews";
 import { NetworkView } from "../features/collaboration/NetworkView";
@@ -9,10 +14,19 @@ import styles from "./Collaboration.module.css";
 
 type CampusFilter = "all" | "same" | "cross";
 
+const SORTS: { key: CollabSort; label: string }[] = [
+  { key: "relevance", label: "Most relevant" },
+  { key: "shared_areas", label: "Shared research areas" },
+  { key: "coauthored", label: "Co-authored papers" },
+  { key: "name", label: "Name A–Z" },
+  { key: "campus", label: "Campus" },
+];
+
 export default function Collaboration() {
   const [selected, setSelected] = useState<number | null>(null);
   const [campusFilter, setCampusFilter] = useState<CampusFilter>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
+  const [sort, setSort] = useState<CollabSort>("relevance");
 
   const { data: list } = useQuery({
     queryKey: ["researchers", "collab-picker"],
@@ -27,7 +41,13 @@ export default function Collaboration() {
     enabled: activeId != null,
   });
 
-  const all = detail?.collaborators ?? [];
+  const { data: collabRows } = useQuery({
+    queryKey: ["collaborators", activeId, sort],
+    queryFn: () => fetchCollaborators(activeId as number, sort),
+    enabled: activeId != null,
+  });
+
+  const all = collabRows ?? [];
 
   // Areas available to filter by: everything shared with any collaborator.
   const areaOptions = useMemo(() => {
@@ -45,7 +65,7 @@ export default function Collaboration() {
             ? c.same_campus
             : !c.same_campus)
       .filter((c) => (areaFilter ? c.shared_topics.includes(areaFilter) : true))
-      .slice(0, 6);
+      .slice(0, 8);
   }, [all, campusFilter, areaFilter]);
 
   const CAMPUS_TABS: { key: CampusFilter; label: string }[] = [
@@ -98,6 +118,18 @@ export default function Collaboration() {
                   </button>
                 ))}
               </div>
+              <select
+                className={styles.areaSelect}
+                value={sort}
+                onChange={(e) => setSort(e.target.value as CollabSort)}
+                aria-label="Sort collaborators"
+              >
+                {SORTS.map((s) => (
+                  <option key={s.key} value={s.key}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
               {areaOptions.length > 0 && (
                 <select
                   className={styles.areaSelect}
