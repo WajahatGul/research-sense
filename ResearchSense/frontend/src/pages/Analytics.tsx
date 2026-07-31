@@ -6,6 +6,8 @@ import { Loader, ErrorState } from "../components/StateViews";
 import {
   CAMPUS_COLORS,
   CitationsTrend,
+  DepartmentBars,
+  InternationalTrend,
   PublicationsTrend,
   TopVenues,
 } from "../features/analytics/charts";
@@ -110,6 +112,30 @@ export default function Analytics() {
               Counted from papers whose author list includes researchers based
               at two or more campuses.
             </p>
+          </section>
+        </div>
+
+        <div className={styles.twoCol}>
+          <section className={styles.card}>
+            <h2 className={styles.h2}>Publications by department</h2>
+            {data.department_totals.length === 0 ? (
+              <p className={styles.empty}>
+                No department data found in the indexed data yet.
+              </p>
+            ) : (
+              <DepartmentBars data={data.department_totals} />
+            )}
+          </section>
+
+          <section className={styles.card}>
+            <h2 className={styles.h2}>International vs domestic collaboration</h2>
+            {data.international_split.length === 0 ? (
+              <p className={styles.empty}>
+                No publication-year data found in the indexed data yet.
+              </p>
+            ) : (
+              <InternationalTrend data={data.international_split} />
+            )}
           </section>
         </div>
       </div>

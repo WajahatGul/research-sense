@@ -11,7 +11,13 @@ import {
   YAxis,
 } from "recharts";
 
-import type { CitationRow, VenueRow, YearRow } from "../../api/analytics";
+import type {
+  CitationRow,
+  DepartmentRow,
+  IntlRow,
+  VenueRow,
+  YearRow,
+} from "../../api/analytics";
 
 // Fixed campus -> hue assignment (validated palette; color follows the
 // entity, never the rank, so filtered views keep the same colors).
@@ -94,6 +100,51 @@ export function TopVenues({ data }: { data: VenueRow[] }) {
         <Bar dataKey="publications" fill="#3b6fd4" barSize={14}
              radius={[0, 4, 4, 0]}
              label={{ position: "right", fill: INK, fontSize: 12 }} />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
+// Publications by department — top 10, horizontal bars, single hue (nominal
+// categorical: one series, so no legend box — the section title names it).
+export function DepartmentBars({ data }: { data: DepartmentRow[] }) {
+  const rows = data.slice(0, 10);
+  return (
+    <ResponsiveContainer width="100%" height={rows.length * 42 + 30}>
+      <BarChart data={rows} layout="vertical"
+                margin={{ top: 0, right: 40, bottom: 0, left: 8 }}>
+        <XAxis type="number" allowDecimals={false} hide />
+        <YAxis type="category" dataKey="department" width={220}
+               tick={{ fill: INK, fontSize: 12 }} tickLine={false}
+               axisLine={false} />
+        <Tooltip contentStyle={tooltipStyle} />
+        <Bar dataKey="publications" fill="#3b6fd4" barSize={14}
+             radius={[0, 4, 4, 0]}
+             label={{ position: "right", fill: INK, fontSize: 12 }} />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
+// International vs domestic collaboration — stacked bars per year.
+// Entity-stable colors reused from the app's existing categorical slots
+// (domestic = #3b6fd4, international = #1f8a70; validated pair, ΔE 18.5
+// CVD / 19.4 normal-vision on a white surface).
+export function InternationalTrend({ data }: { data: IntlRow[] }) {
+  return (
+    <ResponsiveContainer width="100%" height={280}>
+      <BarChart data={data} margin={{ top: 8, right: 16, bottom: 0, left: -16 }}>
+        <CartesianGrid stroke={GRID} vertical={false} />
+        <XAxis dataKey="year" tick={{ fill: INK, fontSize: 12 }}
+               tickLine={false} axisLine={{ stroke: GRID }} />
+        <YAxis tick={{ fill: INK, fontSize: 12 }} tickLine={false}
+               axisLine={false} allowDecimals={false} />
+        <Tooltip contentStyle={tooltipStyle} />
+        <Legend wrapperStyle={{ fontSize: "0.82rem" }} />
+        <Bar dataKey="domestic" name="Domestic" stackId="a" fill="#3b6fd4"
+             barSize={20} />
+        <Bar dataKey="international" name="International" stackId="a"
+             fill="#1f8a70" barSize={20} radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );
