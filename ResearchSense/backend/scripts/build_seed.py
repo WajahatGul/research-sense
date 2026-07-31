@@ -16,10 +16,44 @@ import json
 import random
 import re
 from pathlib import Path
+from scripts.normalize import normalize_name, split_expertise
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
 SCRAPED = Path(__file__).resolve().parent / "scraped_faculty.json"
 INSTITUTION = "Bahria University"
+
+FACULTY_PER_DEPT: int | None = 12  # per (campus, department); None = everyone
+
+
+def sample_faculty(records: list[dict],
+                   cap: int | None = FACULTY_PER_DEPT) -> list[dict]:
+    """Cap each (campus, department) group, preferring faculty with listed
+    research areas, then senior designations — they are the most likely to
+    have findable publications. Deterministic (name tiebreak)."""
+    if cap is None:
+        return records
+
+    def rank(rec: dict):
+        has_areas = bool((rec.get("areas") or "").strip())
+        d = (rec.get("designation") or "").lower()
+        if "professor" in d and "assistant" not in d and "associate" not in d:
+            seniority = 3
+        elif "associate" in d:
+            seniority = 2
+        elif "assistant" in d:
+            seniority = 1
+        else:
+            seniority = 0
+        return (not has_areas, -seniority, rec.get("name", ""))
+
+    from collections import defaultdict
+    groups: dict[tuple, list[dict]] = defaultdict(list)
+    for rec in records:
+        groups[(rec.get("campus"), rec.get("department"))].append(rec)
+    out: list[dict] = []
+    for key in sorted(groups):
+        out.extend(sorted(groups[key], key=rank)[:cap])
+    return out
 
 
 def canonical_designation(value: str) -> str:
@@ -137,15 +171,16 @@ def _bio(name, designation, department, campus, expertise, education) -> str:
 def build_researchers(topics: list[dict]) -> list[dict]:
     rng = random.Random(42)
     out = []
-    for i, rec in enumerate(load_scraped(), start=1):
+    for i, rec in enumerate(sample_faculty(load_scraped()), start=1):
         expertise = (rec.get("areas") or "").strip()
         campus = rec.get("campus", "Islamabad (E-8)")
         department = rec.get("department", "Computer Science")
         designation = canonical_designation(rec.get("designation", "Lecturer"))
         education = _education(rec)
+        name = normalize_name(rec["name"])
         out.append({
             "researcher_id": i,
-            "full_name": rec["name"],
+            "full_name": name,
             "designation": designation,
             "department": department,
             "campus": campus,
@@ -154,10 +189,11 @@ def build_researchers(topics: list[dict]) -> list[dict]:
             "orcid_id": None,
             "photo_url": None,
             "expertise": expertise,
+            "expertise_areas": split_expertise(expertise),
             "publication_count": 0,
             "citation_count": 0,
             "topics": _topics_for(expertise, topics),
-            "profile_bio": _bio(rec["name"], designation, department, campus,
+            "profile_bio": _bio(name, designation, department, campus,
                                 expertise, education),
             "education": education,
             "source": "scraped",
