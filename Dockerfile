@@ -31,6 +31,12 @@ ENV FASTEMBED_CACHE=/app/.fastembed_cache
 RUN python -c "from fastembed import TextEmbedding; \
     TextEmbedding('sentence-transformers/all-MiniLM-L6-v2', cache_dir='/app/.fastembed_cache')"
 
+# Build the RAG index at image-build time. The index (~100 MB) and the paper
+# PDFs (~1 GB) are git-ignored, so a clone carries only the JSON corpus; this
+# regenerates the fact-card chunks the assistant answers from. Paper full text
+# is included only when PDFs are present (the builder skips missing files).
+RUN python -m scripts.build_index
+
 # Make the app dir writable (SQLite, uploads, index writes) for HF's user.
 RUN chmod -R 777 /app
 

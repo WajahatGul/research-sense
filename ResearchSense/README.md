@@ -110,3 +110,20 @@ python -m scripts.build_index           # RAG chunks + embeddings
 
 The admin "Refresh data now" button (and the weekly background job) re-runs the
 publications fetch and the index build automatically.
+
+### What a clone does and does not carry
+
+The JSON corpus (researchers, publications, topics, projects) **is** committed,
+so the site works immediately after `npm install` + `pip install`. Two large
+generated artefacts are git-ignored:
+
+| Artefact | Size | How to get it |
+|---|---|---|
+| `app/data/rag_index.npz` + `rag_chunks.json` | ~100 MB | `python -m scripts.build_index` (~3 min without PDFs) |
+| `papers/*.pdf` | ~1 GB | `python -m scripts.download_papers` (hours; re-runs only add) |
+
+Until the index is built the assistant has nothing to retrieve from, so run
+`build_index` after cloning. Without the PDFs it still indexes every researcher,
+publication, project, and topic fact card — only paper full text is missing, and
+the builder skips absent files rather than failing. The Docker image runs
+`build_index` at image-build time, so deployments need no extra step.
