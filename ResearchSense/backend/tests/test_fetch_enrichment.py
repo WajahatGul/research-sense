@@ -1,4 +1,5 @@
-from scripts.fetch_publications import (derive_research_areas,
+from scripts.fetch_publications import (backfill_topic_names,
+                                        derive_research_areas,
                                         expertise_field_guard,
                                         international_of,
                                         merge_supplementary)
@@ -51,3 +52,30 @@ def test_merge_supplementary_dedupes_by_doi_then_title():
     merged = merge_supplementary(primary, extra)
     titles = [p["title"] for p in merged]
     assert titles == ["T1", "Brand New"]
+
+
+def test_backfill_fills_missing_topic_names_from_topics():
+    pubs = [{"topics": [{"topic_id": 1, "topic_name": "AI"},
+                        {"topic_id": 2, "topic_name": "Robotics"}]}]
+    backfill_topic_names(pubs)
+    assert pubs[0]["topic_names"] == ["AI", "Robotics"]
+
+
+def test_backfill_fills_empty_topic_names_list_from_topics():
+    pubs = [{"topic_names": [],
+             "topics": [{"topic_id": 1, "topic_name": "AI"}]}]
+    backfill_topic_names(pubs)
+    assert pubs[0]["topic_names"] == ["AI"]
+
+
+def test_backfill_leaves_existing_topic_names_untouched():
+    pubs = [{"topic_names": ["Machine Learning"],
+             "topics": [{"topic_id": 1, "topic_name": "AI"}]}]
+    backfill_topic_names(pubs)
+    assert pubs[0]["topic_names"] == ["Machine Learning"]
+
+
+def test_backfill_leaves_publication_with_neither_field_empty():
+    pubs = [{}]
+    backfill_topic_names(pubs)
+    assert not pubs[0].get("topic_names")

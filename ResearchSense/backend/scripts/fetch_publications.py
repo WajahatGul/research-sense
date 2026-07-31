@@ -20,7 +20,8 @@ from pathlib import Path
 import httpx
 
 from scripts.build_seed import TOPIC_CATALOGUE
-from scripts.fetch_enrichment import (derive_research_areas,
+from scripts.fetch_enrichment import (backfill_topic_names,
+                                      derive_research_areas,
                                       expertise_field_guard,
                                       international_of, merge_supplementary)
 from scripts.fetch_sources import (country_from_affiliation, crossref_works_for,
@@ -328,6 +329,17 @@ def main() -> None:
         r["publication_count"] = len(cites)
         r["citation_count"] = sum(cites)
 
+    # Backfill topic_names for faculty-submitted publications (they carry only
+    # the legacy `topics` list, never topic_names) so they count toward
+    # research-area derivation below and keep an id in the dynamic
+    # topics.json rebuild instead of being wiped by the topics rewrite.
+    backfilled_names: set[str] = {
+        t["topic_name"] for p in publications
+        if not p.get("topic_names") and p.get("topics")
+        for t in p["topics"]
+    }
+    backfill_topic_names(publications)
+
     # Hybrid research areas + international partners (SRS 2, 6).
     pubs_of: dict[int, list[dict]] = {r["researcher_id"]: [] for r in researchers}
     for p in publications:
@@ -353,6 +365,8 @@ def main() -> None:
     for r in researchers:
         for name in r["research_areas"]:
             area_names.setdefault(name, len(area_names) + 1)
+    for name in backfilled_names:
+        area_names.setdefault(name, len(area_names) + 1)
     topics = [{"topic_id": tid, "topic_name": name, "icon": "sparkles",
                "description": f"Research and expertise in {name}.",
                "source": "derived",

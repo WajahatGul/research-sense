@@ -57,6 +57,17 @@ def _dedupe_keys(p: dict) -> set[str]:
     return keys
 
 
+def backfill_topic_names(publications: list[dict]) -> None:
+    """Publications that carry a legacy `topics` list but no `topic_names`
+    (faculty-submitted records re-merged from submitted_publications.json,
+    which never set topic_names) get topic_names filled in from `topics` so
+    they still count toward research-area derivation and keep an id through
+    the dynamic topics.json rewrite instead of being silently wiped."""
+    for p in publications:
+        if not p.get("topic_names") and p.get("topics"):
+            p["topic_names"] = [t["topic_name"] for t in p["topics"]]
+
+
 def merge_supplementary(primary: list[dict], extra: list[dict]) -> list[dict]:
     seen: set[str] = set()
     for p in primary:
