@@ -45,15 +45,22 @@ export default function ResearcherProfile() {
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState message="Researcher not found." />;
 
+  // Degrade gracefully if the backend (e.g. an older deployed version) omits a
+  // list — render what is present instead of crashing the whole profile page.
+  const publications = data.publications ?? [];
+  const intlCollabs = data.international_collaborations ?? [];
+  const collaborators = data.collaborators ?? [];
+  const topics = data.topics ?? [];
+
   const showCaption = withId != null && !withError && Boolean(withResearcher);
   const orderedPublications = showCaption
-    ? coauthoredFirst(data.publications, data.researcher_id, withId)
-    : data.publications;
+    ? coauthoredFirst(publications, data.researcher_id, withId)
+    : publications;
 
   const intlVisible = showAllIntl
-    ? data.international_collaborations
-    : data.international_collaborations.slice(0, INTL_CAP);
-  const intlRemaining = data.international_collaborations.length - INTL_CAP;
+    ? intlCollabs
+    : intlCollabs.slice(0, INTL_CAP);
+  const intlRemaining = intlCollabs.length - INTL_CAP;
 
   return (
     <>
@@ -103,7 +110,7 @@ export default function ResearcherProfile() {
             <h2 className={styles.h2}>
               Publications{" "}
               <span className={`mono ${styles.badge}`}>
-                {data.publications.length}
+                {publications.length}
               </span>
             </h2>
             <DataNote>
@@ -163,7 +170,7 @@ export default function ResearcherProfile() {
           <div className={styles.card}>
             <h3 className={styles.h3}>Research areas</h3>
             <div className={styles.topics}>
-              {data.topics.map((t) => (
+              {topics.map((t) => (
                 <Badge key={t.topic_id} tone="gold">
                   {t.topic_name}
                 </Badge>
@@ -178,7 +185,7 @@ export default function ResearcherProfile() {
             </div>
           )}
 
-          {data.international_collaborations.length > 0 && (
+          {intlCollabs.length > 0 && (
             <div className={styles.card}>
               <h3 className={styles.h3}>International collaborations</h3>
               <ul className={styles.intlList}>
@@ -203,7 +210,7 @@ export default function ResearcherProfile() {
           <div className={styles.card}>
             <h3 className={styles.h3}>Suggested collaborators</h3>
             <ul className={styles.collabs}>
-              {data.collaborators.map((c) => (
+              {collaborators.map((c) => (
                 <li key={c.researcher_id}>
                   <Link
                     to={`/researchers/${c.researcher_id}?with=${data.researcher_id}`}
@@ -214,7 +221,7 @@ export default function ResearcherProfile() {
                   </Link>
                 </li>
               ))}
-              {data.collaborators.length === 0 && (
+              {collaborators.length === 0 && (
                 <li className={styles.collabMeta}>No suggestions yet.</li>
               )}
             </ul>

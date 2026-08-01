@@ -23,6 +23,17 @@ export default function Analytics() {
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState />;
 
+  // Degrade gracefully if the backend (e.g. an older deployed version) omits a
+  // section — render what is present instead of crashing the whole page.
+  const publicationsPerYear = data.publications_per_year ?? [];
+  const campuses = data.campuses ?? [];
+  const citationsPerYear = data.citations_per_year ?? [];
+  const topVenues = data.top_venues ?? [];
+  const campusTotals = data.campus_totals ?? [];
+  const crossCampusPairs = data.cross_campus_pairs ?? [];
+  const departmentTotals = data.department_totals ?? [];
+  const internationalSplit = data.international_split ?? [];
+
   return (
     <>
       <PageHeader
@@ -41,20 +52,20 @@ export default function Analytics() {
         <section className={styles.card}>
           <h2 className={styles.h2}>Publications per year, by campus</h2>
           <PublicationsTrend
-            data={data.publications_per_year}
-            campuses={data.campuses}
+            data={publicationsPerYear}
+            campuses={campuses}
           />
         </section>
 
         <div className={styles.twoCol}>
           <section className={styles.card}>
             <h2 className={styles.h2}>Citations earned by papers per year</h2>
-            <CitationsTrend data={data.citations_per_year} />
+            <CitationsTrend data={citationsPerYear} />
           </section>
 
           <section className={styles.card}>
             <h2 className={styles.h2}>Top publication venues</h2>
-            <TopVenues data={data.top_venues} />
+            <TopVenues data={topVenues} />
           </section>
         </div>
 
@@ -71,7 +82,7 @@ export default function Analytics() {
                 </tr>
               </thead>
               <tbody>
-                {data.campus_totals.map((row) => (
+                {campusTotals.map((row) => (
                   <tr key={row.campus}>
                     <td>
                       <span
@@ -91,13 +102,13 @@ export default function Analytics() {
 
           <section className={styles.card}>
             <h2 className={styles.h2}>Cross-campus collaboration</h2>
-            {data.cross_campus_pairs.length === 0 ? (
+            {crossCampusPairs.length === 0 ? (
               <p className={styles.empty}>
                 No cross-campus co-authored papers found in the indexed data yet.
               </p>
             ) : (
               <ul className={styles.pairs}>
-                {data.cross_campus_pairs.map((pair) => (
+                {crossCampusPairs.map((pair) => (
                   <li key={`${pair.from}-${pair.to}`} className={styles.pair}>
                     <span className={styles.pairLabel}>
                       <span className={styles.dot}
@@ -125,23 +136,23 @@ export default function Analytics() {
         <div className={styles.twoCol}>
           <section className={styles.card}>
             <h2 className={styles.h2}>Publications by department</h2>
-            {data.department_totals.length === 0 ? (
+            {departmentTotals.length === 0 ? (
               <p className={styles.empty}>
                 No department data found in the indexed data yet.
               </p>
             ) : (
-              <DepartmentBars data={data.department_totals} />
+              <DepartmentBars data={departmentTotals} />
             )}
           </section>
 
           <section className={styles.card}>
             <h2 className={styles.h2}>International vs domestic collaboration</h2>
-            {data.international_split.length === 0 ? (
+            {internationalSplit.length === 0 ? (
               <p className={styles.empty}>
                 No publication-year data found in the indexed data yet.
               </p>
             ) : (
-              <InternationalTrend data={data.international_split} />
+              <InternationalTrend data={internationalSplit} />
             )}
           </section>
         </div>
