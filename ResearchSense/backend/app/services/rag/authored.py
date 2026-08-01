@@ -461,6 +461,10 @@ def _other_name(message: str, resolved: list[dict]) -> str:
         lw = w.lower()
         if len(w) < 2 or lw in skip or _NAME_VARIANTS.get(lw, lw) in resolved_tokens:
             continue
+        # A person's name is capitalised. Skip lowercase filler words (which a
+        # verbose query rewrite may add) so we report just the name, not a phrase.
+        if not w[0].isupper():
+            continue
         words.append(w)
     return " ".join(words).strip()
 
@@ -510,7 +514,14 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
     if not is_collaboration_query(message):
         return None
     people = _resolve_people(message)
-    pair = _is_pair_intent(message)
+    # Two named parties make a pair question. Besides "and"/"between", "did X do
+    # any WITH <name>" is also a pair: if a second person resolves it is treated
+    # as a pair, and if the second name is present but does not resolve we say so
+    # honestly instead of degrading to one person's whole co-author list.
+    pair = _is_pair_intent(message) or len(people) >= 2
+    if not pair:
+        has_with = re.search(r"\bwith\b", message, re.I)
+        pair = bool(has_with and _other_name(message, people))
 
     # Pair question but both parties did not resolve: be honest, do not fall
     # back to a single person's collaborator list (that ignores the question).

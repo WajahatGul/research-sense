@@ -31,7 +31,7 @@ def _render(header: str, people: list[dict]) -> AuthoredResult:
         rank = (r.get("academic_rank") or r.get("designation") or "").strip()
         campus = (r.get("campus") or "").strip()
         meta = " · ".join(x for x in (rank, campus) if x)
-        lines.append(f"- {r['full_name']}" + (f" — {meta}" if meta else ""))
+        lines.append(f"- **{r['full_name']}**" + (f" — {meta}" if meta else ""))
     return AuthoredResult(
         answer="\n".join(lines),
         researchers=[(r["full_name"], r["researcher_id"]) for r in shown],

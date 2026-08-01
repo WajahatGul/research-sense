@@ -318,24 +318,24 @@ def _pass3_synthesise_answer(
         "indexed ResearchSense data (faculty profiles, publications, projects, "
         "and the research papers in the library). Do not invent facts.\n\n"
         "RULES:\n"
-        "1. FORMAT: Reply in clean PLAIN TEXT only. Do NOT use Markdown of any "
-        "   kind — no asterisks for bold/italics (never write **like this**), no "
-        "   '#' headings, no backticks, no tables. The interface shows your reply "
-        "   verbatim, so markdown symbols appear as ugly literal characters.\n"
-        "2. When listing multiple items, put each on its own line beginning with "
-        "   a hyphen and a space ('- '). Keep each line short and scannable. Do "
-        "   NOT bold the names.\n"
-        "3. Start with one short plain sentence of context, then the list. Do not "
-        "   add a trailing summary sentence unless it adds real information.\n"
-        "4. Keep the answer concise but complete.\n"
-        "5. If the evidence has GAPS, say plainly what you could not find.\n"
-        "6. Never invent or modify names, numbers, dates, or titles.\n"
-        "7. Maintain a formal, professional tone.\n"
-        "8. Do NOT repeat the question back to the user.\n"
-        "9. If a context item is marked as a demonstration/sample record, say so "
+        "1. FORMAT: Write in clean, modern Markdown suited to a chat bubble.\n"
+        "   - Listing items (people, papers, areas): use a Markdown bullet list "
+        "     ('- item' on its own line), or a numbered list ('1. item') when "
+        "     rank or order matters.\n"
+        "   - Explaining something: write short paragraphs of 2 to 4 sentences.\n"
+        "   - Use **bold** sparingly to highlight a key name, number, or term.\n"
+        "   - Do NOT use '#' headings, tables, images, or code blocks.\n"
+        "2. Start with one short sentence of context, then the list or the "
+        "   details. Do not add a trailing summary unless it adds information.\n"
+        "3. Keep the answer concise but complete.\n"
+        "4. If the evidence has GAPS, say plainly what you could not find.\n"
+        "5. Never invent or modify names, numbers, dates, or titles.\n"
+        "6. Maintain a formal, professional tone.\n"
+        "7. Do NOT repeat the question back to the user.\n"
+        "8. If a context item is marked as a demonstration/sample record, say so "
         "   when using it.\n"
-        f"10. STRICT GROUNDING: Answer ONLY from the evidence below. If the answer "
-        f"    is not contained there, reply with EXACTLY: {REFUSAL_TOKEN} and stop. "
+        f"9. STRICT GROUNDING: Answer ONLY from the evidence below. If the answer "
+        f"   is not contained there, reply with EXACTLY: {REFUSAL_TOKEN} and stop. "
         "    NEVER use outside or general knowledge, and NEVER answer unrelated "
         "    questions (e.g. trivia, current events) even if you know the answer.\n\n"
         f"INTENT: {intent.get('intent', 'other')}\n\n"
@@ -355,25 +355,22 @@ def _pass3_synthesise_answer(
     )
 
 
-def _strip_markdown(text: str) -> str:
-    """Remove markdown decorations the plain-text frontend cannot render, so a
-    stray '**bold**' or '### heading' from the model never reaches the user as
-    literal symbols. Keeps hyphen bullets and the text content intact."""
+def _tidy_markdown(text: str) -> str:
+    """Tidy the model's Markdown for a chat bubble. The frontend renders
+    Markdown, so bold and lists are KEPT; only elements that look out of place
+    in a small bubble are removed (headings become bold, blockquotes and code
+    fences are unwrapped) and '*'/'+' bullets are normalised to '- '."""
     if not text:
         return text
-    # Bold/italic: **x** __x__ *x* _x_  ->  x
-    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
-    text = re.sub(r"__([^_]+)__", r"\1", text)
-    text = re.sub(r"(?<!\w)\*([^*\n]+)\*(?!\w)", r"\1", text)
-    text = re.sub(r"(?<!\w)_([^_\n]+)_(?!\w)", r"\1", text)
-    # Inline code `x` -> x
-    text = re.sub(r"`([^`]+)`", r"\1", text)
-    # Leading heading markers and blockquotes at line start
-    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
+    # Drop code fences but keep their inner text.
+    text = re.sub(r"(?m)^\s*```[a-zA-Z0-9]*\s*$", "", text)
+    # Heading lines -> bold (keep the words, lose the oversized heading).
+    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s+(.+?)\s*$", r"**\1**", text)
+    # Blockquote markers at line start.
     text = re.sub(r"(?m)^\s{0,3}>\s?", "", text)
-    # Normalise markdown bullets (* or +) to a hyphen
+    # Normalise markdown bullets (* or +) to a hyphen.
     text = re.sub(r"(?m)^(\s*)[*+]\s+", r"\1- ", text)
-    # Collapse 3+ blank lines
+    # Collapse 3+ blank lines.
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -399,8 +396,8 @@ def run_agentic_pipeline(
     answer = _pass3_synthesise_answer(
         user_message, intent, evidence, conversation_history
     )
-    # Keep the refusal token exact for matching; clean everything else so no
-    # raw markdown reaches the plain-text frontend.
+    # Keep the refusal token exact for matching; tidy everything else so the
+    # Markdown renders cleanly in the chat bubble.
     if answer and REFUSAL_TOKEN not in answer:
-        answer = _strip_markdown(answer)
+        answer = _tidy_markdown(answer)
     return answer
