@@ -215,9 +215,34 @@
 }
 
 .intlMore {
+  display: inline-block;
   margin: 8px 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
   font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.intlMore:hover,
+.intlMore:focus-visible {
+  color: var(--gold);
+}
+
+.intlMore:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.coauthorCaption {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
   color: var(--muted);
+  font-style: italic;
 }
 
 @media (max-width: 860px) {

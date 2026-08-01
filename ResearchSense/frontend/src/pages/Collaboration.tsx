@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+import type { Researcher } from "../types";
 import {
   fetchResearchers,
   fetchResearcher,
@@ -24,14 +25,25 @@ const SORTS: { key: CollabSort; label: string }[] = [
 
 export default function Collaboration() {
   const [selected, setSelected] = useState<number | null>(null);
+  const [selectedName, setSelectedName] = useState<string>("");
   const [campusFilter, setCampusFilter] = useState<CampusFilter>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
   const [sort, setSort] = useState<CollabSort>("relevance");
 
-  const { data: list } = useQuery({
+  const {
+    data: list,
+    isError: listError,
+    refetch: refetchList,
+  } = useQuery({
     queryKey: ["researchers", "collab-picker"],
     queryFn: () => fetchResearchers({ page_size: 100 }),
   });
+
+  const selectResearcher = (r: Researcher) => {
+    setSelected(r.researcher_id);
+    setSelectedName(r.full_name);
+    setAreaFilter("");
+  };
 
   const activeId = selected;
 
@@ -97,25 +109,15 @@ export default function Collaboration() {
       <PageHeader
         eyebrow="Who to work with"
         title="Collaboration finder"
-        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks international collaborators."
+        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions outside Pakistan."
       >
-        <select
-          className={styles.select}
-          value={activeId ?? ""}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelected(value ? Number(value) : null);
-            setAreaFilter("");
-          }}
-          aria-label="Select a researcher"
-        >
-          <option value="">Select a researcher…</option>
-          {list?.items.map((r) => (
-            <option key={r.researcher_id} value={r.researcher_id}>
-              {r.full_name} — {r.designation}
-            </option>
-          ))}
-        </select>
+        <ResearcherTypeahead
+          researchers={list?.items}
+          isError={listError}
+          onRetry={refetchList}
+          selectedName={selectedName}
+          onSelect={selectResearcher}
+        />
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
@@ -173,6 +175,7 @@ export default function Collaboration() {
 
             {filtered.length > 0 ? (
               <NetworkView
+                centerId={detail.researcher_id}
                 centerName={detail.full_name}
                 collaborators={filtered}
               />
@@ -192,5 +195,130 @@ export default function Collaboration() {
         )}
       </div>
     </>
+  );
+}
+
+interface TypeaheadProps {
+  researchers: Researcher[] | undefined;
+  isError: boolean;
+  onRetry: () => void;
+  selectedName: string;
+  onSelect: (r: Researcher) => void;
+}
+
+// Simple, dependency-free typeahead: filters the already-loaded researcher
+// list client-side and lets the user pick a match with the mouse or the
+// keyboard (Up/Down/Enter/Escape). No external combobox library.
+function ResearcherTypeahead({
+  researchers,
+  isError,
+  onRetry,
+  selectedName,
+  onSelect,
+}: TypeaheadProps) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(-1);
+  const blurTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  const trimmed = query.trim();
+  const matches = useMemo(() => {
+    if (!trimmed || !researchers) return [];
+    const q = trimmed.toLowerCase();
+    return researchers
+      .filter((r) => r.full_name.toLowerCase().includes(q))
+      .slice(0, 8);
+  }, [researchers, trimmed]);
+
+  const pick = (r: Researcher) => {
+    onSelect(r);
+    setQuery(r.full_name);
+    setOpen(false);
+  };
+
+  if (isError) {
+    return (
+      <p className={styles.pickerError}>
+        Could not load researchers.{" "}
+        <button type="button" className={styles.retryButton} onClick={() => onRetry()}>
+          Retry
+        </button>
+      </p>
+    );
+  }
+
+  return (
+    <div className={styles.typeahead}>
+      <input
+        type="search"
+        className={styles.searchInput}
+        aria-label="Search researchers by name"
+        placeholder="Type a researcher's name…"
+        role="combobox"
+        aria-expanded={open && matches.length > 0}
+        aria-controls="researcher-typeahead-listbox"
+        aria-activedescendant={
+          open && matches[highlighted]
+            ? `researcher-option-${matches[highlighted].researcher_id}`
+            : undefined
+        }
+        value={query || selectedName}
+        onFocus={() => setOpen(true)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+          setHighlighted(-1);
+        }}
+        onBlur={() => {
+          // Let a click/mousedown on an option register before we close.
+          blurTimeout.current = setTimeout(() => setOpen(false), 120);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setHighlighted((i) => Math.min(i + 1, matches.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setHighlighted((i) => Math.max(i - 1, -1));
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            const match = matches[highlighted];
+            if (match) pick(match);
+          } else if (e.key === "Escape") {
+            setQuery("");
+            setOpen(false);
+          }
+        }}
+      />
+      {open && matches.length > 0 && (
+        <ul
+          id="researcher-typeahead-listbox"
+          role="listbox"
+          className={styles.listbox}
+        >
+          {matches.map((r, i) => (
+            <li
+              key={r.researcher_id}
+              id={`researcher-option-${r.researcher_id}`}
+              role="option"
+              aria-selected={i === highlighted}
+              className={i === highlighted ? styles.optionActive : styles.option}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                if (blurTimeout.current) clearTimeout(blurTimeout.current);
+                pick(r);
+              }}
+            >
+              {r.full_name} — {r.designation}
+            </li>
+          ))}
+        </ul>
+      )}
+      {open && trimmed && matches.length === 0 && (
+        <p className={styles.noMatch}>
+          No researcher found matching '{trimmed}'.
+        </p>
+      )}
+    </div>
   );
 }

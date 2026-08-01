@@ -46,3 +46,4 @@ class PublicationRef(BaseModel):
     journal_name: str = ""
     citation_count: int = 0
     doi: str | None = None
+    author_ids: list[int] = []

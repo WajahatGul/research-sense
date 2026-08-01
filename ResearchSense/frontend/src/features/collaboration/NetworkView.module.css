@@ -128,6 +128,9 @@
   border: 1px solid var(--line);
   text-decoration: none;
   transition: border-color 0.15s, background 0.15s;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .legendItem:hover {
@@ -138,11 +141,14 @@
 .legendTop {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px 8px;
 }
 
 .legendName {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-weight: 600;
   color: var(--navy);
   font-size: 0.9rem;
@@ -150,8 +156,10 @@
 
 .badges {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 5px;
-  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .crossBadge {

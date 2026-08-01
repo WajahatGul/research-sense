@@ -4,6 +4,7 @@ import type { CollaborationSuggestion } from "../../types";
 import styles from "./NetworkView.module.css";
 
 interface Props {
+  centerId: number;
   centerName: string;
   collaborators: CollaborationSuggestion[];
 }
@@ -24,7 +25,7 @@ function initials(name: string): string {
 // around them. Link thickness and node ring encode the NUMBER of shared
 // research areas (the honest signal), and each suggestion lists the actual
 // shared areas so the recommendation is explainable.
-export function NetworkView({ centerName, collaborators }: Props) {
+export function NetworkView({ centerId, centerName, collaborators }: Props) {
   const size = 460;
   const c = size / 2;
   const radius = 165;
@@ -114,14 +115,14 @@ export function NetworkView({ centerName, collaborators }: Props) {
           shared-area matches.
         </p>
         <p className={styles.sideHint}>
-          Gold-ringed nodes are cross-campus; a 🌐 marker means the
-          collaboration crosses an institution border.
+          Gold-ringed nodes are cross-campus; 🌐 marks researchers who have
+          published with institutions outside Pakistan.
         </p>
         <ul className={styles.legend}>
           {nodes.map((n) => (
             <li key={n.researcher_id}>
               <Link
-                to={`/researchers/${n.researcher_id}`}
+                to={`/researchers/${n.researcher_id}?with=${centerId}`}
                 className={styles.legendItem}
               >
                 <span className={styles.legendTop}>
@@ -136,7 +137,12 @@ export function NetworkView({ centerName, collaborators }: Props) {
                       <span className={styles.crossBadge}>cross-campus</span>
                     )}
                     {n.international && (
-                      <span className={styles.intlBadge}>🌐 international</span>
+                      <span
+                        className={styles.intlBadge}
+                        title="Has published with institutions outside Pakistan"
+                      >
+                        🌐 intl. co-authors
+                      </span>
                     )}
                   </span>
                 </span>

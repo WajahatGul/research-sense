@@ -35,6 +35,12 @@ const researcher: Researcher = {
   research_areas: [],
 };
 
+const otherResearcher: Researcher = {
+  ...researcher,
+  researcher_id: 2,
+  full_name: "Dr. Bilal Ahmed",
+};
+
 const detail: ResearcherDetail = {
   ...researcher,
   profile_bio: "",
@@ -63,8 +69,8 @@ const collaborator: CollaborationSuggestion = {
 };
 
 const researcherPage: Paginated<Researcher> = {
-  items: [researcher],
-  total: 1,
+  items: [researcher, otherResearcher],
+  total: 2,
   page: 1,
   page_size: 100,
 };
@@ -114,23 +120,70 @@ describe("Collaboration", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
-  it("fetches researcher detail and collaborators once a researcher is selected", async () => {
+  it("filters the researcher list as the user types", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "bilal" } });
+
+    expect(await screen.findByRole("option", { name: /Dr\. Bilal Ahmed/ })).toBeInTheDocument();
+    expect(screen.queryByRole("option", { name: /Dr\. Ayesha Khan/ })).not.toBeInTheDocument();
+  });
+
+  it("selects a researcher and loads their collaborators when a match is clicked", async () => {
     mockFetchResearchers.mockResolvedValue(researcherPage);
     mockFetchResearcher.mockResolvedValue(detail);
     mockFetchCollaborators.mockResolvedValue([collaborator]);
 
     renderPage();
 
-    const select = await screen.findByLabelText("Select a researcher");
-    expect(select).toHaveValue("");
-    await screen.findByText("Dr. Ayesha Khan — Professor");
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Ayesha" } });
 
-    fireEvent.change(select, { target: { value: "1" } });
+    const option = await screen.findByRole("option", { name: /Dr\. Ayesha Khan/ });
+    fireEvent.mouseDown(option);
 
     await waitFor(() => expect(mockFetchResearcher).toHaveBeenCalledWith(1));
     await waitFor(() =>
       expect(mockFetchCollaborators).toHaveBeenCalledWith(1, "relevance"),
     );
+  });
+
+  it("shows a no-match message when the query matches nobody", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "zzznotfound" } });
+
+    expect(
+      await screen.findByText("No researcher found matching 'zzznotfound'."),
+    ).toBeInTheDocument();
+  });
+
+  it("shows a retry action when the researcher list fails to load", async () => {
+    mockFetchResearchers.mockRejectedValue(new Error("boom"));
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    expect(
+      await screen.findByText(/Could not load researchers/),
+    ).toBeInTheDocument();
+    const retryButton = screen.getByRole("button", { name: "Retry" });
+
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    fireEvent.click(retryButton);
+
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(2));
   });
 
   it("shows a loader before the collaborators query resolves", async () => {
@@ -140,9 +193,10 @@ describe("Collaboration", () => {
 
     renderPage();
 
-    const select = await screen.findByLabelText("Select a researcher");
-    await screen.findByText("Dr. Ayesha Khan — Professor");
-    fireEvent.change(select, { target: { value: "1" } });
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Ayesha" } });
+    const option = await screen.findByRole("option", { name: /Dr\. Ayesha Khan/ });
+    fireEvent.mouseDown(option);
 
     await waitFor(() => expect(screen.getByRole("status")).toBeInTheDocument());
   });
@@ -154,9 +208,10 @@ describe("Collaboration", () => {
 
     renderPage();
 
-    const select = await screen.findByLabelText("Select a researcher");
-    await screen.findByText("Dr. Ayesha Khan — Professor");
-    fireEvent.change(select, { target: { value: "1" } });
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Ayesha" } });
+    const option = await screen.findByRole("option", { name: /Dr\. Ayesha Khan/ });
+    fireEvent.mouseDown(option);
 
     expect(
       await screen.findByText(/no shared-area or co-authored collaborators found/i),
@@ -170,11 +225,29 @@ describe("Collaboration", () => {
 
     renderPage();
 
-    const researcherSelect = await screen.findByLabelText("Select a researcher");
-    await screen.findByText("Dr. Ayesha Khan — Professor");
-    fireEvent.change(researcherSelect, { target: { value: "1" } });
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Ayesha" } });
+    const option = await screen.findByRole("option", { name: /Dr\. Ayesha Khan/ });
+    fireEvent.mouseDown(option);
 
     const select = await screen.findByLabelText("Sort collaborators");
     expect(select.querySelectorAll("option")).toHaveLength(5);
+  });
+
+  it("selects the highlighted match on Enter after arrowing down", async () => {
+    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearcher.mockResolvedValue(detail);
+    mockFetchCollaborators.mockResolvedValue([collaborator]);
+
+    renderPage();
+
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Dr." } });
+    await screen.findAllByRole("option");
+
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    await waitFor(() => expect(mockFetchResearcher).toHaveBeenCalledWith(1));
   });
 });

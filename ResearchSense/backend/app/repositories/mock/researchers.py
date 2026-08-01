@@ -111,6 +111,15 @@ class MockResearcherRepository(ResearcherRepository):
                         "journal_name": p.get("journal_name", ""),
                         "citation_count": p.get("citation_count", 0),
                         "doi": p.get("doi"),
+                        # Author researcher_ids we could resolve (unmatched
+                        # authors have researcher_id=None and are dropped).
+                        # Lets the frontend detect a shared paper between two
+                        # profiles without fetching full author objects.
+                        "author_ids": [
+                            a["researcher_id"]
+                            for a in p.get("authors", [])
+                            if a.get("researcher_id") is not None
+                        ],
                     }
                 )
         pubs.sort(key=lambda p: p["publication_year"], reverse=True)
@@ -194,6 +203,13 @@ class MockResearcherRepository(ResearcherRepository):
                     past_coauthor=copub > 0,
                     same_campus=(other.get("campus", "") == my_campus),
                     relevance=round(score_of(copub, shared_ids, topic_freq), 3),
+                    # PERSON-level signal, not a fact about THIS pairing: true
+                    # when `other` has ever published with an institution
+                    # outside Pakistan, anywhere in their record. It does NOT
+                    # mean this specific suggested collaboration crosses a
+                    # border. Frontend copy must not imply otherwise (Task 8
+                    # Fix 1) — a Pakistan-based researcher with one foreign
+                    # co-author still gets this badge.
                     international=bool(other.get("international_collaborations")),
                 ).model_dump()
             )

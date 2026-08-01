@@ -28,7 +28,7 @@ function makeCollaborator(
 function renderNetwork(centerName: string, collaborators: CollaborationSuggestion[]) {
   return render(
     <MemoryRouter>
-      <NetworkView centerName={centerName} collaborators={collaborators} />
+      <NetworkView centerId={99} centerName={centerName} collaborators={collaborators} />
     </MemoryRouter>,
   );
 }
