@@ -54,20 +54,30 @@ def merge_staged(sub_id: int) -> int:
         return 0
     new_chunks = json.loads(cpath.read_text("utf-8"))
     new_vecs = np.load(vpath)["vectors"]
-    chunks = json.loads((INDEX_DIR / "rag_chunks.json").read_text("utf-8"))
-    existing = np.load(INDEX_DIR / "rag_index.npz")["vectors"]
+
+    # The live index may be absent — it is built lazily at deploy, can be wiped
+    # by an ephemeral disk on restart, or is simply not built yet in local dev.
+    # Start from empty so approval still succeeds (and the paper becomes
+    # searchable) instead of crashing on a missing file; a later full rebuild
+    # restores the rest of the corpus.
+    chunks_path = INDEX_DIR / "rag_chunks.json"
+    index_path = INDEX_DIR / "rag_index.npz"
+    if chunks_path.exists() and index_path.exists():
+        chunks = json.loads(chunks_path.read_text("utf-8"))
+        existing = np.load(index_path)["vectors"]
+    else:
+        chunks = []
+        existing = np.zeros((0, new_vecs.shape[1]), dtype=np.float32)
+
     chunks.extend(new_chunks)
-    (INDEX_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8"
-    )
+    INDEX_DIR.mkdir(parents=True, exist_ok=True)
+    chunks_path.write_text(json.dumps(chunks, ensure_ascii=False), "utf-8")
     base = (
         existing
         if existing.size
         else np.zeros((0, new_vecs.shape[1]), dtype=np.float32)
     )
-    np.savez_compressed(
-        INDEX_DIR / "rag_index.npz", vectors=np.vstack([base, new_vecs])
-    )
+    np.savez_compressed(index_path, vectors=np.vstack([base, new_vecs]))
     cpath.unlink()
     vpath.unlink()
     _reset_retriever()

@@ -28,6 +28,11 @@ ResearchSense/frontend/vite.config.d.ts
 ResearchSense/backend/app/data/rag_index.npz
 ResearchSense/backend/app/data/rag_chunks.json
 
+# Runtime cache of admin-approved faculty submissions (preserved across index
+# rebuilds). Written at runtime like the DB/staged dir — environment-specific,
+# never committed, so it can't leak local/test submissions into the repo.
+ResearchSense/backend/app/data/submitted_publications.json
+
 # Downloaded paper PDFs (1.1 GB) and coverage artifacts
 ResearchSense/backend/papers/*.pdf
 ResearchSense/backend/.coverage
