@@ -3,6 +3,7 @@
 This is the composition root. To move from mock JSON to a database, swap the
 repository classes imported here; nothing else in the app changes.
 """
+
 from __future__ import annotations
 
 from functools import lru_cache

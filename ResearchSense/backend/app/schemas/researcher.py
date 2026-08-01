@@ -1,4 +1,5 @@
 """Researcher (faculty profile) schemas."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel
@@ -21,6 +22,8 @@ class CollaborationSuggestion(BaseModel):
     copublications: int = 0
     past_coauthor: bool = False
     same_campus: bool = False
+    relevance: float = 0.0
+    international: bool = False
 
 
 class Researcher(BaseModel):
@@ -29,6 +32,7 @@ class Researcher(BaseModel):
     researcher_id: int
     full_name: str
     designation: str
+    academic_rank: str = ""
     department: str
     campus: str = "Islamabad (E-8)"
     institution: str = ""
@@ -39,6 +43,7 @@ class Researcher(BaseModel):
     publication_count: int = 0
     citation_count: int = 0
     topics: list[TopicRef] = []
+    research_areas: list[str] = []
     source: str = "scraped"
 
 
@@ -51,3 +56,4 @@ class ResearcherDetail(Researcher):
     scopus_id: str | None = None
     publications: list[PublicationRef] = []
     collaborators: list[CollaborationSuggestion] = []
+    international_collaborations: list[dict] = []

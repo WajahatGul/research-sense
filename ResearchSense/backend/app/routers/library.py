@@ -4,6 +4,7 @@ The list is public — the assistant already answers from these papers for
 everyone, so hiding the catalogue would only confuse. Removal is restricted
 to the researcher who added the paper, or an admin.
 """
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -47,12 +48,10 @@ def remove_paper(
     if not is_admin:
         account = AccountStore.instance().get_account(token_payload.get("sub", ""))
         if account is None or not account["active"]:
-            raise HTTPException(status_code=401,
-                                detail="Account not found or disabled")
+            raise HTTPException(status_code=401, detail="Account not found or disabled")
         requester_id = account["researcher_id"]
     try:
         result = library_service.remove_paper(filename, requester_id, is_admin)
     except LibraryError as exc:
-        raise HTTPException(status_code=403, detail=str(exc))
-    return RemoveResult(**result,
-                        message="Removed from the library and the assistant.")
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    return RemoveResult(**result, message="Removed from the library and the assistant.")

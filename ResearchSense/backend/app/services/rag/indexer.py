@@ -5,6 +5,7 @@ resets the in-memory retriever so the chatbot can answer from the new paper
 immediately. A full rebuild (scripts/build_index.py) remains the way to
 regenerate everything from scratch.
 """
+
 from __future__ import annotations
 
 import json
@@ -14,7 +15,7 @@ from pathlib import Path
 import numpy as np
 from pypdf import PdfReader
 
-from app.services.rag.retriever import DATA_DIR, MODEL_CACHE, EMBED_MODEL, Retriever
+from app.services.rag.retriever import DATA_DIR, EMBED_MODEL, MODEL_CACHE, Retriever
 
 CHUNK_CHARS = 900
 CHUNK_OVERLAP = 150
@@ -23,7 +24,7 @@ CHUNK_OVERLAP = 150
 def _split(text: str) -> list[str]:
     chunks, start = [], 0
     while start < len(text):
-        chunks.append(text[start:start + CHUNK_CHARS])
+        chunks.append(text[start : start + CHUNK_CHARS])
         start += CHUNK_CHARS - CHUNK_OVERLAP
     return [c.strip() for c in chunks if len(c.strip()) > 120]
 
@@ -49,7 +50,8 @@ def append_chunks(new_chunks: list[dict]) -> int:
 
     model = TextEmbedding(EMBED_MODEL, cache_dir=str(MODEL_CACHE))
     vectors = np.array(
-        list(model.embed([c["text"] for c in new_chunks])), dtype=np.float32)
+        list(model.embed([c["text"] for c in new_chunks])), dtype=np.float32
+    )
     vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)
 
     chunks = json.loads((DATA_DIR / "rag_chunks.json").read_text("utf-8"))
@@ -58,18 +60,18 @@ def append_chunks(new_chunks: list[dict]) -> int:
     chunks.extend(new_chunks)
     combined = np.vstack([existing, vectors])
     (DATA_DIR / "rag_chunks.json").write_text(
-        json.dumps(chunks, ensure_ascii=False), "utf-8")
+        json.dumps(chunks, ensure_ascii=False), "utf-8"
+    )
     np.savez_compressed(DATA_DIR / "rag_index.npz", vectors=combined)
 
     Retriever.reset()  # next question loads the updated index
     return len(new_chunks)
 
 
-def add_paper(pdf_path: Path, title: str, author_name: str,
-              researcher_id: int) -> int:
+def add_paper(pdf_path: Path, title: str, author_name: str, researcher_id: int) -> int:
     """Index one uploaded faculty paper (attributed). Returns chunks added."""
     text = extract_pdf_text(pdf_path)
-    header = f"From the paper \"{title}\" by {author_name}: "
+    header = f'From the paper "{title}" by {author_name}: '
     new_chunks = [
         {
             "text": header + piece,

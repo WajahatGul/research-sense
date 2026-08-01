@@ -1,4 +1,5 @@
 """Application configuration."""
+
 from __future__ import annotations
 
 import os
@@ -49,13 +50,15 @@ class Settings:
     # next full bucket before finally degrading to the fast model. Env override:
     # GROQ_MODEL_CHAIN="model-a,model-b,...".
     groq_model_chain: list[str] = [
-        m.strip() for m in os.getenv(
+        m.strip()
+        for m in os.getenv(
             "GROQ_MODEL_CHAIN",
             "openai/gpt-oss-120b,"
             "llama-3.3-70b-versatile,"
             "qwen/qwen3-32b,"
             "meta-llama/llama-4-scout-17b-16e-instruct",
-        ).split(",") if m.strip()
+        ).split(",")
+        if m.strip()
     ]
 
 

@@ -1,4 +1,5 @@
 """Business logic for research projects."""
+
 from __future__ import annotations
 
 from app.repositories.base import ProjectRepository

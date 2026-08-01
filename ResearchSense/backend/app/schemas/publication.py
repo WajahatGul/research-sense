@@ -1,4 +1,5 @@
 """Publication schemas."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel
@@ -22,12 +23,16 @@ class Publication(BaseModel):
     abstract: str = ""
     doi: str | None = None
     publication_year: int
+    publication_date: str | None = None
     journal_name: str = ""
     publication_type: str = "journal"
     citation_count: int = 0
     campus: str = ""
     authors: list[AuthorRef] = []
     topics: list[TopicRef] = []
+    topic_names: list[str] = []
+    coauthor_institutions: list[dict] = []
+    international: bool = False
     source: str = "sample"
 
 
@@ -37,6 +42,8 @@ class PublicationRef(BaseModel):
     publication_id: int
     title: str
     publication_year: int
+    publication_date: str | None = None
     journal_name: str = ""
     citation_count: int = 0
     doi: str | None = None
+    author_ids: list[int] = []

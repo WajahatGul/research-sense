@@ -1,4 +1,5 @@
 """Schemas for faculty accounts and sessions."""
+
 from __future__ import annotations
 
 import re

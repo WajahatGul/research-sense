@@ -28,6 +28,19 @@ export interface CrossCampusPair {
   papers: number;
 }
 
+export interface DepartmentRow {
+  department: string;
+  researchers: number;
+  publications: number;
+  citations: number;
+}
+
+export interface IntlRow {
+  year: number;
+  international: number;
+  domestic: number;
+}
+
 export interface AnalyticsOverview {
   campuses: string[];
   publications_per_year: YearRow[];
@@ -35,6 +48,8 @@ export interface AnalyticsOverview {
   top_venues: VenueRow[];
   campus_totals: CampusTotals[];
   cross_campus_pairs: CrossCampusPair[];
+  department_totals: DepartmentRow[];
+  international_split: IntlRow[];
 }
 
 export const fetchAnalytics = () => get<AnalyticsOverview>("/api/analytics");

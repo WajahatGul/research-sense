@@ -1,4 +1,5 @@
 """FastAPI application factory."""
+
 from __future__ import annotations
 
 import asyncio
@@ -35,8 +36,7 @@ async def _lifespan(app: FastAPI):
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=settings.app_name, version=settings.version,
-                  lifespan=_lifespan)
+    app = FastAPI(title=settings.app_name, version=settings.version, lifespan=_lifespan)
 
     app.add_middleware(
         CORSMiddleware,
@@ -46,8 +46,19 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    for module in (stats, researchers, publications, topics, projects, chat,
-                   auth, papers, admin, analytics, library):
+    for module in (
+        stats,
+        researchers,
+        publications,
+        topics,
+        projects,
+        chat,
+        auth,
+        papers,
+        admin,
+        analytics,
+        library,
+    ):
         app.include_router(module.router)
 
     @app.get("/api/health", tags=["health"])
@@ -64,9 +75,11 @@ def _mount_frontend(app: FastAPI) -> None:
     so client-side routes (/library, /portal, ...) work on refresh/deep-link.
     In local dev the dist folder is absent, so this is a no-op and the Vite
     dev server serves the frontend instead."""
-    dist = Path(os.getenv(
-        "FRONTEND_DIST",
-        Path(__file__).resolve().parents[2] / "frontend" / "dist"))
+    dist = Path(
+        os.getenv(
+            "FRONTEND_DIST", Path(__file__).resolve().parents[2] / "frontend" / "dist"
+        )
+    )
     index = dist / "index.html"
     if not index.is_file():
         return

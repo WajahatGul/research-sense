@@ -7,6 +7,7 @@ extractive answer assembled directly from the retrieved chunks, used when no
 API key is set or every model call fails. Both paths can only speak from
 retrieved text.
 """
+
 from __future__ import annotations
 
 from app.services.rag import agentic
@@ -21,8 +22,9 @@ REFUSAL_MESSAGE = (
 )
 
 
-def generate(question: str, chunks: list[ScoredChunk],
-             history: list | None = None) -> tuple[str, bool]:
+def generate(
+    question: str, chunks: list[ScoredChunk], history: list | None = None
+) -> tuple[str, bool]:
     """Return (answer, used_llm). Falls back to extractive mode on any failure.
 
     The primary path is the 3-pass agentic pipeline. The refusal token from
@@ -33,7 +35,8 @@ def generate(question: str, chunks: list[ScoredChunk],
         turns = history or []
         conversation_history = [
             {"role": t.role, "content": t.content[:1200]}
-            for t in turns if t.role in ("user", "assistant")
+            for t in turns
+            if t.role in ("user", "assistant")
         ]
         answer = agentic.run_agentic_pipeline(
             user_message=question,

@@ -1,6 +1,6 @@
 .body {
-  padding-top: 32px;
-  padding-bottom: 56px;
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
 }
 
 .list {
@@ -17,7 +17,7 @@
   justify-content: space-between;
   gap: 18px;
   flex-wrap: wrap;
-  padding: 18px 22px;
+  padding: var(--sp-4) var(--sp-5);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -88,7 +88,7 @@
 }
 
 .empty {
-  padding: 48px 0;
+  padding: var(--sp-7) 0;
   text-align: center;
   color: var(--muted);
 }

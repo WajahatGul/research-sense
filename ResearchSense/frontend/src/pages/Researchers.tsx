@@ -5,6 +5,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { fetchResearchers } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
+import { DataNote } from "../components/DataNote";
 import { ResearcherCard } from "../components/ResearcherCard";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -13,32 +14,59 @@ import styles from "./Researchers.module.css";
 
 const PAGE_SIZE = 12;
 
+interface Filters {
+  q: string;
+  campus: string;
+  department: string;
+  designation: string;
+}
+
 export default function Researchers() {
   const [params, setParams] = useSearchParams();
-  const q = params.get("q") ?? "";
+  const initialQ = params.get("q") ?? "";
 
-  const [campus, setCampus] = useState("");
-  const [department, setDepartment] = useState("");
-  const [designation, setDesignation] = useState("");
+  const [pending, setPending] = useState<Filters>({
+    q: initialQ,
+    campus: "",
+    department: "",
+    designation: "",
+  });
+  // A deep-linked query (e.g. from a chat source chip) counts as an
+  // implicit search, so it runs immediately instead of waiting for the button.
+  const [applied, setApplied] = useState<Filters | null>(() =>
+    initialQ ? { q: initialQ, campus: "", department: "", designation: "" } : null,
+  );
   const [page, setPage] = useState(1);
 
+  const hasSearched = applied !== null;
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["researchers", q, campus, department, designation, page],
-    queryFn: () =>
-      fetchResearchers({
-        q,
-        campus,
-        department,
-        designation,
+    queryKey: ["researchers", applied, page],
+    queryFn: () => {
+      const f = applied ?? { q: "", campus: "", department: "", designation: "" };
+      return fetchResearchers({
+        q: f.q,
+        campus: f.campus,
+        department: f.department,
+        designation: f.designation,
         page,
         page_size: PAGE_SIZE,
-      }),
+      });
+    },
+    enabled: hasSearched,
     placeholderData: keepPreviousData,
   });
 
-  const setQuery = (value: string) => {
+  const runSearch = (overrides?: Partial<Filters>) => {
+    const next = overrides ? { ...pending, ...overrides } : pending;
+    if (overrides) setPending(next);
+    setApplied(next);
     setPage(1);
+  };
+
+  const runQuerySearch = (value: string) => {
     setParams(value ? { q: value } : {});
+    runSearch({ q: value });
   };
 
   return (
@@ -51,38 +79,41 @@ export default function Researchers() {
         <div className={styles.search}>
           <SearchBar
             placeholder="Search researchers…"
-            defaultValue={q}
-            onSearch={setQuery}
+            defaultValue={pending.q}
+            onSearch={runQuerySearch}
+            hideButton
           />
         </div>
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
         <FilterBar
-          campus={campus}
-          department={department}
-          designation={designation}
+          campus={pending.campus}
+          department={pending.department}
+          designation={pending.designation}
           total={data?.total ?? 0}
-          onCampus={(v) => {
-            setCampus(v);
-            setPage(1);
-          }}
-          onDepartment={(v) => {
-            setDepartment(v);
-            setPage(1);
-          }}
-          onDesignation={(v) => {
-            setDesignation(v);
-            setPage(1);
-          }}
+          hasSearched={hasSearched}
+          onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
+          onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
+          onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
+          onSearch={() => runSearch()}
         />
 
-        {isLoading && <Loader />}
-        {isError && <ErrorState />}
-        {data && data.items.length === 0 && (
+        <DataNote>
+          This directory reflects only the faculty ResearchSense has indexed
+          so far — 358 profiles sampled across 22 departments. Not every
+          faculty member is included yet.
+        </DataNote>
+
+        {!hasSearched && (
+          <EmptyState message="Choose your filters and press Search to see researchers." />
+        )}
+        {hasSearched && isLoading && <Loader />}
+        {hasSearched && isError && <ErrorState />}
+        {hasSearched && data && data.items.length === 0 && (
           <EmptyState message="No researchers match these filters yet." />
         )}
-        {data && data.items.length > 0 && (
+        {hasSearched && data && data.items.length > 0 && (
           <div className={styles.grid}>
             {data.items.map((r) => (
               <ResearcherCard key={r.researcher_id} researcher={r} />
@@ -90,7 +121,7 @@ export default function Researchers() {
           </div>
         )}
 
-        {data && (
+        {hasSearched && data && (
           <Pagination
             page={page}
             pageSize={PAGE_SIZE}

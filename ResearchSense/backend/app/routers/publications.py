@@ -1,5 +1,8 @@
 """Publication endpoints."""
+
 from __future__ import annotations
+
+import re
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
@@ -10,6 +13,8 @@ from app.services.publication_service import PublicationService
 
 router = APIRouter(prefix="/api/publications", tags=["publications"])
 
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
 
 @router.get("", response_model=Paginated[Publication])
 def list_publications(
@@ -18,13 +23,34 @@ def list_publications(
     topic_id: int | None = None,
     author_id: int | None = None,
     campus: str | None = None,
+    year_from: int | None = None,
+    year_to: int | None = None,
+    department: str | None = None,
+    publication_type: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     service: PublicationService = Depends(get_publication_service),
 ):
+    if date_from is not None and not _DATE_RE.match(date_from):
+        raise HTTPException(status_code=422, detail="date_from must be YYYY-MM-DD")
+    if date_to is not None and not _DATE_RE.match(date_to):
+        raise HTTPException(status_code=422, detail="date_to must be YYYY-MM-DD")
     return service.list(
-        query=q, year=year, topic_id=topic_id, author_id=author_id,
-        campus=campus, page=page, page_size=page_size,
+        query=q,
+        year=year,
+        topic_id=topic_id,
+        author_id=author_id,
+        campus=campus,
+        year_from=year_from,
+        year_to=year_to,
+        department=department,
+        publication_type=publication_type,
+        date_from=date_from,
+        date_to=date_to,
+        page=page,
+        page_size=page_size,
     )
 
 

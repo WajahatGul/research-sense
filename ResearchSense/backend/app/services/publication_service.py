@@ -1,4 +1,5 @@
 """Business logic for publications."""
+
 from __future__ import annotations
 
 from app.core.pagination import paginate
@@ -11,11 +12,35 @@ class PublicationService:
     def __init__(self, repo: PublicationRepository):
         self._repo = repo
 
-    def list(self, *, query=None, year=None, topic_id=None, author_id=None,
-             campus=None, page=1, page_size=10) -> Paginated[Publication]:
+    def list(
+        self,
+        *,
+        query=None,
+        year=None,
+        topic_id=None,
+        author_id=None,
+        campus=None,
+        year_from=None,
+        year_to=None,
+        department=None,
+        publication_type=None,
+        date_from=None,
+        date_to=None,
+        page=1,
+        page_size=10,
+    ) -> Paginated[Publication]:
         rows = self._repo.list(
-            query=query, year=year, topic_id=topic_id,
-            author_id=author_id, campus=campus,
+            query=query,
+            year=year,
+            topic_id=topic_id,
+            author_id=author_id,
+            campus=campus,
+            year_from=year_from,
+            year_to=year_to,
+            department=department,
+            publication_type=publication_type,
+            date_from=date_from,
+            date_to=date_to,
         )
         return paginate(rows, page, page_size)
 

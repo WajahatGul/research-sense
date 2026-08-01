@@ -11,6 +11,7 @@ data — the same authoritative source the researcher profile page uses — so t
 chatbot's list matches the profile exactly. Anything that isn't a clean
 authorship question falls through to the normal agentic RAG pipeline.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,14 +24,26 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 # Transliteration variants (kept in sync with retriever._NAME_VARIANTS) so
 # "Arif ur Rehman" in a question matches "Arif Ur Rahman" in the data.
 _NAME_VARIANTS = {
-    "rehman": "rahman", "rahmaan": "rahman",
-    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
-    "muhammd": "muhammad", "mohd": "muhammad",
-    "syed": "syed", "sayed": "syed", "sayyed": "syed",
-    "hussain": "hussain", "husain": "hussain", "hussein": "hussain",
-    "usman": "usman", "othman": "usman", "uthman": "usman",
-    "fatima": "fatima", "fatimah": "fatima",
-    "ali": "ali", "aly": "ali",
+    "rehman": "rahman",
+    "rahmaan": "rahman",
+    "mohammad": "muhammad",
+    "mohammed": "muhammad",
+    "muhammed": "muhammad",
+    "muhammd": "muhammad",
+    "mohd": "muhammad",
+    "syed": "syed",
+    "sayed": "syed",
+    "sayyed": "syed",
+    "hussain": "hussain",
+    "husain": "hussain",
+    "hussein": "hussain",
+    "usman": "usman",
+    "othman": "usman",
+    "uthman": "usman",
+    "fatima": "fatima",
+    "fatimah": "fatima",
+    "ali": "ali",
+    "aly": "ali",
 }
 
 # Titles/honorifics stripped before name matching.
@@ -40,7 +53,9 @@ _TITLES = r"(?:dr|mr|ms|mrs|prof|professor|engr|sir|madam)\.?\s+"
 # fast path to fire. Kept narrow so content questions ("what does the BERT
 # paper say") do not route here. Tolerates typos in surrounding words and
 # words between ("what resarch papers did arif wrote").
-_AUTHOR_VERBS = r"(?:wrote|write|written|writes|authored|author|published|publish|publications?)"
+_AUTHOR_VERBS = (
+    r"(?:wrote|write|written|writes|authored|author|published|publish|publications?)"
+)
 _AUTHORED_PATTERNS = [
     rf"\b(what|which)\b.*\bpapers?\b.*\b(has|did|by|{_AUTHOR_VERBS})\b",
     rf"\b(papers?|publications?|research|work)\b.*\b{_AUTHOR_VERBS}\b",
@@ -53,12 +68,48 @@ _AUTHORED_PATTERNS = [
 # Query tokens that must never be treated as a person's name when doing
 # partial-name matching (common question words + typo variants).
 _QUERY_STOPWORDS = {
-    "what", "which", "papers", "paper", "publications", "publication",
-    "research", "resarch", "rsearch", "rsrch", "work", "works", "wrote",
-    "write", "written", "writes", "authored", "author", "authors",
-    "published", "publish", "list", "show", "give", "tell", "did", "has",
-    "have", "the", "this", "that", "many", "how", "about", "does", "doctor",
-    "professor", "lecturer", "engineer", "from", "campus", "university",
+    "what",
+    "which",
+    "papers",
+    "paper",
+    "publications",
+    "publication",
+    "research",
+    "resarch",
+    "rsearch",
+    "rsrch",
+    "work",
+    "works",
+    "wrote",
+    "write",
+    "written",
+    "writes",
+    "authored",
+    "author",
+    "authors",
+    "published",
+    "publish",
+    "list",
+    "show",
+    "give",
+    "tell",
+    "did",
+    "has",
+    "have",
+    "the",
+    "this",
+    "that",
+    "many",
+    "how",
+    "about",
+    "does",
+    "doctor",
+    "professor",
+    "lecturer",
+    "engineer",
+    "from",
+    "campus",
+    "university",
     "bahria",
 }
 
@@ -92,14 +143,14 @@ class _Store:
     def researchers(cls) -> list[dict]:
         if cls._researchers is None:
             cls._researchers = json.loads(
-                (DATA_DIR / "researchers.json").read_text("utf-8"))
+                (DATA_DIR / "researchers.json").read_text("utf-8")
+            )
         return cls._researchers
 
     @classmethod
     def pubs(cls) -> list[dict]:
         if cls._pubs is None:
-            cls._pubs = json.loads(
-                (DATA_DIR / "publications.json").read_text("utf-8"))
+            cls._pubs = json.loads((DATA_DIR / "publications.json").read_text("utf-8"))
         return cls._pubs
 
     @classmethod
@@ -145,7 +196,8 @@ def _resolve_researchers(message: str) -> list[dict]:
         raw = re.sub(rf"^{_TITLES}", "", r["full_name"].strip(), flags=re.I)
         name_tokens = {
             _NAME_VARIANTS.get(t, t)
-            for t in re.findall(r"[a-z]+", raw.lower()) if len(t) >= 3
+            for t in re.findall(r"[a-z]+", raw.lower())
+            if len(t) >= 3
         }
         if q_tokens & name_tokens:
             matches.append(r)
@@ -154,13 +206,15 @@ def _resolve_researchers(message: str) -> list[dict]:
 
 def _publications_for(researcher_id: int) -> list[dict]:
     out = [
-        p for p in _Store.pubs()
-        if any(a.get("researcher_id") == researcher_id
-               for a in p.get("authors", []))
+        p
+        for p in _Store.pubs()
+        if any(a.get("researcher_id") == researcher_id for a in p.get("authors", []))
     ]
     # Newest first, then by citations — a stable, sensible order.
-    out.sort(key=lambda p: (p.get("publication_year") or 0,
-                            p.get("citation_count") or 0), reverse=True)
+    out.sort(
+        key=lambda p: (p.get("publication_year") or 0, p.get("citation_count") or 0),
+        reverse=True,
+    )
     return out
 
 
@@ -190,11 +244,14 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
     if len(matches) > 1:
         # Ambiguous partial name: never guess — ask.
         shown = matches[:5]
-        lines = [f"I found {len(matches)} researchers matching that name. "
-                 f"{_DISAMBIGUATION_MARKER}"]
+        lines = [
+            f"I found {len(matches)} researchers matching that name. "
+            f"{_DISAMBIGUATION_MARKER}"
+        ]
         for r in shown:
-            lines.append(f"- {r['full_name']} ({r['designation']}, "
-                         f"{r['campus']} campus)")
+            lines.append(
+                f"- {r['full_name']} ({r['designation']}, {r['campus']} campus)"
+            )
         if len(matches) > len(shown):
             lines.append(f"...and {len(matches) - len(shown)} more.")
         return AuthoredResult(
@@ -209,8 +266,10 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
 
     if not pubs:
         return AuthoredResult(
-            answer=(f"I don't have any publications on record for {name} in the "
-                    f"ResearchSense database."),
+            answer=(
+                f"I don't have any publications on record for {name} in the "
+                f"ResearchSense database."
+            ),
             researchers=[(name, rid)],
         )
 
@@ -220,8 +279,9 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
     shown = pubs[:LIMIT]
 
     total = len(pubs)
-    header = (f"{name} has {total} publication(s) on record"
-              + (f" (showing the {LIMIT} most recent):" if total > LIMIT else ":"))
+    header = f"{name} has {total} publication(s) on record" + (
+        f" (showing the {LIMIT} most recent):" if total > LIMIT else ":"
+    )
     lines = [header]
     for p in shown:
         year = p.get("publication_year") or "n.d."
@@ -231,7 +291,9 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
         tail = f" - {venue}" if venue and venue != "Preprint or unindexed venue" else ""
         lines.append(f"- {p['title']} ({year}){tail}, {cites} citation(s){sample}")
     if total > LIMIT:
-        lines.append(f"...and {total - LIMIT} more. See the profile page for the full list.")
+        lines.append(
+            f"...and {total - LIMIT} more. See the profile page for the full list."
+        )
 
     return AuthoredResult(
         answer="\n".join(lines),
@@ -315,8 +377,11 @@ def _coauthors_of(researcher_id: int) -> list[tuple[str, int]]:
     names = {r["researcher_id"]: r["full_name"] for r in _Store.researchers()}
     counter: Counter = Counter()
     for p in _Store.pubs():
-        ids = {a["researcher_id"] for a in p.get("authors", [])
-               if a.get("researcher_id") in names}
+        ids = {
+            a["researcher_id"]
+            for a in p.get("authors", [])
+            if a.get("researcher_id") in names
+        }
         if researcher_id in ids:
             for other in ids:
                 if other != researcher_id:
@@ -350,14 +415,47 @@ def _other_name(message: str, resolved: list[dict]) -> str:
     resolved_tokens: set[str] = set()
     for r in resolved:
         resolved_tokens.update(_sig_tokens(r["full_name"]))
-    skip = (_QUERY_STOPWORDS | _PARTICLES | {
-        "between", "and", "with", "collaborate", "collaborated",
-        "collaboration", "collaborations", "together", "worked", "work",
-        "working", "did", "do", "does", "have", "has", "had", "papers",
-        "paper", "publications", "publication", "wrote", "write", "written",
-        "coauthor", "coauthored", "author", "authored", "jointly", "vs",
-        "versus", "any", "some", "the", "both",
-    })
+    skip = (
+        _QUERY_STOPWORDS
+        | _PARTICLES
+        | {
+            "between",
+            "and",
+            "with",
+            "collaborate",
+            "collaborated",
+            "collaboration",
+            "collaborations",
+            "together",
+            "worked",
+            "work",
+            "working",
+            "did",
+            "do",
+            "does",
+            "have",
+            "has",
+            "had",
+            "papers",
+            "paper",
+            "publications",
+            "publication",
+            "wrote",
+            "write",
+            "written",
+            "coauthor",
+            "coauthored",
+            "author",
+            "authored",
+            "jointly",
+            "vs",
+            "versus",
+            "any",
+            "some",
+            "the",
+            "both",
+        }
+    )
     words = []
     for w in re.findall(r"[A-Za-z]+", message):
         lw = w.lower()
@@ -370,21 +468,29 @@ def _other_name(message: str, resolved: list[dict]) -> str:
 def _pair_not_coauthored(a: dict, b: dict) -> str:
     """Honest 'they have not co-authored' with shared-interest or colleague
     context, so the answer is useful rather than a flat negative."""
-    common = sorted({t["topic_name"] for t in a.get("topics", [])}
-                    & {t["topic_name"] for t in b.get("topics", [])})
-    answer = (f"{a['full_name']} and {b['full_name']} have not co-authored any "
-              f"papers in the database.")
+    common = sorted(
+        {t["topic_name"] for t in a.get("topics", [])}
+        & {t["topic_name"] for t in b.get("topics", [])}
+    )
+    answer = (
+        f"{a['full_name']} and {b['full_name']} have not co-authored any "
+        f"papers in the database."
+    )
     if common:
-        return (answer + f" They do share research interests in "
-                f"{', '.join(common)}, so they could be potential collaborators.")
+        return (
+            answer + f" They do share research interests in "
+            f"{', '.join(common)}, so they could be potential collaborators."
+        )
     bits = []
     if a.get("campus") and a.get("campus") == b.get("campus"):
         bits.append(f"both based at the {a['campus']} campus")
     if a.get("department") and a.get("department") == b.get("department"):
         bits.append(f"both in the Department of {a['department']}")
     if bits:
-        return answer + f" They are {' and '.join(bits)}, but their recorded " \
-                        f"research areas do not overlap."
+        return (
+            answer + f" They are {' and '.join(bits)}, but their recorded "
+            f"research areas do not overlap."
+        )
     return answer + " Their recorded research areas do not overlap either."
 
 
@@ -415,9 +521,11 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
         other = _other_name(message, people)
         who = f'"{other}"' if other else "the other researcher you named"
         return AuthoredResult(
-            answer=(f"I can only find {found['full_name']} in the database; I "
-                    f"could not find {who}. Please check the spelling or use "
-                    f"the person's full name."),
+            answer=(
+                f"I can only find {found['full_name']} in the database; I "
+                f"could not find {who}. Please check the spelling or use "
+                f"the person's full name."
+            ),
             researchers=[(found["full_name"], found["researcher_id"])],
         )
 
@@ -427,11 +535,14 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
         coauthors = _coauthors_of(r["researcher_id"])
         if coauthors:
             listing = "\n".join(
-                f"- {n} ({c} paper{'s' if c > 1 else ''})" for n, c in coauthors)
+                f"- {n} ({c} paper{'s' if c > 1 else ''})" for n, c in coauthors
+            )
             answer = f"{r['full_name']} has co-authored papers with:\n{listing}"
         else:
-            answer = (f"{r['full_name']} has no co-authored papers with other "
-                      f"researchers in the database.")
+            answer = (
+                f"{r['full_name']} has no co-authored papers with other "
+                f"researchers in the database."
+            )
         return AuthoredResult(
             answer=answer,
             researchers=[(r["full_name"], r["researcher_id"])],
@@ -443,19 +554,26 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
     a, b = people[0], people[1]
     shared = _shared_publications(a["researcher_id"], b["researcher_id"])
     if shared:
-        lines = [f"{a['full_name']} and {b['full_name']} have co-authored "
-                 f"{len(shared)} paper(s):"]
+        lines = [
+            f"{a['full_name']} and {b['full_name']} have co-authored "
+            f"{len(shared)} paper(s):"
+        ]
         for p in shared[:12]:
             year = p.get("publication_year") or "n.d."
             venue = p.get("journal_name") or ""
-            tail = (f" - {venue}"
-                    if venue and venue != "Preprint or unindexed venue" else "")
+            tail = (
+                f" - {venue}"
+                if venue and venue != "Preprint or unindexed venue"
+                else ""
+            )
             lines.append(f"- {p['title']} ({year}){tail}")
         answer = "\n".join(lines)
     else:
         answer = _pair_not_coauthored(a, b)
     return AuthoredResult(
         answer=answer,
-        researchers=[(a["full_name"], a["researcher_id"]),
-                     (b["full_name"], b["researcher_id"])],
+        researchers=[
+            (a["full_name"], a["researcher_id"]),
+            (b["full_name"], b["researcher_id"]),
+        ],
     )

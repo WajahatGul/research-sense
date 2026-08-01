@@ -59,6 +59,7 @@ export interface PublicationRef {
   journal_name: string;
   citation_count: number;
   doi: string | null;
+  author_ids: number[];
 }
 
 export interface Researcher {
@@ -76,6 +77,7 @@ export interface Researcher {
   citation_count: number;
   topics: TopicRef[];
   source: string;
+  research_areas: string[];
 }
 
 export interface CollaborationSuggestion {
@@ -90,6 +92,8 @@ export interface CollaborationSuggestion {
   copublications: number;
   past_coauthor: boolean;
   same_campus: boolean;
+  relevance: number;
+  international: boolean;
 }
 
 export interface ResearcherDetail extends Researcher {
@@ -99,6 +103,7 @@ export interface ResearcherDetail extends Researcher {
   scopus_id: string | null;
   publications: PublicationRef[];
   collaborators: CollaborationSuggestion[];
+  international_collaborations: { institution: string; country: string }[];
 }
 
 export interface Funding {
@@ -113,14 +118,14 @@ export interface Project {
   project_id: number;
   project_title: string;
   description: string;
-  start_date: string;
-  end_date: string | null;
-  status: string;
+  start_date?: string | null;
+  end_date?: string | null;
+  status?: string | null;
   principal_investigator_id: number | null;
   principal_investigator_name: string;
   department: string;
   campus: string;
-  funding: Funding[];
+  funding?: Funding[];
   topics: string[];
   source: string;
 }

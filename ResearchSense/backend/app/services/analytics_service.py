@@ -1,4 +1,5 @@
 """Aggregate analytics derived from the research data (no extra storage)."""
+
 from __future__ import annotations
 
 from collections import Counter, defaultdict
@@ -25,6 +26,8 @@ class AnalyticsService:
             "top_venues": self._top_venues(publications),
             "campus_totals": self._campus_totals(researchers, publications),
             "cross_campus_pairs": self._cross_campus(publications, campus_of),
+            "department_totals": self._department_totals(researchers, publications),
+            "international_split": self._international_split(publications),
         }
 
     @staticmethod
@@ -34,10 +37,7 @@ class AnalyticsService:
             year = p.get("publication_year") or 0
             if year >= 2010:
                 counts[year][p.get("campus") or "Unknown"] += 1
-        return [
-            {"year": year, **counts[year]}
-            for year in sorted(counts)
-        ]
+        return [{"year": year, **counts[year]} for year in sorted(counts)]
 
     @staticmethod
     def _citations_per_year(publications: list[dict]) -> list[dict]:
@@ -51,22 +51,29 @@ class AnalyticsService:
     @staticmethod
     def _top_venues(publications: list[dict], limit: int = 10) -> list[dict]:
         venues = Counter(
-            p["journal_name"] for p in publications
+            p["journal_name"]
+            for p in publications
             if p.get("journal_name")
-            and p["journal_name"] != "Preprint or unindexed venue")
+            and p["journal_name"] != "Preprint or unindexed venue"
+        )
         return [
             {"venue": name, "publications": count}
             for name, count in venues.most_common(limit)
         ]
 
     @staticmethod
-    def _campus_totals(researchers: list[dict],
-                       publications: list[dict]) -> list[dict]:
+    def _campus_totals(researchers: list[dict], publications: list[dict]) -> list[dict]:
         rows: dict[str, dict] = {}
         for r in researchers:
-            row = rows.setdefault(r["campus"], {
-                "campus": r["campus"], "researchers": 0,
-                "publications": 0, "citations": 0})
+            row = rows.setdefault(
+                r["campus"],
+                {
+                    "campus": r["campus"],
+                    "researchers": 0,
+                    "publications": 0,
+                    "citations": 0,
+                },
+            )
             row["researchers"] += 1
         for p in publications:
             row = rows.get(p.get("campus") or "")
@@ -76,8 +83,9 @@ class AnalyticsService:
         return sorted(rows.values(), key=lambda r: r["campus"])
 
     @staticmethod
-    def _cross_campus(publications: list[dict],
-                      campus_of: dict[int, str]) -> list[dict]:
+    def _cross_campus(
+        publications: list[dict], campus_of: dict[int, str]
+    ) -> list[dict]:
         """How often authors from two different campuses co-author a paper."""
         pairs: Counter = Counter()
         for p in publications:
@@ -91,4 +99,48 @@ class AnalyticsService:
         return [
             {"from": a, "to": b, "papers": count}
             for (a, b), count in pairs.most_common()
+        ]
+
+    @staticmethod
+    def _department_totals(
+        researchers: list[dict], publications: list[dict]
+    ) -> list[dict]:
+        dept_of = {r["researcher_id"]: r.get("department", "") for r in researchers}
+        rows: dict[str, dict] = {}
+        for r in researchers:
+            row = rows.setdefault(
+                r.get("department", ""),
+                {
+                    "department": r.get("department", ""),
+                    "researchers": 0,
+                    "publications": 0,
+                    "citations": 0,
+                },
+            )
+            row["researchers"] += 1
+        for p in publications:
+            depts = {
+                dept_of[a["researcher_id"]]
+                for a in p.get("authors", [])
+                if a.get("researcher_id") in dept_of
+            }
+            for d in depts:
+                rows[d]["publications"] += 1
+                rows[d]["citations"] += p.get("citation_count", 0)
+        return sorted(rows.values(), key=lambda r: -r["publications"])
+
+    @staticmethod
+    def _international_split(publications: list[dict]) -> list[dict]:
+        from collections import Counter
+
+        intl: Counter = Counter()
+        dom: Counter = Counter()
+        for p in publications:
+            year = p.get("publication_year") or 0
+            if year < 2010:
+                continue
+            (intl if p.get("international") else dom)[year] += 1
+        years = sorted(set(intl) | set(dom))
+        return [
+            {"year": y, "international": intl[y], "domestic": dom[y]} for y in years
         ]

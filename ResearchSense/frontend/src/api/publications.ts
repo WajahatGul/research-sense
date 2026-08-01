@@ -7,6 +7,12 @@ export interface PublicationFilters {
   topic_id?: number;
   author_id?: number;
   campus?: string;
+  year_from?: number;
+  year_to?: number;
+  date_from?: string;
+  date_to?: string;
+  department?: string;
+  publication_type?: "journal" | "conference";
   page?: number;
   page_size?: number;
 }

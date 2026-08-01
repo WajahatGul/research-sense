@@ -1,4 +1,5 @@
 """Business logic for aggregate statistics."""
+
 from __future__ import annotations
 
 from app.repositories.base import StatsRepository

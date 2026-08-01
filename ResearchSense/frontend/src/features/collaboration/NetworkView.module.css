@@ -34,6 +34,17 @@
   stroke-width: 2;
 }
 
+/* International collaborators get a small globe glyph anchored to the node. */
+.globeGlyph {
+  font-size: 13px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
 .center {
   fill: var(--navy);
   stroke: var(--gold);
@@ -117,6 +128,9 @@
   border: 1px solid var(--line);
   text-decoration: none;
   transition: border-color 0.15s, background 0.15s;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .legendItem:hover {
@@ -127,11 +141,14 @@
 .legendTop {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px 8px;
 }
 
 .legendName {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-weight: 600;
   color: var(--navy);
   font-size: 0.9rem;
@@ -139,8 +156,10 @@
 
 .badges {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 5px;
-  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .crossBadge {
@@ -151,6 +170,19 @@
   letter-spacing: 0.03em;
   color: #8a6d00;
   background: rgba(201, 162, 39, 0.16);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.intlBadge {
+  flex-shrink: 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--navy);
+  background: var(--paper);
+  border: 1px solid var(--line);
   padding: 2px 7px;
   border-radius: 999px;
 }

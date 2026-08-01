@@ -16,12 +16,12 @@ key, skipping any (key, model) pair that recently returned 429 until its
 rate-limit cooldown expires. When everything is exhausted it degrades to the
 fast model, and the caller degrades further to an extractive answer.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import time
-from typing import Dict, List
 
 import httpx
 
@@ -39,14 +39,15 @@ REFUSAL_TOKEN = "NO_ANSWER"
 # API keys + model chain
 # ---------------------------------------------------------------------------
 
-def _load_groq_keys() -> List[str]:
+
+def _load_groq_keys() -> list[str]:
     """Collect Groq API keys from settings/env. Supports:
       - GROQ_API_KEYS = "key1,key2,key3"   (comma / space / semicolon separated)
       - GROQ_API_KEY, GROQ_API_KEY_2 ... GROQ_API_KEY_9  (single + numbered)
     De-duplicates while preserving order so load rotates across all of them."""
     import os
 
-    keys: List[str] = []
+    keys: list[str] = []
     for part in re.split(r"[,;\s]+", os.getenv("GROQ_API_KEYS", "") or ""):
         if part.strip():
             keys.append(part.strip())
@@ -74,7 +75,7 @@ MAIN_MODEL = GROQ_MAIN_MODEL_CHAIN[0] if GROQ_MAIN_MODEL_CHAIN else settings.gro
 
 # Per-(key_index, model) cooldown timestamps: stop hammering a bucket that just
 # returned 429 until its rate-limit window has likely passed.
-_groq_cooldown: Dict[tuple, float] = {}
+_groq_cooldown: dict[tuple, float] = {}
 
 
 def available() -> bool:
@@ -94,8 +95,9 @@ def _retry_after_seconds(msg: str, default: float = 60.0) -> float:
 # Low-level Groq caller (multi-key, multi-model failover)
 # ---------------------------------------------------------------------------
 
+
 def _groq_call(
-    messages: List[Dict],
+    messages: list[dict],
     model: str = None,
     temperature: float = 0.2,
     max_tokens: int = 1024,
@@ -158,11 +160,14 @@ def _groq_call(
             if resp.status_code == 429 or "rate_limit" in body.lower():
                 cd = min(_retry_after_seconds(body), 3600.0)
                 _groq_cooldown[(ki, m)] = now + cd
-                print(f"  [groq:{label}] RATE-LIMIT {m} key#{ki + 1}; "
-                      f"cooldown {cd:.0f}s")
+                print(
+                    f"  [groq:{label}] RATE-LIMIT {m} key#{ki + 1}; cooldown {cd:.0f}s"
+                )
             else:
-                print(f"  [groq:{label}] ERROR {resp.status_code} {m} "
-                      f"key#{ki + 1}: {body[:120]}")
+                print(
+                    f"  [groq:{label}] ERROR {resp.status_code} {m} "
+                    f"key#{ki + 1}: {body[:120]}"
+                )
 
     return ""
 
@@ -171,8 +176,8 @@ def _groq_call(
 # Multi-pass agentic pipeline
 # ---------------------------------------------------------------------------
 
-def normalize_query(user_message: str,
-                    conversation_history: List[Dict]) -> str:
+
+def normalize_query(user_message: str, conversation_history: list[dict]) -> str:
     """Pass 0 — Query understanding (fast model).
 
     Rewrites a contextual follow-up ("and how?", "is it related to AI?",
@@ -188,8 +193,7 @@ def normalize_query(user_message: str,
         return user_message
 
     snippet = " | ".join(
-        f"{m['role']}: {m['content'][:300]}"
-        for m in conversation_history[-6:]
+        f"{m['role']}: {m['content'][:300]}" for m in conversation_history[-6:]
     )
     system = (
         "You are a query-understanding module for a university research "
@@ -203,13 +207,12 @@ def normalize_query(user_message: str,
         "ONLY a JSON object — no markdown.\n\n"
         'JSON schema: {"normalized_query": "<self-contained rewrite>"}'
     )
-    user_prompt = (
-        f"Recent conversation:\n{snippet}\n\n"
-        f"User message: {user_message}"
-    )
+    user_prompt = f"Recent conversation:\n{snippet}\n\nUser message: {user_message}"
     raw = _groq_call(
-        [{"role": "system", "content": system},
-         {"role": "user", "content": user_prompt}],
+        [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user_prompt},
+        ],
         model=FAST_MODEL,
         temperature=0.0,
         max_tokens=200,
@@ -226,24 +229,26 @@ def normalize_query(user_message: str,
     return user_message
 
 
-def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> Dict:
+def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> dict:
     """Pass 1 — Intent classification (fast model, tiny prompt)."""
     system = (
         "You are an intent classifier for an academic research assistant chatbot. "
         "Analyse the user message and recent conversation, then respond with ONLY "
         "a valid JSON object — no markdown, no explanation.\n\n"
         "JSON schema:\n"
-        '{"intent": "<factual|comparison|summary|methodology|definition|listing|other>",\n'
+        '{"intent": "<factual|comparison|summary|methodology|definition|'
+        'listing|other>",\n'
         ' "focus_entities": ["<key concept or term>"],\n'
         ' "needs_context": <true|false>}'
     )
     user_prompt = (
-        f"Recent conversation:\n{conversation_snippet}\n\n"
-        f"User message: {user_message}"
+        f"Recent conversation:\n{conversation_snippet}\n\nUser message: {user_message}"
     )
     raw = _groq_call(
-        [{"role": "system", "content": system},
-         {"role": "user", "content": user_prompt}],
+        [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user_prompt},
+        ],
         model=FAST_MODEL,
         temperature=0.0,
         max_tokens=150,
@@ -258,8 +263,8 @@ def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> Dict
 
 def _pass2_extract_evidence(
     user_message: str,
-    intent: Dict,
-    retrieved_chunks: List[ScoredChunk],
+    intent: dict,
+    retrieved_chunks: list[ScoredChunk],
 ) -> str:
     """Pass 2 — Evidence extraction (fast model)."""
     chunk_block = "\n\n".join(
@@ -283,8 +288,10 @@ def _pass2_extract_evidence(
         f"Retrieved chunks:\n{chunk_block}"
     )
     return _groq_call(
-        [{"role": "system", "content": system},
-         {"role": "user", "content": user_prompt}],
+        [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user_prompt},
+        ],
         model=FAST_MODEL,
         temperature=0.0,
         max_tokens=800,
@@ -294,14 +301,16 @@ def _pass2_extract_evidence(
 
 def _pass3_synthesise_answer(
     user_message: str,
-    intent: Dict,
+    intent: dict,
     evidence_block: str,
-    conversation_history: List[Dict],
+    conversation_history: list[dict],
 ) -> str:
     """Pass 3 — Answer synthesis (main model chain, high quality)."""
-    who = (f"the research assistant of {settings.institution_name}"
-           if settings.institution_name
-           else "a research assistant for this institution's research portal")
+    who = (
+        f"the research assistant of {settings.institution_name}"
+        if settings.institution_name
+        else "a research assistant for this institution's research portal"
+    )
     system = (
         f"You are ResearchSense, {who}. "
         "Write a clear, accurate, well-formatted answer based STRICTLY and "
@@ -371,17 +380,15 @@ def _strip_markdown(text: str) -> str:
 
 def run_agentic_pipeline(
     user_message: str,
-    retrieved_chunks: List[ScoredChunk],
-    conversation_history: List[Dict],
+    retrieved_chunks: list[ScoredChunk],
+    conversation_history: list[dict],
 ) -> str:
     """Run the full 3-pass pipeline. Returns the final answer text.
 
     May return the REFUSAL_TOKEN (caller maps it to the friendly refusal) or ""
     (caller degrades to an extractive answer).
     """
-    conversation_snippet = " ".join(
-        m["content"] for m in conversation_history[-6:]
-    )
+    conversation_snippet = " ".join(m["content"] for m in conversation_history[-6:])
 
     intent = _pass1_classify_intent(user_message, conversation_snippet)
     print(f"  [pipeline] intent={intent}")

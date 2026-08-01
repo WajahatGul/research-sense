@@ -9,6 +9,7 @@ Uses the public ORCID registry API (pub.orcid.org, no key required). Full
 possession proof would need ORCID OAuth sign-in; the registry name check is
 the strongest verification available without registering an OAuth client.
 """
+
 from __future__ import annotations
 
 import re
@@ -16,18 +17,27 @@ import re
 import httpx
 
 ORCID_PUBLIC_API = "https://pub.orcid.org/v3.0"
-HEADERS = {"Accept": "application/json",
-           "User-Agent": "ResearchSense/0.1 (mailto:dev@stocklenshq.com)"}
+HEADERS = {
+    "Accept": "application/json",
+    "User-Agent": "ResearchSense/0.1 (mailto:dev@stocklenshq.com)",
+}
 
 # Transliteration variants (same family as the retriever / authored modules)
 # so "Rehman" on an ORCID record matches "Rahman" in the roster.
 _NAME_VARIANTS = {
-    "rehman": "rahman", "rahmaan": "rahman",
-    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
-    "muhammd": "muhammad", "mohd": "muhammad",
-    "sayed": "syed", "sayyed": "syed",
-    "husain": "hussain", "hussein": "hussain",
-    "othman": "usman", "uthman": "usman",
+    "rehman": "rahman",
+    "rahmaan": "rahman",
+    "mohammad": "muhammad",
+    "mohammed": "muhammad",
+    "muhammed": "muhammad",
+    "muhammd": "muhammad",
+    "mohd": "muhammad",
+    "sayed": "syed",
+    "sayyed": "syed",
+    "husain": "hussain",
+    "hussein": "hussain",
+    "othman": "usman",
+    "uthman": "usman",
     "fatimah": "fatima",
 }
 
@@ -68,18 +78,24 @@ def fetch_record_names(orcid_id: str) -> list[str]:
     """All name variants on the public ORCID record (given+family,
     credit name, other names). Raises OrcidVerificationError on failure."""
     try:
-        resp = httpx.get(f"{ORCID_PUBLIC_API}/{orcid_id}/person",
-                         headers=HEADERS, timeout=20, follow_redirects=True)
+        resp = httpx.get(
+            f"{ORCID_PUBLIC_API}/{orcid_id}/person",
+            headers=HEADERS,
+            timeout=20,
+            follow_redirects=True,
+        )
     except httpx.HTTPError as exc:
         raise OrcidVerificationError(
-            "Could not reach the ORCID registry to verify your iD. "
-            "Please try again.") from exc
+            "Could not reach the ORCID registry to verify your iD. Please try again."
+        ) from exc
     if resp.status_code == 404:
         raise OrcidVerificationError(
-            "This ORCID iD does not exist in the ORCID registry.")
+            "This ORCID iD does not exist in the ORCID registry."
+        )
     if resp.status_code != 200:
         raise OrcidVerificationError(
-            f"ORCID registry lookup failed (HTTP {resp.status_code}).")
+            f"ORCID registry lookup failed (HTTP {resp.status_code})."
+        )
 
     person = resp.json()
     names: list[str] = []
@@ -91,14 +107,15 @@ def fetch_record_names(orcid_id: str) -> list[str]:
     credit = ((name.get("credit-name") or {}).get("value") or "").strip()
     if credit:
         names.append(credit)
-    for other in ((person.get("other-names") or {}).get("other-name") or []):
+    for other in (person.get("other-names") or {}).get("other-name") or []:
         val = (other.get("content") or "").strip()
         if val:
             names.append(val)
     if not names:
         raise OrcidVerificationError(
             "The ORCID record has no public name to verify against. "
-            "Make your name public on orcid.org or contact the admin.")
+            "Make your name public on orcid.org or contact the admin."
+        )
     return names
 
 
@@ -119,11 +136,13 @@ def verify_claim(orcid_id: str, researcher_name: str) -> None:
     if not checksum_valid(orcid_id):
         raise OrcidVerificationError(
             "This is not a valid ORCID iD (checksum failed) - please "
-            "double-check the digits.")
+            "double-check the digits."
+        )
     record_names = fetch_record_names(orcid_id)
     if not any(_names_match(researcher_name, n) for n in record_names):
         shown = record_names[0]
         raise OrcidVerificationError(
-            f"This ORCID iD is registered to \"{shown}\", which does not "
+            f'This ORCID iD is registered to "{shown}", which does not '
             f"match the profile of {researcher_name}. You can only claim "
-            f"your own profile with your own ORCID iD.")
+            f"your own profile with your own ORCID iD."
+        )

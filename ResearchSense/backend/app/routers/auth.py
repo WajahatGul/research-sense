@@ -1,4 +1,5 @@
 """Authentication endpoints: claim, login, admin login, session info."""
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends

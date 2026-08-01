@@ -3,7 +3,7 @@
     radial-gradient(80% 120% at 90% -20%, rgba(201, 162, 39, 0.14), transparent 55%),
     linear-gradient(160deg, var(--navy), var(--navy-900));
   color: #fff;
-  padding: 52px 0;
+  padding: var(--sp-7) 0;
 }
 
 .heroInner {
@@ -65,7 +65,7 @@
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 40px;
-  padding-top: 44px;
+  padding-top: var(--sp-7);
 }
 
 .main {
@@ -131,7 +131,7 @@
 }
 
 .card {
-  padding: 22px;
+  padding: var(--sp-5);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -195,6 +195,54 @@
 .score {
   color: var(--gold);
   font-weight: 600;
+}
+
+.intlList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.intlItem {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.intlMore {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.intlMore:hover,
+.intlMore:focus-visible {
+  color: var(--gold);
+}
+
+.intlMore:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.coauthorCaption {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
 }
 
 @media (max-width: 860px) {

@@ -5,6 +5,7 @@ question locally with all-MiniLM-L6-v2, and returns the top-k chunks with
 cosine scores. The confidence gate lives here: if nothing scores above the
 threshold, the caller must refuse instead of answering.
 """
+
 from __future__ import annotations
 
 import json
@@ -25,14 +26,26 @@ MODEL_CACHE = Path(__file__).resolve().parents[3] / ".fastembed_cache"
 # Common transliteration variants in Pakistani names, applied per token so
 # "Arif ur Rehman" in a question matches "Arif Ur Rahman" in the data.
 _NAME_VARIANTS = {
-    "rehman": "rahman", "rahmaan": "rahman",
-    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
-    "muhammd": "muhammad", "mohd": "muhammad",
-    "syed": "syed", "sayed": "syed", "sayyed": "syed",
-    "hussain": "hussain", "husain": "hussain", "hussein": "hussain",
-    "usman": "usman", "othman": "usman", "uthman": "usman",
-    "fatima": "fatima", "fatimah": "fatima",
-    "ali": "ali", "aly": "ali",
+    "rehman": "rahman",
+    "rahmaan": "rahman",
+    "mohammad": "muhammad",
+    "mohammed": "muhammad",
+    "muhammed": "muhammad",
+    "muhammd": "muhammad",
+    "mohd": "muhammad",
+    "syed": "syed",
+    "sayed": "syed",
+    "sayyed": "syed",
+    "hussain": "hussain",
+    "husain": "hussain",
+    "hussein": "hussain",
+    "usman": "usman",
+    "othman": "usman",
+    "uthman": "usman",
+    "fatima": "fatima",
+    "fatimah": "fatima",
+    "ali": "ali",
+    "aly": "ali",
 }
 
 
@@ -54,38 +67,46 @@ class ScoredChunk:
 class Retriever:
     """Lazy singleton over the embedding model and the vector index."""
 
-    _instance: "Retriever | None" = None
+    _instance: Retriever | None = None
 
     def __init__(self) -> None:
         from fastembed import TextEmbedding  # deferred: slow import
 
         self._model = TextEmbedding(EMBED_MODEL, cache_dir=str(MODEL_CACHE))
         self._chunks: list[dict] = json.loads(
-            (DATA_DIR / "rag_chunks.json").read_text("utf-8"))
+            (DATA_DIR / "rag_chunks.json").read_text("utf-8")
+        )
         self._vectors: np.ndarray = np.load(DATA_DIR / "rag_index.npz")["vectors"]
         self._lowered: list[str] = [c["text"].lower() for c in self._chunks]
         # Known researcher names (without titles) for entity-aware boosting.
         # Stored both raw (for chunk matching) and normalized (for matching
         # transliteration variants in the question, e.g. Rehman vs Rahman).
-        raw_names = sorted({
-            re.sub(r"^(dr|mr|ms|mrs|prof|engr)\.?\s+", "",
-                   c["label"].split(" — ")[0].strip().lower())
-            for c in self._chunks if c["kind"] == "researcher"
-        })
+        raw_names = sorted(
+            {
+                re.sub(
+                    r"^(dr|mr|ms|mrs|prof|engr)\.?\s+",
+                    "",
+                    c["label"].split(" — ")[0].strip().lower(),
+                )
+                for c in self._chunks
+                if c["kind"] == "researcher"
+            }
+        )
         self._names: list[tuple[str, str]] = [
             (name, _norm_name(name)) for name in raw_names
         ]
 
     @classmethod
-    def instance(cls) -> "Retriever":
+    def instance(cls) -> Retriever:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance
 
     @classmethod
     def available(cls) -> bool:
-        return ((DATA_DIR / "rag_chunks.json").exists()
-                and (DATA_DIR / "rag_index.npz").exists())
+        return (DATA_DIR / "rag_chunks.json").exists() and (
+            DATA_DIR / "rag_index.npz"
+        ).exists()
 
     @classmethod
     def reset(cls) -> None:
@@ -103,9 +124,9 @@ class Retriever:
         k = k or settings.rag_top_k
         q = np.array(list(self._model.embed([query]))[0], dtype=np.float32)
         q /= np.linalg.norm(q)
-        scores = (self._vectors @ q
-                  + self._lexical_bonus(query)
-                  + self._entity_bonus(query))
+        scores = (
+            self._vectors @ q + self._lexical_bonus(query) + self._entity_bonus(query)
+        )
         top = np.argsort(scores)[::-1][:k]
         return [
             ScoredChunk(
@@ -119,17 +140,46 @@ class Retriever:
         ]
 
     _STOPWORDS = {
-        "what", "when", "where", "which", "whose", "about", "does", "did",
-        "have", "has", "the", "and", "for", "with", "from", "who", "how",
-        "publish", "published", "research", "work", "works", "tell",
-        "campus", "university", "bahria", "professor", "doctor", "papers",
-        "paper", "publication", "publications",
+        "what",
+        "when",
+        "where",
+        "which",
+        "whose",
+        "about",
+        "does",
+        "did",
+        "have",
+        "has",
+        "the",
+        "and",
+        "for",
+        "with",
+        "from",
+        "who",
+        "how",
+        "publish",
+        "published",
+        "research",
+        "work",
+        "works",
+        "tell",
+        "campus",
+        "university",
+        "bahria",
+        "professor",
+        "doctor",
+        "papers",
+        "paper",
+        "publication",
+        "publications",
     }
 
     def _lexical_bonus(self, query: str) -> np.ndarray:
         tokens = {
-            t for t in re.findall(r"[a-z0-9]+", query.lower())
-            if (len(t) >= 4 and t not in self._STOPWORDS) or re.fullmatch(r"(19|20)\d{2}", t)
+            t
+            for t in re.findall(r"[a-z0-9]+", query.lower())
+            if (len(t) >= 4 and t not in self._STOPWORDS)
+            or re.fullmatch(r"(19|20)\d{2}", t)
         }
         bonus = np.zeros(len(self._chunks), dtype=np.float32)
         if not tokens:

@@ -7,6 +7,11 @@ interface Props {
   defaultValue?: string;
   onSearch: (value: string) => void;
   size?: "lg" | "md";
+  /** Hide the built-in submit button. The surrounding form still submits
+   * (and calls onSearch) when Enter is pressed in the input. Used on pages
+   * that have their own standalone Search button elsewhere in the filter
+   * bar, so only one Search button is visible per page. */
+  hideButton?: boolean;
 }
 
 export function SearchBar({
@@ -14,6 +19,7 @@ export function SearchBar({
   defaultValue = "",
   onSearch,
   size = "md",
+  hideButton = false,
 }: Props) {
   const [value, setValue] = useState(defaultValue);
 
@@ -37,9 +43,11 @@ export function SearchBar({
         onChange={(e) => setValue(e.target.value)}
         aria-label={placeholder}
       />
-      <button type="submit" className={styles.button}>
-        Search
-      </button>
+      {!hideButton && (
+        <button type="submit" className={styles.button}>
+          Search
+        </button>
+      )}
     </form>
   );
 }

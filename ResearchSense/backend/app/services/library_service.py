@@ -11,18 +11,18 @@ sources the bulk paper pipeline uses. No open-access copy -> the caller is
 told to upload the PDF instead. Library entries are recorded in
 papers/library/library_manifest.json so index rebuilds re-include them.
 """
+
 from __future__ import annotations
 
 import json
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import httpx
 
 from app.services.rag import indexer
-from app.services.submission_service import (SubmissionError,
-                                             fetch_doi_metadata)
+from app.services.submission_service import SubmissionError, fetch_doi_metadata
 
 BACKEND = Path(__file__).resolve().parents[2]
 LIBRARY_DIR = BACKEND / "papers" / "library"
@@ -46,8 +46,7 @@ def _manifest() -> list[dict]:
 
 def _save_manifest(entries: list[dict]) -> None:
     LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
-    MANIFEST.write_text(json.dumps(entries, indent=2, ensure_ascii=False),
-                        "utf-8")
+    MANIFEST.write_text(json.dumps(entries, indent=2, ensure_ascii=False), "utf-8")
 
 
 def _norm_title(title: str) -> str:
@@ -72,7 +71,7 @@ def _safe_filename(title: str) -> str:
 def library_chunks(text: str, title: str, year) -> list[dict]:
     """Neutral (unattributed) chunks for a library paper. ref_id None keeps
     the chat source chip from pointing at any researcher."""
-    header = f"From the paper \"{title}\" ({year}) in the research library: "
+    header = f'From the paper "{title}" ({year}) in the research library: '
     return [
         {
             "text": header + piece,
@@ -88,6 +87,7 @@ def library_chunks(text: str, title: str, year) -> list[dict]:
 # Open-access PDF discovery (OpenAlex locations -> Semantic Scholar)
 # ---------------------------------------------------------------------------
 
+
 def _openalex_pdf_urls(doi: str, client: httpx.Client) -> list[str]:
     try:
         resp = client.get(f"{OPENALEX_API}/https://doi.org/{doi}")
@@ -97,8 +97,9 @@ def _openalex_pdf_urls(doi: str, client: httpx.Client) -> list[str]:
     except (httpx.HTTPError, ValueError):
         return []
     urls: list[str] = []
-    for loc in ([work.get("best_oa_location"), work.get("primary_location")]
-                + (work.get("locations") or [])):
+    for loc in [work.get("best_oa_location"), work.get("primary_location")] + (
+        work.get("locations") or []
+    ):
         pdf = (loc or {}).get("pdf_url")
         if pdf and pdf not in urls:
             urls.append(pdf)
@@ -107,8 +108,7 @@ def _openalex_pdf_urls(doi: str, client: httpx.Client) -> list[str]:
 
 def _semantic_scholar_pdf(doi: str, client: httpx.Client) -> str | None:
     try:
-        resp = client.get(f"{S2_API}/DOI:{doi}",
-                          params={"fields": "openAccessPdf"})
+        resp = client.get(f"{S2_API}/DOI:{doi}", params={"fields": "openAccessPdf"})
         if resp.status_code == 200:
             return (resp.json().get("openAccessPdf") or {}).get("url")
     except (httpx.HTTPError, ValueError):
@@ -128,25 +128,31 @@ def _download_pdf(doi: str) -> bytes:
             except httpx.HTTPError:
                 continue
             data = resp.content
-            if (resp.status_code == 200 and data[:5] == b"%PDF-"
-                    and 10_000 < len(data) <= MAX_BYTES):
+            if (
+                resp.status_code == 200
+                and data[:5] == b"%PDF-"
+                and 10_000 < len(data) <= MAX_BYTES
+            ):
                 return data
     raise LibraryError(
         "No open-access PDF could be found for this DOI. If you have the "
-        "file, upload the PDF instead.")
+        "file, upload the PDF instead."
+    )
 
 
 # ---------------------------------------------------------------------------
 # Public entry points
 # ---------------------------------------------------------------------------
 
-def _index_and_record(pdf_path: Path, doi: str | None, title: str,
-                      year, added_by: int | None) -> dict:
+
+def _index_and_record(
+    pdf_path: Path, doi: str | None, title: str, year, added_by: int | None
+) -> dict:
     try:
         text = indexer.extract_pdf_text(pdf_path)
     except ValueError as exc:
         pdf_path.unlink(missing_ok=True)
-        raise LibraryError(str(exc))
+        raise LibraryError(str(exc)) from exc
     chunks = library_chunks(text, title, year)
     if not chunks:
         pdf_path.unlink(missing_ok=True)
@@ -154,15 +160,17 @@ def _index_and_record(pdf_path: Path, doi: str | None, title: str,
     added = indexer.append_chunks(chunks)
 
     entries = _manifest()
-    entries.append({
-        "doi": doi,
-        "title": title,
-        "year": year,
-        "filename": pdf_path.name,
-        "chunks": added,
-        "added_by": added_by,
-        "added_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    })
+    entries.append(
+        {
+            "doi": doi,
+            "title": title,
+            "year": year,
+            "filename": pdf_path.name,
+            "chunks": added,
+            "added_by": added_by,
+            "added_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        }
+    )
     _save_manifest(entries)
     return {"title": title, "chunks_added": added}
 
@@ -172,16 +180,19 @@ def study_doi(doi: str, added_by: int | None = None) -> dict:
     try:
         meta = fetch_doi_metadata(doi)
     except SubmissionError as exc:
-        raise LibraryError(str(exc))
+        raise LibraryError(str(exc)) from exc
     if _already_in_library(meta["doi"], meta["title"]):
-        raise LibraryError("This paper is already in the library — you can "
-                           "ask the assistant about it right away.")
+        raise LibraryError(
+            "This paper is already in the library — you can "
+            "ask the assistant about it right away."
+        )
     data = _download_pdf(meta["doi"])
     LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
     path = LIBRARY_DIR / _safe_filename(meta["title"])
     path.write_bytes(data)
-    return _index_and_record(path, meta["doi"], meta["title"],
-                             meta["publication_year"], added_by)
+    return _index_and_record(
+        path, meta["doi"], meta["title"], meta["publication_year"], added_by
+    )
 
 
 def study_upload(data: bytes, title: str, added_by: int | None = None) -> dict:
@@ -201,12 +212,10 @@ def study_upload(data: bytes, title: str, added_by: int | None = None) -> dict:
 
 def list_library() -> list[dict]:
     """All library entries, newest first."""
-    return sorted(_manifest(), key=lambda e: e.get("added_at", ""),
-                  reverse=True)
+    return sorted(_manifest(), key=lambda e: e.get("added_at", ""), reverse=True)
 
 
-def remove_paper(filename: str, requester_id: int | None,
-                 is_admin: bool) -> dict:
+def remove_paper(filename: str, requester_id: int | None, is_admin: bool) -> dict:
     """Remove one library paper: its index chunks, manifest entry, and PDF.
 
     Allowed for the researcher who added it and for admins.
@@ -217,7 +226,8 @@ def remove_paper(filename: str, requester_id: int | None,
         raise LibraryError("This paper is not in the library.")
     if not is_admin and entry.get("added_by") != requester_id:
         raise LibraryError(
-            "Only the person who added this paper (or an admin) can remove it.")
+            "Only the person who added this paper (or an admin) can remove it."
+        )
 
     # Drop the paper's chunks from the live index. The label is deterministic
     # (same formula as library_chunks), so it identifies exactly this paper.
@@ -235,7 +245,8 @@ def remove_paper(filename: str, requester_id: int | None,
     removed = len(chunks) - len(keep)
     if removed:
         (INDEX_DIR / "rag_chunks.json").write_text(
-            _json.dumps([chunks[i] for i in keep], ensure_ascii=False), "utf-8")
+            _json.dumps([chunks[i] for i in keep], ensure_ascii=False), "utf-8"
+        )
         np.savez_compressed(INDEX_DIR / "rag_index.npz", vectors=vectors[keep])
         Retriever.reset()
 

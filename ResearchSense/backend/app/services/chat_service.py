@@ -5,6 +5,7 @@ come from indexed ResearchSense data (profiles, publications, projects, topics)
 and the downloaded research papers. Questions the index cannot support are
 refused honestly; the LLM is never called for them.
 """
+
 from __future__ import annotations
 
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
@@ -42,13 +43,16 @@ def _retrieval_query(question: str, history: list[ChatTurn]) -> str:
 
 
 class ChatService:
-    def answer(self, message: str, history: list[ChatTurn] | None = None) -> ChatResponse:
+    def answer(
+        self, message: str, history: list[ChatTurn] | None = None
+    ) -> ChatResponse:
         question = message.strip()
         history = history or []
         if not question:
             return ChatResponse(
                 answer="Please ask a question about our researchers, "
-                       "publications, projects, or papers.")
+                "publications, projects, or papers."
+            )
 
         if not Retriever.available():
             return ChatResponse(answer=INDEX_MISSING_MESSAGE)
@@ -59,7 +63,8 @@ class ChatService:
         # first turn (no history) or when normalization is unavailable.
         history_dicts = [
             {"role": t.role, "content": t.content}
-            for t in history if t.role in ("user", "assistant")
+            for t in history
+            if t.role in ("user", "assistant")
         ]
         question = normalize_query(question, history_dicts)
 
@@ -72,8 +77,7 @@ class ChatService:
             return ChatResponse(
                 answer=collab_result.answer,
                 sources=[
-                    ChatSource(label=f"{name} — profile",
-                               kind="researcher", ref_id=rid)
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
                     for name, rid in collab_result.researchers
                 ],
             )
@@ -87,8 +91,7 @@ class ChatService:
             return ChatResponse(
                 answer=board.answer,
                 sources=[
-                    ChatSource(label=f"{name} — profile",
-                               kind="researcher", ref_id=rid)
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
                     for name, rid in board.researchers
                 ],
             )
@@ -102,8 +105,7 @@ class ChatService:
             return ChatResponse(
                 answer=authored_result.answer,
                 sources=[
-                    ChatSource(label=f"{name} — profile",
-                               kind="researcher", ref_id=rid)
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
                     for name, rid in authored_result.researchers
                 ],
             )

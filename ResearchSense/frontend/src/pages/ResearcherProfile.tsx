@@ -1,4 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
@@ -6,11 +7,21 @@ import { fetchResearcher } from "../api/researchers";
 import { INSTITUTION_NAME } from "../config";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
+import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
+import { coauthoredFirst } from "./coauthoredFirst";
 import styles from "./ResearcherProfile.module.css";
+
+const INTL_CAP = 10;
 
 export default function ResearcherProfile() {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const withParam = searchParams.get("with");
+  const withId = withParam && !Number.isNaN(Number(withParam)) ? Number(withParam) : null;
+
+  const [showAllIntl, setShowAllIntl] = useState(false);
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["researcher", id],
     queryFn: () => fetchResearcher(Number(id)),
@@ -20,10 +31,29 @@ export default function ResearcherProfile() {
     queryKey: ["claimed-ids"],
     queryFn: fetchClaimedIds,
   });
+  // Fetch the origin researcher's name (for the "shown first" caption) only
+  // when a valid `with` id is present. Degrade gracefully — no caption — if
+  // this fetch fails or the id doesn't resolve to a real researcher.
+  const { data: withResearcher, isError: withError } = useQuery({
+    queryKey: ["researcher", withId],
+    queryFn: () => fetchResearcher(withId as number),
+    enabled: withId != null,
+    retry: false,
+  });
   const isClaimed = Boolean(data && claimedIds?.includes(data.researcher_id));
 
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState message="Researcher not found." />;
+
+  const showCaption = withId != null && !withError && Boolean(withResearcher);
+  const orderedPublications = showCaption
+    ? coauthoredFirst(data.publications, data.researcher_id, withId)
+    : data.publications;
+
+  const intlVisible = showAllIntl
+    ? data.international_collaborations
+    : data.international_collaborations.slice(0, INTL_CAP);
+  const intlRemaining = data.international_collaborations.length - INTL_CAP;
 
   return (
     <>
@@ -76,8 +106,18 @@ export default function ResearcherProfile() {
                 {data.publications.length}
               </span>
             </h2>
+            <DataNote>
+              Publication and citation counts reflect only what ResearchSense
+              has indexed so far and may understate this researcher's full
+              output.
+            </DataNote>
+            {showCaption && (
+              <p className={styles.coauthorCaption}>
+                Papers co-authored with {withResearcher?.full_name} shown first.
+              </p>
+            )}
             <ul className={styles.pubs}>
-              {data.publications.map((p) => (
+              {orderedPublications.map((p) => (
                 <li key={p.publication_id} className={styles.pub}>
                   <span className={styles.pubTitle}>
                     {p.doi ? (
@@ -112,7 +152,7 @@ export default function ResearcherProfile() {
                   </span>
                 </li>
               ))}
-              {data.publications.length === 0 && (
+              {orderedPublications.length === 0 && (
                 <li className={styles.pubMeta}>No publications recorded yet.</li>
               )}
             </ul>
@@ -138,12 +178,37 @@ export default function ResearcherProfile() {
             </div>
           )}
 
+          {data.international_collaborations.length > 0 && (
+            <div className={styles.card}>
+              <h3 className={styles.h3}>International collaborations</h3>
+              <ul className={styles.intlList}>
+                {intlVisible.map((c, i) => (
+                  <li key={`${c.institution}-${i}`} className={styles.intlItem}>
+                    {c.institution} · {c.country}
+                  </li>
+                ))}
+              </ul>
+              {intlRemaining > 0 && (
+                <button
+                  type="button"
+                  className={styles.intlMore}
+                  onClick={() => setShowAllIntl((v) => !v)}
+                >
+                  {showAllIntl ? "Show fewer" : `+${intlRemaining} more`}
+                </button>
+              )}
+            </div>
+          )}
+
           <div className={styles.card}>
             <h3 className={styles.h3}>Suggested collaborators</h3>
             <ul className={styles.collabs}>
               {data.collaborators.map((c) => (
                 <li key={c.researcher_id}>
-                  <Link to={`/researchers/${c.researcher_id}`} className={styles.collab}>
+                  <Link
+                    to={`/researchers/${c.researcher_id}?with=${data.researcher_id}`}
+                    className={styles.collab}
+                  >
                     <span className={styles.collabName}>{c.full_name}</span>
                     <span className={styles.collabMeta}>{c.designation}</span>
                   </Link>

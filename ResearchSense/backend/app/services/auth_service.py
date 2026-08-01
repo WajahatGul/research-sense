@@ -1,4 +1,5 @@
 """Business logic for profile claiming, login, and sessions."""
+
 from __future__ import annotations
 
 import os
@@ -24,10 +25,12 @@ class AuthService:
             raise HTTPException(status_code=404, detail="Researcher not found")
         if self._store.account_for_researcher(researcher_id):
             raise HTTPException(
-                status_code=409, detail="This profile is already claimed")
+                status_code=409, detail="This profile is already claimed"
+            )
         if self._store.get_account(orcid_id):
             raise HTTPException(
-                status_code=409, detail="This ORCID iD already has an account")
+                status_code=409, detail="This ORCID iD already has an account"
+            )
         # Identity check: the name on the public ORCID record must match the
         # profile being claimed, so nobody can claim someone else's profile.
         # The DEV_ORCID iD from .env bypasses this for local testing.
@@ -37,7 +40,7 @@ class AuthService:
             try:
                 verify_claim(orcid_id, researcher.full_name)
             except OrcidVerificationError as exc:
-                raise HTTPException(status_code=403, detail=str(exc))
+                raise HTTPException(status_code=403, detail=str(exc)) from exc
         self._store.create_account(orcid_id, researcher_id, hash_password(password))
         return TokenResponse(
             token=create_token(orcid_id, "researcher"),
@@ -48,8 +51,11 @@ class AuthService:
 
     def login(self, orcid_id: str, password: str) -> TokenResponse:
         account = self._store.get_account(orcid_id)
-        if (account is None or not account["active"]
-                or not verify_password(password, account["password_hash"])):
+        if (
+            account is None
+            or not account["active"]
+            or not verify_password(password, account["password_hash"])
+        ):
             # One message for every failure mode: no account enumeration.
             raise HTTPException(status_code=401, detail="Invalid ORCID iD or password")
         researcher = self._researchers.get(account["researcher_id"])
@@ -66,9 +72,12 @@ class AuthService:
         if not expected_pass:
             raise HTTPException(
                 status_code=503,
-                detail="Admin login is not configured (set ADMIN_PASSWORD in .env)")
-        if not (secrets.compare_digest(username, expected_user)
-                and secrets.compare_digest(password, expected_pass)):
+                detail="Admin login is not configured (set ADMIN_PASSWORD in .env)",
+            )
+        if not (
+            secrets.compare_digest(username, expected_user)
+            and secrets.compare_digest(password, expected_pass)
+        ):
             raise HTTPException(status_code=401, detail="Invalid admin credentials")
         return TokenResponse(token=create_token(username, "admin"), role="admin")
 
@@ -80,8 +89,10 @@ class AuthService:
         if account is None or not account["active"]:
             raise HTTPException(status_code=401, detail="Account not found or disabled")
         researcher = self._researchers.get(account["researcher_id"])
-        uploads = [UploadedPaper(**u)
-                   for u in self._store.uploads_for(account["researcher_id"])]
+        uploads = [
+            UploadedPaper(**u)
+            for u in self._store.uploads_for(account["researcher_id"])
+        ]
         return MeResponse(
             role="researcher",
             orcid_id=orcid_id,

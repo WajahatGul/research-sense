@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  fetchAcademicRanks,
   fetchCampuses,
   fetchDepartments,
-  fetchDesignations,
 } from "../../api/researchers";
 import styles from "./FilterBar.module.css";
 
@@ -14,7 +14,9 @@ interface Props {
   onCampus: (v: string) => void;
   onDepartment: (v: string) => void;
   onDesignation: (v: string) => void;
+  onSearch: () => void;
   total: number;
+  hasSearched: boolean;
 }
 
 export function FilterBar({
@@ -24,7 +26,9 @@ export function FilterBar({
   onCampus,
   onDepartment,
   onDesignation,
+  onSearch,
   total,
+  hasSearched,
 }: Props) {
   const { data: campuses } = useQuery({
     queryKey: ["campuses"],
@@ -34,15 +38,15 @@ export function FilterBar({
     queryKey: ["departments"],
     queryFn: fetchDepartments,
   });
-  const { data: designations } = useQuery({
-    queryKey: ["designations"],
-    queryFn: fetchDesignations,
+  const { data: academicRanks } = useQuery({
+    queryKey: ["academic-ranks"],
+    queryFn: fetchAcademicRanks,
   });
 
   return (
     <div className={styles.bar}>
       <span className={`mono ${styles.count}`}>
-        {total.toLocaleString()} researchers
+        {hasSearched ? `${total.toLocaleString()} researchers` : ""}
       </span>
       <div className={styles.filters}>
         <select
@@ -77,13 +81,21 @@ export function FilterBar({
           onChange={(e) => onDesignation(e.target.value)}
           aria-label="Filter by designation"
         >
-          <option value="">All designations</option>
-          {designations?.map((d) => (
+          <option value="">All ranks</option>
+          {academicRanks?.map((d) => (
             <option key={d} value={d}>
               {d}
             </option>
           ))}
         </select>
+        <button
+          type="button"
+          className={styles.searchButton}
+          onClick={onSearch}
+          aria-label="Search researchers"
+        >
+          Search
+        </button>
       </div>
     </div>
   );

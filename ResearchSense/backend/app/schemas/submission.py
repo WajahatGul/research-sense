@@ -1,4 +1,5 @@
 """Publication submission (DOI-based and manual) schemas."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel, Field
@@ -43,7 +44,7 @@ class ManualSubmission(BaseModel):
 class SubmissionResult(BaseModel):
     """The stored publication, echoed back after a successful submission."""
 
-    publication_id: int
+    publication_id: int | None = None
     title: str
     publication_year: int
     journal_name: str
@@ -56,3 +57,15 @@ class StudyResult(BaseModel):
     title: str
     chunks_added: int
     message: str
+
+
+class SubmissionStatus(BaseModel):
+    """A faculty submission's approval status, for the researcher's own view."""
+
+    id: int
+    kind: str
+    title: str
+    status: str
+    submitted_at: str
+    reviewed_at: str | None = None
+    note: str | None = None

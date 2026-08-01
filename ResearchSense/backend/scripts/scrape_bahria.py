@@ -1,9 +1,8 @@
-"""Headless Playwright scraper for Bahria University computing faculty.
+"""Headless Playwright scraper for Bahria University faculty.
 
 Source: the university faculty directory at bahria.edu.pk/Home/Faculty, a single
 searchable table covering every campus with name, campus, department,
-designation, and research areas. This script pulls the computing departments
-(Computer Science, Software Engineering, Computer Engineering) across the four
+designation, and research areas. This script pulls every department across the four
 teaching campuses and then visits each faculty detail page for the real email
 and qualification.
 
@@ -18,6 +17,7 @@ Run (from backend/):
 
 Output: scripts/scraped_faculty.json
 """
+
 from __future__ import annotations
 
 import json
@@ -38,18 +38,15 @@ DIRECTORY_JS = """
   const nodes = $(table).DataTable().rows().nodes().toArray();
   const CAMPUS = { BUIC_E8:'Islamabad (E-8)', BUIC_H11:'Islamabad (H-11)',
                    BUKC:'Karachi', BUKC_IPP:'Karachi', BULC:'Lahore' };
-  const computing = /computer science|software engineering|computer engineering/i;
   const out = [];
   for (const tr of nodes) {
     const c = [...tr.querySelectorAll('td')].map(x => x.innerText.trim().replace(/\\s+/g,' '));
     const a = tr.querySelector('a[href*="facultyId="]');
     const id = a ? a.getAttribute('href').split('facultyId=')[1].split('&')[0] : null;
     const [name, code, dept, designation, areas] = c;
-    if (!CAMPUS[code] || !computing.test(dept || '')) continue;
+    if (!CAMPUS[code] || !(dept || '').trim()) continue;
     out.push({ id, name, campus: CAMPUS[code],
-               department: /software/i.test(dept) ? 'Software Engineering'
-                 : /computer engineering/i.test(dept) ? 'Computer Engineering'
-                 : 'Computer Science',
+               department: dept,
                designation, areas: areas || '' });
   }
   return out;
@@ -76,8 +73,10 @@ DETAIL_JS = """
 }
 """
 
-READY = ("() => { const $=window.jQuery; const t=document.querySelector('table'); "
-         "return $ && t && $(t).DataTable().rows().count() > 100; }")
+READY = (
+    "() => { const $=window.jQuery; const t=document.querySelector('table'); "
+    "return $ && t && $(t).DataTable().rows().count() > 100; }"
+)
 
 
 def main() -> None:
@@ -88,20 +87,34 @@ def main() -> None:
         page.goto(FACULTY_URL, wait_until="networkidle", timeout=90000)
         page.wait_for_function(READY, timeout=60000)
         roster = page.evaluate(DIRECTORY_JS)
-        print(f"  directory: {len(roster)} computing faculty across 4 campuses")
+
+        from scripts.normalize import canonical_department
+
+        for person in roster:
+            person["department"] = canonical_department(person.get("department", ""))
+        roster = [p for p in roster if p["department"] != "General"]
+        print(f"  directory: {len(roster)} faculty across all departments")
 
         for i, person in enumerate(roster, start=1):
             if not person["id"]:
                 continue
             try:
-                page.goto(DETAIL_URL.format(id=person["id"]),
-                          wait_until="domcontentloaded", timeout=60000)
+                page.goto(
+                    DETAIL_URL.format(id=person["id"]),
+                    wait_until="domcontentloaded",
+                    timeout=60000,
+                )
                 d = page.evaluate(DETAIL_JS)
                 person["email"] = d.get("email")
                 # Directory areas are primary; detail areas are a fallback.
                 if not person["areas"] and d.get("detail_areas"):
                     person["areas"] = d["detail_areas"]
-                for k in ("degree", "degree_year", "degree_majors", "degree_university"):
+                for k in (
+                    "degree",
+                    "degree_year",
+                    "degree_majors",
+                    "degree_university",
+                ):
                     person[k] = d.get(k)
                 if i % 25 == 0:
                     print(f"    detail {i}/{len(roster)}")
@@ -113,8 +126,10 @@ def main() -> None:
     OUTPUT.write_text(json.dumps(roster, indent=2, ensure_ascii=False), "utf-8")
     with_email = sum(1 for p in roster if p.get("email"))
     with_areas = sum(1 for p in roster if p.get("areas"))
-    print(f"Wrote {OUTPUT}: {len(roster)} faculty, "
-          f"{with_email} with email, {with_areas} with research areas.")
+    print(
+        f"Wrote {OUTPUT}: {len(roster)} faculty, "
+        f"{with_email} with email, {with_areas} with research areas."
+    )
     print("Next: python -m scripts.build_seed && python -m scripts.fetch_publications")
 
 

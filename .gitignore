@@ -22,3 +22,12 @@ ResearchSense/frontend/vite.config.d.ts
 # Editor / tooling
 .playwright-mcp/
 .DS_Store
+
+# Generated RAG index (102 MB) — rebuilt by scripts.build_index; see DEPLOY.md.
+# The Docker image builds it at image-build time from the committed JSON corpus.
+ResearchSense/backend/app/data/rag_index.npz
+ResearchSense/backend/app/data/rag_chunks.json
+
+# Downloaded paper PDFs (1.1 GB) and coverage artifacts
+ResearchSense/backend/papers/*.pdf
+ResearchSense/backend/.coverage
