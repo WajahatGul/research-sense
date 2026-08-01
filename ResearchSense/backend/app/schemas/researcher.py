@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
+from app.core.config import settings
 from app.schemas.publication import PublicationRef
 from app.schemas.topic import TopicRef
 
@@ -45,6 +46,15 @@ class Researcher(BaseModel):
     topics: list[TopicRef] = []
     research_areas: list[str] = []
     source: str = "scraped"
+
+    @field_validator("institution", mode="before")
+    @classmethod
+    def _configured_institution(cls, _value: str) -> str:
+        """Report the deployment's configured institution (empty for the
+        neutral product-only look), never a name baked into the seed data — so
+        the API stays institution-agnostic regardless of whose data populated
+        it. Set RS_INSTITUTION_NAME to brand every profile from one place."""
+        return settings.institution_name
 
 
 class ResearcherDetail(Researcher):

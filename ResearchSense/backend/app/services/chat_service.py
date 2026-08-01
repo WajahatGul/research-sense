@@ -11,6 +11,7 @@ from __future__ import annotations
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
 from app.services.rag.agentic import normalize_query
+from app.services.rag.directory import directory_answer
 from app.services.rag.generator import REFUSAL_MESSAGE, generate
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
@@ -107,6 +108,21 @@ class ChatService:
                 sources=[
                     ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
                     for name, rid in authored_result.researchers
+                ],
+            )
+
+        # Fast path: "who are the researchers in <department>?" is a directory
+        # listing, answered from the structured table (matching the Researchers
+        # page filter) rather than retrieval, which only sees a few chunks and
+        # would refuse or under-list. Topic questions ("who works on X") are
+        # excluded by directory_answer and handled by RAG below.
+        directory = directory_answer(question)
+        if directory is not None:
+            return ChatResponse(
+                answer=directory.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
+                    for name, rid in directory.researchers
                 ],
             )
 
