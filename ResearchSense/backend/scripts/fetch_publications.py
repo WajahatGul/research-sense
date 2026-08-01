@@ -13,6 +13,7 @@ counts from the real works. Run after build_seed:
 
 from __future__ import annotations
 
+import html
 import json
 import re
 import time
@@ -96,15 +97,44 @@ def _fuzzy_name_match(roster_name: str, author_name: str) -> bool:
     return False
 
 
+# --- Title markup cleanup --------------------------------------------------
+# Publisher metadata sometimes leaks raw markup into titles: MathML blocks,
+# inline formatting tags, and (sometimes double-)escaped HTML entities.
+# Order matters: unescape entities first (an escaped "&lt;sub&gt;" must
+# become a real tag before it can be stripped), then remove MathML blocks
+# whole (replacing with a space so words don't get welded together), then
+# strip any remaining tag (replacing with nothing, so e.g. "Al<sub>2</sub>O3"
+# collapses to "Al2O3" with no inserted space).
+_MATHML_RE = re.compile(r"<mml:math\b.*?</mml:math>", re.I | re.S)
+_TAG_RE = re.compile(r"</?[a-zA-Z][^>]*>")
+_MAX_UNESCAPE_PASSES = 3
+
+
+def _unescape_entities(text: str) -> str:
+    """Resolve HTML entities, including double-escaped ones, bounded to a
+    fixed number of passes (stops early once the string stops changing)."""
+    for _ in range(_MAX_UNESCAPE_PASSES):
+        unescaped = html.unescape(text)
+        if unescaped == text:
+            break
+        text = unescaped
+    return text
+
+
 def clean_title(title: str) -> str:
-    """Strip LaTeX math and markup that OpenAlex sometimes leaves in titles."""
+    """Strip LaTeX math, markup, and entities that publisher metadata
+    sometimes leaves in titles (OpenAlex and other upstream sources)."""
     if not title:
         return "Untitled"
+    title = _unescape_entities(title)
+    title = _MATHML_RE.sub(" ", title)  # whole block -> single space
+    title = _TAG_RE.sub("", title)  # remaining tags -> nothing
     title = re.sub(r"\$+[^$]*\$+", "", title)  # $...$ and $$...$$ math
     title = re.sub(r"\\[a-zA-Z]+", " ", title)  # \command
     title = re.sub(r"[{}\\]", "", title)  # stray braces and slashes
     title = re.sub(r"\s+([,.;:)])", r"\1", title)
-    return re.sub(r"\s+", " ", title).strip()
+    title = re.sub(r"\s+", " ", title).strip()
+    return title or "Untitled"
 
 
 def _get(path: str, params: dict) -> dict:

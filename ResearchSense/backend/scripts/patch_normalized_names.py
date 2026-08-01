@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 try:
-    from scripts.fetch_publications import classify_publication_type
+    from scripts.fetch_publications import classify_publication_type, clean_title
     from scripts.normalize import (
         academic_rank,
         canonical_department,
@@ -17,7 +17,7 @@ try:
         title_case_name,
     )
 except ImportError:
-    from fetch_publications import classify_publication_type
+    from fetch_publications import classify_publication_type, clean_title
     from normalize import (
         academic_rank,
         canonical_department,
@@ -96,6 +96,25 @@ def patch_publication(publication: dict) -> bool:
     return False
 
 
+def patch_publication_title(publication: dict) -> bool:
+    """Re-apply clean_title to a single publication's title.
+
+    Removes markup contamination (MathML blocks, inline formatting tags,
+    escaped HTML entities) that leaked in from publisher metadata. A missing
+    "title" key is a no-op (older/synthetic records). Returns True if the
+    title changed, so a second pass over already-clean data is a no-op
+    (idempotent).
+    """
+    old_title = publication.get("title")
+    if old_title is None:
+        return False
+    new_title = clean_title(old_title)
+    if new_title != old_title:
+        publication["title"] = new_title
+        return True
+    return False
+
+
 def patch_normalized_names():
     """Patch researchers.json, projects.json, and publications.json with
     fixed normalizers/classifiers."""
@@ -131,9 +150,12 @@ def patch_normalized_names():
                 project["department"] = fixed
 
     pub_patched = 0
+    title_patched = 0
     for publication in publications:
         if patch_publication(publication):
             pub_patched += 1
+        if patch_publication_title(publication):
+            title_patched += 1
 
     # researchers.json and projects.json are also written elsewhere with
     # ensure_ascii=False -- match that convention everywhere so this patch
@@ -149,6 +171,7 @@ def patch_normalized_names():
 
     print(f"Patched {patched} researcher records")
     print(f"Patched {pub_patched} publication records")
+    print(f"Patched {title_patched} publication titles")
 
 
 if __name__ == "__main__":

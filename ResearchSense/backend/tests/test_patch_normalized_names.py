@@ -1,6 +1,7 @@
 from scripts.patch_normalized_names import (
     department_fixes,
     patch_publication,
+    patch_publication_title,
     patch_researcher,
 )
 
@@ -238,3 +239,50 @@ class TestPatchPublication:
         changed = patch_publication(pub)
         assert changed is False
         assert pub["publication_type"] == "journal"
+
+
+class TestPatchPublicationTitle:
+    def test_strips_mathml_block(self):
+        pub = {
+            "title": (
+                "Viscous dissipation effects surrounded by "
+                '<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" '
+                'altimg="si2.svg"><mml:mrow><mml:mi>A</mml:mi></mml:mrow>'
+                "</mml:math> nanofluid"
+            )
+        }
+        changed = patch_publication_title(pub)
+        assert changed is True
+        assert pub["title"] == "Viscous dissipation effects surrounded by nanofluid"
+
+    def test_strips_inline_tags_without_inserting_spaces(self):
+        pub = {"title": "Fe<sub>3</sub>O<sub>4</sub> nanoparticles"}
+        changed = patch_publication_title(pub)
+        assert changed is True
+        assert pub["title"] == "Fe3O4 nanoparticles"
+
+    def test_resolves_double_escaped_entity(self):
+        pub = {"title": "Salt &amp;amp; Pepper"}
+        changed = patch_publication_title(pub)
+        assert changed is True
+        assert pub["title"] == "Salt & Pepper"
+
+    def test_no_change_when_already_clean(self):
+        pub = {"title": "A perfectly normal title"}
+        changed = patch_publication_title(pub)
+        assert changed is False
+        assert pub["title"] == "A perfectly normal title"
+
+    def test_missing_title_key_is_a_no_op(self):
+        pub = {"publication_type": "journal"}
+        changed = patch_publication_title(pub)
+        assert changed is False
+        assert "title" not in pub
+
+    def test_idempotent_second_pass_no_change(self):
+        pub = {"title": "<i>E. coli</i> &amp; friends"}
+        first = patch_publication_title(pub)
+        second = patch_publication_title(pub)
+        assert first is True
+        assert second is False
+        assert pub["title"] == "E. coli & friends"
