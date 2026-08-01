@@ -11,7 +11,7 @@ from __future__ import annotations
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
 from app.services.rag.agentic import normalize_query
-from app.services.rag.directory import directory_answer
+from app.services.rag.directory import directory_answer, research_area_answer
 from app.services.rag.generator import REFUSAL_MESSAGE, generate
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
@@ -123,6 +123,21 @@ class ChatService:
                 sources=[
                     ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
                     for name, rid in directory.researchers
+                ],
+            )
+
+        # Fast path: "list researchers in AI" / "who works on machine learning"
+        # is a research-area lookup. Retrieval scores terse topic questions
+        # inconsistently (a real answer can fall just below the confidence bar
+        # and get refused), so answer these deterministically from the
+        # structured research-area data. Paper/authorship questions are excluded.
+        area = research_area_answer(question)
+        if area is not None:
+            return ChatResponse(
+                answer=area.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
+                    for name, rid in area.researchers
                 ],
             )
 
