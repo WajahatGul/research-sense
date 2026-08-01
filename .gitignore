@@ -23,10 +23,11 @@ ResearchSense/frontend/vite.config.d.ts
 .playwright-mcp/
 .DS_Store
 
-# Generated RAG index (102 MB) — rebuilt by scripts.build_index; see DEPLOY.md.
-# The Docker image builds it at image-build time from the committed JSON corpus.
-ResearchSense/backend/app/data/rag_index.npz
-ResearchSense/backend/app/data/rag_chunks.json
+# The structured RAG index (~6 MB, no paper full-text) is COMMITTED so deploys
+# don't have to rebuild it on the memory-limited free tier. Rebuild + commit it
+# when the JSON corpus changes: `python -m scripts.build_index`.
+# NOTE: a local build that includes downloaded paper PDFs produces a ~102 MB
+# index — do NOT commit that one; keep the committed index to the structured build.
 
 # Runtime cache of admin-approved faculty submissions (preserved across index
 # rebuilds). Written at runtime like the DB/staged dir — environment-specific,

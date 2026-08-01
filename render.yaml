@@ -9,12 +9,17 @@ services:
     rootDir: ResearchSense/backend
     # onnxruntime / fastembed ship cp313 wheels; pin Python to match.
     pythonVersion: "3.13.4"
-    # The RAG index (~100 MB) and paper PDFs are git-ignored, so a clone has
-    # only the JSON corpus. Build the index here or the assistant has nothing
-    # to retrieve from. Without PDFs this indexes the fact cards only (~3 min).
-    buildCommand: pip install -r requirements.txt && python -m scripts.build_index
+    # The structured RAG index (rag_chunks.json + rag_index.npz, ~6 MB) is now
+    # COMMITTED, so the deploy no longer embeds ~3k chunks on the memory-limited
+    # free tier — that step was slow and could fail the whole build, leaving an
+    # old version live. Rebuild + commit the index (python -m scripts.build_index)
+    # whenever the JSON corpus changes; the admin "refresh" also rebuilds it on
+    # the running instance.
+    buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
+    autoDeploy: true
+    branch: main
     envVars:
       # --- secrets: set these in the Render dashboard (sync:false) ---
       - key: GROQ_API_KEY
