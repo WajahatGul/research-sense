@@ -2,23 +2,11 @@
   {
     "project_id": 1,
     "project_title": "Wireless Communications for Cyber Physical Systems",
-    "description": "A funded research project applying wireless communications to education challenges in Pakistan.",
-    "start_date": "2021-01-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in wireless communications for the education domain.",
     "principal_investigator_id": 142,
     "principal_investigator_name": "Syed Muhammad Usman",
     "department": "Computer Science",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 1,
-        "agency_name": "Higher Education Commission (HEC)",
-        "country": "Pakistan",
-        "amount": 7500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Wireless Communications"
     ],
@@ -27,23 +15,11 @@
   {
     "project_id": 2,
     "project_title": "Wireless Communications for Education",
-    "description": "A funded research project applying wireless communications to agriculture challenges in Pakistan.",
-    "start_date": "2023-07-01",
-    "end_date": "2025-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in wireless communications for the agriculture domain.",
     "principal_investigator_id": 213,
     "principal_investigator_name": "Ahmed Faraz",
     "department": "Computer Engineering",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 2,
-        "agency_name": "Pakistan Science Foundation",
-        "country": "Pakistan",
-        "amount": 15000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Wireless Communications"
     ],
@@ -52,23 +28,11 @@
   {
     "project_id": 3,
     "project_title": "Cybersecurity for Education",
-    "description": "A funded research project applying cybersecurity to e governance challenges in Pakistan.",
-    "start_date": "2021-07-01",
-    "end_date": "2023-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in cybersecurity for the e governance domain.",
     "principal_investigator_id": 262,
     "principal_investigator_name": "Sidra Khan",
     "department": "Humanities and Social Sciences",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 3,
-        "agency_name": "Higher Education Commission (HEC)",
-        "country": "Pakistan",
-        "amount": 7500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Cybersecurity"
     ],
@@ -77,23 +41,11 @@
   {
     "project_id": 4,
     "project_title": "Artificial Intelligence for E Governance",
-    "description": "A funded research project applying artificial intelligence to e governance challenges in Pakistan.",
-    "start_date": "2022-06-01",
-    "end_date": "2023-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in artificial intelligence for the e governance domain.",
     "principal_investigator_id": 27,
     "principal_investigator_name": "Aftab Haider",
     "department": "HR and Management",
     "campus": "Islamabad (E-8)",
-    "funding": [
-      {
-        "funding_id": 4,
-        "agency_name": "Higher Education Commission (HEC)",
-        "country": "Pakistan",
-        "amount": 5000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Artificial Intelligence"
     ],
@@ -102,23 +54,11 @@
   {
     "project_id": 5,
     "project_title": "Wireless Communications for Healthcare",
-    "description": "A funded research project applying wireless communications to agriculture challenges in Pakistan.",
-    "start_date": "2022-07-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in wireless communications for the agriculture domain.",
     "principal_investigator_id": 307,
     "principal_investigator_name": "Syeda Maliha Begum",
     "department": "Media Studies",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 5,
-        "agency_name": "Pakistan Science Foundation",
-        "country": "Pakistan",
-        "amount": 15000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Wireless Communications"
     ],
@@ -127,23 +67,11 @@
   {
     "project_id": 6,
     "project_title": "Computer Networks for Cyber Physical Systems",
-    "description": "A funded research project applying computer networks to smart cities challenges in Pakistan.",
-    "start_date": "2022-05-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in computer networks for the smart cities domain.",
     "principal_investigator_id": 189,
     "principal_investigator_name": "Kashif Sultan",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 6,
-        "agency_name": "Pakistan Science Foundation",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Computer Networks"
     ],
@@ -152,23 +80,11 @@
   {
     "project_id": 7,
     "project_title": "Internet of Things for E Governance",
-    "description": "A funded research project applying internet of things to e governance challenges in Pakistan.",
-    "start_date": "2022-10-01",
-    "end_date": "2025-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in internet of things for the e governance domain.",
     "principal_investigator_id": 330,
     "principal_investigator_name": "Khawaja Qasim Maqbool",
     "department": "Computer Science",
     "campus": "Lahore",
-    "funding": [
-      {
-        "funding_id": 7,
-        "agency_name": "Pakistan Science Foundation",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Internet of Things"
     ],
@@ -177,23 +93,11 @@
   {
     "project_id": 8,
     "project_title": "Wireless Communications for Smart Cities",
-    "description": "A funded research project applying wireless communications to education challenges in Pakistan.",
-    "start_date": "2023-01-01",
-    "end_date": "2026-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in wireless communications for the education domain.",
     "principal_investigator_id": 92,
     "principal_investigator_name": "Shabir Hussain",
     "department": "Media Studies",
     "campus": "Islamabad (E-8)",
-    "funding": [
-      {
-        "funding_id": 8,
-        "agency_name": "Ignite National Technology Fund",
-        "country": "Pakistan",
-        "amount": 7500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Wireless Communications"
     ],
@@ -202,23 +106,11 @@
   {
     "project_id": 9,
     "project_title": "Artificial Intelligence for E Governance",
-    "description": "A funded research project applying artificial intelligence to agriculture challenges in Pakistan.",
-    "start_date": "2021-12-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in artificial intelligence for the agriculture domain.",
     "principal_investigator_id": 229,
     "principal_investigator_name": "Asia Samreen",
     "department": "Computer Science",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 9,
-        "agency_name": "Ignite National Technology Fund",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Artificial Intelligence"
     ],
@@ -227,23 +119,11 @@
   {
     "project_id": 10,
     "project_title": "Bioinformatics for Healthcare",
-    "description": "A funded research project applying bioinformatics to cyber physical systems challenges in Pakistan.",
-    "start_date": "2023-09-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in bioinformatics for the cyber physical systems domain.",
     "principal_investigator_id": 233,
     "principal_investigator_name": "Salma Hamza",
     "department": "Earth and Environmental Sciences",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 10,
-        "agency_name": "Higher Education Commission (HEC)",
-        "country": "Pakistan",
-        "amount": 15000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Bioinformatics"
     ],
@@ -252,23 +132,11 @@
   {
     "project_id": 11,
     "project_title": "Cloud Computing for Agriculture",
-    "description": "A funded research project applying cloud computing to smart cities challenges in Pakistan.",
-    "start_date": "2021-05-01",
-    "end_date": "2024-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in cloud computing for the smart cities domain.",
     "principal_investigator_id": 222,
     "principal_investigator_name": "Asif Aziz",
     "department": "Computer Science",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 11,
-        "agency_name": "ICT R&D Fund",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Cloud Computing"
     ],
@@ -277,23 +145,11 @@
   {
     "project_id": 12,
     "project_title": "Machine Learning for E Governance",
-    "description": "A funded research project applying machine learning to cyber physical systems challenges in Pakistan.",
-    "start_date": "2024-11-01",
-    "end_date": "2027-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in machine learning for the cyber physical systems domain.",
     "principal_investigator_id": 331,
     "principal_investigator_name": "Muhammad Saqib Sohail",
     "department": "Computer Science",
     "campus": "Lahore",
-    "funding": [
-      {
-        "funding_id": 12,
-        "agency_name": "ICT R&D Fund",
-        "country": "Pakistan",
-        "amount": 5000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Machine Learning"
     ],
@@ -302,23 +158,11 @@
   {
     "project_id": 13,
     "project_title": "Cybersecurity for Healthcare",
-    "description": "A funded research project applying cybersecurity to cyber physical systems challenges in Pakistan.",
-    "start_date": "2020-01-01",
-    "end_date": "2021-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in cybersecurity for the cyber physical systems domain.",
     "principal_investigator_id": 50,
     "principal_investigator_name": "Saira Nawaz Abbasi",
     "department": "International Relations",
     "campus": "Islamabad (E-8)",
-    "funding": [
-      {
-        "funding_id": 13,
-        "agency_name": "Ignite National Technology Fund",
-        "country": "Pakistan",
-        "amount": 7500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Cybersecurity"
     ],
@@ -327,23 +171,11 @@
   {
     "project_id": 14,
     "project_title": "Blockchain for Cyber Physical Systems",
-    "description": "A funded research project applying blockchain to education challenges in Pakistan.",
-    "start_date": "2024-04-01",
-    "end_date": "2025-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in blockchain for the education domain.",
     "principal_investigator_id": 333,
     "principal_investigator_name": "Junaid Nasir Qureshi",
     "department": "Computer Science",
     "campus": "Lahore",
-    "funding": [
-      {
-        "funding_id": 14,
-        "agency_name": "ICT R&D Fund",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Blockchain"
     ],
@@ -352,23 +184,11 @@
   {
     "project_id": 15,
     "project_title": "Internet of Things for Education",
-    "description": "A funded research project applying internet of things to smart cities challenges in Pakistan.",
-    "start_date": "2022-03-01",
-    "end_date": "2024-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in internet of things for the smart cities domain.",
     "principal_investigator_id": 221,
     "principal_investigator_name": "Syed Safdar Ali Rizvi",
     "department": "Computer Science",
     "campus": "Karachi",
-    "funding": [
-      {
-        "funding_id": 15,
-        "agency_name": "Pakistan Science Foundation",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Internet of Things"
     ],
@@ -377,23 +197,11 @@
   {
     "project_id": 16,
     "project_title": "Software Engineering for Education",
-    "description": "A funded research project applying software engineering to education challenges in Pakistan.",
-    "start_date": "2024-04-01",
-    "end_date": "2026-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in software engineering for the education domain.",
     "principal_investigator_id": 193,
     "principal_investigator_name": "Sadaf Farhan",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 16,
-        "agency_name": "National Research Program for Universities (NRPU)",
-        "country": "Pakistan",
-        "amount": 15000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Software Engineering"
     ],
@@ -402,23 +210,11 @@
   {
     "project_id": 17,
     "project_title": "Bioinformatics for Agriculture",
-    "description": "A funded research project applying bioinformatics to cyber physical systems challenges in Pakistan.",
-    "start_date": "2023-11-01",
-    "end_date": "2025-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in bioinformatics for the cyber physical systems domain.",
     "principal_investigator_id": 129,
     "principal_investigator_name": "Amina Jameel",
     "department": "Computer Engineering",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 17,
-        "agency_name": "National Research Program for Universities (NRPU)",
-        "country": "Pakistan",
-        "amount": 5000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Bioinformatics"
     ],
@@ -427,23 +223,11 @@
   {
     "project_id": 18,
     "project_title": "Computer Networks for Agriculture",
-    "description": "A funded research project applying computer networks to cyber physical systems challenges in Pakistan.",
-    "start_date": "2024-01-01",
-    "end_date": "2025-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in computer networks for the cyber physical systems domain.",
     "principal_investigator_id": 185,
     "principal_investigator_name": "Abdul Baseer Qazi",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 18,
-        "agency_name": "National Research Program for Universities (NRPU)",
-        "country": "Pakistan",
-        "amount": 10000000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Computer Networks"
     ],
@@ -452,23 +236,11 @@
   {
     "project_id": 19,
     "project_title": "Bioinformatics for Cyber Physical Systems",
-    "description": "A funded research project applying bioinformatics to e governance challenges in Pakistan.",
-    "start_date": "2022-09-01",
-    "end_date": "2024-12-31",
-    "status": "completed",
+    "description": "An illustrative research direction in bioinformatics for the e governance domain.",
     "principal_investigator_id": 191,
     "principal_investigator_name": "Adeel M Syed",
     "department": "Software Engineering",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 19,
-        "agency_name": "Higher Education Commission (HEC)",
-        "country": "Pakistan",
-        "amount": 2500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Bioinformatics"
     ],
@@ -477,23 +249,11 @@
   {
     "project_id": 20,
     "project_title": "Cybersecurity for Smart Cities",
-    "description": "A funded research project applying cybersecurity to smart cities challenges in Pakistan.",
-    "start_date": "2023-10-01",
-    "end_date": "2024-12-31",
-    "status": "ongoing",
+    "description": "An illustrative research direction in cybersecurity for the smart cities domain.",
     "principal_investigator_id": 176,
     "principal_investigator_name": "Dr.Huma Hassan",
     "department": "Psychology",
     "campus": "Islamabad (H-11)",
-    "funding": [
-      {
-        "funding_id": 20,
-        "agency_name": "Ignite National Technology Fund",
-        "country": "Pakistan",
-        "amount": 2500000.0,
-        "currency": "PKR"
-      }
-    ],
     "topics": [
       "Cybersecurity"
     ],
