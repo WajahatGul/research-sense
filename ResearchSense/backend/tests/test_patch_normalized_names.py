@@ -1,5 +1,6 @@
 from scripts.patch_normalized_names import (
     department_fixes,
+    patch_project,
     patch_publication,
     patch_publication_title,
     patch_researcher,
@@ -198,6 +199,78 @@ class TestPatchResearcher:
         assert changed is True
         assert researcher["full_name"] == "Muhammad Saim"
         assert researcher["profile_bio"] == "Muhammad Saim researches software."
+
+
+class TestPatchProject:
+    def test_removes_funding_and_date_fields(self):
+        project = {
+            "project_id": 1,
+            "project_title": "AI for Healthcare",
+            "description": "A funded research project applying ai to healthcare "
+            "challenges in Pakistan.",
+            "start_date": "2021-03-01",
+            "end_date": "2023-12-31",
+            "status": "ongoing",
+            "funding": [
+                {
+                    "funding_id": 1,
+                    "agency_name": "HEC",
+                    "country": "Pakistan",
+                    "amount": 5000000.0,
+                    "currency": "PKR",
+                }
+            ],
+        }
+        changed = patch_project(project)
+        assert changed is True
+        assert "funding" not in project
+        assert "start_date" not in project
+        assert "end_date" not in project
+        assert "status" not in project
+
+    def test_rewrites_funded_description(self):
+        project = {
+            "project_id": 1,
+            "description": "A funded research project applying ai to healthcare "
+            "challenges in Pakistan.",
+        }
+        changed = patch_project(project)
+        assert changed is True
+        assert project["description"] == (
+            "An illustrative research direction in ai for the healthcare domain."
+        )
+        assert "funded" not in project["description"]
+        assert "grant" not in project["description"].lower()
+
+    def test_no_change_when_already_patched(self):
+        project = {
+            "project_id": 1,
+            "description": "An illustrative research direction in ai for the "
+            "healthcare domain.",
+        }
+        changed = patch_project(project)
+        assert changed is False
+
+    def test_idempotent_second_pass_no_change(self):
+        project = {
+            "project_id": 1,
+            "description": "A funded research project applying ai to healthcare "
+            "challenges in Pakistan.",
+            "start_date": "2021-03-01",
+            "status": "ongoing",
+            "funding": [],
+        }
+        first = patch_project(project)
+        second = patch_project(project)
+        assert first is True
+        assert second is False
+
+    def test_missing_optional_fields_is_a_no_op_for_those_keys(self):
+        project = {"project_id": 1, "description": "Already fine."}
+        changed = patch_project(project)
+        assert changed is False
+        assert "funding" not in project
+        assert "start_date" not in project
 
 
 class TestPatchPublication:

@@ -1,7 +1,7 @@
 .controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -18,31 +18,6 @@
   font-size: 0.9rem;
   color: var(--ink);
   cursor: pointer;
-}
-
-.tabs {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-}
-
-.tab {
-  padding: 8px 18px;
-  border: none;
-  background: none;
-  border-radius: 999px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--muted);
-  transition: background 0.15s, color 0.15s;
-}
-
-.tabActive {
-  background: var(--navy);
-  color: #fff;
 }
 
 .body {
@@ -62,18 +37,6 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-}
-
-.cardHead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.dates {
-  font-size: 0.82rem;
-  color: var(--muted);
 }
 
 .title {
@@ -111,22 +74,6 @@
 .campus {
   font-size: 0.76rem;
   color: var(--faint);
-}
-
-.fund {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 0.84rem;
-}
-
-.agency {
-  color: var(--muted);
-}
-
-.amount {
-  color: var(--navy);
-  font-weight: 600;
 }
 
 @media (max-width: 720px) {

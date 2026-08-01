@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchAnalytics } from "../api/analytics";
 import { PageHeader } from "../components/PageHeader";
+import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
 import {
   CAMPUS_COLORS,
@@ -31,6 +32,12 @@ export default function Analytics() {
       />
 
       <div className={`container ${styles.body}`}>
+        <DataNote>
+          These charts reflect only the data ResearchSense has indexed so
+          far — 358 faculty profiles and 1,667 publications matched from
+          OpenAlex. Real output is higher; coverage grows with each refresh.
+        </DataNote>
+
         <section className={styles.card}>
           <h2 className={styles.h2}>Publications per year, by campus</h2>
           <PublicationsTrend

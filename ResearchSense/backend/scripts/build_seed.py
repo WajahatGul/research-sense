@@ -4,8 +4,10 @@ Real data (from bahria.edu.pk, via scrape_bahria.py): researcher names, campus,
 department, designation, emails, research areas/expertise, and qualifications
 across the four teaching campuses (E-8, H-11, Karachi, Lahore).
 
-Derived / sample data (flagged source="sample"): projects and funding, which the
-university does not publish in a single feed. Publications are added separately
+Derived / sample data (flagged source="sample"): projects, which the university
+does not publish in a single feed. The PI, department, campus, and topic on
+each project are real; funding amounts, agencies, dates, and status are not
+fabricated -- the schema simply omits them. Publications are added separately
 by fetch_publications.py from OpenAlex (real data).
 
 Run:  python -m scripts.build_seed   (from backend/)
@@ -182,13 +184,6 @@ TOPIC_CATALOGUE = [
     ),
 ]
 
-FUNDERS = [
-    ("Higher Education Commission (HEC)", "Pakistan"),
-    ("National Research Program for Universities (NRPU)", "Pakistan"),
-    ("Ignite National Technology Fund", "Pakistan"),
-    ("Pakistan Science Foundation", "Pakistan"),
-    ("ICT R&D Fund", "Pakistan"),
-]
 DOMAIN = [
     "healthcare",
     "smart cities",
@@ -311,7 +306,11 @@ def enrich_topics(topics, researchers, publications):
 
 
 def build_projects(researchers: list[dict]) -> list[dict]:
-    """Sample funded projects, spread across campuses, led by senior faculty."""
+    """Illustrative research directions, spread across campuses, led by senior
+    faculty. The PI, department, campus, and topic are real; everything else
+    about "funded projects" (amounts, agencies, dates, status) is not
+    published anywhere the university makes available, so it is not
+    fabricated here."""
     rng = random.Random(99)
     seniors = [
         r for r in researchers if "Professor" in r["designation"] and r["topics"]
@@ -320,30 +319,17 @@ def build_projects(researchers: list[dict]) -> list[dict]:
     projects = []
     for i, pi in enumerate(seniors[:20], start=1):
         topic = rng.choice(pi["topics"])["topic_name"]
-        start = rng.randint(2020, 2024)
-        agency, country = rng.choice(FUNDERS)
+        domain = rng.choice(DOMAIN)
         projects.append(
             {
                 "project_id": i,
-                "project_title": f"{topic} for {rng.choice(DOMAIN).title()}",
-                "description": f"A funded research project applying {topic.lower()} "
-                f"to {rng.choice(DOMAIN)} challenges in Pakistan.",
-                "start_date": f"{start}-{rng.randint(1, 12):02d}-01",
-                "end_date": f"{start + rng.randint(1, 3)}-12-31",
-                "status": rng.choice(["ongoing", "ongoing", "completed"]),
+                "project_title": f"{topic} for {domain.title()}",
+                "description": f"An illustrative research direction in "
+                f"{topic.lower()} for the {domain} domain.",
                 "principal_investigator_id": pi["researcher_id"],
                 "principal_investigator_name": pi["full_name"],
                 "department": pi["department"],
                 "campus": pi["campus"],
-                "funding": [
-                    {
-                        "funding_id": i,
-                        "agency_name": agency,
-                        "country": country,
-                        "amount": rng.choice([2.5, 5.0, 7.5, 10.0, 15.0]) * 1_000_000,
-                        "currency": "PKR",
-                    }
-                ],
                 "topics": [topic],
                 "source": "sample",
             }

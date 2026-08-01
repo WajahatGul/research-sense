@@ -5,6 +5,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { fetchResearchers } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
+import { DataNote } from "../components/DataNote";
 import { ResearcherCard } from "../components/ResearcherCard";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -97,6 +98,12 @@ export default function Researchers() {
           onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
           onSearch={() => runSearch()}
         />
+
+        <DataNote>
+          This directory reflects only the faculty ResearchSense has indexed
+          so far — 358 profiles sampled across 22 departments. Not every
+          faculty member is included yet.
+        </DataNote>
 
         {!hasSearched && (
           <EmptyState message="Choose your filters and press Search to see researchers." />

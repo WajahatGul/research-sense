@@ -84,6 +84,14 @@ describe("Publications", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the coverage data note", async () => {
+    renderPage();
+
+    expect(
+      await screen.findByText(/reflects only the publications ResearchSense/),
+    ).toBeInTheDocument();
+  });
+
   it("fetches publications after Search is pressed", async () => {
     renderPage();
 

@@ -6,6 +6,7 @@ import { fetchPublications, fetchPublicationYears } from "../api/publications";
 import { fetchCampuses, fetchDepartments } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
+import { DataNote } from "../components/DataNote";
 import { PublicationItem } from "../components/PublicationItem";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -201,6 +202,12 @@ export default function Publications() {
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
+        <DataNote>
+          This list reflects only the publications ResearchSense has indexed
+          so far — 1,667 records matched from OpenAlex and other sources.
+          Some papers are not yet included.
+        </DataNote>
+
         {hasSearched && (
           <span className={`mono ${styles.count}`}>
             {(data?.total ?? 0).toLocaleString()} publications

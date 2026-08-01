@@ -18,7 +18,7 @@ class MockProjectRepository(ProjectRepository):
             if (not status or p.get("status") == status)
             and (not campus or p.get("campus") == campus)
         ]
-        rows.sort(key=lambda p: p.get("start_date", ""), reverse=True)
+        rows.sort(key=lambda p: p.get("start_date") or "", reverse=True)
         return [Project(**p) for p in rows]
 
     def get(self, project_id: int) -> Project | None:

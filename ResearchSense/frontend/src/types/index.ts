@@ -117,14 +117,14 @@ export interface Project {
   project_id: number;
   project_title: string;
   description: string;
-  start_date: string;
-  end_date: string | null;
-  status: string;
+  start_date?: string | null;
+  end_date?: string | null;
+  status?: string | null;
   principal_investigator_id: number | null;
   principal_investigator_name: string;
   department: string;
   campus: string;
-  funding: Funding[];
+  funding?: Funding[];
   topics: string[];
   source: string;
 }

@@ -161,15 +161,11 @@ def publication_chunks(publications: list[dict]) -> list[dict]:
 def project_chunks(projects: list[dict]) -> list[dict]:
     out = []
     for p in projects:
-        fund = p["funding"][0] if p.get("funding") else {}
-        amount = f"{fund.get('amount', 0):,.0f} {fund.get('currency', 'PKR')}"
         text = (
-            f"Research project (demonstration record, not a confirmed grant): "
-            f'"{p["project_title"]}", {p["status"]}, '
-            f"{p['start_date']} to {p.get('end_date') or 'ongoing'}. "
+            f"Research project (illustrative example, not a confirmed grant): "
+            f'"{p["project_title"]}". '
             f"Principal investigator: {p['principal_investigator_name']} "
-            f"({p['campus']}). Funded by {fund.get('agency_name', 'n/a')}, "
-            f"amount {amount}."
+            f"({p['campus']})."
         )
         out.append(
             {

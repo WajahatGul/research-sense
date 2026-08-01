@@ -80,6 +80,39 @@ def patch_researcher(researcher: dict, dept_fixes: dict[str, str]) -> bool:
     return changed
 
 
+_FUNDED_DESCRIPTION_RE = re.compile(
+    r"^A funded research project applying (.+) to (.+) challenges in Pakistan\.$"
+)
+
+
+def patch_project(project: dict) -> bool:
+    """Remove fabricated funding/date/status fields from a single project
+    record and rewrite any description that claimed funding.
+
+    The PI, department, campus, and topic on a project are real; the
+    funding amount, agency, dates, and status were synthetic and are not
+    published anywhere the university makes available, so they are dropped
+    rather than corrected. Idempotent: a second pass over already-patched
+    data returns False.
+    """
+    changed = False
+    for key in ("funding", "start_date", "end_date", "status"):
+        if key in project:
+            del project[key]
+            changed = True
+
+    description = project.get("description") or ""
+    match = _FUNDED_DESCRIPTION_RE.match(description)
+    if match:
+        topic, domain = match.group(1), match.group(2)
+        project["description"] = (
+            f"An illustrative research direction in {topic} for the {domain} domain."
+        )
+        changed = True
+
+    return changed
+
+
 def patch_publication(publication: dict) -> bool:
     """Recompute a single publication's type from its venue name.
 
@@ -141,13 +174,17 @@ def patch_normalized_names():
         if patch_researcher(researcher, dept_fixes):
             patched += 1
 
-    # Apply department casing fixes to projects
+    # Apply department casing fixes to projects, and strip fabricated
+    # funding/date/status fields (Task 7: remove fabricated project data).
+    project_patched = 0
     for project in projects:
         dept = (project.get("department") or "").lower()
         if dept:
             fixed = dept_fixes.get(dept)
             if fixed and fixed != project["department"]:
                 project["department"] = fixed
+        if patch_project(project):
+            project_patched += 1
 
     pub_patched = 0
     title_patched = 0
@@ -170,6 +207,7 @@ def patch_normalized_names():
         json.dump(publications, f, indent=2, ensure_ascii=False)
 
     print(f"Patched {patched} researcher records")
+    print(f"Patched {project_patched} project records")
     print(f"Patched {pub_patched} publication records")
     print(f"Patched {title_patched} publication titles")
 

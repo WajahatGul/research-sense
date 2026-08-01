@@ -6,6 +6,7 @@ import { fetchResearcher } from "../api/researchers";
 import { INSTITUTION_NAME } from "../config";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
+import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
 import styles from "./ResearcherProfile.module.css";
 
@@ -76,6 +77,11 @@ export default function ResearcherProfile() {
                 {data.publications.length}
               </span>
             </h2>
+            <DataNote>
+              Publication and citation counts reflect only what ResearchSense
+              has indexed so far and may understate this researcher's full
+              output.
+            </DataNote>
             <ul className={styles.pubs}>
               {data.publications.map((p) => (
                 <li key={p.publication_id} className={styles.pub}>

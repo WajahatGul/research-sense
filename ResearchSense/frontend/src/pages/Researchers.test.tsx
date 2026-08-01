@@ -88,6 +88,14 @@ describe("Researchers", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the coverage data note", async () => {
+    renderPage();
+
+    expect(
+      await screen.findByText(/reflects only the faculty ResearchSense/),
+    ).toBeInTheDocument();
+  });
+
   it("fetches researchers after Search is pressed", async () => {
     renderPage();
 

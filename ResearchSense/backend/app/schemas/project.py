@@ -21,9 +21,9 @@ class Project(BaseModel):
     project_id: int
     project_title: str
     description: str = ""
-    start_date: str
+    start_date: str | None = None
     end_date: str | None = None
-    status: str = "ongoing"
+    status: str | None = None
     principal_investigator_id: int | None = None
     principal_investigator_name: str = ""
     department: str = ""
