@@ -151,3 +151,33 @@
 .send:disabled {
   opacity: 0.5;
 }
+
+/* Widget mode: fill the dockable window instead of the fixed page panel. */
+.fill {
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Clear-chat toolbar (shown once a conversation exists). */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px 0;
+}
+.clear {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.clear:hover {
+  background: var(--paper);
+  color: var(--ink);
+}

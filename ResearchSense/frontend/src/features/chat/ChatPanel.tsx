@@ -50,10 +50,40 @@ function sourceLink(s: ChatSource): string {
   }
 }
 
-export function ChatPanel() {
-  const [turns, setTurns] = useState<Turn[]>([]);
+// The conversation is kept in localStorage so it survives minimising the
+// widget, navigating between pages, and reloads — until the user clears it.
+const TURNS_KEY = "rs_chat_turns";
+
+function loadTurns(): Turn[] {
+  try {
+    const raw = localStorage.getItem(TURNS_KEY);
+    return raw ? (JSON.parse(raw) as Turn[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function ChatPanel({ fill = false }: { fill?: boolean } = {}) {
+  const [turns, setTurns] = useState<Turn[]>(loadTurns);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(TURNS_KEY, JSON.stringify(turns));
+    } catch {
+      /* storage full or unavailable — the chat still works in memory */
+    }
+  }, [turns]);
+
+  const clearChat = () => {
+    setTurns([]);
+    try {
+      localStorage.removeItem(TURNS_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
 
   // Library papers become extra suggestion chips, so studied papers are
   // discoverable right where questions are asked.
@@ -103,7 +133,14 @@ export function ChatPanel() {
   };
 
   return (
-    <div className={styles.panel}>
+    <div className={fill ? `${styles.panel} ${styles.fill}` : styles.panel}>
+      {turns.length > 0 && (
+        <div className={styles.toolbar}>
+          <button type="button" className={styles.clear} onClick={clearChat}>
+            Clear chat
+          </button>
+        </div>
+      )}
       <div className={styles.thread}>
         {turns.length === 0 && (
           <div className={styles.empty}>

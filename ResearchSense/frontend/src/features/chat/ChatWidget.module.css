@@ -1,0 +1,82 @@
+.launcher {
+  position: fixed;
+  z-index: 1200;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  box-shadow: 0 8px 24px rgba(10, 36, 80, 0.35);
+  touch-action: none; /* let pointer events drive dragging, not scrolling */
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.launcher:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(10, 36, 80, 0.45);
+}
+
+.launcher:active {
+  cursor: grabbing;
+}
+
+.window {
+  position: fixed;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 20px 56px rgba(16, 32, 47, 0.32);
+  overflow: hidden;
+}
+
+.header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--navy);
+  color: #fff;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.min {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.min:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.body > * {
+  flex: 1 1 auto;
+  min-height: 0;
+}

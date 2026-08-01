@@ -49,9 +49,6 @@ export default function Header() {
               {item.label}
             </NavLink>
           ))}
-          <Link to="/ask" className={styles.cta} onClick={() => setOpen(false)}>
-            Ask ResearchSense
-          </Link>
         </nav>
       </div>
     </header>
