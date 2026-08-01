@@ -3,7 +3,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { CollaborationSuggestion, Paginated, Researcher, ResearcherDetail } from "../types";
+import type {
+  CollaborationSuggestion,
+  Paginated,
+  Researcher,
+  ResearcherDetail,
+} from "../types";
 import { fetchCollaborators, fetchResearcher, fetchResearchers } from "../api/researchers";
 import Collaboration from "./Collaboration";
 
@@ -35,10 +40,14 @@ const researcher: Researcher = {
   research_areas: [],
 };
 
-const otherResearcher: Researcher = {
+// Stands in for a researcher who would fall outside any preloaded "first
+// page" of the roster (regression coverage for the bug where the typeahead
+// filtered a single preloaded page instead of querying the server).
+const moneeb: Researcher = {
   ...researcher,
-  researcher_id: 2,
-  full_name: "Dr. Bilal Ahmed",
+  researcher_id: 99,
+  full_name: "Moneeb Gohar",
+  campus: "Islamabad (H-11)",
 };
 
 const detail: ResearcherDetail = {
@@ -68,12 +77,9 @@ const collaborator: CollaborationSuggestion = {
   international: false,
 };
 
-const researcherPage: Paginated<Researcher> = {
-  items: [researcher, otherResearcher],
-  total: 2,
-  page: 1,
-  page_size: 100,
-};
+function page(items: Researcher[]): Paginated<Researcher> {
+  return { items, total: items.length, page: 1, page_size: 8 };
+}
 
 function renderPage() {
   const client = new QueryClient({
@@ -93,20 +99,19 @@ beforeEach(() => {
 });
 
 describe("Collaboration", () => {
-  it("does not fetch researcher detail or collaborators on mount", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+  it("does not fetch researcher detail, collaborators, or researchers on mount", async () => {
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
     renderPage();
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
+    await screen.findByLabelText("Search researchers by name");
+    expect(mockFetchResearchers).not.toHaveBeenCalled();
     expect(mockFetchResearcher).not.toHaveBeenCalled();
     expect(mockFetchCollaborators).not.toHaveBeenCalled();
   });
 
   it("shows the pick-a-researcher prompt before a researcher is selected", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
@@ -120,22 +125,50 @@ describe("Collaboration", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
-  it("filters the researcher list as the user types", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+  it("queries the server (not a preloaded array) with the typed name, debounced", async () => {
+    mockFetchResearchers.mockResolvedValue(page([]));
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
     renderPage();
 
     const input = await screen.findByLabelText("Search researchers by name");
-    fireEvent.change(input, { target: { value: "bilal" } });
+    fireEvent.change(input, { target: { value: "moneeb" } });
 
-    expect(await screen.findByRole("option", { name: /Dr\. Bilal Ahmed/ })).toBeInTheDocument();
-    expect(screen.queryByRole("option", { name: /Dr\. Ayesha Khan/ })).not.toBeInTheDocument();
+    // Not fired immediately (debounced).
+    expect(mockFetchResearchers).not.toHaveBeenCalled();
+
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenCalledWith({
+        q: "moneeb",
+        page_size: 8,
+      }),
+    );
+  });
+
+  it("finds a researcher who would not be present on any preloaded first page", async () => {
+    // The mount call the old implementation made no longer exists, but even
+    // if something loaded an initial page, it would return no Moneeb — only
+    // the server-side `q` search does.
+    mockFetchResearchers.mockImplementation((filters) => {
+      if (filters?.q === "moneeb") return Promise.resolve(page([moneeb]));
+      return Promise.resolve(page([]));
+    });
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "moneeb" } });
+
+    expect(
+      await screen.findByRole("option", { name: /Moneeb Gohar/ }),
+    ).toBeInTheDocument();
   });
 
   it("selects a researcher and loads their collaborators when a match is clicked", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     mockFetchResearcher.mockResolvedValue(detail);
     mockFetchCollaborators.mockResolvedValue([collaborator]);
 
@@ -154,7 +187,7 @@ describe("Collaboration", () => {
   });
 
   it("shows a no-match message when the query matches nobody", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([]));
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
@@ -168,26 +201,44 @@ describe("Collaboration", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows a retry action when the researcher list fails to load", async () => {
+  it("shows a retry action when the researcher search fails", async () => {
     mockFetchResearchers.mockRejectedValue(new Error("boom"));
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
     renderPage();
 
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "Ayesha" } });
+
     expect(
       await screen.findByText(/Could not load researchers/),
     ).toBeInTheDocument();
     const retryButton = screen.getByRole("button", { name: "Retry" });
 
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     fireEvent.click(retryButton);
 
     await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(2));
   });
 
+  it("does not query for a single-character search", async () => {
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    const input = await screen.findByLabelText("Search researchers by name");
+    fireEvent.change(input, { target: { value: "A" } });
+
+    // Give the debounce timer plenty of time to have fired if it were going to.
+    await new Promise((r) => setTimeout(r, 400));
+    expect(mockFetchResearchers).not.toHaveBeenCalled();
+  });
+
   it("shows a loader before the collaborators query resolves", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
@@ -202,7 +253,7 @@ describe("Collaboration", () => {
   });
 
   it("shows the empty state once collaborators resolve to an empty list", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     mockFetchResearcher.mockResolvedValue(detail);
     mockFetchCollaborators.mockResolvedValue([]);
 
@@ -219,7 +270,7 @@ describe("Collaboration", () => {
   });
 
   it("renders all five sort options once collaborator rows are present", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     mockFetchResearcher.mockResolvedValue(detail);
     mockFetchCollaborators.mockResolvedValue([collaborator]);
 
@@ -235,19 +286,37 @@ describe("Collaboration", () => {
   });
 
   it("selects the highlighted match on Enter after arrowing down", async () => {
-    mockFetchResearchers.mockResolvedValue(researcherPage);
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
     mockFetchResearcher.mockResolvedValue(detail);
     mockFetchCollaborators.mockResolvedValue([collaborator]);
 
     renderPage();
 
     const input = await screen.findByLabelText("Search researchers by name");
-    fireEvent.change(input, { target: { value: "Dr." } });
+    fireEvent.change(input, { target: { value: "Ayesha" } });
     await screen.findAllByRole("option");
 
     fireEvent.keyDown(input, { key: "ArrowDown" });
     fireEvent.keyDown(input, { key: "Enter" });
 
     await waitFor(() => expect(mockFetchResearcher).toHaveBeenCalledWith(1));
+  });
+
+  it("clears the query on Escape", async () => {
+    mockFetchResearchers.mockResolvedValue(page([researcher]));
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage();
+
+    const input = await screen.findByLabelText<HTMLInputElement>(
+      "Search researchers by name",
+    );
+    fireEvent.change(input, { target: { value: "Ayesha" } });
+    await screen.findAllByRole("option");
+
+    fireEvent.keyDown(input, { key: "Escape" });
+
+    expect(input.value).toBe("");
   });
 });

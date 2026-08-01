@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import type { Researcher } from "../types";
@@ -29,15 +29,6 @@ export default function Collaboration() {
   const [campusFilter, setCampusFilter] = useState<CampusFilter>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
   const [sort, setSort] = useState<CollabSort>("relevance");
-
-  const {
-    data: list,
-    isError: listError,
-    refetch: refetchList,
-  } = useQuery({
-    queryKey: ["researchers", "collab-picker"],
-    queryFn: () => fetchResearchers({ page_size: 100 }),
-  });
 
   const selectResearcher = (r: Researcher) => {
     setSelected(r.researcher_id);
@@ -112,9 +103,6 @@ export default function Collaboration() {
         description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions outside Pakistan."
       >
         <ResearcherTypeahead
-          researchers={list?.items}
-          isError={listError}
-          onRetry={refetchList}
           selectedName={selectedName}
           onSelect={selectResearcher}
         />
@@ -199,53 +187,50 @@ export default function Collaboration() {
 }
 
 interface TypeaheadProps {
-  researchers: Researcher[] | undefined;
-  isError: boolean;
-  onRetry: () => void;
   selectedName: string;
   onSelect: (r: Researcher) => void;
 }
 
-// Simple, dependency-free typeahead: filters the already-loaded researcher
-// list client-side and lets the user pick a match with the mouse or the
-// keyboard (Up/Down/Enter/Escape). No external combobox library.
-function ResearcherTypeahead({
-  researchers,
-  isError,
-  onRetry,
-  selectedName,
-  onSelect,
-}: TypeaheadProps) {
+const MIN_QUERY_LENGTH = 2;
+const DEBOUNCE_MS = 250;
+
+// Simple, dependency-free typeahead: SERVER-SIDE search (the roster is 358+
+// researchers and growing — filtering a single preloaded page misses
+// everyone outside it) via GET /api/researchers?q=..., debounced ~250ms so
+// a keystroke doesn't fire a request each time. Lets the user pick a match
+// with the mouse or the keyboard (Up/Down/Enter/Escape). No combobox lib.
+function ResearcherTypeahead({ selectedName, onSelect }: TypeaheadProps) {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(-1);
   const blurTimeout = useRef<ReturnType<typeof setTimeout>>();
 
-  const trimmed = query.trim();
-  const matches = useMemo(() => {
-    if (!trimmed || !researchers) return [];
-    const q = trimmed.toLowerCase();
-    return researchers
-      .filter((r) => r.full_name.toLowerCase().includes(q))
-      .slice(0, 8);
-  }, [researchers, trimmed]);
+  useEffect(() => {
+    const handle = setTimeout(() => setDebouncedQuery(query.trim()), DEBOUNCE_MS);
+    return () => clearTimeout(handle);
+  }, [query]);
+
+  const searchReady = debouncedQuery.length >= MIN_QUERY_LENGTH;
+
+  const {
+    data: results,
+    isFetching,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["researcher-search", debouncedQuery],
+    queryFn: () => fetchResearchers({ q: debouncedQuery, page_size: 8 }),
+    enabled: searchReady,
+  });
+
+  const matches = results?.items ?? [];
 
   const pick = (r: Researcher) => {
     onSelect(r);
     setQuery(r.full_name);
     setOpen(false);
   };
-
-  if (isError) {
-    return (
-      <p className={styles.pickerError}>
-        Could not load researchers.{" "}
-        <button type="button" className={styles.retryButton} onClick={() => onRetry()}>
-          Retry
-        </button>
-      </p>
-    );
-  }
 
   return (
     <div className={styles.typeahead}>
@@ -255,7 +240,7 @@ function ResearcherTypeahead({
         aria-label="Search researchers by name"
         placeholder="Type a researcher's name…"
         role="combobox"
-        aria-expanded={open && matches.length > 0}
+        aria-expanded={open && searchReady}
         aria-controls="researcher-typeahead-listbox"
         aria-activedescendant={
           open && matches[highlighted]
@@ -286,11 +271,27 @@ function ResearcherTypeahead({
             if (match) pick(match);
           } else if (e.key === "Escape") {
             setQuery("");
+            setDebouncedQuery("");
             setOpen(false);
           }
         }}
       />
-      {open && matches.length > 0 && (
+      {open && searchReady && isError && (
+        <p className={styles.pickerError}>
+          Could not load researchers.{" "}
+          <button
+            type="button"
+            className={styles.retryButton}
+            onClick={() => refetch()}
+          >
+            Retry
+          </button>
+        </p>
+      )}
+      {open && searchReady && !isError && isFetching && (
+        <p className={styles.noMatch}>Searching…</p>
+      )}
+      {open && searchReady && !isError && !isFetching && matches.length > 0 && (
         <ul
           id="researcher-typeahead-listbox"
           role="listbox"
@@ -314,9 +315,9 @@ function ResearcherTypeahead({
           ))}
         </ul>
       )}
-      {open && trimmed && matches.length === 0 && (
+      {open && searchReady && !isError && !isFetching && matches.length === 0 && (
         <p className={styles.noMatch}>
-          No researcher found matching '{trimmed}'.
+          No researcher found matching '{debouncedQuery}'.
         </p>
       )}
     </div>
