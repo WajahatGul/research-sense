@@ -52,7 +52,7 @@ def generate(
 
 def _extractive_answer(chunks: list[ScoredChunk]) -> str:
     """Grounded fallback: present the retrieved facts directly."""
-    lines = ["Here is what the ResearchSense database contains on this:"]
+    lines = ["Here is what the ResearchSense records contain on this:"]
     seen: set[str] = set()
     for c in chunks[:4]:
         snippet = c.text if len(c.text) <= 320 else c.text[:317] + "..."
@@ -60,3 +60,10 @@ def _extractive_answer(chunks: list[ScoredChunk]) -> str:
             seen.add(snippet)
             lines.append(f"- {snippet}")
     return "\n".join(lines)
+
+
+# Public alias: the grounded, model-free answer built straight from retrieved
+# facts. Used by the chat service as a soft fallback when the model cannot
+# answer from weak evidence, so the user still gets something concrete.
+def grounded_facts(chunks: list[ScoredChunk]) -> str:
+    return _extractive_answer(chunks)

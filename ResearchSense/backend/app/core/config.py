@@ -22,11 +22,14 @@ class Settings:
         "http://localhost:5173,http://127.0.0.1:5173",
     ).split(",")
 
-    # Deploying institution's name. ResearchSense is institution-agnostic: leave
-    # this empty for the neutral product-only look, or set RS_INSTITUTION_NAME
-    # (e.g. "Meridian University") to brand every answer and index entry for one
-    # institution.
-    institution_name: str = os.getenv("RS_INSTITUTION_NAME", "").strip()
+    # Deploying institution's name. ResearchSense is institution-agnostic, but a
+    # deployment is always for one university (the customer), so it is set here.
+    # This build is configured for Bahria University, which owns the data and
+    # campuses shown. A different customer overrides RS_INSTITUTION_NAME (or sets
+    # it to "" for a neutral, unbranded look).
+    institution_name: str = os.getenv(
+        "RS_INSTITUTION_NAME", "Bahria University"
+    ).strip()
 
     # --- RAG chatbot ---
     # Accept both spellings; the key is created at console.groq.com (free tier).
@@ -34,6 +37,11 @@ class Settings:
     groq_model: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     # Below this cosine similarity the bot refuses instead of answering.
     rag_score_threshold: float = float(os.getenv("RAG_SCORE_THRESHOLD", "0.38"))
+    # Between the soft threshold and the score threshold the assistant still
+    # answers from what it found, but adds a note that its coverage is limited.
+    # Below the soft threshold there is nothing meaningfully related, so it
+    # gives a helpful redirect instead of guessing.
+    rag_soft_threshold: float = float(os.getenv("RAG_SOFT_THRESHOLD", "0.22"))
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "12"))
 
     # --- Developer/test account ---

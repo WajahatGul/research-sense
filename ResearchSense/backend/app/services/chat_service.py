@@ -8,17 +8,36 @@ refused honestly; the LLM is never called for them.
 
 from __future__ import annotations
 
+from app.core.config import settings
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
 from app.services.rag.agentic import normalize_query
 from app.services.rag.directory import directory_answer, research_area_answer
-from app.services.rag.generator import REFUSAL_MESSAGE, generate
+from app.services.rag.generator import REFUSAL_MESSAGE, generate, grounded_facts
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
 
 INDEX_MISSING_MESSAGE = (
     "The assistant's knowledge index has not been built yet. Run "
     "'python -m scripts.build_index' in the backend and try again."
+)
+
+# Shown when nothing meaningfully related was found. A helpful redirect rather
+# than a dead end, so a question never ends in a blunt wall.
+NO_MATCH_MESSAGE = (
+    "I could not find anything on that in the records I have indexed so far, "
+    "which cover faculty profiles, publications, projects, and the papers in "
+    "the library. You could try rephrasing the question, browsing the "
+    "Researchers or Research Areas pages, or asking about a specific person, "
+    "topic, or paper."
+)
+
+# Appended when the answer rests on weak evidence, so the reader knows the
+# coverage is limited without the assistant either guessing or refusing.
+LIMITED_COVERAGE_NOTE = (
+    "Note: this reflects only the records ResearchSense has indexed so far, so "
+    "the coverage may be incomplete. The Researchers and Research Areas pages "
+    "show the full indexed set."
 )
 
 
@@ -142,12 +161,29 @@ class ChatService:
             )
 
         results = Retriever.instance().retrieve(_retrieval_query(question, history))
+        top = results[0].score if results else 0.0
 
-        # Confidence gate: nothing relevant in the index -> refuse, no LLM call.
+        # Nothing meaningfully related: give a helpful redirect (never a blunt
+        # dead end), and skip the model call.
+        if top < settings.rag_soft_threshold:
+            return ChatResponse(answer=NO_MATCH_MESSAGE)
+
+        answer, used_llm = generate(question, results, history)
+
+        # The model read the passages and judged they do not answer the
+        # question (e.g. an out-of-scope question that only shares a stray
+        # keyword): redirect helpfully rather than dumping loosely-matched text.
+        if used_llm and answer == REFUSAL_MESSAGE:
+            return ChatResponse(answer=NO_MATCH_MESSAGE)
+
+        # Model unavailable (no key or every model exhausted): fall back to the
+        # grounded facts so the user still gets something concrete.
+        if not answer:
+            answer = grounded_facts(results)
+
+        # Weak evidence (below the strong-confidence bar): keep the answer but
+        # add a professional note that the coverage is limited.
         if not is_confident(results):
-            return ChatResponse(answer=REFUSAL_MESSAGE)
+            answer = answer.rstrip() + "\n\n" + LIMITED_COVERAGE_NOTE
 
-        answer, _used_llm = generate(question, results, history)
-        if answer == REFUSAL_MESSAGE:
-            return ChatResponse(answer=REFUSAL_MESSAGE)
         return ChatResponse(answer=answer, sources=_sources_from(results))
