@@ -17,22 +17,29 @@ DATE = "2026"
 
 ABSTRACT = [
     "ResearchSense is a web based research information system built for Bahria "
-    "University, covering the computing faculty of its Islamabad (E-8 and H-11), "
-    "Karachi and Lahore campuses. Universities produce a large amount of "
+    "University, covering the faculty of every academic department across its "
+    "Islamabad (E-8 and H-11), Karachi and Lahore campuses. The dataset for the "
+    "current version holds 358 researchers from 22 departments together with "
+    "1,667 of their publications. Universities produce a large amount of "
     "research every year, but the records of researchers, publications, and "
     "projects are often spread across separate files and web pages. This makes "
     "it hard for students, faculty, and outside visitors to find who works on a "
-    "topic or what work the campus has produced.",
+    "topic or what work the university has produced.",
 
     "ResearchSense brings this information into one clear place. It offers "
     "researcher profiles, a searchable list of publications, a set of research "
-    "areas, funded projects, a tool that suggests possible collaborators using "
-    "real co authorship records, an analytics dashboard, and a grounded "
-    "assistant that answers plain language questions using only the data held "
-    "by the system. Faculty members can sign in with a verified identity, add "
-    "their own publications, and add any paper of interest to a shared library "
-    "so the assistant can answer questions about it. The system uses a React "
-    "and TypeScript interface with a FastAPI service behind it.",
+    "areas derived from the researchers' own published work, sample projects, a "
+    "tool that suggests possible collaborators using real co authorship "
+    "records, an analytics dashboard, and a grounded assistant that answers "
+    "plain language questions using only the data held by the system. Faculty "
+    "members can sign in with a verified identity and add their own "
+    "publications, which are held for administrator approval before they "
+    "appear, and can add any paper of interest to a shared library so the "
+    "assistant can answer questions about it. The system also recognises "
+    "international collaboration by detecting co authors based outside the "
+    "country. It uses a React and TypeScript interface with a FastAPI service "
+    "behind it, and is written to be institution agnostic so that a single "
+    "configuration value can brand it for any university.",
 
     "The design keeps the research data separate from the parts of the system "
     "that change often, such as accounts and uploads, which already live in a "
@@ -72,8 +79,8 @@ CH1 = {
             "assistant a plain question and receive an answer grounded in the "
             "system's own records. The idea follows the style of well known "
             "university research portals, but it is shaped for the needs of "
-            "Bahria University and uses the real computing faculty of its four "
-            "teaching campuses as its data.",
+            "Bahria University and uses the real faculty of every department "
+            "across its four teaching campuses as its data.",
         ]),
         ("Problem Description", [
             "The main problem is that research information at the campus is "
@@ -101,14 +108,20 @@ CH1 = {
             "The objectives of the project are listed below.",
         ], [
             "Build one web portal that shows researcher profiles, publications, "
-            "research areas, and projects for the campus.",
+            "research areas, and projects for the whole university across its "
+            "four campuses.",
             "Make the information easy to search and filter by name, department, "
-            "designation, topic, campus, and year.",
+            "academic rank, topic, campus, and a range of publication dates, "
+            "with the directory and publication pages starting from a search so "
+            "the user chooses what to see.",
             "Show the research strength of the campus through clear counts, "
             "featured profiles, and an analytics dashboard of trends over time.",
             "Suggest possible collaborators by combining real co authored "
             "publications with shared research topics, and let a visitor filter "
             "suggestions by campus or by area.",
+            "Detect international collaboration by recognising co authors based "
+            "at institutions outside the country, and show the partner "
+            "institutions on each researcher's profile.",
             "Provide a grounded assistant that answers plain language questions "
             "using only the system's own records, points the user to the right "
             "people, papers, and areas, and declines to answer when it has no "
@@ -117,22 +130,31 @@ CH1 = {
             "identity, sign in, add new publications, upload their own papers, "
             "and add any paper of interest to a shared library for the assistant "
             "to read and answer questions about.",
-            "Give an administrator a simple way to review accounts and refresh "
-            "the underlying research data on demand.",
+            "Hold each submitted publication for administrator approval before "
+            "it appears, so that nothing is published to a profile or to search "
+            "without review.",
+            "Give an administrator a simple way to approve or reject the papers "
+            "that faculty submit, review accounts, and refresh the underlying "
+            "research data on demand.",
             "Keep the read only research records behind a clear boundary so that "
             "a full relational database can be added later without a rewrite of "
             "the system.",
         ]),
         ("Project Scope", [
             "ResearchSense delivers a complete, working portal together with a "
-            "grounded conversational assistant. The data for this version comes "
-            "from the real computing faculty (Computer Science, Software "
-            "Engineering, and Computer Engineering) across the four campuses, "
-            "including real emails, research areas, and qualifications, together "
-            "with real publications collected from the OpenAlex scholarly "
-            "database and matched to their real authors. Project and funding "
-            "records are sample values that are clearly marked as sample. The "
-            "system runs as a web application that any modern browser can open.",
+            "grounded conversational assistant. The data for this version covers "
+            "the real faculty of every academic department across the four "
+            "campuses, a total of 358 researchers from 22 departments, including "
+            "real emails, research areas, and qualifications, together with "
+            "1,667 real publications collected from open scholarly databases and "
+            "matched to their real authors. Each researcher's research areas are "
+            "worked out from their own published papers rather than typed in by "
+            "hand. Project records are sample values that are clearly marked as "
+            "examples and carry no funding figures. The system runs as a web "
+            "application that any modern browser can open, and although it is "
+            "populated with Bahria University data it is written to be "
+            "institution agnostic, so a single setting can brand and deploy it "
+            "for any university.",
 
             "Within this scope, faculty members can claim their profile using "
             "their ORCID identifier, which is checked against the public ORCID "
@@ -142,13 +164,16 @@ CH1 = {
             "and verify the paper's details, or by entering the details by hand "
             "when no DOI exists. A new publication is only accepted once the "
             "system has confirmed that the signed in researcher is really one of "
-            "its authors, so that a record cannot be added to the wrong profile. "
-            "A faculty member can also upload their own paper so that the "
-            "assistant can read its full text, and can separately add any paper "
-            "of interest, whether or not they wrote it, to a shared library that "
-            "the assistant can read without attaching it to anyone's profile. An "
-            "administrator can review accounts and trigger a refresh of the "
-            "research data on demand.",
+            "its authors, and it is then held for administrator approval before "
+            "it appears on the profile and in search, so that a record cannot be "
+            "added to the wrong profile or published without review. A faculty "
+            "member can also upload their own paper so that the assistant can "
+            "read its full text, and can separately add any paper of interest, "
+            "whether or not they wrote it, to a shared library that the "
+            "assistant can read without attaching it to anyone's profile. An "
+            "administrator signs in separately, reviews the queue of submitted "
+            "papers to approve or reject each one, manages accounts, and can "
+            "trigger a refresh of the research data on demand.",
 
             "The assistant itself answers from the researcher, publication, "
             "project, topic, and co authorship records, and from the full text "
@@ -280,19 +305,25 @@ CH3 = {
             "collaborator, all without leaving the portal.",
 
             "The proposed system adds features that the existing setup does not "
-            "have. It counts the research output of the campus and shows it on "
-            "the home page and on an analytics dashboard. It lets users filter "
-            "people and papers in many ways. It suggests collaborators by "
-            "combining real co authored publications with shared topics, and "
-            "lets a visitor narrow the suggestions to the same campus, another "
-            "campus, or a chosen research area. It lets a faculty member claim "
-            "their profile with a verified identity, sign in, add new "
-            "publications by DOI or by hand, upload their own papers, and add "
-            "any paper of interest to a shared library. It offers a grounded "
-            "assistant that turns a plain question into a helpful answer with "
-            "links, and that answers questions about authorship and about "
-            "collaboration directly from the structured records so that these "
-            "common questions are precise rather than approximate.",
+            "have. It counts the research output of the whole university and "
+            "shows it on the home page and on an analytics dashboard that also "
+            "breaks the output down by department and by domestic against "
+            "international collaboration. It lets users filter people and papers "
+            "in many ways, including by academic rank and by a range of "
+            "publication dates. It suggests collaborators by combining real co "
+            "authored publications with shared topics, and lets a visitor narrow "
+            "the suggestions to the same campus, another campus, or a chosen "
+            "research area. It lets a faculty member claim their profile with a "
+            "verified identity, sign in, add new publications by DOI or by hand, "
+            "upload their own papers, and add any paper of interest to a shared "
+            "library, and it holds every submitted publication for administrator "
+            "approval before it appears. It offers a grounded assistant that "
+            "turns a plain question into a helpful answer with links, and that "
+            "answers common structured questions, such as who wrote a paper, "
+            "whether two people have worked together, who leads a field by "
+            "output, and who works in a given department or research area, "
+            "directly from the records so that these questions are precise "
+            "rather than approximate.",
         ]),
         ("Functional Requirements", [
             "The functional requirements describe what the system must do.",
@@ -300,23 +331,32 @@ CH3 = {
             "The system shall show a home page with search, live counts, featured "
             "researchers, and a list of research areas.",
             "The system shall list all researchers and allow filtering by "
-            "department, designation, campus, and topic, and searching by name.",
+            "department, academic rank, campus, and topic, and searching by "
+            "name, with the directory beginning from a search so the user "
+            "chooses what to see.",
             "The system shall show a full profile for each researcher, including "
-            "biography, research areas, publications, and suggested collaborators.",
-            "The system shall list publications and allow filtering by year and "
-            "topic and searching by title, and shall let a user open the paper "
-            "itself or ask the assistant about it.",
-            "The system shall list research areas and show how many publications "
+            "biography, research areas, publications, international collaboration "
+            "partners, and suggested collaborators.",
+            "The system shall list publications and allow filtering by a range "
+            "of dates and by topic and searching by title, and shall let a user "
+            "open the paper itself or ask the assistant about it.",
+            "The system shall list research areas, worked out from the "
+            "researchers' own published work, and show how many publications "
             "and researchers belong to each area.",
-            "The system shall list funded projects with their status, dates, lead "
-            "researcher, and funding details.",
+            "The system shall list sample projects with their lead researcher "
+            "and topic, clearly marked as examples that carry no funding "
+            "figures.",
             "The system shall show a collaboration view that ranks suggested "
             "collaborators for a chosen researcher first by real co authored "
             "publications and then by shared research areas, and shall let the "
             "user filter by campus and by area.",
             "The system shall show an analytics dashboard of publication counts "
-            "over time, citation growth, leading venues, and cross campus "
-            "collaboration.",
+            "over time, citation growth, leading venues, cross campus "
+            "collaboration, publications by department, and a split of domestic "
+            "against international collaboration.",
+            "The system shall recognise a publication as international when its "
+            "author list includes an institution outside the country, and shall "
+            "list the partner institutions on the profiles concerned.",
             "The system shall let a faculty member claim their profile using an "
             "ORCID identifier that is checked against the public ORCID registry, "
             "choose a password, and sign in afterward with the same credentials.",
@@ -324,7 +364,8 @@ CH3 = {
             "publication by entering its DOI, automatically fetch and display the "
             "paper's details for confirmation, warn when the paper is already on "
             "record, and accept the submission only once the signed in "
-            "researcher is confirmed to be one of its authors.",
+            "researcher is confirmed to be one of its authors, after which the "
+            "publication is held for administrator approval before it appears.",
             "The system shall let a signed in faculty member submit a new "
             "publication by hand when no DOI exists, recording the same core "
             "details as a DOI based submission.",
@@ -336,17 +377,24 @@ CH3 = {
             "either by DOI or by uploading a file, so the assistant can read it "
             "without attributing it to any profile.",
             "The system shall let an administrator sign in separately from "
-            "faculty members, view and activate or deactivate accounts, and "
-            "trigger a refresh of the underlying research data.",
+            "faculty members, review a queue of submitted papers and approve or "
+            "reject each one, prepare an approved paper so it becomes searchable "
+            "at once, view and activate or deactivate accounts, and trigger a "
+            "refresh of the underlying research data.",
+            "The system shall keep a submitted paper hidden from profiles and "
+            "from search until an administrator approves it, and shall keep a "
+            "rejected paper hidden while showing its author the reason.",
             "The system shall provide an assistant that accepts a plain question "
             "and returns an answer with links to relevant people, papers, and "
             "areas, using only the system's own records.",
             "The assistant shall decline to answer a question that its records "
             "do not support, rather than inventing an answer.",
-            "The assistant shall answer a question about who wrote a given paper, "
-            "and a question about whether two named researchers have worked "
-            "together, directly from the structured publication and authorship "
-            "records.",
+            "The assistant shall answer common structured questions directly "
+            "from the records, including who wrote a given paper, whether two "
+            "named researchers have worked together, who leads a field by "
+            "publications or citations, and who works in a given department or "
+            "research area, so that these questions give precise and repeatable "
+            "answers rather than depending on open ended generation.",
         ]),
         ("Non Functional Requirements", [
             "The non functional requirements describe the quality goals of the "
@@ -392,16 +440,19 @@ CH3 = {
             "Claim a faculty profile with a verified ORCID identifier and sign "
             "in.",
             "Submit a new publication by DOI, confirm its details, and have it "
-            "added once authorship is verified.",
+            "added once authorship is verified and an administrator has approved "
+            "it.",
             "Submit a new publication by hand when no DOI exists.",
             "Upload a personal paper so the assistant can read its full text.",
             "Add any paper of interest to the shared library, by DOI or by "
             "upload, for the assistant to read.",
-            "Sign in as an administrator, review accounts, and trigger a data "
+            "Sign in as an administrator, review the queue of submitted papers "
+            "and approve or reject each one, manage accounts, and trigger a data "
             "refresh.",
             "Ask the assistant a plain question and follow its links, including "
-            "questions about who wrote a paper or whether two researchers have "
-            "collaborated.",
+            "questions about who wrote a paper, whether two researchers have "
+            "collaborated, who leads a field, or who works in a department or "
+            "research area.",
         ]),
     ],
 }
@@ -436,21 +487,41 @@ CH4 = {
             "component turns the research corpus and any uploaded or library "
             "paper text into searchable passages and finds the passages closest "
             "in meaning to a user's question. A generation component then writes "
-            "an answer using only those passages, or declines to answer when "
-            "nothing relevant is found. Two direct lookups sit in front of this "
-            "general path, answering authorship questions and collaboration "
-            "questions straight from the structured publication records when a "
-            "question clearly asks for one of these, since a precise, checkable "
-            "answer is better than an approximate one for these common cases.",
+            "an answer using only those passages, working in several passes that "
+            "first understand the question in the light of the recent "
+            "conversation, then gather evidence, then compose the reply, and it "
+            "declines to answer when nothing relevant is found. A set of direct "
+            "lookups sits in front of this general path and answers common "
+            "structured questions straight from the records: who wrote a paper, "
+            "whether two people have worked together, who leads a field by "
+            "output, and who works in a given department or research area. These "
+            "are checked first because a precise, repeatable answer is better "
+            "than an approximate one for these common cases, and because it "
+            "keeps such questions from depending on the wording of the search.",
+
+            "The server also holds the submission and approval flow. When a "
+            "faculty member submits a paper, the system verifies their "
+            "authorship, prepares the paper's searchable passages in advance, "
+            "and records the submission as pending. An administrator then "
+            "approves or rejects it. On approval the prepared passages are "
+            "merged into the live index so the paper becomes searchable at once, "
+            "and on rejection they are discarded. Nothing a faculty member "
+            "submits reaches a profile or the search index until it has been "
+            "approved.",
         ]),
         ("Design Constraints", [
-            "The design works within a few constraints. Publications are real and "
-            "come from the OpenAlex scholarly database, matched to Bahria "
-            "affiliated authors, and are supplemented by publications that "
-            "faculty members submit themselves once their authorship has been "
-            "confirmed. Project and funding records are sample data, since the "
-            "campus does not publish these in a single feed, and they are marked "
-            "as sample so their origin is always clear.",
+            "The design works within a few constraints. Publications are real "
+            "and come from open scholarly databases, chiefly OpenAlex with "
+            "Semantic Scholar and Crossref available as further sources, matched "
+            "to Bahria affiliated authors, and are supplemented by publications "
+            "that faculty members submit themselves once their authorship has "
+            "been confirmed and an administrator has approved them. Project "
+            "records are sample data, since the university does not publish "
+            "these in a single feed, and they are marked as examples and carry "
+            "no funding figures so that nothing on screen can be mistaken for a "
+            "real grant. Where the indexed data does not yet hold every paper by "
+            "every researcher, the pages say so plainly rather than implying the "
+            "figures are complete.",
 
             "The assistant depends on a hosted large language model service "
             "reached over the internet for the parts of its answer that need "
@@ -542,29 +613,37 @@ CH4 = {
         ]),
         ("GUI Design", [
             "The interface follows the style of a clean university research "
-            "portal, with the colours and identity of Bahria University. The home "
-            "page opens with a search area and a row of live counts for "
-            "researchers, publications, research areas, and projects. Below this "
-            "it shows featured researchers and a grid of research areas.",
+            "portal. Its identity is set from a single configuration value, so "
+            "the same product can be branded for any university; it is shown "
+            "here with the identity of Bahria University. The home page opens "
+            "with a search area and a row of live counts for researchers, "
+            "publications, research areas, and projects. Below this it shows "
+            "featured researchers and a grid of research areas.",
 
-            "The researcher directory shows cards that can be filtered and "
-            "searched. A profile page shows the biography, research areas, "
-            "publications, and suggested collaborators of one person. The "
-            "publications page, the research areas page, and the projects page "
-            "each present their records in a clear list or grid, and a "
-            "publication can be opened directly or handed to the assistant. The "
-            "collaboration page draws a network that links a chosen researcher "
-            "to others, marking those with real co authored papers differently "
-            "from those who only share a research area, and can be filtered by "
-            "campus or by area. The analytics page shows charts of publication "
-            "and citation trends. The library page lists every paper that has "
+            "The researcher directory and the publications page begin from a "
+            "search, so the user chooses filters and sees results rather than a "
+            "long default list. A profile page shows the biography, research "
+            "areas, publications, international collaboration partners, and "
+            "suggested collaborators of one person. The research areas page and "
+            "the projects page each present their records in a clear list or "
+            "grid, and a publication can be opened directly or handed to the "
+            "assistant. The collaboration page begins from a name search and "
+            "draws a network that links a chosen researcher to others, marking "
+            "those with real co authored papers differently from those who only "
+            "share a research area, and can be filtered by campus or by area. "
+            "The analytics page shows charts of publication and citation trends, "
+            "leading venues, publications by department, and a domestic against "
+            "international split. The library page lists every paper that has "
             "been added for the assistant to read, whether or not it belongs to "
             "a profile. The portal page lets a faculty member claim a profile, "
             "sign in, submit publications, upload papers, and add papers to the "
-            "library, and lets an administrator manage accounts and refresh the "
-            "data. The assistant page offers a chat style box for plain "
-            "questions. Every page adjusts to smaller screens so the portal "
-            "works on mobile as well as on desktop.",
+            "library, and lets an administrator work through the queue of "
+            "submitted papers to approve or reject each one, manage accounts, "
+            "and refresh the data. The assistant page offers a chat style box "
+            "for plain questions. Pages that show counts also carry a short note "
+            "explaining that the figures cover only what has been indexed so "
+            "far, so a reader is never misled. Every page adjusts to smaller "
+            "screens so the portal works on mobile as well as on desktop.",
         ]),
         ("External Interfaces", [
             "The main external interface is the web interface between the client "
@@ -573,10 +652,12 @@ CH4 = {
 
             "Several outside services support the research data and the "
             "assistant. Scripts read the public faculty directory of the "
-            "university to build the researcher records for every campus, and "
-            "query the OpenAlex scholarly database to collect real publications "
-            "and, when a researcher's identity is confirmed, their co authored "
-            "papers. When a faculty member submits a publication by DOI, the "
+            "university to build the researcher records for every department on "
+            "every campus, and query open scholarly databases, chiefly OpenAlex "
+            "with Semantic Scholar and Crossref available as further sources, to "
+            "collect real publications and, when a researcher's identity is "
+            "confirmed, their co authored papers. When a faculty member submits "
+            "a publication by DOI, the "
             "system queries scholarly metadata services to fetch and verify the "
             "paper's title, authors, and venue, and consults the public ORCID "
             "registry to confirm a claimed identity before a profile can be "
@@ -613,12 +694,12 @@ DB_TABLE = [
      "A research area used to group work, such as machine learning."),
     ("publication_topics", "publication_id, topic_id, confidence_score",
      "Links a publication to the topics it belongs to."),
-    ("projects", "project_id, project_title, status, start_date, end_date",
-     "A research project led by a principal investigator."),
-    ("funding_sources", "funding_id, agency_name, country",
-     "An agency that funds a project."),
-    ("project_funding", "project_id, funding_id, amount, currency",
-     "Links a project to its funding and amount."),
+    ("projects", "project_id, project_title, principal_investigator_id, topics",
+     "A sample research project led by a researcher, shown as an example that "
+     "carries no funding data."),
+    ("submissions", "submission_id, researcher_id, kind, status, submitted_at",
+     "A paper submitted by a faculty member, held pending an administrator's "
+     "approval or rejection before it appears on a profile or in search."),
     ("collaboration_recommendations",
      "researcher_id, recommended_researcher_id, shared_publications, "
      "similarity_score",
@@ -634,6 +715,8 @@ REFERENCES = [
     "DuraSpace. DSpace Repository Software. dspace.org.",
     "Bahria University. Faculty Directory. bahria.edu.pk/Home/Faculty.",
     "OpenAlex. An Open Catalog of Scholarly Works. openalex.org.",
+    "Semantic Scholar. AI Powered Research Tool. semanticscholar.org.",
+    "Crossref. Metadata for Scholarly Content. crossref.org.",
     "Lewis, P. et al. Retrieval Augmented Generation for Knowledge Intensive "
     "NLP Tasks. Advances in Neural Information Processing Systems, 2020.",
 ]
