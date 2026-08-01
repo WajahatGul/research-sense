@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import { askAssistant } from "../chat/askBus";
 import styles from "./CtaBand.module.css";
 
 export function CtaBand() {
@@ -17,9 +18,13 @@ export function CtaBand() {
           </p>
         </div>
         <div className={styles.actions}>
-          <Link to="/ask" className={styles.primary}>
+          <button
+            type="button"
+            className={styles.primary}
+            onClick={() => askAssistant()}
+          >
             Ask ResearchSense
-          </Link>
+          </button>
           <Link to="/collaboration" className={styles.secondary}>
             Collaboration finder
           </Link>

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
 import { fetchResearcher } from "../api/researchers";
+import { askAssistant } from "../features/chat/askBus";
 import { INSTITUTION_NAME } from "../config";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
@@ -149,13 +150,13 @@ export default function ResearcherProfile() {
                         {" · "}
                       </>
                     )}
-                    <Link
-                      to={`/ask?q=${encodeURIComponent(
-                        `Tell me about the paper "${p.title}"`)}`}
+                    <button
+                      type="button"
                       className={styles.pubAction}
+                      onClick={() => askAssistant(`Tell me about the paper "${p.title}"`)}
                     >
                       Ask AI
-                    </Link>
+                    </button>
                   </span>
                 </li>
               ))}

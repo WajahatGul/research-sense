@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { askAssistant } from "../features/chat/askBus";
 
 import type { Publication } from "../types";
 import { Badge } from "./Badge";
@@ -49,13 +49,13 @@ export function PublicationItem({ pub }: { pub: Publication }) {
                 View paper ↗
               </a>
             )}
-            <Link
-              to={`/ask?q=${encodeURIComponent(
-                `Tell me about the paper "${pub.title}"`)}`}
+            <button
+              type="button"
               className={styles.action}
+              onClick={() => askAssistant(`Tell me about the paper "${pub.title}"`)}
             >
               Ask AI
-            </Link>
+            </button>
           </span>
         </div>
       </div>

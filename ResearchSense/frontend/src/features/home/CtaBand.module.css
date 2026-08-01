@@ -49,6 +49,13 @@
   font-weight: 600;
   font-size: 0.92rem;
   transition: transform 0.15s, background 0.15s;
+  /* .primary is now a <button>; reset native styling so it matches the link. */
+  appearance: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .primary {

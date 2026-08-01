@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { PRODUCT_NAME } from "../../config";
+import { ASK_EVENT, type AskDetail } from "./askBus";
 import { ChatPanel } from "./ChatPanel";
 import styles from "./ChatWidget.module.css";
 
@@ -46,10 +47,24 @@ export function ChatWidget() {
     }
   });
 
+  // A question handed in by an "Ask AI" control elsewhere; the nonce makes each
+  // one fire once. ChatPanel sends it when this changes.
+  const [pending, setPending] = useState<{ text: string; nonce: number }>();
+
   const dragging = useRef(false);
   const moved = useRef(false);
   const start = useRef<Pos>({ x: 0, y: 0 });
   const offset = useRef<Pos>({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { query } = (e as CustomEvent<AskDetail>).detail;
+      setOpen(true);
+      if (query.trim()) setPending({ text: query, nonce: Date.now() });
+    };
+    window.addEventListener(ASK_EVENT, handler);
+    return () => window.removeEventListener(ASK_EVENT, handler);
+  }, []);
 
   useEffect(() => {
     try {
@@ -129,7 +144,7 @@ export function ChatWidget() {
             </button>
           </div>
           <div className={styles.body}>
-            <ChatPanel fill />
+            <ChatPanel fill submitSignal={pending} />
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import ReactMarkdown from "react-markdown";
 
 import { sendChat } from "../../api/chat";
 import { fetchLibrary } from "../../api/library";
@@ -63,7 +64,10 @@ function loadTurns(): Turn[] {
   }
 }
 
-export function ChatPanel({ fill = false }: { fill?: boolean } = {}) {
+export function ChatPanel(
+  { fill = false, submitSignal }:
+    { fill?: boolean; submitSignal?: { text: string; nonce: number } } = {},
+) {
   const [turns, setTurns] = useState<Turn[]>(loadTurns);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -132,6 +136,14 @@ export function ChatPanel({ fill = false }: { fill?: boolean } = {}) {
     }
   };
 
+  // An "Ask AI" control elsewhere in the app can hand the widget a question to
+  // send. The nonce makes each request fire once, even for the same text.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot send of a queued question (keyed by nonce), not a render loop.
+    if (submitSignal?.text) void ask(submitSignal.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submitSignal?.nonce]);
+
   return (
     <div className={fill ? `${styles.panel} ${styles.fill}` : styles.panel}>
       {turns.length > 0 && (
@@ -172,7 +184,13 @@ export function ChatPanel({ fill = false }: { fill?: boolean } = {}) {
             <span className={styles.author}>
               {turn.role === "user" ? "You" : "ResearchSense"}
             </span>
-            <p className={styles.bubble}>{turn.text}</p>
+            {turn.role === "assistant" ? (
+              <div className={`${styles.bubble} ${styles.markdown}`}>
+                <ReactMarkdown>{turn.text}</ReactMarkdown>
+              </div>
+            ) : (
+              <p className={styles.bubble}>{turn.text}</p>
+            )}
             {turn.sources && turn.sources.length > 0 && (
               <div className={styles.sources}>
                 {turn.sources.map((s, j) => (
