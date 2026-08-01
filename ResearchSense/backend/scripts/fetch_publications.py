@@ -109,6 +109,26 @@ _MATHML_RE = re.compile(r"<mml:math\b.*?</mml:math>", re.I | re.S)
 _TAG_RE = re.compile(r"</?[a-zA-Z][^>]*>")
 _MAX_UNESCAPE_PASSES = 3
 
+# <sub>/<sup> wrap single formula characters (e.g. "Al <sub>2</sub> O"), and
+# some publishers pad them with whitespace that isn't a real word separator
+# -- stripping just the tag would leave "Al 2 O", splitting the formula. So,
+# unlike the other inline tags (<i>, <b>, <scp>, <em>, <strong>, which wrap
+# whole words and must keep their surrounding spaces intact), <sub>/<sup>
+# get their adjacent whitespace consumed along with the tag:
+#   - whitespace immediately before an opening tag is always dropped
+#     ("O <sub>3</sub>" -> "O<sub>3</sub>"), and
+#   - whitespace immediately after a closing tag is dropped only when a
+#     short run of text leads into another <sub>/<sup> shortly after,
+#     i.e. it's still inside the same formula chain
+#     ("<sub>2</sub> O <sub>3</sub>" -> "<sub>2</sub>O<sub>3</sub>") --
+#     but the trailing space after the formula's *last* subscript, which
+#     leads into an ordinary word, is left alone
+#     ("<sub>3</sub> nanofluids" stays "<sub>3</sub> nanofluids").
+_SUBSUP_OPEN_WS_RE = re.compile(r"\s+(?=<(?:sub|sup)>)")
+_SUBSUP_CLOSE_CHAIN_WS_RE = re.compile(
+    r"(?<=</su[bp]>)\s+(?=[^\s<]{0,20}\s*<(?:sub|sup)>)"
+)
+
 
 def _unescape_entities(text: str) -> str:
     """Resolve HTML entities, including double-escaped ones, bounded to a
@@ -128,6 +148,8 @@ def clean_title(title: str) -> str:
         return "Untitled"
     title = _unescape_entities(title)
     title = _MATHML_RE.sub(" ", title)  # whole block -> single space
+    title = _SUBSUP_OPEN_WS_RE.sub("", title)  # ws before <sub>/<sup>
+    title = _SUBSUP_CLOSE_CHAIN_WS_RE.sub("", title)  # ws inside a formula chain
     title = _TAG_RE.sub("", title)  # remaining tags -> nothing
     title = re.sub(r"\$+[^$]*\$+", "", title)  # $...$ and $$...$$ math
     title = re.sub(r"\\[a-zA-Z]+", " ", title)  # \command
