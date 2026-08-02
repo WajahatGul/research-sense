@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
@@ -65,12 +65,25 @@ function loadTurns(): Turn[] {
 }
 
 export function ChatPanel(
-  { fill = false, submitSignal }:
-    { fill?: boolean; submitSignal?: { text: string; nonce: number } } = {},
+  { fill = false, submitSignal, visible = true }:
+    {
+      fill?: boolean;
+      submitSignal?: { text: string; nonce: number };
+      visible?: boolean;
+    } = {},
 ) {
   const [turns, setTurns] = useState<Turn[]>(loadTurns);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const threadRef = useRef<HTMLDivElement>(null);
+
+  // Keep the newest message in view: scroll to the bottom whenever a message
+  // arrives, the assistant is thinking, or the panel becomes visible again
+  // (e.g. re-opening the minimized widget), so the latest reply is always shown.
+  useEffect(() => {
+    const el = threadRef.current;
+    if (el && visible) el.scrollTop = el.scrollHeight;
+  }, [turns, busy, visible]);
 
   useEffect(() => {
     try {
@@ -153,7 +166,7 @@ export function ChatPanel(
           </button>
         </div>
       )}
-      <div className={styles.thread}>
+      <div className={styles.thread} ref={threadRef}>
         {turns.length === 0 && (
           <div className={styles.empty}>
             <p className={styles.emptyLead}>

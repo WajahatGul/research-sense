@@ -111,13 +111,17 @@ export default function Analytics() {
                 {crossCampusPairs.map((pair) => (
                   <li key={`${pair.from}-${pair.to}`} className={styles.pair}>
                     <span className={styles.pairLabel}>
-                      <span className={styles.dot}
-                            style={{ background: CAMPUS_COLORS[pair.from] }} />
-                      {pair.from}
+                      <span className={styles.campus}>
+                        <span className={styles.dot}
+                              style={{ background: CAMPUS_COLORS[pair.from] }} />
+                        {pair.from}
+                      </span>
                       <span className={styles.pairLink}>and</span>
-                      <span className={styles.dot}
-                            style={{ background: CAMPUS_COLORS[pair.to] }} />
-                      {pair.to}
+                      <span className={styles.campus}>
+                        <span className={styles.dot}
+                              style={{ background: CAMPUS_COLORS[pair.to] }} />
+                        {pair.to}
+                      </span>
                     </span>
                     <span className="mono">
                       {pair.papers} joint {pair.papers === 1 ? "paper" : "papers"}

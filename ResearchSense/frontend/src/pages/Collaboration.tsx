@@ -211,6 +211,14 @@ function ResearcherTypeahead({ selectedName, onSelect }: TypeaheadProps) {
     return () => clearTimeout(handle);
   }, [query]);
 
+  // Reflect an externally-chosen researcher in the box, but only when the
+  // selection actually changes — so the user can freely delete what they typed
+  // without it being re-filled on every keystroke.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync the input to an external selection change, not a render loop.
+    setQuery(selectedName);
+  }, [selectedName]);
+
   const searchReady = debouncedQuery.length >= MIN_QUERY_LENGTH;
 
   const {
@@ -247,7 +255,7 @@ function ResearcherTypeahead({ selectedName, onSelect }: TypeaheadProps) {
             ? `researcher-option-${matches[highlighted].researcher_id}`
             : undefined
         }
-        value={query || selectedName}
+        value={query}
         onFocus={() => setOpen(true)}
         onChange={(e) => {
           setQuery(e.target.value);

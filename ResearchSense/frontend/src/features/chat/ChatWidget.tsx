@@ -122,32 +122,40 @@ export function ChatWidget() {
 
   return (
     <>
-      {open && (
-        <div
-          className={styles.window}
-          style={{ left: winLeft, top: winTop, width: winW, height: winH }}
-          role="dialog"
-          aria-label={`Ask ${PRODUCT_NAME}`}
-        >
-          <div className={styles.header}>
-            <span className={styles.title}>Ask {PRODUCT_NAME}</span>
-            <button
-              type="button"
-              className={styles.min}
-              aria-label="Minimize chat"
-              title="Minimize"
-              onClick={() => setOpen(false)}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M3 8h10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-              </svg>
-            </button>
-          </div>
-          <div className={styles.body}>
-            <ChatPanel fill submitSignal={pending} />
-          </div>
+      {/* The window is always mounted (hidden when minimized) so a question in
+          flight keeps thinking in the background and the conversation is not
+          reset when the user minimizes. */}
+      <div
+        className={styles.window}
+        style={{
+          left: winLeft,
+          top: winTop,
+          width: winW,
+          height: winH,
+          display: open ? "flex" : "none",
+        }}
+        role="dialog"
+        aria-label={`Ask ${PRODUCT_NAME}`}
+        aria-hidden={!open}
+      >
+        <div className={styles.header}>
+          <span className={styles.title}>Ask {PRODUCT_NAME}</span>
+          <button
+            type="button"
+            className={styles.min}
+            aria-label="Minimize chat"
+            title="Minimize"
+            onClick={() => setOpen(false)}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M3 8h10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
-      )}
+        <div className={styles.body}>
+          <ChatPanel fill submitSignal={pending} visible={open} />
+        </div>
+      </div>
 
       <button
         type="button"
