@@ -87,15 +87,27 @@ the signed-in user, or the default Bahria workspace for anonymous/public views).
 
 Existing Bahria users are unaffected: they still "claim" a Bahria profile.
 
+**The Bahria workspace stays the public demo.** A visitor who has not signed up
+browses it exactly as the site works today, so a prospective user can see a
+fully populated portal (profiles, publications, analytics, the assistant) before
+deciding to sign up. Nothing from that demo is copied into a new workspace: once
+signed up, the user sees only their own institution's data, which starts empty
+until they add it.
+
 ## 6. Filling the data
 
 ### 6a. Paste a CV
 - The user pastes CV text (or uploads a CV PDF; we extract its text).
-- A single LLM call (Groq, which we already use) extracts structured fields:
-  name, current affiliation, department, education, research areas, and a list
-  of publications `(title, year, venue, DOI?)`.
-- The result **pre-fills** the profile and proposes publication rows for the
-  user to confirm — never auto-committed blindly, to keep the record honest.
+- A single extraction pass pulls out **as much as the CV contains**: name,
+  current affiliation, department, designation, education, research areas, and
+  the full publication list `(title, year, venue, DOI?)`.
+- The result is shown in an **editable review form, not saved as final**. Every
+  field and every publication row can be corrected, removed, or added by hand,
+  and low-confidence values are flagged so the user knows what to check. Nothing
+  is written to the workspace until the user accepts the form.
+- This keeps the CV a fast starting point rather than a source of truth: the
+  record stays accurate because the researcher, not the parser, has the last
+  word.
 
 ### 6b. Add papers
 - **By DOI:** reuse the existing DOI pipeline (Crossref/DataCite/OpenAlex) to
@@ -148,18 +160,29 @@ Each step is its own branch and PR into `main`, tested locally first.
   milestone is Sections 5 + 6 (self-service profile + CV/paper ingestion) inside
   a single new workspace, which is fully demoable.
 
-**Open questions for you:**
-1. Is a workspace **one researcher's space**, or a whole **institution** (many
-   researchers, admin-managed)? The design supports both; the MVP assumes the
-   former.
-2. Should anonymous visitors still see the Bahria portal by default, with signup
-   creating a private workspace? (Assumed yes.)
-3. How much CV auto-fill do you want to trust vs. always confirm? (Assumed:
-   always confirm.)
+## 10. Decisions (confirmed)
+
+1. **Bahria is the public demo.** Anyone can browse the Bahria workspace without
+   signing up, exactly as the site works today. It is the read-only showcase that
+   demonstrates what a fully populated portal looks like.
+2. **Any other institution must provide its own data.** Signing up creates a new,
+   empty workspace for that institution. No Bahria records are ever visible
+   inside it, and nothing is pre-filled from the demo.
+3. **A workspace represents an institution**, with the person who signs up as its
+   first researcher and owner. More researchers can be added to the same
+   workspace later, so the model does not have to change to support a whole
+   department or university.
+4. **CV extraction is comprehensive but never final.** The system pulls out
+   everything it can find (name, affiliation, department, education, research
+   areas, and the full publication list) and presents all of it in an **editable
+   review form**. The user can correct, delete, or add any field or publication,
+   and nothing is saved until they accept it.
 
 ---
 
-Nothing here is built yet. Once you're happy with the approach (and answer the
-open questions), the recommended first slice to implement is **Sections 5 and 6
-in one new workspace** — self-service profile + CV/paper ingestion — which is a
-concrete, demoable step toward the full product.
+With the decisions in Section 10 settled, the first slice to implement is
+**Sections 5 and 6 for one new workspace**: sign-up that creates an empty
+institution workspace, the editable CV review that fills the profile and
+publication list, and adding papers by DOI or upload. The Bahria workspace is
+left exactly as it is and keeps serving as the public demo, so this can be built
+and shipped without touching the live portal.
