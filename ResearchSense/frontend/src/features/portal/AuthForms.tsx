@@ -9,9 +9,17 @@ import {
   setToken,
 } from "../../api/auth";
 import { fetchResearchers } from "../../api/researchers";
+import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
-type Tab = "login" | "claim" | "admin";
+type Tab = "login" | "claim" | "institution" | "admin";
+
+const TAB_LABEL: Record<Tab, string> = {
+  login: "Faculty login",
+  claim: "Claim profile",
+  institution: "New institution",
+  admin: "Admin",
+};
 
 export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   const [tab, setTab] = useState<Tab>("login");
@@ -31,16 +39,17 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   return (
     <div className={styles.authCard}>
       <div className={styles.tabs}>
-        {(["login", "claim", "admin"] as Tab[]).map((t) => (
+        {(["login", "claim", "institution", "admin"] as Tab[]).map((t) => (
           <button key={t} onClick={() => { setTab(t); setError(""); }}
                   className={tab === t ? styles.tabActive : styles.tab}>
-            {t === "login" ? "Faculty login" : t === "claim" ? "Claim profile" : "Admin"}
+            {TAB_LABEL[t]}
           </button>
         ))}
       </div>
 
       {tab === "login" && <LoginForm onSubmit={submit} />}
       {tab === "claim" && <ClaimForm onSubmit={submit} />}
+      {tab === "institution" && <WorkspaceAuth onSignedIn={onSignedIn} />}
       {tab === "admin" && <AdminForm onSubmit={submit} />}
 
       {error && <p className={styles.error}>{error}</p>}

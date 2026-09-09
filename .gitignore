@@ -34,6 +34,10 @@ ResearchSense/frontend/vite.config.d.ts
 # never committed, so it can't leak local/test submissions into the repo.
 ResearchSense/backend/app/data/submitted_publications.json
 
+# Data belonging to institutions that signed up for their own workspace. Created
+# at runtime and private to each deployment, so it is never committed.
+ResearchSense/backend/app/data/workspaces/
+
 # Downloaded paper PDFs (1.1 GB) and coverage artifacts
 ResearchSense/backend/papers/*.pdf
 ResearchSense/backend/.coverage

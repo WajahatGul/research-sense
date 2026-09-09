@@ -12,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 from app.core.config import settings
+from app.core.security import workspace_from_token
+from app.repositories.loader import set_workspace
 from app.routers import (
     admin,
     analytics,
@@ -24,6 +26,7 @@ from app.routers import (
     researchers,
     stats,
     topics,
+    workspace,
 )
 from app.services.refresh_service import weekly_refresh_loop
 
@@ -46,6 +49,19 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    @app.middleware("http")
+    async def scope_to_workspace(request, call_next):
+        """Pin the request to the caller's workspace before anything reads data.
+
+        A signed-in institution's token carries its workspace; anyone else (an
+        anonymous visitor, or a Bahria ORCID login) gets the bundled demo
+        corpus, so the public portal is unchanged.
+        """
+        header = request.headers.get("authorization") or ""
+        raw = header[7:] if header.lower().startswith("bearer ") else None
+        set_workspace(workspace_from_token(raw))
+        return await call_next(request)
+
     for module in (
         stats,
         researchers,
@@ -58,6 +74,7 @@ def create_app() -> FastAPI:
         admin,
         analytics,
         library,
+        workspace,
     ):
         app.include_router(module.router)
 
