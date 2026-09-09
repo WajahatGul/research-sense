@@ -177,12 +177,48 @@ Each step is its own branch and PR into `main`, tested locally first.
    areas, and the full publication list) and presents all of it in an **editable
    review form**. The user can correct, delete, or add any field or publication,
    and nothing is saved until they accept it.
+5. **Build the focused onboarding slice, not full multi-tenancy.** Refactoring
+   every repository, the analytics, and the index for general multi-tenancy is a
+   large change with no extra visible benefit. We implement only what the
+   onboarding journey needs (Sections 5 and 6) and keep the rest as future work.
+6. **Sign-up is by email and password.** A researcher from another institution is
+   not in any directory we hold, so there is nothing to "claim" and no ORCID name
+   to verify against. ORCID stays optional and is recorded on the profile if
+   given. Bahria users keep the existing ORCID claim flow unchanged.
+7. **Workspace data is written at run time and is not permanent on the free
+   tier.** The Bahria corpus is committed to the repository, so it always
+   survives; anything a new user creates is written to the running instance's
+   disk, which the free hosting plan wipes on restart or redeploy. This is
+   accepted for the demonstration (a workspace lasts for the session, which is
+   all a live demo needs). Making it permanent later means either a paid
+   persistent disk or moving the mutable records to a hosted database, and is
+   recorded as future work rather than built now.
+8. **The interface must read well with very little data.** A new workspace starts
+   with a handful of papers, so empty and low-data states (charts, counts,
+   directory, assistant) must look deliberate and explain what to add next,
+   rather than appearing broken.
+
+## 11. Scope for this stage
+
+**In scope**
+- Sign-up that creates an empty institution workspace, branded with its name.
+- A first researcher profile for the person who signed up.
+- Paste a CV, review and edit everything extracted, then accept it.
+- Add a paper by DOI (reusing the existing verified-metadata pipeline).
+- Profile, publications, derived research areas, analytics, and the assistant,
+  all computed over that workspace only.
+
+**Explicitly out of scope for now** (kept in the design as future work)
+- Migrating the Bahria corpus into the workspace model; it stays as it is.
+- Inviting colleagues, roles and permissions inside a workspace.
+- Cross-workspace administration, billing, or a workspace directory.
+- Permanent storage for user-created workspaces (see decision 7).
+- PDF upload as a source of publication metadata; the DOI route and manual
+  entry cover the demonstration.
 
 ---
 
-With the decisions in Section 10 settled, the first slice to implement is
-**Sections 5 and 6 for one new workspace**: sign-up that creates an empty
-institution workspace, the editable CV review that fills the profile and
-publication list, and adding papers by DOI or upload. The Bahria workspace is
-left exactly as it is and keeps serving as the public demo, so this can be built
-and shipped without touching the live portal.
+With Sections 10 and 11 settled the design is complete and ready to implement.
+The Bahria workspace is left exactly as it is and keeps serving as the public
+demo, so the whole slice can be built and shipped without touching the live
+portal.
