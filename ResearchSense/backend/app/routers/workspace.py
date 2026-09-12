@@ -6,7 +6,7 @@ pasting a CV (reviewed and edited before anything is saved) or by DOI.
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
 from app.core.security import (
     create_token,
@@ -25,6 +25,7 @@ from app.schemas.workspace import (
     WorkspaceSignup,
 )
 from app.services import cv_service, workspace_service
+from app.services.rag import workspace_index
 from app.services.submission_service import SubmissionError, fetch_doi_metadata
 
 router = APIRouter(prefix="/api/workspace", tags=["workspace"])
@@ -101,7 +102,11 @@ def parse_cv(payload: CvText, account: dict = Depends(_account)):
 
 
 @router.post("/cv/apply", response_model=CvApplyResult)
-def apply_cv(payload: CvDraft, account: dict = Depends(_account)):
+def apply_cv(
+    payload: CvDraft,
+    background: BackgroundTasks,
+    account: dict = Depends(_account),
+):
     """Write the reviewed profile and publications into the workspace."""
     workspace = account["workspace_id"]
     researcher_id = account["researcher_id"]
@@ -116,6 +121,11 @@ def apply_cv(payload: CvDraft, account: dict = Depends(_account)):
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    # Re-index in the background so the assistant can answer about this profile
+    # and these papers; the response does not wait for the embedding model.
+    background.add_task(workspace_index.rebuild_quietly, workspace)
+
     return CvApplyResult(
         publications_added=added,
         research_areas=result["research_areas"],
@@ -127,7 +137,11 @@ def apply_cv(payload: CvDraft, account: dict = Depends(_account)):
 
 
 @router.post("/publications/doi", response_model=CvApplyResult)
-def add_by_doi(payload: WorkspaceDoi, account: dict = Depends(_account)):
+def add_by_doi(
+    payload: WorkspaceDoi,
+    background: BackgroundTasks,
+    account: dict = Depends(_account),
+):
     """Add one verified paper to the workspace by its DOI."""
     try:
         meta = fetch_doi_metadata(payload.doi)
@@ -148,6 +162,8 @@ def add_by_doi(payload: WorkspaceDoi, account: dict = Depends(_account)):
             }
         ],
     )
+    if added:
+        background.add_task(workspace_index.rebuild_quietly, account["workspace_id"])
     return CvApplyResult(
         publications_added=added,
         research_areas=[],

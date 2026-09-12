@@ -16,8 +16,17 @@ from pathlib import Path
 import numpy as np
 
 from app.core.config import settings
+from app.repositories import loader
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+
+
+def index_dir(workspace: str) -> Path:
+    """Where a workspace keeps its index. The demo corpus uses ``data/``;
+    a signed-up institution uses its own folder."""
+    return loader.workspace_dir(workspace)
+
+
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # Persistent model cache (the OS temp folder gets cleaned).
 MODEL_CACHE = Path(__file__).resolve().parents[3] / ".fastembed_cache"
@@ -65,18 +74,23 @@ class ScoredChunk:
 
 
 class Retriever:
-    """Lazy singleton over the embedding model and the vector index."""
+    """Lazily-built holder of the embedding model and one workspace's index.
 
-    _instance: Retriever | None = None
+    One instance per workspace, so an institution's assistant only ever reads
+    that institution's chunks.
+    """
 
-    def __init__(self) -> None:
+    _instances: dict[str, Retriever] = {}
+
+    def __init__(self, workspace: str) -> None:
         from fastembed import TextEmbedding  # deferred: slow import
 
+        directory = index_dir(workspace)
         self._model = TextEmbedding(EMBED_MODEL, cache_dir=str(MODEL_CACHE))
         self._chunks: list[dict] = json.loads(
-            (DATA_DIR / "rag_chunks.json").read_text("utf-8")
+            (directory / "rag_chunks.json").read_text("utf-8")
         )
-        self._vectors: np.ndarray = np.load(DATA_DIR / "rag_index.npz")["vectors"]
+        self._vectors: np.ndarray = np.load(directory / "rag_index.npz")["vectors"]
         self._lowered: list[str] = [c["text"].lower() for c in self._chunks]
         # Known researcher names (without titles) for entity-aware boosting.
         # Stored both raw (for chunk matching) and normalized (for matching
@@ -97,21 +111,30 @@ class Retriever:
         ]
 
     @classmethod
-    def instance(cls) -> Retriever:
-        if cls._instance is None:
-            cls._instance = cls()
-        return cls._instance
+    def instance(cls, workspace: str | None = None) -> Retriever:
+        ws = workspace or loader.current_workspace()
+        if ws not in cls._instances:
+            cls._instances[ws] = cls(ws)
+        return cls._instances[ws]
 
     @classmethod
-    def available(cls) -> bool:
-        return (DATA_DIR / "rag_chunks.json").exists() and (
-            DATA_DIR / "rag_index.npz"
+    def available(cls, workspace: str | None = None) -> bool:
+        directory = index_dir(workspace or loader.current_workspace())
+        return (directory / "rag_chunks.json").exists() and (
+            directory / "rag_index.npz"
         ).exists()
 
     @classmethod
-    def reset(cls) -> None:
-        """Drop the cached instance so the next query reloads the index."""
-        cls._instance = None
+    def reset(cls, workspace: str | None = None) -> None:
+        """Drop cached instances so the next question reloads the index.
+
+        Without a workspace every instance is dropped, which is what a full
+        re-index of the demo corpus wants.
+        """
+        if workspace is None:
+            cls._instances.clear()
+        else:
+            cls._instances.pop(workspace, None)
 
     def retrieve(self, query: str, k: int | None = None) -> list[ScoredChunk]:
         """Hybrid ranking: cosine similarity + a lexical bonus.

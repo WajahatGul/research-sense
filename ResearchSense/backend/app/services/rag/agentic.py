@@ -26,6 +26,7 @@ import time
 import httpx
 
 from app.core.config import settings
+from app.core.tenancy import institution_name
 from app.services.rag.retriever import ScoredChunk
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -306,9 +307,12 @@ def _pass3_synthesise_answer(
     conversation_history: list[dict],
 ) -> str:
     """Pass 3 — Answer synthesis (main model chain, high quality)."""
+    # Branded for whoever's workspace is being served, so an institution that
+    # signed up hears its own name instead of the demo deployment's.
+    owner = institution_name()
     who = (
-        f"the research assistant of {settings.institution_name}"
-        if settings.institution_name
+        f"the research assistant of {owner}"
+        if owner
         else "a research assistant for this institution's research portal"
     )
     system = (
