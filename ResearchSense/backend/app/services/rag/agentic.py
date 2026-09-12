@@ -96,6 +96,18 @@ def _retry_after_seconds(msg: str, default: float = 60.0) -> float:
 # Low-level Groq caller (multi-key, multi-model failover)
 # ---------------------------------------------------------------------------
 
+# Groq retires hosted models on notice. A retired one fails identically for
+# every key and never recovers, so it is remembered for the life of the process
+# and skipped — otherwise each call burns one request per key discovering the
+# same thing, and any pass pinned to that model silently returns nothing.
+_dead_models: set[str] = set()
+_RETIRED_MARKERS = ("does not exist", "decommissioned", "deprecated")
+
+
+def _is_retired(body: str) -> bool:
+    lowered = body.lower()
+    return any(marker in lowered for marker in _RETIRED_MARKERS)
+
 
 def _groq_call(
     messages: list[dict],
@@ -113,14 +125,24 @@ def _groq_call(
     now = time.time()
     # The fast model is a single-model chain; anything else walks the main chain
     # (an explicit override is honoured at the head) then degrades to fast.
-    if model == FAST_MODEL:
+    # Keeping the fast model alone is deliberate: a rate-limited cheap call must
+    # not spend the good models' daily budget.
+    if model == FAST_MODEL and FAST_MODEL not in _dead_models:
         model_chain = [FAST_MODEL]
     else:
+        # Also the path a retired fast model takes: it has no chain of its own
+        # left, so the main one carries the call rather than dropping it.
         model_chain = list(GROQ_MAIN_MODEL_CHAIN)
         if model not in model_chain:
             model_chain.insert(0, model)
         if FAST_MODEL not in model_chain:
             model_chain.append(FAST_MODEL)
+
+    # Never spend a request on a model already known to be retired. If every
+    # model in the chain is dead, try anyway — a wasted request beats refusing
+    # every question until the process restarts.
+    alive = [m for m in model_chain if m not in _dead_models]
+    model_chain = alive or model_chain
 
     for attempt, m in enumerate(model_chain):
         for ki, key in enumerate(GROQ_API_KEYS):
@@ -158,6 +180,11 @@ def _groq_call(
                 return text
 
             body = resp.text
+            if _is_retired(body):
+                # Same answer from every key, and from every future call.
+                _dead_models.add(m)
+                print(f"  [groq:{label}] RETIRED model {m}; skipping from now on")
+                break
             if resp.status_code == 429 or "rate_limit" in body.lower():
                 cd = min(_retry_after_seconds(body), 3600.0)
                 _groq_cooldown[(ki, m)] = now + cd
@@ -169,6 +196,18 @@ def _groq_call(
                     f"  [groq:{label}] ERROR {resp.status_code} {m} "
                     f"key#{ki + 1}: {body[:120]}"
                 )
+
+    # The fast model was retired mid-call: the passes that depend on it (intent,
+    # evidence extraction) would otherwise return nothing and leave the answer
+    # ungrounded, so retry once on the main chain now that it will be skipped.
+    if model == FAST_MODEL and MAIN_MODEL != FAST_MODEL and FAST_MODEL in _dead_models:
+        return _groq_call(
+            messages,
+            model=MAIN_MODEL,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            label=label,
+        )
 
     return ""
 
@@ -216,7 +255,7 @@ def normalize_query(user_message: str, conversation_history: list[dict]) -> str:
         ],
         model=FAST_MODEL,
         temperature=0.0,
-        max_tokens=200,
+        max_tokens=500,
         label="pass0-understand",
     )
     try:
@@ -252,7 +291,7 @@ def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> dict
         ],
         model=FAST_MODEL,
         temperature=0.0,
-        max_tokens=150,
+        max_tokens=400,
         label="pass1-intent",
     )
     try:
