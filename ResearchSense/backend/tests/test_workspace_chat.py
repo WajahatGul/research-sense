@@ -130,3 +130,26 @@ def test_the_demo_index_is_never_rebuilt_from_a_workspace_write():
     """It carries paper full text a structured rebuild would destroy."""
     with pytest.raises(ValueError, match="build_index"):
         workspace_index.rebuild(loader.DEFAULT_WORKSPACE)
+
+
+def test_starter_questions_come_from_the_workspaces_own_data():
+    """A new institution's first click must not be a guaranteed dead end."""
+    from app.services.suggestion_service import suggestions
+
+    chips = suggestions()
+    assert chips, "a workspace with data should offer starter questions"
+    joined = " ".join(chips)
+    assert "Sara Ahmed" in joined or "Federated Learning" in joined
+    # Nothing from the demo corpus leaks in.
+    assert "Karachi" not in joined
+    assert "Arif" not in joined
+
+
+def test_an_empty_workspace_offers_no_dead_end_questions():
+    from app.services.suggestion_service import suggestions
+
+    loader.save("researchers", [], "empty-ws")
+    loader.save("publications", [], "empty-ws")
+    loader.save("topics", [], "empty-ws")
+    loader.set_workspace("empty-ws")
+    assert suggestions() == []

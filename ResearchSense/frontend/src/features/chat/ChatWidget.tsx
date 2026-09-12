@@ -17,6 +17,20 @@ interface Pos {
   y: number;
 }
 
+const MARGIN = 24;
+
+/** Where the launcher sits, stored as a distance from whichever edges it was
+ *  dragged nearest to. Absolute coordinates do not survive a resize: a button
+ *  clamped to fit a phone stays at those coordinates on a desktop, stranding it
+ *  in the middle of the page. Edge distances keep a corner-docked button in
+ *  that corner at every size. */
+interface Dock {
+  dx: number;
+  dy: number;
+  fromRight: boolean;
+  fromBottom: boolean;
+}
+
 const clampNum = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(v, hi));
 
 function clampLauncher(p: Pos): Pos {
@@ -26,19 +40,55 @@ function clampLauncher(p: Pos): Pos {
   };
 }
 
-function loadPos(): Pos {
+/** The resting place before anyone drags it: out of the way, bottom right. */
+function defaultDock(): Dock {
+  return { dx: MARGIN, dy: MARGIN, fromRight: true, fromBottom: true };
+}
+
+function toDock(p: Pos): Dock {
+  const fromRight = p.x + SIZE / 2 > window.innerWidth / 2;
+  const fromBottom = p.y + SIZE / 2 > window.innerHeight / 2;
+  return {
+    dx: fromRight ? window.innerWidth - p.x - SIZE : p.x,
+    dy: fromBottom ? window.innerHeight - p.y - SIZE : p.y,
+    fromRight,
+    fromBottom,
+  };
+}
+
+function toPos(d: Dock): Pos {
+  return clampLauncher({
+    x: d.fromRight ? window.innerWidth - d.dx - SIZE : d.dx,
+    y: d.fromBottom ? window.innerHeight - d.dy - SIZE : d.dy,
+  });
+}
+
+function loadDock(): Dock {
   try {
     const raw = localStorage.getItem(POS_KEY);
-    if (raw) return clampLauncher(JSON.parse(raw) as Pos);
+    if (raw) {
+      const saved = JSON.parse(raw) as Partial<Dock>;
+      if (typeof saved.dx === "number" && typeof saved.dy === "number") {
+        return {
+          dx: saved.dx,
+          dy: saved.dy,
+          fromRight: !!saved.fromRight,
+          fromBottom: !!saved.fromBottom,
+        };
+      }
+    }
   } catch {
     /* ignore */
   }
-  return { x: window.innerWidth - SIZE - 24, y: window.innerHeight - SIZE - 24 };
+  // Includes the older {x, y} format, which is discarded rather than migrated:
+  // those coordinates are exactly the ones that do not survive a resize.
+  return defaultDock();
 }
 
 export function ChatWidget() {
   const { pathname } = useLocation();
-  const [pos, setPos] = useState<Pos>(loadPos);
+  const [dock, setDock] = useState<Dock>(loadDock);
+  const [pos, setPos] = useState<Pos>(() => toPos(loadDock()));
   const [open, setOpen] = useState<boolean>(() => {
     try {
       return localStorage.getItem(OPEN_KEY) === "1";
@@ -76,17 +126,20 @@ export function ChatWidget() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(POS_KEY, JSON.stringify(pos));
+      localStorage.setItem(POS_KEY, JSON.stringify(dock));
     } catch {
       /* ignore */
     }
-  }, [pos]);
+  }, [dock]);
 
+  // Re-derive the position from the docked edges, so the launcher returns to
+  // its corner when the window grows again instead of sitting where a smaller
+  // viewport had squeezed it.
   useEffect(() => {
-    const onResize = () => setPos((p) => clampLauncher(p));
+    const onResize = () => setPos(toPos(dock));
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [dock]);
 
   // The /ask page is itself the chat surface, so the floating dock is hidden
   // there to avoid two chat panels fighting over the same conversation.
@@ -111,6 +164,8 @@ export function ChatWidget() {
   const onPointerUp = () => {
     // A press that did not drag is a click: toggle the window.
     if (dragging.current && !moved.current) setOpen((v) => !v);
+    // A real drag re-docks the launcher to the edges it was dropped nearest.
+    if (dragging.current && moved.current) setDock(toDock(pos));
     dragging.current = false;
   };
 

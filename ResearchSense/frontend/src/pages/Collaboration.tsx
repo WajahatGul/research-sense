@@ -100,7 +100,7 @@ export default function Collaboration() {
       <PageHeader
         eyebrow="Who to work with"
         title="Collaboration finder"
-        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions outside Pakistan."
+        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions abroad."
       >
         <ResearcherTypeahead
           selectedName={selectedName}

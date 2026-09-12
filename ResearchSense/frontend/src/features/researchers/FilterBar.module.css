@@ -17,6 +17,10 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  /* Without this the row of dropdowns grows to fit its widest select and
+     drags the page sideways on a phone, no matter what the selects cap at. */
+  min-width: 0;
+  max-width: 100%;
 }
 
 .select {
@@ -31,6 +35,11 @@
   font-size: 0.88rem;
   color: var(--ink);
   cursor: pointer;
+  /* A <select> sizes itself to its longest option ("Earth and Environmental
+     Sciences"), which on a phone is wider than the screen and scrolls the
+     whole page sideways. Cap it at the container and clip the label. */
+  max-width: 100%;
+  text-overflow: ellipsis;
 }
 
 .select:hover {

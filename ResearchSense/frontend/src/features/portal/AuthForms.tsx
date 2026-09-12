@@ -47,12 +47,15 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
         ))}
       </div>
 
+      {/* Above the form, not below it: the claim form is tall enough that an
+          error under the submit button lands off-screen, so the user presses
+          "Claim profile" and sees nothing happen. */}
+      {error && <p className={styles.error} role="alert">{error}</p>}
+
       {tab === "login" && <LoginForm onSubmit={submit} />}
       {tab === "claim" && <ClaimForm onSubmit={submit} />}
       {tab === "institution" && <WorkspaceAuth onSignedIn={onSignedIn} />}
       {tab === "admin" && <AdminForm onSubmit={submit} />}
-
-      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 }

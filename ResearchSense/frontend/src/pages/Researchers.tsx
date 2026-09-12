@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchResearchers } from "../api/researchers";
+import { fetchStats } from "../api/stats";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
@@ -40,6 +41,7 @@ export default function Researchers() {
 
   const hasSearched = applied !== null;
 
+  const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
   const { data, isLoading, isError } = useQuery({
     queryKey: ["researchers", applied, page],
     queryFn: () => {
@@ -101,8 +103,13 @@ export default function Researchers() {
 
         <DataNote>
           This directory reflects only the faculty ResearchSense has indexed
-          so far — 358 profiles sampled across 22 departments. Not every
-          faculty member is included yet.
+          so far
+          {stats
+            ? ` — ${stats.researchers.toLocaleString()} profile` +
+              `${stats.researchers === 1 ? "" : "s"} across ` +
+              `${stats.departments} department${stats.departments === 1 ? "" : "s"}`
+            : ""}
+          . Not every faculty member is included yet.
         </DataNote>
 
         {!hasSearched && (

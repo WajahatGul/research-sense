@@ -46,7 +46,7 @@ export default function Projects() {
 
       <div className={`container ${styles.body}`}>
         <DataNote>
-          Illustrative examples. The university publishes no central feed of
+          Illustrative examples. There is no central feed of
           funded projects, so these entries pair a real faculty member with
           one of their genuine research topics to demonstrate the page. They
           are not verified projects and carry no funding data.

@@ -1,3 +1,4 @@
+import { announceSession, forgetChat } from "../lib/session";
 import { post } from "./client";
 
 export interface WorkspaceSession {
@@ -47,6 +48,7 @@ export function saveWorkspaceSession(session: WorkspaceSession): void {
   } catch {
     /* storage unavailable: the session lasts for this page only */
   }
+  announceSession();
 }
 
 export function getWorkspaceSession(): WorkspaceSession | null {
@@ -59,12 +61,17 @@ export function getWorkspaceSession(): WorkspaceSession | null {
 }
 
 export function clearWorkspaceSession(): void {
+  // The assistant's conversation goes with the session: it holds this
+  // institution's own research, and the next person on this browser is a
+  // different tenant (often the anonymous demo).
+  forgetChat(getWorkspaceSession()?.workspace_id);
   try {
     localStorage.removeItem(WS_KEY);
     localStorage.removeItem("rs_token");
   } catch {
     /* ignore */
   }
+  announceSession();
 }
 
 export const signUpWorkspace = (fields: {

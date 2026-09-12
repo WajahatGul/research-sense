@@ -3,8 +3,10 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
-import { sendChat } from "../../api/chat";
+import { fetchChatSuggestions, sendChat } from "../../api/chat";
 import { fetchLibrary } from "../../api/library";
+import { getWorkspaceSession } from "../../api/workspace";
+import { SESSION_EVENT, chatTurnsKey } from "../../lib/session";
 import type { ChatSource } from "../../types";
 import styles from "./ChatPanel.module.css";
 
@@ -13,12 +15,6 @@ interface Turn {
   text: string;
   sources?: ChatSource[];
 }
-
-const SUGGESTIONS = [
-  "Who works on machine learning in Karachi?",
-  "What papers has Dr. Arif ur Rahman written?",
-  "Explain the news recommendation systems paper",
-];
 
 // Strip decorations the chat adds to source labels ("Paper: "/"Library: "
 // prefixes, trailing "(2022)") so the title can be used as a search query.
@@ -52,12 +48,16 @@ function sourceLink(s: ChatSource): string {
 }
 
 // The conversation is kept in localStorage so it survives minimising the
-// widget, navigating between pages, and reloads — until the user clears it.
-const TURNS_KEY = "rs_chat_turns";
+// widget, navigating between pages, and reloads — until the user clears it or
+// signs out. The key carries the workspace, so one institution's conversation
+// is never shown to the next person to use this browser.
+function currentChatKey(): string {
+  return chatTurnsKey(getWorkspaceSession()?.workspace_id);
+}
 
-function loadTurns(): Turn[] {
+function loadTurns(key: string): Turn[] {
   try {
-    const raw = localStorage.getItem(TURNS_KEY);
+    const raw = localStorage.getItem(key);
     return raw ? (JSON.parse(raw) as Turn[]) : [];
   } catch {
     return [];
@@ -72,7 +72,8 @@ export function ChatPanel(
       visible?: boolean;
     } = {},
 ) {
-  const [turns, setTurns] = useState<Turn[]>(loadTurns);
+  const [chatKey, setChatKey] = useState(currentChatKey);
+  const [turns, setTurns] = useState<Turn[]>(() => loadTurns(currentChatKey()));
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const threadRef = useRef<HTMLDivElement>(null);
@@ -85,28 +86,51 @@ export function ChatPanel(
     if (el && visible) el.scrollTop = el.scrollHeight;
   }, [turns, busy, visible]);
 
+  // Signing in or out swaps the whole conversation, so the assistant never
+  // shows one institution's research to another.
+  useEffect(() => {
+    const onSession = () => {
+      const key = currentChatKey();
+      setChatKey(key);
+      setTurns(loadTurns(key));
+    };
+    window.addEventListener(SESSION_EVENT, onSession);
+    return () => window.removeEventListener(SESSION_EVENT, onSession);
+  }, []);
+
   useEffect(() => {
     try {
-      localStorage.setItem(TURNS_KEY, JSON.stringify(turns));
+      localStorage.setItem(chatKey, JSON.stringify(turns));
     } catch {
       /* storage full or unavailable — the chat still works in memory */
     }
-  }, [turns]);
+  }, [chatKey, turns]);
 
   const clearChat = () => {
     setTurns([]);
     try {
-      localStorage.removeItem(TURNS_KEY);
+      localStorage.removeItem(chatKey);
     } catch {
       /* ignore */
     }
   };
 
   // Library papers become extra suggestion chips, so studied papers are
-  // discoverable right where questions are asked.
+  // discoverable right where questions are asked. The reading room belongs to
+  // the demo deployment and its full text is not in a workspace's index, so
+  // offering it to a signed-in institution would only lead to "not found".
+  const inWorkspace = !!getWorkspaceSession();
   const { data: library } = useQuery({
     queryKey: ["library"],
     queryFn: fetchLibrary,
+    enabled: !inWorkspace,
+  });
+
+  // Starter questions are built from this workspace's own records, so the
+  // first thing a new institution clicks is something it can answer.
+  const { data: suggestions } = useQuery({
+    queryKey: ["chat-suggestions", chatKey],
+    queryFn: fetchChatSuggestions,
   });
 
   // "/ask?q=..." (e.g. the Library page's "Ask about it") prefills the box.
@@ -170,15 +194,17 @@ export function ChatPanel(
         {turns.length === 0 && (
           <div className={styles.empty}>
             <p className={styles.emptyLead}>
-              Ask about researchers, areas, or who to collaborate with.
+              {suggestions && suggestions.length === 0
+                ? "Add your profile and papers in the Portal, then ask me about them."
+                : "Ask about researchers, areas, or who to collaborate with."}
             </p>
             <div className={styles.suggest}>
-              {SUGGESTIONS.map((s) => (
+              {(suggestions ?? []).map((s) => (
                 <button key={s} className={styles.chip} onClick={() => ask(s)}>
                   {s}
                 </button>
               ))}
-              {library?.slice(0, 2).map((p) => (
+              {(inWorkspace ? [] : library ?? []).slice(0, 2).map((p) => (
                 <button
                   key={p.filename}
                   className={styles.chip}

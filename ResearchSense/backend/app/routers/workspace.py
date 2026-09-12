@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
+from app.core import throttle
 from app.core.security import (
     create_token,
     current_user,
@@ -77,13 +78,16 @@ def signup(payload: WorkspaceSignup):
 
 @router.post("/login", response_model=WorkspaceSession)
 def login(payload: WorkspaceLogin):
+    throttle.check(payload.email)
     store = WorkspaceStore.instance()
     account = store.account_by_email(payload.email)
     if account is None or not verify_password(
         payload.password, account["password_hash"]
     ):
+        throttle.record_failure(payload.email)
         # One message for every failure mode: no account enumeration.
         raise HTTPException(status_code=401, detail="Invalid email or password")
+    throttle.record_success(payload.email)
     workspace = store.workspace(account["workspace_id"]) or {}
     return _session(account, workspace.get("institution_name", ""))
 

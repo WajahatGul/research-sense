@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchAnalytics } from "../api/analytics";
+import { fetchStats } from "../api/stats";
 import { PageHeader } from "../components/PageHeader";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
@@ -19,6 +20,9 @@ export default function Analytics() {
     queryKey: ["analytics"],
     queryFn: fetchAnalytics,
   });
+  // Coverage counts come from the same stats endpoint the home page uses, so
+  // the note always matches the charts below it (and the signed-in workspace).
+  const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
 
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState />;
@@ -44,9 +48,14 @@ export default function Analytics() {
 
       <div className={`container ${styles.body}`}>
         <DataNote>
-          These charts reflect only the data ResearchSense has indexed so
-          far — 358 faculty profiles and 1,667 publications matched from
-          OpenAlex. Real output is higher; coverage grows with each refresh.
+          These charts reflect only the data ResearchSense has indexed so far
+          {stats
+            ? ` — ${stats.researchers.toLocaleString()} researcher` +
+              `${stats.researchers === 1 ? "" : "s"} and ` +
+              `${stats.publications.toLocaleString()} publication` +
+              `${stats.publications === 1 ? "" : "s"}`
+            : ""}
+          . Real output is higher; coverage grows with each refresh.
         </DataNote>
 
         <section className={styles.card}>
@@ -72,6 +81,7 @@ export default function Analytics() {
         <div className={styles.twoCol}>
           <section className={styles.card}>
             <h2 className={styles.h2}>Campus totals</h2>
+            <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -98,6 +108,7 @@ export default function Analytics() {
                 ))}
               </tbody>
             </table>
+            </div>
           </section>
 
           <section className={styles.card}>
