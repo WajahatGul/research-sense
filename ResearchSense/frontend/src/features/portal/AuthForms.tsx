@@ -15,19 +15,24 @@ import { INSTITUTION_NAME } from "../../config";
 import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
-/** Who is signing in.
+/** The sign-in card.
  *
- * This used to be four tabs side by side — Faculty login, Claim profile, New
- * institution, Admin — three different identity systems and a staff entrance,
- * with no way for a visitor to tell which one was theirs. One of them wanted an
- * ORCID iD, one an email, one a username. Asking who you are first means each
- * person sees one form, the one that applies to them.
+ * This began as four tabs — Faculty login, Claim profile, New institution,
+ * Admin — three identity systems and a staff entrance side by side, with
+ * nothing telling a visitor which was theirs. Asking "which are you?" up front
+ * fixed the confusion but read like a wizard rather than a sign-in page.
+ *
+ * So it follows the shape people already know: sign in by default, "don't have
+ * an account?" underneath, and the only real fork — a researcher here versus an
+ * institution bringing its own data — as a small switch rather than a choice
+ * the visitor has to make before seeing anything.
  */
-type Path = null | "home" | "other";
+type Mode = "signin" | "create";
+type Kind = "researcher" | "institution";
 
 export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
-  const [path, setPath] = useState<Path>(null);
-  const [returning, setReturning] = useState(false);
+  const [mode, setMode] = useState<Mode>("signin");
+  const [kind, setKind] = useState<Kind>("researcher");
   const [error, setError] = useState("");
 
   const submit = async (action: () => Promise<{ token: string }>) => {
@@ -42,6 +47,10 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   };
 
   const institution = INSTITUTION_NAME || "this university";
+  const switchTo = (next: Kind) => {
+    setKind(next);
+    setError("");
+  };
 
   return (
     <>
@@ -50,9 +59,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
         <p className={styles.guestText}>
           You do not need an account. Everyone can read the whole portal — the
           researchers, their publications, the analytics, and the assistant —
-          and what you see is {institution}'s real research data. Sign in below
-          only to manage your own profile, or to set up a workspace for a
-          different university.
+          and what you see is {institution}'s real research data.
         </p>
         <div className={styles.guestLinks}>
           <Link className={styles.guestLink} to="/researchers">
@@ -68,53 +75,30 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
       </div>
 
       <div className={styles.authCard}>
-        {path === null && (
-          <>
-            <p className={styles.chooseTitle}>Which are you?</p>
-            <div className={styles.choices}>
-              <button
-                type="button"
-                className={styles.choice}
-                onClick={() => setPath("home")}
-              >
-                <span className={styles.choiceName}>
-                  I research at {institution}
-                </span>
-                <span className={styles.choiceHint}>
-                  Claim the profile that is already here, or sign in to one you
-                  have claimed.
-                </span>
-              </button>
-              <button
-                type="button"
-                className={styles.choice}
-                onClick={() => setPath("other")}
-              >
-                <span className={styles.choiceName}>
-                  I am from another university
-                </span>
-                <span className={styles.choiceHint}>
-                  Create a private workspace holding only your own data, built
-                  from your CV.
-                </span>
-              </button>
-            </div>
-          </>
-        )}
+        <h2 className={styles.cardTitle}>
+          {mode === "signin" ? "Sign in" : "Create your account"}
+        </h2>
 
-        {path !== null && (
+        <div className={styles.segmented} role="tablist">
           <button
             type="button"
-            className={styles.back}
-            onClick={() => {
-              setPath(null);
-              setReturning(false);
-              setError("");
-            }}
+            role="tab"
+            aria-selected={kind === "researcher"}
+            className={kind === "researcher" ? styles.segOn : styles.seg}
+            onClick={() => switchTo("researcher")}
           >
-            ← Not you? Choose again
+            {institution}
           </button>
-        )}
+          <button
+            type="button"
+            role="tab"
+            aria-selected={kind === "institution"}
+            className={kind === "institution" ? styles.segOn : styles.seg}
+            onClick={() => switchTo("institution")}
+          >
+            Another university
+          </button>
+        </div>
 
         {/* Above the form, not below it: the claim form is tall enough that an
             error under the submit button lands off-screen, so the user presses
@@ -125,29 +109,53 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
           </p>
         )}
 
-        {path === "home" && (
-          <>
-            {returning ? (
-              <LoginForm onSubmit={submit} />
-            ) : (
-              <ClaimForm onSubmit={submit} onError={setError} />
-            )}
-            <button
-              type="button"
-              className={styles.switch}
-              onClick={() => {
-                setReturning((v) => !v);
-                setError("");
-              }}
-            >
-              {returning
-                ? "First time here? Claim your profile"
-                : "Already claimed your profile? Sign in"}
-            </button>
-          </>
+        {kind === "researcher" &&
+          (mode === "signin" ? (
+            <LoginForm onSubmit={submit} />
+          ) : (
+            <ClaimForm onSubmit={submit} onError={setError} />
+          ))}
+
+        {kind === "institution" && (
+          <WorkspaceAuth
+            onSignedIn={onSignedIn}
+            mode={mode === "signin" ? "signin" : "signup"}
+          />
         )}
 
-        {path === "other" && <WorkspaceAuth onSignedIn={onSignedIn} />}
+        <p className={styles.footNote}>
+          {mode === "signin" ? (
+            <>
+              Don&apos;t have an account?{" "}
+              <button
+                type="button"
+                className={styles.linkInline}
+                onClick={() => {
+                  setMode("create");
+                  setError("");
+                }}
+              >
+                {kind === "researcher"
+                  ? "Claim your profile"
+                  : "Create a workspace"}
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <button
+                type="button"
+                className={styles.linkInline}
+                onClick={() => {
+                  setMode("signin");
+                  setError("");
+                }}
+              >
+                Sign in
+              </button>
+            </>
+          )}
+        </p>
       </div>
     </>
   );

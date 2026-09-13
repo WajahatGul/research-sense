@@ -10,8 +10,17 @@ import styles from "./portal.module.css";
 
 /** Sign-up / sign-in for an institution that is not in the demo corpus.
  *  A new workspace starts empty: none of the demo data is visible in it. */
-export function WorkspaceAuth({ onSignedIn }: { onSignedIn: () => void }) {
-  const [mode, setMode] = useState<"signup" | "signin">("signup");
+export function WorkspaceAuth({
+  onSignedIn,
+  mode: controlled,
+}: {
+  onSignedIn: () => void;
+  /** Set by the portal, which owns the sign-in / create-account switch. Left
+   *  undefined the component keeps its own toggle, for standalone use. */
+  mode?: "signup" | "signin";
+}) {
+  const [ownMode, setOwnMode] = useState<"signup" | "signin">("signup");
+  const mode = controlled ?? ownMode;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -108,15 +117,20 @@ export function WorkspaceAuth({ onSignedIn }: { onSignedIn: () => void }) {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      <button
-        type="button"
-        className={styles.linkButton}
-        onClick={() => { setMode(mode === "signup" ? "signin" : "signup"); setError(""); }}
-      >
-        {mode === "signup"
-          ? "Already have a workspace? Sign in"
-          : "New institution? Create a workspace"}
-      </button>
+      {controlled === undefined && (
+        <button
+          type="button"
+          className={styles.linkButton}
+          onClick={() => {
+            setOwnMode(mode === "signup" ? "signin" : "signup");
+            setError("");
+          }}
+        >
+          {mode === "signup"
+            ? "Already have a workspace? Sign in"
+            : "New institution? Create a workspace"}
+        </button>
+      )}
     </form>
   );
 }

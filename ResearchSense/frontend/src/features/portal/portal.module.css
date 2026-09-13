@@ -450,78 +450,73 @@
   border-color: var(--navy);
 }
 
-/* --- "Which are you?" chooser ------------------------------------------- */
-/* Four tabs made a visitor guess which identity system was theirs. One
-   question, two answers, then a single form. */
+/* --- sign-in card ------------------------------------------------------- */
+/* The familiar shape: a title, the form, and "don't have an account?" beneath.
+   Two big choice cards read like a wizard and made signing in feel like setup. */
 
-.chooseTitle {
-  font-weight: 600;
+.cardTitle {
+  font-size: 1.25rem;
   color: var(--navy);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-.choices {
-  display: grid;
-  gap: 12px;
-}
-
-.choice {
+/* The one real fork — a researcher here, or an institution bringing its own
+   data — as a compact switch rather than a decision before anything is shown. */
+.segmented {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  text-align: left;
-  padding: 16px 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: var(--surface);
-  cursor: pointer;
-  font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+  background: var(--surface-2, #f1f3f6);
+  border-radius: 999px;
 }
 
-.choice:hover {
-  border-color: var(--navy);
-  box-shadow: var(--shadow-lift);
-}
-
-.choiceName {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--navy);
-}
-
-.choiceHint {
-  font-size: 0.86rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.back {
-  display: inline-block;
-  margin-bottom: 14px;
-  padding: 0;
+.seg,
+.segOn {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
   border: 0;
-  background: none;
+  border-radius: 999px;
   font-family: inherit;
   font-size: 0.85rem;
-  color: var(--muted);
+  line-height: 1.25;
   cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
 
-.back:hover {
+.seg {
+  background: transparent;
+  color: var(--muted);
+}
+
+.seg:hover {
   color: var(--navy);
 }
 
-.switch {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
+.segOn {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+.footNote {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.linkInline {
   padding: 0;
   border: 0;
   background: none;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: inherit;
   color: var(--navy);
+  font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
 }
