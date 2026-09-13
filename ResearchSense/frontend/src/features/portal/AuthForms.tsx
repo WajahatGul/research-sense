@@ -126,7 +126,9 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
         <p className={styles.footNote}>
           {mode === "signin" ? (
             <>
-              Don&apos;t have an account?{" "}
+              {/* "Don't have an account? Create an account" repeats itself;
+                  "New here?" carries the same meaning and works for both. */}
+              New here?{" "}
               <button
                 type="button"
                 className={styles.linkInline}
@@ -137,7 +139,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
               >
                 {kind === "researcher"
                   ? "Claim your profile"
-                  : "Create a workspace"}
+                  : "Create an account"}
               </button>
             </>
           ) : (

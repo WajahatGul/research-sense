@@ -128,7 +128,7 @@ export function WorkspaceAuth({
         >
           {mode === "signup"
             ? "Already have a workspace? Sign in"
-            : "New institution? Create a workspace"}
+            : "New institution? Create an account"}
         </button>
       )}
     </form>
