@@ -1,0 +1,273 @@
+.body {
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
+}
+
+/* --- what is indexed, as counts ----------------------------------------- */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--sp-7);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: var(--sp-5);
+  background: var(--surface);
+}
+
+.figureNum {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: 1;
+  color: var(--navy);
+}
+
+.figureLabel {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+/* --- sections ------------------------------------------------------------ */
+.section {
+  margin-bottom: var(--sp-8);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  color: var(--navy);
+  margin: 0 0 var(--sp-3);
+}
+
+.h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  color: var(--navy);
+  margin: 0 0 var(--sp-2);
+}
+
+.lead {
+  max-width: 68ch;
+  margin: 0 0 var(--sp-5);
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.copy {
+  max-width: 62ch;
+  margin: 0 0 var(--sp-3);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* --- three ways in ------------------------------------------------------- */
+.paths {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+.path {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--sp-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius);
+}
+
+.pathStep {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: var(--sp-2);
+}
+
+.pathLink {
+  margin-top: auto;
+  padding-top: var(--sp-3);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.pathLink:hover {
+  text-decoration: underline;
+}
+
+/* --- feature grid -------------------------------------------------------- */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-5) var(--sp-6);
+}
+
+.feature {
+  min-width: 0;
+}
+
+.feature .copy {
+  margin-bottom: 0;
+  font-size: var(--step--1);
+}
+
+/* --- how the assistant answers ------------------------------------------- */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  max-width: 74ch;
+  margin: 0 0 var(--sp-5);
+  padding: 0;
+}
+
+.step {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 var(--sp-4) var(--sp-6);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+/* --- data provenance ----------------------------------------------------- */
+.twoUp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+}
+
+.twoUp > * {
+  min-width: 0;
+}
+
+.extLink {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+/* --- FAQ ----------------------------------------------------------------- */
+.faq {
+  max-width: 74ch;
+  margin: 0;
+}
+
+.q {
+  font-weight: 600;
+  color: var(--navy);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+}
+
+.a {
+  margin: var(--sp-2) 0 var(--sp-4);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* --- closing ------------------------------------------------------------- */
+.closing {
+  padding: var(--sp-7) var(--sp-6);
+  background: var(--navy);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.closingTitle {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  color: #fff;
+  margin: 0 0 var(--sp-2);
+}
+
+.closingCopy {
+  max-width: 52ch;
+  margin: 0 auto var(--sp-5);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.65;
+}
+
+.closingLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  justify-content: center;
+}
+
+.cta {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy-900);
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+
+.cta:hover {
+  background: var(--gold-soft);
+}
+
+.ctaGhost {
+  display: inline-block;
+  padding: 11px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+
+.ctaGhost:hover {
+  border-color: #fff;
+}
+
+/* --- narrower screens ---------------------------------------------------- */
+@media (max-width: 900px) {
+  .figures {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .paths,
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .twoUp {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+}
+
+@media (max-width: 620px) {
+  .paths,
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

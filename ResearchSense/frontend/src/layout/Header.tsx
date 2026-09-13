@@ -5,6 +5,7 @@ import { Wordmark } from "../components/Wordmark";
 import styles from "./Header.module.css";
 
 const NAV = [
+  { to: "/guide", label: "Guide" },
   { to: "/researchers", label: "Researchers" },
   { to: "/publications", label: "Publications" },
   { to: "/topics", label: "Research Areas" },
