@@ -9,12 +9,15 @@ services:
     rootDir: ResearchSense/backend
     # onnxruntime / fastembed ship cp313 wheels; pin Python to match.
     pythonVersion: "3.13.4"
-    # The structured RAG index (rag_chunks.json + rag_index.npz, ~6 MB) is now
-    # COMMITTED, so the deploy no longer embeds ~3k chunks on the memory-limited
-    # free tier — that step was slow and could fail the whole build, leaving an
-    # old version live. Rebuild + commit the index (python -m scripts.build_index)
-    # whenever the JSON corpus changes; the admin "refresh" also rebuilds it on
-    # the running instance.
+    # The structured RAG index (rag_chunks.json + rag_index.npz) is COMMITTED,
+    # so the deploy never embeds anything: that step is slow and can fail the
+    # whole build, leaving an old version live. Since the full Bahria import it
+    # is ~27 MB on disk and ~31 MB resident once loaded, which matters on the
+    # free tier's 512 MB. Rebuild and commit it whenever the JSON corpus
+    # changes, using the refresh that preserves paper full text:
+    #   python -c "from scripts.build_index import rebuild_preserving_fulltext as r; r()"
+    # Do NOT rebuild on the instance: embedding ~20k chunks peaks near 1.7 GB.
+    # That is why the weekly in-process refresh is off unless RS_AUTO_REFRESH=1.
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
