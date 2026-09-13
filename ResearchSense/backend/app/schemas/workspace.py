@@ -2,15 +2,38 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+import re
+from typing import Annotated
 
-_EMAIL = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+from pydantic import BaseModel, BeforeValidator, Field
+from pydantic_core import PydanticCustomError
+
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+_EMAIL_HINT = "Enter a valid email address, e.g. name@university.edu."
+
+
+def _clean_email(value: str) -> str:
+    """Validate an email with a plain, human error.
+
+    Pydantic's ``pattern=`` puts the raw regex in the response, which reached
+    users as "String should match pattern ..." — the same leak the ORCID field
+    already had to fix.
+    """
+    if not isinstance(value, str):
+        raise PydanticCustomError("email", _EMAIL_HINT)
+    v = value.strip().lower()
+    if not _EMAIL_RE.match(v):
+        raise PydanticCustomError("email", _EMAIL_HINT)
+    return v
+
+
+Email = Annotated[str, BeforeValidator(_clean_email)]
 
 
 class WorkspaceSignup(BaseModel):
     """Create a workspace for an institution that is not in the demo corpus."""
 
-    email: str = Field(pattern=_EMAIL, max_length=200)
+    email: Email = Field(max_length=200)
     password: str = Field(min_length=8, max_length=128)
     institution_name: str = Field(min_length=2, max_length=200)
     full_name: str = Field(min_length=2, max_length=200)
@@ -20,7 +43,7 @@ class WorkspaceSignup(BaseModel):
 
 
 class WorkspaceLogin(BaseModel):
-    email: str = Field(pattern=_EMAIL, max_length=200)
+    email: Email = Field(max_length=200)
     password: str
 
 

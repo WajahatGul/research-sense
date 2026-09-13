@@ -42,6 +42,55 @@ def _count_tail(total: int, shown: int) -> str:
     return f" (showing the {shown} most published):" if shown < total else ":"
 
 
+# --- campus qualifier -------------------------------------------------------
+# "Who works on machine learning in Karachi?" named a place and got a list
+# spanning every campus, so the answer did not match the question. A campus
+# named in the question now filters the result.
+
+
+def _campus_names() -> list[str]:
+    return sorted(
+        {
+            (r.get("campus") or "").strip()
+            for r in _Store.researchers()
+            if r.get("campus")
+        }
+    )
+
+
+def _resolve_campus(message: str) -> list[str] | None:
+    """Campuses named in the question, or None when it names none.
+
+    A city with several sites matches all of them ("in Islamabad" covers both
+    the E-8 and H-11 campuses), which is what someone asking by city means.
+    """
+    lower = message.lower()
+    exact = [c for c in _campus_names() if c.lower() in lower]
+    if exact:
+        return exact
+    # Fall back to the city part, so "Islamabad" matches "Islamabad (E-8)".
+    by_city: list[str] = []
+    for campus in _campus_names():
+        city = re.split(r"[(,]", campus)[0].strip().lower()
+        if city and re.search(r"\b" + re.escape(city) + r"\b", lower):
+            by_city.append(campus)
+    return by_city or None
+
+
+def _on_campus(record: dict, campuses: list[str] | None) -> bool:
+    if not campuses:
+        return True
+    return (record.get("campus") or "").strip() in campuses
+
+
+def _campus_tail(campuses: list[str] | None) -> str:
+    if not campuses:
+        return ""
+    if len(campuses) == 1:
+        return f" at {campuses[0]}"
+    return " at " + ", ".join(campuses[:-1]) + f" and {campuses[-1]}"
+
+
 # --- department directory ---------------------------------------------------
 
 _ALIASES = {
@@ -107,15 +156,25 @@ def directory_answer(message: str) -> AuthoredResult | None:
     dept = _resolve_department(message)
     if dept is None:
         return None
+    campuses = _resolve_campus(message)
     people = [
-        r for r in _Store.researchers() if (r.get("department") or "").strip() == dept
+        r
+        for r in _Store.researchers()
+        if (r.get("department") or "").strip() == dept and _on_campus(r, campuses)
     ]
     if not people:
+        if campuses:
+            return AuthoredResult(
+                answer=(
+                    f"I have no {dept} researchers on record{_campus_tail(campuses)}."
+                ),
+                researchers=[],
+            )
         return None
     n = len(people)
     header = (
         f"{dept} has {n} researcher{'s' if n != 1 else ''} on record"
-        + _count_tail(n, min(n, _MAX))
+        f"{_campus_tail(campuses)}" + _count_tail(n, min(n, _MAX))
     )
     return _render(header, people)
 
@@ -202,11 +261,27 @@ def research_area_answer(message: str) -> AuthoredResult | None:
     if area is None:
         return None
     area_lower = area.lower()
-    people = [r for r in _Store.researchers() if _in_area(r, area_lower)]
+    campuses = _resolve_campus(message)
+    people = [
+        r
+        for r in _Store.researchers()
+        if _in_area(r, area_lower) and _on_campus(r, campuses)
+    ]
     if not people:
+        # Say so plainly rather than quietly widening to every campus.
+        if campuses:
+            return AuthoredResult(
+                answer=(
+                    f"I could not find anyone working on {area}"
+                    f"{_campus_tail(campuses)} in the records I have."
+                ),
+                researchers=[],
+            )
         return None
     n = len(people)
-    header = f"{n} researcher{'s' if n != 1 else ''} work on {area}" + _count_tail(
-        n, min(n, _MAX)
+    header = (
+        f"{n} researcher{'s' if n != 1 else ''} "
+        f"{'work' if n != 1 else 'works'} on {area}"
+        f"{_campus_tail(campuses)}" + _count_tail(n, min(n, _MAX))
     )
     return _render(header, people)

@@ -125,3 +125,32 @@ def test_cv_publication_rows_are_cleaned():
     assert [r["title"] for r in rows] == ["Good", "Bad year"]
     assert rows[0]["publication_year"] == 2022
     assert rows[1]["publication_year"] is None
+
+
+def test_a_bad_email_gets_a_human_message_not_a_regex():
+    """The raw pattern leaked to users once already, on the ORCID field."""
+    import pytest
+    from pydantic import ValidationError
+
+    from app.schemas.workspace import WorkspaceSignup
+
+    with pytest.raises(ValidationError) as exc:
+        WorkspaceSignup(
+            email="not-an-email",
+            password="abcdefgh",
+            institution_name="X University",
+            full_name="A B",
+        )
+    message = exc.value.errors()[0]["msg"]
+    assert "Enter a valid email address" in message
+    assert "pattern" not in message.lower()
+    assert "^" not in message
+
+
+def test_an_email_is_normalised_before_it_is_stored():
+    """Trailing spaces and capitals must not create a second account."""
+    from app.schemas.workspace import WorkspaceLogin
+
+    assert WorkspaceLogin(email="  DEMO@Meridian.edu ", password="x").email == (
+        "demo@meridian.edu"
+    )

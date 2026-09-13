@@ -52,6 +52,12 @@ export default function ResearcherProfile() {
   const intlCollabs = data.international_collaborations ?? [];
   const collaborators = data.collaborators ?? [];
   const topics = data.topics ?? [];
+  // Publication-only profiles carry no structured topics, but their research
+  // areas are derived from their own papers — show those rather than an
+  // empty card.
+  const areas: string[] = topics.length
+    ? topics.map((t) => t.topic_name)
+    : (data.research_areas ?? []);
 
   const showCaption = withId != null && !withError && Boolean(withResearcher);
   const orderedPublications = showCaption
@@ -70,7 +76,7 @@ export default function ResearcherProfile() {
           <Avatar name={data.full_name} size={92} />
           <div>
             <span className="eyebrow">
-              {data.department} · {data.campus}
+              {[data.department, data.campus].filter(Boolean).join(" · ")}
             </span>
             <h1 className={styles.name}>
               {data.full_name}
@@ -82,7 +88,12 @@ export default function ResearcherProfile() {
             </h1>
             <p className={styles.role}>{data.designation}</p>
             <p className={styles.inst}>
-              {INSTITUTION_NAME ? `${INSTITUTION_NAME}, ` : ""}{data.campus} campus
+              {[
+                data.institution || INSTITUTION_NAME,
+                data.campus ? `${data.campus} campus` : "",
+              ]
+                .filter(Boolean)
+                .join(", ")}
             </p>
             <div className={styles.meta}>
               {data.email && (
@@ -102,10 +113,12 @@ export default function ResearcherProfile() {
 
       <div className={`container ${styles.grid}`}>
         <main className={styles.main}>
-          <section>
-            <h2 className={styles.h2}>Biography</h2>
-            <p className={styles.bio}>{data.profile_bio}</p>
-          </section>
+          {data.profile_bio && (
+            <section>
+              <h2 className={styles.h2}>Biography</h2>
+              <p className={styles.bio}>{data.profile_bio}</p>
+            </section>
+          )}
 
           <section>
             <h2 className={styles.h2}>
@@ -168,16 +181,18 @@ export default function ResearcherProfile() {
         </main>
 
         <aside className={styles.aside}>
-          <div className={styles.card}>
-            <h3 className={styles.h3}>Research areas</h3>
-            <div className={styles.topics}>
-              {topics.map((t) => (
-                <Badge key={t.topic_id} tone="gold">
-                  {t.topic_name}
-                </Badge>
-              ))}
+          {areas.length > 0 && (
+            <div className={styles.card}>
+              <h3 className={styles.h3}>Research areas</h3>
+              <div className={styles.topics}>
+                {areas.map((name) => (
+                  <Badge key={name} tone="gold">
+                    {name}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {data.education && (
             <div className={styles.card}>

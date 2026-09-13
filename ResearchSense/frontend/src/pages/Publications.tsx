@@ -4,6 +4,8 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchPublications, fetchPublicationYears } from "../api/publications";
 import { fetchCampuses, fetchDepartments } from "../api/researchers";
+import { fetchStats } from "../api/stats";
+import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
@@ -34,6 +36,24 @@ const blankFilters: Filters = {
   dateTo: "",
 };
 
+/** What this list covers, in one sentence.
+ *
+ * Read from the live stats: the count was hardcoded, so it kept claiming
+ * 1,667 records after the corpus grew to 9,527, and told an institution
+ * workspace the demo deployment's total.
+ */
+function coverageNote(stats?: Stats): string {
+  const scope = stats
+    ? ` — ${stats.publications.toLocaleString()} record` +
+      `${stats.publications === 1 ? "" : "s"} matched from OpenAlex and` +
+      " other sources"
+    : "";
+  return (
+    `This list reflects only the publications ResearchSense has indexed so far${scope}.` +
+    " Some papers are not yet included."
+  );
+}
+
 export default function Publications() {
   const [params] = useSearchParams();
   const topicId = params.get("topic_id");
@@ -62,6 +82,8 @@ export default function Publications() {
     queryKey: ["departments"],
     queryFn: fetchDepartments,
   });
+
+  const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["publications", applied, topicId, page],
@@ -202,11 +224,7 @@ export default function Publications() {
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
-        <DataNote>
-          This list reflects only the publications ResearchSense has indexed
-          so far — 1,667 records matched from OpenAlex and other sources.
-          Some papers are not yet included.
-        </DataNote>
+        <DataNote>{coverageNote(stats)}</DataNote>
 
         {hasSearched && (
           <span className={`mono ${styles.count}`}>

@@ -3,6 +3,10 @@
   flex-direction: column;
   gap: 16px;
   padding: 22px;
+  /* As a grid item the card defaults to min-width:auto, so its widest
+     unbreakable content (a long name and expertise line) forces the column
+     wider than the container and scrolls the page sideways on a phone. */
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -28,6 +32,8 @@
 .name {
   font-size: 1.08rem;
   color: var(--navy);
+  /* Long names must wrap rather than set the card's minimum width. */
+  overflow-wrap: anywhere;
 }
 
 .role {
