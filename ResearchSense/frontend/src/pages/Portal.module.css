@@ -1,3 +1,14 @@
 .body {
   padding-top: var(--sp-6);
 }
+
+/* A failure coming back from orcid.org, shown above the sign-in card. */
+.orcidError {
+  max-width: 480px;
+  margin: 0 auto 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--danger, #c0392b);
+  border-radius: var(--radius);
+  color: var(--danger, #c0392b);
+  font-size: 0.9rem;
+}

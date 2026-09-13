@@ -19,7 +19,6 @@ export function useInstitution(): string {
     const onSession = () => setName(read());
     window.addEventListener(SESSION_EVENT, onSession);
     return () => window.removeEventListener(SESSION_EVENT, onSession);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return name;

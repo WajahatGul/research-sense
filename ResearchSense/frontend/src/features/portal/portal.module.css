@@ -449,3 +449,79 @@
 .guestLink:hover {
   border-color: var(--navy);
 }
+
+/* --- "Which are you?" chooser ------------------------------------------- */
+/* Four tabs made a visitor guess which identity system was theirs. One
+   question, two answers, then a single form. */
+
+.chooseTitle {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.choices {
+  display: grid;
+  gap: 12px;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+  padding: 16px 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.choice:hover {
+  border-color: var(--navy);
+  box-shadow: var(--shadow-lift);
+}
+
+.choiceName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.choiceHint {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.back:hover {
+  color: var(--navy);
+}
+
+.switch {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--navy);
+  text-decoration: underline;
+  cursor: pointer;
+}

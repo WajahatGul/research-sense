@@ -55,6 +55,35 @@ class AuthService:
             full_name=researcher.full_name,
         )
 
+    def claim_verified(
+        self, researcher_id: int, orcid_id: str, password: str
+    ) -> TokenResponse:
+        """Complete a claim where ORCID itself authenticated the person.
+
+        The registry name check is deliberately skipped: signing in at
+        orcid.org is stronger evidence than a name match, and a researcher
+        whose ORCID record spells their name differently should not be blocked
+        by the weaker test after passing the stronger one.
+        """
+        researcher = self._researchers.get(researcher_id)
+        if researcher is None:
+            raise HTTPException(status_code=404, detail="Researcher not found")
+        if self._store.account_for_researcher(researcher_id):
+            raise HTTPException(
+                status_code=409, detail="This profile is already claimed"
+            )
+        if self._store.get_account(orcid_id):
+            raise HTTPException(
+                status_code=409, detail="This ORCID iD already has an account"
+            )
+        self._store.create_account(orcid_id, researcher_id, hash_password(password))
+        return TokenResponse(
+            token=create_token(orcid_id, "researcher"),
+            role="researcher",
+            researcher_id=researcher_id,
+            full_name=researcher.full_name,
+        )
+
     def login(self, orcid_id: str, password: str) -> TokenResponse:
         throttle.check(orcid_id)
         account = self._store.get_account(orcid_id)

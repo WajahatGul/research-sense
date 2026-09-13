@@ -56,6 +56,28 @@ class Settings:
         "yes",
     )
 
+    # --- ORCID sign-in (proof of ownership) ---
+    # The public registry can only confirm that the NAME on an iD matches the
+    # profile being claimed. ORCID iDs are public, so that stops a careless
+    # mistake, not someone deliberately claiming a colleague. Signing in at
+    # orcid.org proves the iD is actually theirs. Register a free public API
+    # client at orcid.org/developer-tools and set these; until then the portal
+    # falls back to the name check and says so.
+    orcid_client_id: str = os.getenv("ORCID_CLIENT_ID", "").strip()
+    orcid_client_secret: str = os.getenv("ORCID_CLIENT_SECRET", "").strip()
+    # Must match the redirect URI registered with ORCID exactly.
+    orcid_redirect_uri: str = os.getenv(
+        "ORCID_REDIRECT_URI", "http://localhost:8000/api/auth/orcid/callback"
+    ).strip()
+    # Sandbox for development; production issues real iDs.
+    orcid_sandbox: bool = os.getenv("ORCID_SANDBOX", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+    # Where to send the browser once the round trip is done.
+    frontend_origin: str = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173").strip()
+
     # --- Developer/test account ---
     # When set, claiming a profile with this exact ORCID iD skips the ORCID
     # registry identity check. For local testing only; leave unset in
