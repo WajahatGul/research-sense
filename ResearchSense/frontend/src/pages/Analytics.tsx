@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { fetchAnalytics } from "../api/analytics";
 import { fetchStats } from "../api/stats";
+import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
@@ -14,6 +15,25 @@ import {
   TopVenues,
 } from "../features/analytics/charts";
 import styles from "./Analytics.module.css";
+
+/** What the charts below cover, in one sentence.
+ *
+ * Counts come from the live stats so a signed-in institution never reads the
+ * demo deployment's totals. Built whole so it still reads correctly before
+ * the counts arrive.
+ */
+function coverageNote(stats?: Stats): string {
+  const scope = stats
+    ? ` — ${stats.researchers.toLocaleString()} researcher` +
+      `${stats.researchers === 1 ? "" : "s"} and ` +
+      `${stats.publications.toLocaleString()} publication` +
+      `${stats.publications === 1 ? "" : "s"}`
+    : "";
+  return (
+    `These charts reflect only the data ResearchSense has indexed so far${scope}.` +
+    " Real output is higher; coverage grows with each refresh."
+  );
+}
 
 export default function Analytics() {
   const { data, isLoading, isError } = useQuery({
@@ -47,16 +67,7 @@ export default function Analytics() {
       />
 
       <div className={`container ${styles.body}`}>
-        <DataNote>
-          These charts reflect only the data ResearchSense has indexed so far
-          {stats
-            ? ` — ${stats.researchers.toLocaleString()} researcher` +
-              `${stats.researchers === 1 ? "" : "s"} and ` +
-              `${stats.publications.toLocaleString()} publication` +
-              `${stats.publications === 1 ? "" : "s"}`
-            : ""}
-          . Real output is higher; coverage grows with each refresh.
-        </DataNote>
+        <DataNote>{coverageNote(stats)}</DataNote>
 
         <section className={styles.card}>
           <h2 className={styles.h2}>Publications per year, by campus</h2>

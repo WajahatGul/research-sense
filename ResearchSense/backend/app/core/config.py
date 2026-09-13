@@ -44,6 +44,18 @@ class Settings:
     rag_soft_threshold: float = float(os.getenv("RAG_SOFT_THRESHOLD", "0.22"))
     rag_top_k: int = int(os.getenv("RAG_TOP_K", "12"))
 
+    # Weekly in-process data refresh (re-fetch OpenAlex, re-embed the index).
+    # Off by default: the index is built locally and committed, and a rebuild
+    # of the full Bahria corpus needs far more memory than a small instance
+    # has — running it inside the web process would take the site down. Set
+    # RS_AUTO_REFRESH=1 only where the box can afford it. The admin endpoint
+    # can still trigger a refresh deliberately.
+    auto_refresh: bool = os.getenv("RS_AUTO_REFRESH", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+
     # --- Developer/test account ---
     # When set, claiming a profile with this exact ORCID iD skips the ORCID
     # registry identity check. For local testing only; leave unset in

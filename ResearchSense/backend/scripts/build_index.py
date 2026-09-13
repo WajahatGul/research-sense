@@ -45,13 +45,40 @@ def load(name: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Fact cards from structured data
 # ---------------------------------------------------------------------------
+def _opening_sentence(r: dict) -> str:
+    """How the profile introduces itself.
+
+    A profile built from the publication record alone has no designation,
+    department or campus, and slotting empty strings into the directory
+    sentence produced "X is a  in the Department of  at the  campus." — text
+    that reads badly in an answer and carries nothing to match a question
+    against. Those profiles get a sentence about what they actually are.
+    """
+    name = r["full_name"]
+    designation = (r.get("designation") or "").strip()
+    department = (r.get("department") or "").strip()
+    campus = (r.get("campus") or "").strip()
+
+    if designation and department and campus:
+        return (
+            f"{name} is a {designation} in the Department of "
+            f"{department} at {_AT_INST}{campus} campus."
+        )
+
+    # These profiles have nothing but a name and a publication record, so the
+    # affiliation on the record is the one piece of context worth stating. It
+    # comes from the data, keeping the build institution-agnostic.
+    affiliation = (r.get("institution") or INSTITUTION).strip()
+    where = f" at {affiliation}" if affiliation else ""
+    if department:
+        return f"{name} is a researcher in the Department of {department}{where}."
+    return f"{name} is a researcher who has published{where}."
+
+
 def researcher_chunks(researchers: list[dict]) -> list[dict]:
     out = []
     for r in researchers:
-        parts = [
-            f"{r['full_name']} is a {r['designation']} in the Department of "
-            f"{r['department']} at {_AT_INST}{r['campus']} campus."
-        ]
+        parts = [_opening_sentence(r)]
         # Structured research areas (topic names) alongside the scraped
         # free-text expertise, so "who works on X" retrieves reliably.
         if r.get("topics"):
@@ -84,7 +111,13 @@ def researcher_chunks(researchers: list[dict]) -> list[dict]:
                 "text": " ".join(parts),
                 "kind": "researcher",
                 "ref_id": r["researcher_id"],
-                "label": f"{r['full_name']} — {r['designation']}",
+                # Publication-only profiles have no designation; the bare
+                # name reads better than a dangling "Name — " in a citation.
+                "label": (
+                    f"{r['full_name']} — {r['designation']}"
+                    if (r.get("designation") or "").strip()
+                    else r["full_name"]
+                ),
             }
         )
     return out
@@ -282,6 +315,27 @@ def library_paper_chunks() -> list[dict]:
     return out
 
 
+# Embedding every chunk in one call materialises the whole batch inside the
+# ONNX runtime; at ~21k chunks that peaked near 1.6 GB. Feeding it in slices
+# keeps the working set flat, which matters because the same code path runs
+# inside the deployed app during a refresh.
+EMBED_BATCH = 512
+
+
+def embed_all(texts: list[str], model: TextEmbedding) -> np.ndarray:
+    """Embed in slices and return one normalized float32 matrix."""
+    out = np.empty((len(texts), 384), dtype=np.float32)
+    done = 0
+    for start in range(0, len(texts), EMBED_BATCH):
+        batch = texts[start : start + EMBED_BATCH]
+        vecs = np.array(list(model.embed(batch)), dtype=np.float32)
+        out[start : start + len(batch)] = vecs
+        done += len(batch)
+        print(f"  embedded {done}/{len(texts)} chunks", flush=True)
+    out /= np.linalg.norm(out, axis=1, keepdims=True)
+    return out
+
+
 def fact_card_chunks() -> list[dict]:
     """All chunks derived from the structured JSON data (no PDFs)."""
     researchers = load("researchers")
@@ -314,10 +368,7 @@ def rebuild_preserving_fulltext() -> None:
 
     fresh = fact_card_chunks()
     model = TextEmbedding(EMBED_MODEL)
-    fresh_vectors = np.array(
-        list(model.embed([c["text"] for c in fresh])), dtype=np.float32
-    )
-    fresh_vectors /= np.linalg.norm(fresh_vectors, axis=1, keepdims=True)
+    fresh_vectors = embed_all([c["text"] for c in fresh], model)
 
     chunks = fresh + kept_chunks
     vectors = np.vstack([fresh_vectors, kept_vectors])
@@ -388,9 +439,8 @@ def main() -> None:
     )
 
     model = TextEmbedding(EMBED_MODEL)
-    vectors = np.array(list(model.embed([c["text"] for c in chunks])), dtype=np.float32)
-    # Normalize so cosine similarity is a plain dot product at query time.
-    vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)
+    # Normalized inside, so cosine similarity is a plain dot product at query time.
+    vectors = embed_all([c["text"] for c in chunks], model)
 
     (DATA_DIR / "rag_chunks.json").write_text(
         json.dumps(chunks, ensure_ascii=False), "utf-8"

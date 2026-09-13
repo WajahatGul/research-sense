@@ -12,6 +12,7 @@ import logging
 import threading
 from datetime import UTC, datetime, timedelta
 
+from app.core.config import settings
 from app.repositories.accounts import AccountStore
 from app.services.rag.retriever import Retriever
 
@@ -65,7 +66,15 @@ def is_due() -> bool:
 
 
 async def weekly_refresh_loop() -> None:
-    """Lifespan task: check daily, refresh when a week has passed."""
+    """Lifespan task: check daily, refresh when a week has passed.
+
+    Disabled unless RS_AUTO_REFRESH is set: a full rebuild re-embeds the whole
+    corpus, which a small instance cannot afford, and the committed index makes
+    it unnecessary. Admins can still refresh on demand.
+    """
+    if not settings.auto_refresh:
+        log.info("weekly refresh disabled (set RS_AUTO_REFRESH=1 to enable)")
+        return
     while True:
         await asyncio.sleep(CHECK_EVERY_SECONDS)
         try:

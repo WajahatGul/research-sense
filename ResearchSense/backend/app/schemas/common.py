@@ -22,6 +22,9 @@ class Stats(BaseModel):
     """Aggregate counters shown on the home page."""
 
     researchers: int
+    #: Publication-only profiles, searchable by name but not listed in the
+    #: directory. Zero for an institution workspace.
+    researchers_extended: int = 0
     publications: int
     projects: int
     topics: int

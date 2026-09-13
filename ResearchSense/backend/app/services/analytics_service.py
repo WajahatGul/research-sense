@@ -9,22 +9,33 @@ from app.repositories import loader
 
 
 def _campus_of_researchers() -> dict[int, str]:
-    return {r["researcher_id"]: r["campus"] for r in loader.load("researchers")}
+    return {
+        r["researcher_id"]: r["campus"]
+        for r in loader.load("researchers")
+        if r.get("campus")
+    }
 
 
 class AnalyticsService:
     def overview(self) -> dict:
-        researchers = loader.load("researchers")
+        # Publication-only profiles carry no campus or department, so charting
+        # them would add a meaningless "Unknown" bucket bigger than every real
+        # one. Their papers still count in the year, citation and venue charts,
+        # which do not depend on where an author sits.
+        researchers = [
+            r for r in loader.load("researchers") if not loader.is_extended(r)
+        ]
         publications = loader.load("publications")
+        placed = [p for p in publications if p.get("campus")]
         campus_of = _campus_of_researchers()
-        campuses = sorted({r["campus"] for r in researchers})
+        campuses = sorted({r["campus"] for r in researchers if r.get("campus")})
 
         return {
             "campuses": campuses,
-            "publications_per_year": self._per_year_by_campus(publications),
+            "publications_per_year": self._per_year_by_campus(placed),
             "citations_per_year": self._citations_per_year(publications),
             "top_venues": self._top_venues(publications),
-            "campus_totals": self._campus_totals(researchers, publications),
+            "campus_totals": self._campus_totals(researchers, placed),
             "cross_campus_pairs": self._cross_campus(publications, campus_of),
             "department_totals": self._department_totals(researchers, publications),
             "international_split": self._international_split(publications),
@@ -35,8 +46,9 @@ class AnalyticsService:
         counts: dict[int, Counter] = defaultdict(Counter)
         for p in publications:
             year = p.get("publication_year") or 0
-            if year >= 2010:
-                counts[year][p.get("campus") or "Unknown"] += 1
+            campus = p.get("campus")
+            if year >= 2010 and campus:
+                counts[year][campus] += 1
         return [{"year": year, **counts[year]} for year in sorted(counts)]
 
     @staticmethod
@@ -65,6 +77,8 @@ class AnalyticsService:
     def _campus_totals(researchers: list[dict], publications: list[dict]) -> list[dict]:
         rows: dict[str, dict] = {}
         for r in researchers:
+            if not r.get("campus"):
+                continue
             row = rows.setdefault(
                 r["campus"],
                 {

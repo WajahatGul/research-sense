@@ -23,6 +23,18 @@ WORKSPACES_DIR = DATA_DIR / "workspaces"
 #: The bundled corpus (the public demo). Its files stay at the top of ``data/``.
 DEFAULT_WORKSPACE = "demo"
 
+#: Profiles built from the publication record alone (OpenAlex), with no
+#: department, campus, or biography. They make every Bahria author findable by
+#: name without filling the curated directory with empty cards, so they are
+#: excluded from browsing and from the campus/department analytics.
+EXTENDED_SOURCE = "openalex"
+
+
+def is_extended(record: dict) -> bool:
+    """True for a publication-only profile (see EXTENDED_SOURCE)."""
+    return record.get("source") == EXTENDED_SOURCE
+
+
 _current_workspace: ContextVar[str] = ContextVar(
     "current_workspace", default=DEFAULT_WORKSPACE
 )

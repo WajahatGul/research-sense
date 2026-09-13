@@ -92,6 +92,9 @@ class Retriever:
         )
         self._vectors: np.ndarray = np.load(directory / "rag_index.npz")["vectors"]
         self._lowered: list[str] = [c["text"].lower() for c in self._chunks]
+        # A chunk's label names what it is ABOUT, which is stronger evidence
+        # than the name merely appearing somewhere in its text.
+        self._labels_lower: list[str] = [c["label"].lower() for c in self._chunks]
         # Known researcher names (without titles) for entity-aware boosting.
         # Stored both raw (for chunk matching) and normalized (for matching
         # transliteration variants in the question, e.g. Rehman vs Rahman).
@@ -223,16 +226,34 @@ class Retriever:
         names a year, chunks with both name and year are boosted further.
         """
         normalized_query = _norm_name(query)
-        named = [raw for raw, norm in self._names if norm in normalized_query]
+        matched = [(raw, norm) for raw, norm in self._names if norm in normalized_query]
         bonus = np.zeros(len(self._chunks), dtype=np.float32)
-        if not named:
+        if not matched:
             return bonus
+
+        # Keep only the most specific name each match belongs to. The roster
+        # includes people recorded as bare "Muhammad", so asking about
+        # "Muhammad Ramzan" matched both and boosted every chunk mentioning
+        # any Muhammad — burying his own profile under hundreds of namesakes.
+        # A name that is contained in another matched name is dropped; two
+        # genuinely different people ("did X and Y collaborate") both survive.
+        named = [
+            raw
+            for raw, norm in matched
+            if not any(norm != other and norm in other for _r, other in matched)
+        ]
         years = set(re.findall(r"(?:19|20)\d{2}", query))
         for i, text in enumerate(self._lowered):
-            if any(n in text for n in named):
-                bonus[i] = 0.35
-                if years and any(y in text for y in years):
-                    bonus[i] = 0.5
+            hit = next((n for n in named if n in text), None)
+            if hit is None:
+                continue
+            # Being about the person beats mentioning them. Without this, every
+            # co-author's chunk listing "Muhammad Ramzan" scores as highly as
+            # his own profile, and the profile falls out of the top results.
+            about = self._labels_lower[i].startswith(hit)
+            bonus[i] = 0.6 if about else 0.35
+            if years and any(y in text for y in years):
+                bonus[i] += 0.15
         return bonus
 
 

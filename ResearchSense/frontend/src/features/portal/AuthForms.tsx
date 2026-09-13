@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -9,6 +10,7 @@ import {
   setToken,
 } from "../../api/auth";
 import { fetchResearchers } from "../../api/researchers";
+import { INSTITUTION_NAME } from "../../config";
 import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
@@ -37,6 +39,29 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   };
 
   return (
+    <>
+    <div className={styles.guestCard}>
+      <p className={styles.guestTitle}>Just looking around?</p>
+      <p className={styles.guestText}>
+        You do not need an account. Everyone can read the whole portal — the
+        researchers, their publications, the analytics, and the assistant — and
+        what you see is {INSTITUTION_NAME || "the deploying university"}'s real
+        research data. Sign in below only to manage your own profile, or to set
+        up a workspace for a different university.
+      </p>
+      <div className={styles.guestLinks}>
+        <Link className={styles.guestLink} to="/researchers">
+          Browse researchers
+        </Link>
+        <Link className={styles.guestLink} to="/analytics">
+          See the analytics
+        </Link>
+        <Link className={styles.guestLink} to="/ask">
+          Ask the assistant
+        </Link>
+      </div>
+    </div>
+
     <div className={styles.authCard}>
       <div className={styles.tabs}>
         {(["login", "claim", "institution", "admin"] as Tab[]).map((t) => (
@@ -57,6 +82,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
       {tab === "institution" && <WorkspaceAuth onSignedIn={onSignedIn} />}
       {tab === "admin" && <AdminForm onSubmit={submit} />}
     </div>
+    </>
   );
 }
 

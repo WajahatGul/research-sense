@@ -301,6 +301,26 @@ def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> dict
         return {"intent": "other", "focus_entities": [], "needs_context": False}
 
 
+def _raw_evidence(retrieved_chunks: list[ScoredChunk]) -> str:
+    """The retrieved text itself, shaped as an evidence block Pass 3 can read.
+
+    Used when the extraction pass cannot run. Pass 2 only condenses what
+    retrieval already found, so handing Pass 3 the chunks verbatim is less
+    precise but just as grounded — and far better than handing it nothing,
+    which makes it refuse and report "no records" for what is really a
+    temporary model outage.
+    """
+    if not retrieved_chunks:
+        return ""
+    facts = "\n".join(f"- [{c.kind}: {c.label}] {c.text}" for c in retrieved_chunks[:8])
+    return (
+        f"RELEVANT_FACTS:\n{facts}\n"
+        "SOURCE_REFS: all of the above\n"
+        "GAPS: None stated\n"
+        "CONTRADICTIONS: None stated"
+    )
+
+
 def _pass2_extract_evidence(
     user_message: str,
     intent: dict,
@@ -434,7 +454,17 @@ def run_agentic_pipeline(
     print(f"  [pipeline] intent={intent}")
 
     evidence = _pass2_extract_evidence(user_message, intent, retrieved_chunks)
-    print(f"  [pipeline] evidence extracted ({len(evidence)} chars)")
+    if not evidence.strip():
+        # The fast model was rate-limited or unreachable. Retrieval already
+        # found the records, so fall back to them verbatim rather than letting
+        # Pass 3 refuse and tell the user the records do not exist.
+        evidence = _raw_evidence(retrieved_chunks)
+        print(
+            f"  [pipeline] extraction unavailable, using retrieved text "
+            f"({len(evidence)} chars)"
+        )
+    else:
+        print(f"  [pipeline] evidence extracted ({len(evidence)} chars)")
 
     answer = _pass3_synthesise_answer(
         user_message, intent, evidence, conversation_history

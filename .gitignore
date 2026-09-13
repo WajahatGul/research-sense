@@ -23,10 +23,12 @@ ResearchSense/frontend/vite.config.d.ts
 .playwright-mcp/
 .DS_Store
 
-# The structured RAG index (~6 MB, no paper full-text) is COMMITTED so deploys
-# don't have to rebuild it on the memory-limited free tier. Rebuild + commit it
-# when the JSON corpus changes: `python -m scripts.build_index`.
-# NOTE: a local build that includes downloaded paper PDFs produces a ~102 MB
+# The structured RAG index (~30 MB since the full Bahria import, no paper
+# full-text) is COMMITTED so deploys don't have to rebuild it: the rebuild peaks
+# around 1.6 GB of RAM, far above the free tier's limit. Rebuild + commit it when
+# the JSON corpus changes, using the fact-card refresh that preserves full text:
+#   python -c "from scripts.build_index import rebuild_preserving_fulltext as r; r()"
+# NOTE: a local build that includes downloaded paper PDFs produces a much larger
 # index — do NOT commit that one; keep the committed index to the structured build.
 
 # Runtime cache of admin-approved faculty submissions (preserved across index
