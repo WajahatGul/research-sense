@@ -9,6 +9,9 @@ export interface Paginated<T> {
 
 export interface Stats {
   researchers: number;
+  /** Publication-only profiles: searchable by name, not listed in the
+   *  directory (they have no department or campus). */
+  researchers_extended?: number;
   publications: number;
   projects: number;
   topics: number;

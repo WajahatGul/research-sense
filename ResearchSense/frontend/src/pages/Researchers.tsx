@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchResearchers } from "../api/researchers";
+import { fetchStats } from "../api/stats";
+import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
@@ -19,6 +21,31 @@ interface Filters {
   campus: string;
   department: string;
   designation: string;
+}
+
+/** What the directory covers, in one sentence.
+ *
+ * The counts come from the live stats so the note can never contradict the
+ * page (it used to claim a fixed "358 profiles across 22 departments" to an
+ * institution holding one). Built as a whole sentence rather than inlined
+ * fragments so it still reads correctly when the counts have not loaded.
+ */
+function coverageNote(stats?: Stats): string {
+  const scope = stats
+    ? ` — ${stats.researchers.toLocaleString()} profile` +
+      `${stats.researchers === 1 ? "" : "s"} across ` +
+      `${stats.departments} department${stats.departments === 1 ? "" : "s"}`
+    : "";
+  let note =
+    "This directory lists the faculty profiles ResearchSense has full " +
+    `details for${scope}.`;
+  if (stats?.researchers_extended) {
+    note +=
+      ` A further ${stats.researchers_extended.toLocaleString()} authors have` +
+      " published here without a directory profile — search their name above" +
+      " to find their papers.";
+  }
+  return note;
 }
 
 export default function Researchers() {
@@ -40,6 +67,7 @@ export default function Researchers() {
 
   const hasSearched = applied !== null;
 
+  const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
   const { data, isLoading, isError } = useQuery({
     queryKey: ["researchers", applied, page],
     queryFn: () => {
@@ -100,9 +128,7 @@ export default function Researchers() {
         />
 
         <DataNote>
-          This directory reflects only the faculty ResearchSense has indexed
-          so far — 358 profiles sampled across 22 departments. Not every
-          faculty member is included yet.
+          {coverageNote(stats)}
         </DataNote>
 
         {!hasSearched && (

@@ -50,13 +50,28 @@ def _secret() -> str:
     return AccountStore.instance().jwt_secret()
 
 
-def create_token(subject: str, role: str) -> str:
+def create_token(subject: str, role: str, workspace: str | None = None) -> str:
+    """Issue a session token. ``workspace`` scopes the session to one
+    institution's data; omitted means the bundled demo corpus."""
     payload = {
         "sub": subject,
         "role": role,
         "exp": datetime.now(UTC) + timedelta(days=TOKEN_DAYS),
     }
+    if workspace:
+        payload["ws"] = workspace
     return jwt.encode(payload, _secret(), algorithm="HS256")
+
+
+def workspace_from_token(raw_token: str | None) -> str | None:
+    """Best-effort read of the workspace claim, for the request scoping
+    middleware. Never raises: an absent or bad token just means the demo."""
+    if not raw_token:
+        return None
+    try:
+        return jwt.decode(raw_token, _secret(), algorithms=["HS256"]).get("ws")
+    except jwt.PyJWTError:
+        return None
 
 
 def _decode(credentials: HTTPAuthorizationCredentials | None) -> dict:

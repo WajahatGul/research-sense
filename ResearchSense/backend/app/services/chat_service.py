@@ -17,9 +17,16 @@ from app.services.rag.generator import REFUSAL_MESSAGE, generate, grounded_facts
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
 
+# Shown when the semantic index is missing — a brand-new institution
+# workspace has none until its own records are indexed. The structured fast
+# paths above still work, so this names what the assistant *can* answer today
+# rather than showing a build command to someone who cannot run one.
 INDEX_MISSING_MESSAGE = (
-    "The assistant's knowledge index has not been built yet. Run "
-    "'python -m scripts.build_index' in the backend and try again."
+    "I do not have a searchable index of this workspace's records yet, so I "
+    "cannot answer open-ended questions here. I can still answer directly from "
+    "your saved data — for example who works in a department or research area, "
+    "what a researcher has published, or who has the most publications. Adding "
+    "your profile and papers on the portal builds the index for everything else."
 )
 
 # Shown when nothing meaningfully related was found. A helpful redirect rather
@@ -73,9 +80,6 @@ class ChatService:
                 answer="Please ask a question about our researchers, "
                 "publications, projects, or papers."
             )
-
-        if not Retriever.available():
-            return ChatResponse(answer=INDEX_MISSING_MESSAGE)
 
         # Pass 0: resolve a contextual follow-up ("and how?", "is it related to
         # AI?", "what did he write?") into a self-contained question using the
@@ -159,6 +163,12 @@ class ChatService:
                     for name, rid in area.researchers
                 ],
             )
+
+        # Everything past here is semantic search. The fast paths above read the
+        # structured tables directly, so they answer for a workspace whose index
+        # has not been built yet; only this part needs one.
+        if not Retriever.available():
+            return ChatResponse(answer=INDEX_MISSING_MESSAGE)
 
         results = Retriever.instance().retrieve(_retrieval_query(question, history))
         top = results[0].score if results else 0.0

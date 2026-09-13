@@ -7,6 +7,7 @@ import secrets
 
 from fastapi import HTTPException
 
+from app.core import throttle
 from app.core.security import create_token, hash_password, verify_password
 from app.repositories.accounts import AccountStore
 from app.repositories.base import ResearcherRepository
@@ -20,6 +21,9 @@ class AuthService:
         self._store = AccountStore.instance()
 
     def claim(self, researcher_id: int, orcid_id: str, password: str) -> TokenResponse:
+        # Throttled as well as login: every attempt calls the public ORCID
+        # registry, so repeated guessing is abuse of someone else's service.
+        throttle.check(f"claim:{orcid_id}")
         researcher = self._researchers.get(researcher_id)
         if researcher is None:
             raise HTTPException(status_code=404, detail="Researcher not found")
@@ -40,7 +44,38 @@ class AuthService:
             try:
                 verify_claim(orcid_id, researcher.full_name)
             except OrcidVerificationError as exc:
+                throttle.record_failure(f"claim:{orcid_id}")
                 raise HTTPException(status_code=403, detail=str(exc)) from exc
+        throttle.record_success(f"claim:{orcid_id}")
+        self._store.create_account(orcid_id, researcher_id, hash_password(password))
+        return TokenResponse(
+            token=create_token(orcid_id, "researcher"),
+            role="researcher",
+            researcher_id=researcher_id,
+            full_name=researcher.full_name,
+        )
+
+    def claim_verified(
+        self, researcher_id: int, orcid_id: str, password: str
+    ) -> TokenResponse:
+        """Complete a claim where ORCID itself authenticated the person.
+
+        The registry name check is deliberately skipped: signing in at
+        orcid.org is stronger evidence than a name match, and a researcher
+        whose ORCID record spells their name differently should not be blocked
+        by the weaker test after passing the stronger one.
+        """
+        researcher = self._researchers.get(researcher_id)
+        if researcher is None:
+            raise HTTPException(status_code=404, detail="Researcher not found")
+        if self._store.account_for_researcher(researcher_id):
+            raise HTTPException(
+                status_code=409, detail="This profile is already claimed"
+            )
+        if self._store.get_account(orcid_id):
+            raise HTTPException(
+                status_code=409, detail="This ORCID iD already has an account"
+            )
         self._store.create_account(orcid_id, researcher_id, hash_password(password))
         return TokenResponse(
             token=create_token(orcid_id, "researcher"),
@@ -50,14 +85,17 @@ class AuthService:
         )
 
     def login(self, orcid_id: str, password: str) -> TokenResponse:
+        throttle.check(orcid_id)
         account = self._store.get_account(orcid_id)
         if (
             account is None
             or not account["active"]
             or not verify_password(password, account["password_hash"])
         ):
+            throttle.record_failure(orcid_id)
             # One message for every failure mode: no account enumeration.
             raise HTTPException(status_code=401, detail="Invalid ORCID iD or password")
+        throttle.record_success(orcid_id)
         researcher = self._researchers.get(account["researcher_id"])
         return TokenResponse(
             token=create_token(orcid_id, "researcher"),
@@ -74,11 +112,14 @@ class AuthService:
                 status_code=503,
                 detail="Admin login is not configured (set ADMIN_PASSWORD in .env)",
             )
+        throttle.check(f"admin:{username}")
         if not (
             secrets.compare_digest(username, expected_user)
             and secrets.compare_digest(password, expected_pass)
         ):
+            throttle.record_failure(f"admin:{username}")
             raise HTTPException(status_code=401, detail="Invalid admin credentials")
+        throttle.record_success(f"admin:{username}")
         return TokenResponse(token=create_token(username, "admin"), role="admin")
 
     def me(self, token_payload: dict) -> MeResponse:

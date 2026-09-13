@@ -64,14 +64,46 @@ def checksum_valid(orcid_id: str) -> bool:
     return digits[-1] == check
 
 
-def _significant_tokens(name: str) -> set[str]:
+def _name_tokens(name: str) -> list[str]:
+    """Identifying parts of a name, in order, titles and particles removed."""
     name = re.sub(_TITLES, "", name.strip(), flags=re.I)
-    tokens = {
+    return [
         _NAME_VARIANTS.get(t, t)
         for t in re.findall(r"[a-z]+", name.lower())
         if len(t) >= 2 and t not in _PARTICLES
-    }
-    return tokens
+    ]
+
+
+def _significant_tokens(name: str) -> set[str]:
+    return set(_name_tokens(name))
+
+
+def _family_name(name: str) -> str:
+    """The last identifying part — the closest thing to a surname here."""
+    tokens = _name_tokens(name)
+    return tokens[-1] if tokens else ""
+
+
+# Given names so common in this roster that sharing one identifies nobody.
+# "Muhammad Ali Khan" and "Muhammad Usman Khan" share two tokens and are two
+# different people, so a plain "two tokens in common" rule let one claim the
+# other's profile. These are discounted when counting what is shared.
+_COMMON_GIVEN = {
+    "muhammad",
+    "syed",
+    "mohd",
+    "ahmed",
+    "ahmad",
+    "ali",
+    "khan",
+    "hussain",
+    "abdul",
+    "shah",
+    "malik",
+    "raza",
+    "ul",
+    "din",
+}
 
 
 def fetch_record_names(orcid_id: str) -> list[str]:
@@ -120,14 +152,28 @@ def fetch_record_names(orcid_id: str) -> list[str]:
 
 
 def _names_match(roster_name: str, record_name: str) -> bool:
+    """True only when the two names plausibly belong to the same person.
+
+    The family name must agree — that is the part people share least — and
+    beyond it the names must either contain one another (which covers a
+    missing middle name) or agree on a given name that is actually
+    distinguishing. Sharing only very common given names is not a match.
+    """
     roster = _significant_tokens(roster_name)
     record = _significant_tokens(record_name)
     if not roster or not record:
         return False
-    common = roster & record
-    # Either one name is contained in the other (handles missing middle
-    # names) or they share at least two identifying tokens.
-    return roster <= record or record <= roster or len(common) >= 2
+
+    if _family_name(roster_name) != _family_name(record_name):
+        return False
+
+    # One name fully contained in the other: "Sara Ahmed" vs "Sara J Ahmed".
+    if roster <= record or record <= roster:
+        return True
+
+    # Otherwise require agreement on a given name that identifies someone.
+    distinguishing = (roster & record) - _COMMON_GIVEN - {_family_name(roster_name)}
+    return len(distinguishing) >= 1
 
 
 def verify_claim(orcid_id: str, researcher_name: str) -> None:

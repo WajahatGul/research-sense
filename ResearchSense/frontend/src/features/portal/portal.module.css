@@ -312,3 +312,211 @@
   color: #a03030;
   border: 1px solid rgba(160, 48, 48, 0.3);
 }
+
+/* --- institution workspace onboarding (CV review, DOI add) --- */
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--surface);
+  resize: vertical;
+}
+.textarea:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.sectionTitle {
+  margin: 22px 0 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.linkButton {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  color: var(--navy);
+  font: inherit;
+  font-size: 0.88rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.doiRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+.doiRow .input {
+  flex: 1 1 240px;
+}
+
+.pubList {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pubEdit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+}
+
+.pubMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pubMetaRow .input {
+  flex: 1 1 130px;
+}
+
+.removeBtn {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+.removeBtn:hover {
+  color: #b3261e;
+  border-color: #b3261e;
+}
+
+/* Guest route out of the portal. Every page here is open to read without an
+   account, but a card showing four sign-in forms implies the opposite, so a
+   visitor with no affiliation is told plainly that they can just look. */
+.guestCard {
+  max-width: 480px;
+  margin: 0 auto 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold, #d4a12a);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+}
+
+.guestTitle {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.guestText {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.guestLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.guestLink {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  color: var(--navy);
+  background: var(--surface);
+}
+
+.guestLink:hover {
+  border-color: var(--navy);
+}
+
+/* --- sign-in card ------------------------------------------------------- */
+/* The familiar shape: a title, the form, and "don't have an account?" beneath.
+   Two big choice cards read like a wizard and made signing in feel like setup. */
+
+.cardTitle {
+  font-size: 1.25rem;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+/* The one real fork — a researcher here, or an institution bringing its own
+   data — as a compact switch rather than a decision before anything is shown. */
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+  background: var(--surface-2, #f1f3f6);
+  border-radius: 999px;
+}
+
+.seg,
+.segOn {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.seg {
+  background: transparent;
+  color: var(--muted);
+}
+
+.seg:hover {
+  color: var(--navy);
+}
+
+.segOn {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+.footNote {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.linkInline {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}

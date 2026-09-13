@@ -10,6 +10,7 @@ import {
   fetchDepartments,
   fetchResearchers,
 } from "../api/researchers";
+import { fetchStats } from "../api/stats";
 import Researchers from "./Researchers";
 
 vi.mock("../api/researchers", () => ({
@@ -19,10 +20,13 @@ vi.mock("../api/researchers", () => ({
   fetchAcademicRanks: vi.fn(),
 }));
 
+vi.mock("../api/stats", () => ({ fetchStats: vi.fn() }));
+
 const mockFetchResearchers = vi.mocked(fetchResearchers);
 const mockFetchCampuses = vi.mocked(fetchCampuses);
 const mockFetchDepartments = vi.mocked(fetchDepartments);
 const mockFetchAcademicRanks = vi.mocked(fetchAcademicRanks);
+const mockFetchStats = vi.mocked(fetchStats);
 
 const researcher: Researcher = {
   researcher_id: 1,
@@ -68,6 +72,15 @@ beforeEach(() => {
   mockFetchDepartments.mockResolvedValue(["Computer Science"]);
   mockFetchAcademicRanks.mockResolvedValue(["Professor"]);
   mockFetchResearchers.mockResolvedValue(researcherPage);
+  mockFetchStats.mockResolvedValue({
+    researchers: 12,
+    researchers_extended: 4000,
+    publications: 40,
+    projects: 2,
+    topics: 5,
+    departments: 3,
+    campuses: 1,
+  });
 });
 
 describe("Researchers", () => {
@@ -88,12 +101,31 @@ describe("Researchers", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the coverage data note", async () => {
+  it("reports coverage from the live stats, not a hardcoded number", async () => {
+    renderPage();
+
+    // The counts must match whatever the API reports — a workspace holding one
+    // researcher used to be told it had 358.
+    expect(
+      await screen.findByText(/12 profiles across 3 departments/),
+    ).toBeInTheDocument();
+  });
+
+  it("explains that authors without a directory profile are searchable", async () => {
     renderPage();
 
     expect(
-      await screen.findByText(/reflects only the faculty ResearchSense/),
+      await screen.findByText(/A further 4,000 authors have published here/),
     ).toBeInTheDocument();
+  });
+
+  it("still reads as a sentence before the counts arrive", async () => {
+    mockFetchStats.mockReturnValue(new Promise(() => {})); // never resolves
+    renderPage();
+
+    const note = await screen.findByText(/This directory lists the faculty/);
+    expect(note.textContent).toContain("has full details for.");
+    expect(note.textContent).not.toContain("for .");
   });
 
   it("fetches researchers after Search is pressed", async () => {

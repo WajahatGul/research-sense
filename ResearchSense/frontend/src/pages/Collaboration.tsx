@@ -100,7 +100,7 @@ export default function Collaboration() {
       <PageHeader
         eyebrow="Who to work with"
         title="Collaboration finder"
-        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions outside Pakistan."
+        description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas. Gold-ringed nodes are cross-campus; 🌐 marks researchers who have published with institutions abroad."
       >
         <ResearcherTypeahead
           selectedName={selectedName}
@@ -211,6 +211,14 @@ function ResearcherTypeahead({ selectedName, onSelect }: TypeaheadProps) {
     return () => clearTimeout(handle);
   }, [query]);
 
+  // Reflect an externally-chosen researcher in the box, but only when the
+  // selection actually changes — so the user can freely delete what they typed
+  // without it being re-filled on every keystroke.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync the input to an external selection change, not a render loop.
+    setQuery(selectedName);
+  }, [selectedName]);
+
   const searchReady = debouncedQuery.length >= MIN_QUERY_LENGTH;
 
   const {
@@ -247,7 +255,7 @@ function ResearcherTypeahead({ selectedName, onSelect }: TypeaheadProps) {
             ? `researcher-option-${matches[highlighted].researcher_id}`
             : undefined
         }
-        value={query || selectedName}
+        value={query}
         onFocus={() => setOpen(true)}
         onChange={(e) => {
           setQuery(e.target.value);

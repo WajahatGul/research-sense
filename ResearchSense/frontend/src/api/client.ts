@@ -13,11 +13,28 @@ export class ApiError extends Error {
 // clear message instead of leaving the UI stuck (e.g. "thinking…").
 const REQUEST_TIMEOUT_MS = 45000;
 
+// Read the session token straight from storage rather than importing the auth
+// module, which would create a cycle (auth.ts builds on this file).
+function authHeader(): Record<string, string> {
+  try {
+    const token = localStorage.getItem("rs_token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  } catch {
+    return {};
+  }
+}
+
 async function fetchWithTimeout(url: string, init?: RequestInit): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
-    return await fetch(url, { ...init, signal: controller.signal });
+    // Every call carries the session, so the API can scope the response to the
+    // signed-in institution's workspace (anonymous callers get the demo).
+    return await fetch(url, {
+      ...init,
+      headers: { ...authHeader(), ...(init?.headers ?? {}) },
+      signal: controller.signal,
+    });
   } catch (e) {
     if (e instanceof DOMException && e.name === "AbortError") {
       throw new ApiError(

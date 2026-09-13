@@ -76,3 +76,20 @@ class ClaimedAccount(BaseModel):
     full_name: str
     active: bool
     created_at: str
+
+
+class ClaimStart(BaseModel):
+    """Begin an ORCID-verified claim: which profile, and the password to set.
+
+    The password is held server-side against the one-time state value rather
+    than travelling through the browser's URL on the way to ORCID and back.
+    """
+
+    researcher_id: int
+    password: str = Field(min_length=8, max_length=128)
+
+
+class OrcidStart(BaseModel):
+    """Where to send the browser to sign in at ORCID."""
+
+    authorize_url: str

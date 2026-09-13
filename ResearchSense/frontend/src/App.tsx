@@ -10,6 +10,8 @@ import Projects from "./pages/Projects";
 import Collaboration from "./pages/Collaboration";
 import Analytics from "./pages/Analytics";
 import Library from "./pages/Library";
+import StaffAccess from "./pages/StaffAccess";
+import Guide from "./pages/Guide";
 import Portal from "./pages/Portal";
 import Ask from "./pages/Ask";
 import NotFound from "./pages/NotFound";
@@ -19,6 +21,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/guide" element={<Guide />} />
         <Route path="/researchers" element={<Researchers />} />
         <Route path="/researchers/:id" element={<ResearcherProfile />} />
         <Route path="/publications" element={<Publications />} />
@@ -28,6 +31,9 @@ export default function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/library" element={<Library />} />
         <Route path="/portal" element={<Portal />} />
+        {/* Deliberately not linked from the site: the staff entrance does
+            not belong on the page researchers use to sign in. */}
+        <Route path="/staff-access" element={<StaffAccess />} />
         <Route path="/ask" element={<Ask />} />
         <Route path="*" element={<NotFound />} />
       </Route>

@@ -14,12 +14,10 @@ authorship question falls through to the normal agentic RAG pipeline.
 
 from __future__ import annotations
 
-import json
 import re
 from dataclasses import dataclass
-from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+from app.repositories import loader
 
 # Transliteration variants (kept in sync with retriever._NAME_VARIANTS) so
 # "Arif ur Rehman" in a question matches "Arif Ur Rahman" in the data.
@@ -134,29 +132,34 @@ class AuthoredResult:
 
 
 class _Store:
-    """Lazily-loaded, cached researcher + publication tables."""
+    """Researcher + publication tables for the workspace being served.
+
+    Reads go through the shared loader, which resolves and caches per
+    workspace, so the structured fast paths answer from the signed-in
+    institution's own records rather than the demo corpus. The class
+    attributes remain as an override hook for tests.
+    """
 
     _researchers: list[dict] | None = None
     _pubs: list[dict] | None = None
 
     @classmethod
     def researchers(cls) -> list[dict]:
-        if cls._researchers is None:
-            cls._researchers = json.loads(
-                (DATA_DIR / "researchers.json").read_text("utf-8")
-            )
-        return cls._researchers
+        if cls._researchers is not None:
+            return cls._researchers
+        return loader.load("researchers")
 
     @classmethod
     def pubs(cls) -> list[dict]:
-        if cls._pubs is None:
-            cls._pubs = json.loads((DATA_DIR / "publications.json").read_text("utf-8"))
-        return cls._pubs
+        if cls._pubs is not None:
+            return cls._pubs
+        return loader.load("publications")
 
     @classmethod
     def reset(cls) -> None:
         cls._researchers = None
         cls._pubs = None
+        loader.clear_cache()
 
 
 def _resolve_researchers(message: str) -> list[dict]:

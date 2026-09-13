@@ -27,6 +27,12 @@ def _matches(
     designation: str | None,
     topic_id: int | None,
 ) -> bool:
+    # Publication-only profiles surface when someone searches by name — the
+    # case that matters, a Bahria author looking for their own work — but not
+    # when browsing, where they would bury 358 real profiles under 5,000 cards
+    # carrying nothing but a name.
+    if loader.is_extended(rec) and not query:
+        return False
     if query:
         q = query.lower()
         hay = (

@@ -211,3 +211,19 @@ export async function triggerRefresh() {
   if (!res.ok) throw new Error("Could not start refresh");
   return res.json();
 }
+
+// --- Sign in with ORCID -----------------------------------------------------
+// Proof that an iD belongs to the claimant, rather than the weaker check that
+// the name on its public record matches. Absent a configured ORCID client the
+// portal falls back to that name check and says so.
+
+/** Whether this deployment can offer "Verify with ORCID". */
+export const orcidSignInAvailable = () =>
+  get<boolean>("/api/auth/orcid/available");
+
+/** Hand the chosen profile and password to the server, get the ORCID URL. */
+export const beginOrcidClaim = (researcher_id: number, password: string) =>
+  post<{ authorize_url: string }>("/api/auth/orcid/begin", {
+    researcher_id,
+    password,
+  });

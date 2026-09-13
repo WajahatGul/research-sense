@@ -23,6 +23,11 @@
   font-size: 0.9rem;
   color: var(--ink);
   cursor: pointer;
+  /* A <select> sizes itself to its longest option ("Earth and Environmental
+     Sciences"), which on a phone is wider than the screen and scrolls the
+     whole page sideways. Cap it at the container and clip the label. */
+  max-width: 100%;
+  text-overflow: ellipsis;
 }
 
 .dateGroup {

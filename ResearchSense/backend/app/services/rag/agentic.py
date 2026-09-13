@@ -26,6 +26,7 @@ import time
 import httpx
 
 from app.core.config import settings
+from app.core.tenancy import institution_name
 from app.services.rag.retriever import ScoredChunk
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -95,6 +96,18 @@ def _retry_after_seconds(msg: str, default: float = 60.0) -> float:
 # Low-level Groq caller (multi-key, multi-model failover)
 # ---------------------------------------------------------------------------
 
+# Groq retires hosted models on notice. A retired one fails identically for
+# every key and never recovers, so it is remembered for the life of the process
+# and skipped — otherwise each call burns one request per key discovering the
+# same thing, and any pass pinned to that model silently returns nothing.
+_dead_models: set[str] = set()
+_RETIRED_MARKERS = ("does not exist", "decommissioned", "deprecated")
+
+
+def _is_retired(body: str) -> bool:
+    lowered = body.lower()
+    return any(marker in lowered for marker in _RETIRED_MARKERS)
+
 
 def _groq_call(
     messages: list[dict],
@@ -112,14 +125,24 @@ def _groq_call(
     now = time.time()
     # The fast model is a single-model chain; anything else walks the main chain
     # (an explicit override is honoured at the head) then degrades to fast.
-    if model == FAST_MODEL:
+    # Keeping the fast model alone is deliberate: a rate-limited cheap call must
+    # not spend the good models' daily budget.
+    if model == FAST_MODEL and FAST_MODEL not in _dead_models:
         model_chain = [FAST_MODEL]
     else:
+        # Also the path a retired fast model takes: it has no chain of its own
+        # left, so the main one carries the call rather than dropping it.
         model_chain = list(GROQ_MAIN_MODEL_CHAIN)
         if model not in model_chain:
             model_chain.insert(0, model)
         if FAST_MODEL not in model_chain:
             model_chain.append(FAST_MODEL)
+
+    # Never spend a request on a model already known to be retired. If every
+    # model in the chain is dead, try anyway — a wasted request beats refusing
+    # every question until the process restarts.
+    alive = [m for m in model_chain if m not in _dead_models]
+    model_chain = alive or model_chain
 
     for attempt, m in enumerate(model_chain):
         for ki, key in enumerate(GROQ_API_KEYS):
@@ -157,6 +180,11 @@ def _groq_call(
                 return text
 
             body = resp.text
+            if _is_retired(body):
+                # Same answer from every key, and from every future call.
+                _dead_models.add(m)
+                print(f"  [groq:{label}] RETIRED model {m}; skipping from now on")
+                break
             if resp.status_code == 429 or "rate_limit" in body.lower():
                 cd = min(_retry_after_seconds(body), 3600.0)
                 _groq_cooldown[(ki, m)] = now + cd
@@ -168,6 +196,18 @@ def _groq_call(
                     f"  [groq:{label}] ERROR {resp.status_code} {m} "
                     f"key#{ki + 1}: {body[:120]}"
                 )
+
+    # The fast model was retired mid-call: the passes that depend on it (intent,
+    # evidence extraction) would otherwise return nothing and leave the answer
+    # ungrounded, so retry once on the main chain now that it will be skipped.
+    if model == FAST_MODEL and MAIN_MODEL != FAST_MODEL and FAST_MODEL in _dead_models:
+        return _groq_call(
+            messages,
+            model=MAIN_MODEL,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            label=label,
+        )
 
     return ""
 
@@ -215,7 +255,7 @@ def normalize_query(user_message: str, conversation_history: list[dict]) -> str:
         ],
         model=FAST_MODEL,
         temperature=0.0,
-        max_tokens=200,
+        max_tokens=500,
         label="pass0-understand",
     )
     try:
@@ -251,7 +291,7 @@ def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> dict
         ],
         model=FAST_MODEL,
         temperature=0.0,
-        max_tokens=150,
+        max_tokens=400,
         label="pass1-intent",
     )
     try:
@@ -259,6 +299,26 @@ def _pass1_classify_intent(user_message: str, conversation_snippet: str) -> dict
         return json.loads(raw)
     except (ValueError, TypeError):
         return {"intent": "other", "focus_entities": [], "needs_context": False}
+
+
+def _raw_evidence(retrieved_chunks: list[ScoredChunk]) -> str:
+    """The retrieved text itself, shaped as an evidence block Pass 3 can read.
+
+    Used when the extraction pass cannot run. Pass 2 only condenses what
+    retrieval already found, so handing Pass 3 the chunks verbatim is less
+    precise but just as grounded — and far better than handing it nothing,
+    which makes it refuse and report "no records" for what is really a
+    temporary model outage.
+    """
+    if not retrieved_chunks:
+        return ""
+    facts = "\n".join(f"- [{c.kind}: {c.label}] {c.text}" for c in retrieved_chunks[:8])
+    return (
+        f"RELEVANT_FACTS:\n{facts}\n"
+        "SOURCE_REFS: all of the above\n"
+        "GAPS: None stated\n"
+        "CONTRADICTIONS: None stated"
+    )
 
 
 def _pass2_extract_evidence(
@@ -306,9 +366,12 @@ def _pass3_synthesise_answer(
     conversation_history: list[dict],
 ) -> str:
     """Pass 3 — Answer synthesis (main model chain, high quality)."""
+    # Branded for whoever's workspace is being served, so an institution that
+    # signed up hears its own name instead of the demo deployment's.
+    owner = institution_name()
     who = (
-        f"the research assistant of {settings.institution_name}"
-        if settings.institution_name
+        f"the research assistant of {owner}"
+        if owner
         else "a research assistant for this institution's research portal"
     )
     system = (
@@ -391,7 +454,17 @@ def run_agentic_pipeline(
     print(f"  [pipeline] intent={intent}")
 
     evidence = _pass2_extract_evidence(user_message, intent, retrieved_chunks)
-    print(f"  [pipeline] evidence extracted ({len(evidence)} chars)")
+    if not evidence.strip():
+        # The fast model was rate-limited or unreachable. Retrieval already
+        # found the records, so fall back to them verbatim rather than letting
+        # Pass 3 refuse and tell the user the records do not exist.
+        evidence = _raw_evidence(retrieved_chunks)
+        print(
+            f"  [pipeline] extraction unavailable, using retrieved text "
+            f"({len(evidence)} chars)"
+        )
+    else:
+        print(f"  [pipeline] evidence extracted ({len(evidence)} chars)")
 
     answer = _pass3_synthesise_answer(
         user_message, intent, evidence, conversation_history

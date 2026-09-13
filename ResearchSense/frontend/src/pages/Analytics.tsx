@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchAnalytics } from "../api/analytics";
+import { fetchStats } from "../api/stats";
+import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
@@ -14,11 +16,33 @@ import {
 } from "../features/analytics/charts";
 import styles from "./Analytics.module.css";
 
+/** What the charts below cover, in one sentence.
+ *
+ * Counts come from the live stats so a signed-in institution never reads the
+ * demo deployment's totals. Built whole so it still reads correctly before
+ * the counts arrive.
+ */
+function coverageNote(stats?: Stats): string {
+  const scope = stats
+    ? ` — ${stats.researchers.toLocaleString()} researcher` +
+      `${stats.researchers === 1 ? "" : "s"} and ` +
+      `${stats.publications.toLocaleString()} publication` +
+      `${stats.publications === 1 ? "" : "s"}`
+    : "";
+  return (
+    `These charts reflect only the data ResearchSense has indexed so far${scope}.` +
+    " Real output is higher; coverage grows with each refresh."
+  );
+}
+
 export default function Analytics() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["analytics"],
     queryFn: fetchAnalytics,
   });
+  // Coverage counts come from the same stats endpoint the home page uses, so
+  // the note always matches the charts below it (and the signed-in workspace).
+  const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
 
   if (isLoading) return <Loader />;
   if (isError || !data) return <ErrorState />;
@@ -43,11 +67,7 @@ export default function Analytics() {
       />
 
       <div className={`container ${styles.body}`}>
-        <DataNote>
-          These charts reflect only the data ResearchSense has indexed so
-          far — 358 faculty profiles and 1,667 publications matched from
-          OpenAlex. Real output is higher; coverage grows with each refresh.
-        </DataNote>
+        <DataNote>{coverageNote(stats)}</DataNote>
 
         <section className={styles.card}>
           <h2 className={styles.h2}>Publications per year, by campus</h2>
@@ -72,6 +92,7 @@ export default function Analytics() {
         <div className={styles.twoCol}>
           <section className={styles.card}>
             <h2 className={styles.h2}>Campus totals</h2>
+            <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -98,6 +119,7 @@ export default function Analytics() {
                 ))}
               </tbody>
             </table>
+            </div>
           </section>
 
           <section className={styles.card}>
@@ -111,13 +133,17 @@ export default function Analytics() {
                 {crossCampusPairs.map((pair) => (
                   <li key={`${pair.from}-${pair.to}`} className={styles.pair}>
                     <span className={styles.pairLabel}>
-                      <span className={styles.dot}
-                            style={{ background: CAMPUS_COLORS[pair.from] }} />
-                      {pair.from}
+                      <span className={styles.campus}>
+                        <span className={styles.dot}
+                              style={{ background: CAMPUS_COLORS[pair.from] }} />
+                        {pair.from}
+                      </span>
                       <span className={styles.pairLink}>and</span>
-                      <span className={styles.dot}
-                            style={{ background: CAMPUS_COLORS[pair.to] }} />
-                      {pair.to}
+                      <span className={styles.campus}>
+                        <span className={styles.dot}
+                              style={{ background: CAMPUS_COLORS[pair.to] }} />
+                        {pair.to}
+                      </span>
                     </span>
                     <span className="mono">
                       {pair.papers} joint {pair.papers === 1 ? "paper" : "papers"}
