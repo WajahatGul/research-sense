@@ -10,7 +10,14 @@
   }
 }
 
+/* On a phone each card is full width; three are a preview, six were a
+   ~3,000 px scroll before the next section. "All researchers" is right
+   above them. */
 @media (max-width: 560px) {
+  .grid > :nth-child(n + 4) {
+    display: none;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }

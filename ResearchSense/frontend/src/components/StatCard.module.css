@@ -66,3 +66,13 @@
   border-radius: var(--radius-sm);
   background: var(--line);
 }
+
+@media (max-width: 420px) {
+  .card {
+    padding: 16px 16px 14px;
+  }
+
+  .value {
+    font-size: 1.9rem;
+  }
+}

@@ -14,8 +14,10 @@
   }
 }
 
+/* Stays two-up on phones: four full-width cards used ~520 px of the first
+   screens for four numbers. */
 @media (max-width: 420px) {
   .wrap {
-    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
