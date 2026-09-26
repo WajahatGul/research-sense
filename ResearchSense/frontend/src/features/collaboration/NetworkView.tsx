@@ -111,12 +111,13 @@ export function NetworkView({ centerId, centerName, collaborators }: Props) {
 
       <div className={styles.side}>
         <p className={styles.sideHint}>
-          Proven co-authors (filled gold) rank first, then the strongest
-          shared-area matches.
+          Proven co-authors rank first, then the strongest shared-area
+          matches.
         </p>
-        <p className={styles.sideHint}>
-          Gold-ringed nodes are cross-campus; 🌐 marks researchers who have
-          published with institutions outside Pakistan.
+        <p className={`${styles.sideHint} ${styles.graphKey}`}>
+          In the graph, filled gold nodes are co-authors and gold-ringed nodes
+          are cross-campus; 🌐 marks researchers who have published with
+          institutions outside Pakistan.
         </p>
         <ul className={styles.legend}>
           {nodes.map((n) => (
