@@ -59,7 +59,15 @@ def test_an_author_list_no_longer_repeats_a_paper():
 
 
 def test_a_refresh_cleans_the_new_data_before_indexing(monkeypatch, tmp_path):
+    import app.repositories.accounts as accounts_mod
+    from app.repositories.accounts import AccountStore
     from app.services import refresh_service
+
+    # The refresh logs its run in the accounts database; a test must never
+    # write that to the real one (it would fake a "last refresh" date and
+    # postpone the weekly refresh).
+    monkeypatch.setattr(accounts_mod, "DB_PATH", tmp_path / "t.db")
+    monkeypatch.setattr(AccountStore, "_instance", None)
     from scripts import (
         build_index,
         classify_topics,
