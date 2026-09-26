@@ -335,7 +335,8 @@
    thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
 @media (pointer: coarse) {
   .pubAction,
-  .intlMore {
+  .intlMore,
+  a.metaItem {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
