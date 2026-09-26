@@ -122,6 +122,7 @@ export default function Researchers() {
           <SearchBar
             key={applied.q}
             placeholder="Search researchers…"
+            suggest="researchers"
             defaultValue={applied.q}
             onSearch={runQuerySearch}
             hideButton

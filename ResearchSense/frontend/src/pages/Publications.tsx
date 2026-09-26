@@ -140,6 +140,7 @@ export default function Publications() {
           <div className={styles.search}>
             <SearchBar
               placeholder="Search publication titles…"
+              suggest="publications"
               defaultValue={pending.q}
               onSearch={(v) => runSearch({ q: v })}
               hideButton

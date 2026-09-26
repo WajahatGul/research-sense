@@ -30,6 +30,7 @@ from app.routers import (
     publications,
     researchers,
     stats,
+    suggest,
     topics,
     workspace,
 )
@@ -114,6 +115,7 @@ def create_app() -> FastAPI:
         analytics,
         library,
         workspace,
+        suggest,
     ):
         app.include_router(module.router)
 

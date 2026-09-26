@@ -74,6 +74,7 @@ export default function Search() {
           <SearchBar
             key={q}
             size="lg"
+            suggest="all"
             defaultValue={q}
             placeholder="A name, a research area, or words from a paper title…"
             onSearch={(v) =>

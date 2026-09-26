@@ -33,6 +33,7 @@ export function Hero() {
         <div className={styles.search}>
           <SearchBar
             size="lg"
+            suggest="all"
             placeholder="A name, a research area, or words from a paper title…"
             onSearch={(q) =>
               navigate(q ? `/search?q=${encodeURIComponent(q)}` : "/researchers")
