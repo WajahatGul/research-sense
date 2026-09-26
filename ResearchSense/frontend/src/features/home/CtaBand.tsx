@@ -13,8 +13,9 @@ export function CtaBand() {
             Ask in plain English. Discover who to work with.
           </h2>
           <p className={styles.lead}>
-            ResearchSense links researchers by shared topics and answers
-            questions about campus research — a preview of the assistant to come.
+            Ask who works on a topic, what someone has published, or who could
+            join a project. Answers come only from ResearchSense data and name
+            their sources; if the data cannot answer, the assistant says so.
           </p>
         </div>
         <div className={styles.actions}>

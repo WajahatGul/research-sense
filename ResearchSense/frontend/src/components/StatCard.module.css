@@ -38,3 +38,31 @@
   font-size: 0.88rem;
   color: var(--muted);
 }
+
+.card {
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--navy);
+}
+
+.card:hover .label {
+  color: var(--navy);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Reserves the number's height so nothing shifts when the count arrives. */
+.placeholder {
+  display: block;
+  width: 60%;
+  height: 2.52rem;
+  border-radius: var(--radius-sm);
+  background: var(--line);
+}
