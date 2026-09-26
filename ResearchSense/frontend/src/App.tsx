@@ -1,22 +1,26 @@
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
-import Researchers from "./pages/Researchers";
-import ResearcherProfile from "./pages/ResearcherProfile";
-import Publications from "./pages/Publications";
-import Topics from "./pages/Topics";
-import TopicDetail from "./pages/TopicDetail";
-import Projects from "./pages/Projects";
-import Collaboration from "./pages/Collaboration";
-import Analytics from "./pages/Analytics";
-import Library from "./pages/Library";
-import StaffAccess from "./pages/StaffAccess";
-import Guide from "./pages/Guide";
-import Portal from "./pages/Portal";
-import Ask from "./pages/Ask";
-import Search from "./pages/Search";
-import NotFound from "./pages/NotFound";
+// Every page used to ship in one 844 KB script, so a visitor opening the
+// home page also downloaded the analytics charts, the portal and the
+// markdown renderer. Pages other than home now load when first visited.
+const Researchers = lazy(() => import("./pages/Researchers"));
+const ResearcherProfile = lazy(() => import("./pages/ResearcherProfile"));
+const Publications = lazy(() => import("./pages/Publications"));
+const Topics = lazy(() => import("./pages/Topics"));
+const TopicDetail = lazy(() => import("./pages/TopicDetail"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Collaboration = lazy(() => import("./pages/Collaboration"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const Library = lazy(() => import("./pages/Library"));
+const StaffAccess = lazy(() => import("./pages/StaffAccess"));
+const Guide = lazy(() => import("./pages/Guide"));
+const Portal = lazy(() => import("./pages/Portal"));
+const Ask = lazy(() => import("./pages/Ask"));
+const Search = lazy(() => import("./pages/Search"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   return (
