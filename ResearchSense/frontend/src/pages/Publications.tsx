@@ -61,16 +61,13 @@ export default function Publications() {
   const topicId = params.get("topic_id");
 
   // Seed the search from the URL so other pages (e.g. chat source chips)
-  // can deep-link straight to a title. A deep link counts as an implicit
-  // search, so it runs immediately instead of waiting for the button.
+  // can deep-link straight to a title. The list starts with the newest
+  // papers already showing: a catalogue that is blank until you press Search
+  // looks empty, not ready.
   const initialQ = params.get("q") ?? "";
   const [pending, setPending] = useState<Filters>({ ...blankFilters, q: initialQ });
-  const [applied, setApplied] = useState<Filters | null>(() =>
-    initialQ || topicId ? { ...blankFilters, q: initialQ } : null,
-  );
+  const [applied, setApplied] = useState<Filters>(() => ({ ...blankFilters, q: initialQ }));
   const [page, setPage] = useState(1);
-
-  const hasSearched = applied !== null;
 
   const { data: years } = useQuery({
     queryKey: ["pub-years"],
@@ -96,7 +93,7 @@ export default function Publications() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["publications", applied, topicId, page],
     queryFn: () => {
-      const f = applied ?? blankFilters;
+      const f = applied;
       return fetchPublications({
         q: f.q,
         year: f.year ? Number(f.year) : undefined,
@@ -112,7 +109,6 @@ export default function Publications() {
         page_size: PAGE_SIZE,
       });
     },
-    enabled: hasSearched,
     placeholderData: keepPreviousData,
   });
 
@@ -244,24 +240,21 @@ export default function Publications() {
           </p>
         )}
 
-        {hasSearched && (
+        {(
           <span className={`mono ${styles.count}`}>
             {(data?.total ?? 0).toLocaleString()} publications
           </span>
         )}
 
-        {!hasSearched && (
-          <EmptyState message="Choose your filters and press Search to see publications." />
-        )}
         {data?.corrected_query && (
-          <SearchCorrection typed={applied?.q ?? ""} shown={data.corrected_query} />
+          <SearchCorrection typed={applied.q ?? ""} shown={data.corrected_query} />
         )}
-        {hasSearched && isLoading && <Loader />}
-        {hasSearched && isError && <ErrorState />}
-        {hasSearched && data && data.items.length === 0 && (
+        {isLoading && <Loader />}
+        {isError && <ErrorState />}
+        {data && data.items.length === 0 && (
           <EmptyState message="No publications match your search." />
         )}
-        {hasSearched && data && data.items.length > 0 && (
+        {data && data.items.length > 0 && (
           <div className={styles.list}>
             {data.items.map((p) => (
               <PublicationItem key={p.publication_id} pub={p} />
@@ -269,7 +262,7 @@ export default function Publications() {
           </div>
         )}
 
-        {hasSearched && data && (
+        {data && (
           <Pagination
             page={page}
             pageSize={PAGE_SIZE}

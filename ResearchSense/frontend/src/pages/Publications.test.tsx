@@ -67,21 +67,11 @@ beforeEach(() => {
 });
 
 describe("Publications", () => {
-  it("does not fetch publications on mount", async () => {
+  it("lists the newest publications on arrival", async () => {
     renderPage();
 
-    await waitFor(() => expect(mockFetchPublicationYears).toHaveBeenCalled());
-    expect(mockFetchPublications).not.toHaveBeenCalled();
-  });
-
-  it("shows the pre-search empty prompt", async () => {
-    renderPage();
-
-    expect(
-      await screen.findByText(
-        "Choose your filters and press Search to see publications.",
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
+    expect(mockFetchPublications).toHaveBeenCalledTimes(1);
   });
 
   it("shows the coverage data note", async () => {
@@ -100,7 +90,7 @@ describe("Publications", () => {
     });
     fireEvent.click(searchButton);
 
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalled());
     expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
   });
 
@@ -119,22 +109,23 @@ describe("Publications", () => {
     fireEvent.change(input, { target: { value: "great paper" } });
     fireEvent.submit(input.closest("form")!);
 
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "great paper" }),
+      ),
+    );
     expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
   });
 
   it("does not refetch when a filter changes without pressing Search", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search publications",
-    });
-    fireEvent.click(searchButton);
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
+    await screen.findByText("A Great Paper");
+    const callsBefore = mockFetchPublications.mock.calls.length;
 
     const campusSelect = screen.getByLabelText("Filter by campus");
     fireEvent.change(campusSelect, { target: { value: "Islamabad (E-8)" } });
 
-    expect(mockFetchPublications).toHaveBeenCalledTimes(1);
+    expect(mockFetchPublications).toHaveBeenCalledTimes(callsBefore);
   });
 });
