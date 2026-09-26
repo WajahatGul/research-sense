@@ -144,5 +144,5 @@
 
 .retryButton:hover,
 .retryButton:focus-visible {
-  color: var(--gold);
+  color: var(--gold-ink);
 }

@@ -91,7 +91,7 @@
   font-family: var(--font-mono);
   font-size: var(--step--1);
   letter-spacing: 0.1em;
-  color: var(--gold);
+  color: var(--gold-ink);
   margin-bottom: var(--sp-2);
 }
 

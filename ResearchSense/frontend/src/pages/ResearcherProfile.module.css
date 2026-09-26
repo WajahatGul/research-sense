@@ -193,7 +193,7 @@
 }
 
 .score {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 600;
 }
 
@@ -230,7 +230,7 @@
 
 .intlMore:hover,
 .intlMore:focus-visible {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .intlMore:focus-visible {

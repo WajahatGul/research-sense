@@ -25,11 +25,16 @@ import styles from "./charts.module.css";
 export const CAMPUS_COLORS: Record<string, string> = {
   "Islamabad (E-8)": "#3b6fd4",
   "Islamabad (H-11)": "#c9a227",
-  Karachi: "#1f8a70",
+  Karachi: "#1a7862", // #1f8a70 was 4.3:1 as legend text; this is 5.4:1
   Lahore: "#9c4f96",
 };
 
 const INK = "#5b6472";
+
+// Legend names in readable ink beside a coloured marker. Recharts colours
+// the label with its series by default, which put gold "Islamabad (H-11)"
+// at 2.4:1 on white; the marker alone carries the colour.
+const legendLabel = (value: string) => <span style={{ color: INK }}>{value}</span>;
 const GRID = "#e3e7ee";
 
 const tooltipStyle = {
@@ -52,7 +57,7 @@ export function PublicationsTrend({ data, campuses }: {
         <YAxis tick={{ fill: INK, fontSize: 12 }} tickLine={false}
                axisLine={false} allowDecimals={false} />
         <Tooltip contentStyle={tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: "0.82rem" }} />
+        <Legend wrapperStyle={{ fontSize: "0.82rem" }} formatter={legendLabel} />
         {campuses.map((campus) => (
           <Line
             key={campus}
@@ -150,7 +155,7 @@ export function InternationalTrend({ data }: { data: IntlRow[] }) {
         <YAxis tick={{ fill: INK, fontSize: 12 }} tickLine={false}
                axisLine={false} allowDecimals={false} />
         <Tooltip contentStyle={tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: "0.82rem" }} />
+        <Legend wrapperStyle={{ fontSize: "0.82rem" }} formatter={legendLabel} />
         <Bar dataKey="domestic" name="Domestic" stackId="a" fill="#3b6fd4"
              barSize={20} />
         <Bar dataKey="international" name="International" stackId="a"

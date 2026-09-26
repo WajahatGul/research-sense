@@ -30,7 +30,7 @@
 }
 
 .link:hover {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 /* Touch screens: every control at least 44 px tall, so it can be hit with a

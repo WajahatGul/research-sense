@@ -11,7 +11,7 @@
 .code {
   font-size: 3rem;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .title {
@@ -31,7 +31,7 @@
 }
 
 .link:hover {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 /* Touch screens: every control at least 44 px tall, so it can be hit with a
