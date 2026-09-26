@@ -1,0 +1,776 @@
+[
+  {
+    "publication_id": 102,
+    "printed_name": "Abid Ali Minhas",
+    "was_linked_to_id": 97,
+    "was_linked_to_name": "Abid Ali Butt"
+  },
+  {
+    "publication_id": 131,
+    "printed_name": "Muhammad Faizan Ullah",
+    "was_linked_to_id": 21,
+    "was_linked_to_name": "Khalil Ullah Mohammad"
+  },
+  {
+    "publication_id": 141,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 153,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 184,
+    "printed_name": "Sayed Aqib Hussain",
+    "was_linked_to_id": 135,
+    "was_linked_to_name": "Syed Khawar Hussain Shah"
+  },
+  {
+    "publication_id": 185,
+    "printed_name": "Sajjad Hussain Shah",
+    "was_linked_to_id": 135,
+    "was_linked_to_name": "Syed Khawar Hussain Shah"
+  },
+  {
+    "publication_id": 189,
+    "printed_name": "Naveed Iqbal N. Ulhaq",
+    "was_linked_to_id": 310,
+    "was_linked_to_name": "Naveed Shams"
+  },
+  {
+    "publication_id": 253,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 262,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 271,
+    "printed_name": "Muhammad Khurram Hameed",
+    "was_linked_to_id": 14,
+    "was_linked_to_name": "Muhammad Khurram Ehsan"
+  },
+  {
+    "publication_id": 278,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 308,
+    "printed_name": "Sajjad Hussain Shah",
+    "was_linked_to_id": 135,
+    "was_linked_to_name": "Syed Khawar Hussain Shah"
+  },
+  {
+    "publication_id": 323,
+    "printed_name": "Ahmad Ali",
+    "was_linked_to_id": 290,
+    "was_linked_to_name": "Ahmad Ali Jan"
+  },
+  {
+    "publication_id": 326,
+    "printed_name": "Syed Zahid Hussain",
+    "was_linked_to_id": 135,
+    "was_linked_to_name": "Syed Khawar Hussain Shah"
+  },
+  {
+    "publication_id": 342,
+    "printed_name": "Muhammad Rehman Zafar",
+    "was_linked_to_id": 225,
+    "was_linked_to_name": "Syed Muhammad Khaliq-ur-Rahman Raazi"
+  },
+  {
+    "publication_id": 347,
+    "printed_name": "Chaudry Bilal Ahmad Khan",
+    "was_linked_to_id": 186,
+    "was_linked_to_name": "Tamim Ahmad Khan"
+  },
+  {
+    "publication_id": 417,
+    "printed_name": "Ali Raza",
+    "was_linked_to_id": 59,
+    "was_linked_to_name": "Muhammad Ali Raza"
+  },
+  {
+    "publication_id": 435,
+    "printed_name": "Abdul Rahman Mohammed Al-Ansari",
+    "was_linked_to_id": 225,
+    "was_linked_to_name": "Syed Muhammad Khaliq-ur-Rahman Raazi"
+  },
+  {
+    "publication_id": 505,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 515,
+    "printed_name": "Muhammad Ahsan Chughtai",
+    "was_linked_to_id": 207,
+    "was_linked_to_name": "Syed Muhammad Ahsan Rizvi"
+  },
+  {
+    "publication_id": 533,
+    "printed_name": "Syed Sajid Siraj",
+    "was_linked_to_id": 312,
+    "was_linked_to_name": "Syed Muhammad Sarim Sajid"
+  },
+  {
+    "publication_id": 538,
+    "printed_name": "Muhammad Bilal Cheema",
+    "was_linked_to_id": 227,
+    "was_linked_to_name": "Bilal Muhammad Iqbal"
+  },
+  {
+    "publication_id": 552,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 567,
+    "printed_name": "Muhammad Awais Mehmood",
+    "was_linked_to_id": 71,
+    "was_linked_to_name": "Muhammad Ifzal Mehmood"
+  },
+  {
+    "publication_id": 588,
+    "printed_name": "Muhammad Umair Shahid",
+    "was_linked_to_id": 68,
+    "was_linked_to_name": "Syed Muhammad Shahid Tirmazi"
+  },
+  {
+    "publication_id": 593,
+    "printed_name": "Muhammad Zeeshan Khalid",
+    "was_linked_to_id": 83,
+    "was_linked_to_name": "Muhammad Khalid Sohail"
+  },
+  {
+    "publication_id": 600,
+    "printed_name": "Sayed Muqtada Hussain",
+    "was_linked_to_id": 135,
+    "was_linked_to_name": "Syed Khawar Hussain Shah"
+  },
+  {
+    "publication_id": 634,
+    "printed_name": "Muhammad Bilal",
+    "was_linked_to_id": 227,
+    "was_linked_to_name": "Bilal Muhammad Iqbal"
+  },
+  {
+    "publication_id": 635,
+    "printed_name": "Abid Ali Minhas",
+    "was_linked_to_id": 97,
+    "was_linked_to_name": "Abid Ali Butt"
+  },
+  {
+    "publication_id": 660,
+    "printed_name": "Syed Waseem Haider",
+    "was_linked_to_id": 31,
+    "was_linked_to_name": "Syed Haider Ali Shah"
+  },
+  {
+    "publication_id": 672,
+    "printed_name": "Ali Raza",
+    "was_linked_to_id": 59,
+    "was_linked_to_name": "Muhammad Ali Raza"
+  },
+  {
+    "publication_id": 677,
+    "printed_name": "T. Ahmad",
+    "was_linked_to_id": 186,
+    "was_linked_to_name": "Tamim Ahmad Khan"
+  },
+  {
+    "publication_id": 684,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 709,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 721,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 723,
+    "printed_name": "Muhammad Ahsan Chugtai",
+    "was_linked_to_id": 207,
+    "was_linked_to_name": "Syed Muhammad Ahsan Rizvi"
+  },
+  {
+    "publication_id": 743,
+    "printed_name": "Muhammad Nauman Ahmed Bhatti",
+    "was_linked_to_id": 139,
+    "was_linked_to_name": "Muhammad Nauman"
+  },
+  {
+    "publication_id": 746,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 759,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 775,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 787,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 794,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 811,
+    "printed_name": "M. Jamil Ahmad",
+    "was_linked_to_id": 33,
+    "was_linked_to_name": "Captain Munawwar Ahmad PN (Retd)"
+  },
+  {
+    "publication_id": 869,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 880,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 888,
+    "printed_name": "Rana Muhammad Musharraf Saeed",
+    "was_linked_to_id": 63,
+    "was_linked_to_name": "Muhammad Saeed"
+  },
+  {
+    "publication_id": 901,
+    "printed_name": "Ahmad Ali",
+    "was_linked_to_id": 290,
+    "was_linked_to_name": "Ahmad Ali Jan"
+  },
+  {
+    "publication_id": 904,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 907,
+    "printed_name": "Daniya Muhammad Haroon",
+    "was_linked_to_id": 115,
+    "was_linked_to_name": "Muhammad Haroon Malik,"
+  },
+  {
+    "publication_id": 912,
+    "printed_name": "Muhammad Bilal Cheema",
+    "was_linked_to_id": 227,
+    "was_linked_to_name": "Bilal Muhammad Iqbal"
+  },
+  {
+    "publication_id": 920,
+    "printed_name": "Syed Toqeer Haider",
+    "was_linked_to_id": 31,
+    "was_linked_to_name": "Syed Haider Ali Shah"
+  },
+  {
+    "publication_id": 928,
+    "printed_name": "A. Mahmood",
+    "was_linked_to_id": 80,
+    "was_linked_to_name": "Mahmood Ahmed Shaikh"
+  },
+  {
+    "publication_id": 968,
+    "printed_name": "Muhammad Noman Khalid",
+    "was_linked_to_id": 83,
+    "was_linked_to_name": "Muhammad Khalid Sohail"
+  },
+  {
+    "publication_id": 970,
+    "printed_name": "T. Shahid",
+    "was_linked_to_id": 68,
+    "was_linked_to_name": "Syed Muhammad Shahid Tirmazi"
+  },
+  {
+    "publication_id": 984,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 991,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 994,
+    "printed_name": "Ahmad Ali",
+    "was_linked_to_id": 290,
+    "was_linked_to_name": "Ahmad Ali Jan"
+  },
+  {
+    "publication_id": 996,
+    "printed_name": "Muhammad Ahsan Chughtai",
+    "was_linked_to_id": 207,
+    "was_linked_to_name": "Syed Muhammad Ahsan Rizvi"
+  },
+  {
+    "publication_id": 1020,
+    "printed_name": "Ali Haider",
+    "was_linked_to_id": 31,
+    "was_linked_to_name": "Syed Haider Ali Shah"
+  },
+  {
+    "publication_id": 1022,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1024,
+    "printed_name": "Muhammad Noman Khalid",
+    "was_linked_to_id": 83,
+    "was_linked_to_name": "Muhammad Khalid Sohail"
+  },
+  {
+    "publication_id": 1032,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 1059,
+    "printed_name": "Muhammad Ahsan Chughtai",
+    "was_linked_to_id": 207,
+    "was_linked_to_name": "Syed Muhammad Ahsan Rizvi"
+  },
+  {
+    "publication_id": 1065,
+    "printed_name": "Muhammad Bilal",
+    "was_linked_to_id": 227,
+    "was_linked_to_name": "Bilal Muhammad Iqbal"
+  },
+  {
+    "publication_id": 1083,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1083,
+    "printed_name": "Muhammad Shahid",
+    "was_linked_to_id": 68,
+    "was_linked_to_name": "Syed Muhammad Shahid Tirmazi"
+  },
+  {
+    "publication_id": 1110,
+    "printed_name": "Muhammad Awais Mehmood",
+    "was_linked_to_id": 71,
+    "was_linked_to_name": "Muhammad Ifzal Mehmood"
+  },
+  {
+    "publication_id": 1115,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1126,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1128,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1142,
+    "printed_name": "Abid Ali Minhas",
+    "was_linked_to_id": 97,
+    "was_linked_to_name": "Abid Ali Butt"
+  },
+  {
+    "publication_id": 1147,
+    "printed_name": "Ahmad Ali",
+    "was_linked_to_id": 290,
+    "was_linked_to_name": "Ahmad Ali Jan"
+  },
+  {
+    "publication_id": 1158,
+    "printed_name": "Muhammad Bilal",
+    "was_linked_to_id": 227,
+    "was_linked_to_name": "Bilal Muhammad Iqbal"
+  },
+  {
+    "publication_id": 1162,
+    "printed_name": "Imran Qamar Khan",
+    "was_linked_to_id": 81,
+    "was_linked_to_name": "Muhammad Imran Khan"
+  },
+  {
+    "publication_id": 1167,
+    "printed_name": "Muhammad Ammar Shahid",
+    "was_linked_to_id": 68,
+    "was_linked_to_name": "Syed Muhammad Shahid Tirmazi"
+  },
+  {
+    "publication_id": 1187,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1207,
+    "printed_name": "Ali Minhas Abid",
+    "was_linked_to_id": 97,
+    "was_linked_to_name": "Abid Ali Butt"
+  },
+  {
+    "publication_id": 1225,
+    "printed_name": "M. Jamil Ahmad",
+    "was_linked_to_id": 33,
+    "was_linked_to_name": "Captain Munawwar Ahmad PN (Retd)"
+  },
+  {
+    "publication_id": 1234,
+    "printed_name": "Muhammad Ahsan Chugtai",
+    "was_linked_to_id": 207,
+    "was_linked_to_name": "Syed Muhammad Ahsan Rizvi"
+  },
+  {
+    "publication_id": 1254,
+    "printed_name": "Shahzad Ahmad Khan",
+    "was_linked_to_id": 186,
+    "was_linked_to_name": "Tamim Ahmad Khan"
+  },
+  {
+    "publication_id": 1265,
+    "printed_name": "Muhammad Khalid",
+    "was_linked_to_id": 83,
+    "was_linked_to_name": "Muhammad Khalid Sohail"
+  },
+  {
+    "publication_id": 1267,
+    "printed_name": "Muhammad Awais Mehmood",
+    "was_linked_to_id": 71,
+    "was_linked_to_name": "Muhammad Ifzal Mehmood"
+  },
+  {
+    "publication_id": 1269,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1270,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 1274,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 1282,
+    "printed_name": "Abdul Hafeez Muhammad Younis",
+    "was_linked_to_id": 326,
+    "was_linked_to_name": "Abdul Hafeez"
+  },
+  {
+    "publication_id": 1284,
+    "printed_name": "S M Shoaib Wasim",
+    "was_linked_to_id": 211,
+    "was_linked_to_name": "Shoaib Mughal"
+  },
+  {
+    "publication_id": 1298,
+    "printed_name": "Rear Admiral R Nasir Mahmood",
+    "was_linked_to_id": 36,
+    "was_linked_to_name": "Nasir Mahmood Qureshi"
+  },
+  {
+    "publication_id": 1300,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1305,
+    "printed_name": "Muhammad Mazhar Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1314,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1315,
+    "printed_name": "Ali Raza",
+    "was_linked_to_id": 59,
+    "was_linked_to_name": "Muhammad Ali Raza"
+  },
+  {
+    "publication_id": 1332,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 1333,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1334,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1335,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1344,
+    "printed_name": "Ali Haider",
+    "was_linked_to_id": 31,
+    "was_linked_to_name": "Syed Haider Ali Shah"
+  },
+  {
+    "publication_id": 1345,
+    "printed_name": "Mohsin Raza Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 1371,
+    "printed_name": "Anosh Ahmad Khan",
+    "was_linked_to_id": 186,
+    "was_linked_to_name": "Tamim Ahmad Khan"
+  },
+  {
+    "publication_id": 1380,
+    "printed_name": "Muhammad Aasim Qureshi",
+    "was_linked_to_id": 287,
+    "was_linked_to_name": "Muhammad Asif Qureshi"
+  },
+  {
+    "publication_id": 1383,
+    "printed_name": "Daniya Muhammad Haroon",
+    "was_linked_to_id": 115,
+    "was_linked_to_name": "Muhammad Haroon Malik,"
+  },
+  {
+    "publication_id": 1395,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1396,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1403,
+    "printed_name": "Raja B. Khan",
+    "was_linked_to_id": 317,
+    "was_linked_to_name": "Bushra Fazal Khan"
+  },
+  {
+    "publication_id": 1415,
+    "printed_name": "Ali Raza Chhalgri Baloch",
+    "was_linked_to_id": 59,
+    "was_linked_to_name": "Muhammad Ali Raza"
+  },
+  {
+    "publication_id": 1433,
+    "printed_name": "Ibrar Hassan Khan",
+    "was_linked_to_id": 94,
+    "was_linked_to_name": "Mohsin Hassan Khan"
+  },
+  {
+    "publication_id": 1464,
+    "printed_name": "Muhammad Khalid",
+    "was_linked_to_id": 83,
+    "was_linked_to_name": "Muhammad Khalid Sohail"
+  },
+  {
+    "publication_id": 1489,
+    "printed_name": "Hussain, Muhammad Zunnurain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1491,
+    "printed_name": "Hussain, Muhammad Zunnurain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1492,
+    "printed_name": "Hussain, Muhammad Zunnurain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1493,
+    "printed_name": "Hussain, Muhammad Zunnurain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1494,
+    "printed_name": "Hussain, Muhammad Zunnurain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1495,
+    "printed_name": "Muhammad Rahman",
+    "was_linked_to_id": 225,
+    "was_linked_to_name": "Syed Muhammad Khaliq-ur-Rahman Raazi"
+  },
+  {
+    "publication_id": 1496,
+    "printed_name": "Muhammad Rahman",
+    "was_linked_to_id": 225,
+    "was_linked_to_name": "Syed Muhammad Khaliq-ur-Rahman Raazi"
+  },
+  {
+    "publication_id": 1501,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1502,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1504,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1505,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1508,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1529,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1531,
+    "printed_name": "Muhammad Munib Ur Rehman",
+    "was_linked_to_id": 225,
+    "was_linked_to_name": "Syed Muhammad Khaliq-ur-Rahman Raazi"
+  },
+  {
+    "publication_id": 1534,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1535,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1595,
+    "printed_name": "Dr Muhammad Ashfaq Hina Saleem",
+    "was_linked_to_id": 305,
+    "was_linked_to_name": "Muhammad Ashfaq"
+  },
+  {
+    "publication_id": 1607,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1608,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1610,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1612,
+    "printed_name": "Muhammad Zunnurain Hussain",
+    "was_linked_to_id": 315,
+    "was_linked_to_name": "Muhammad Hussain"
+  },
+  {
+    "publication_id": 1640,
+    "printed_name": "Muhammad Saeed Tayyab",
+    "was_linked_to_id": 63,
+    "was_linked_to_name": "Muhammad Saeed"
+  }
+]

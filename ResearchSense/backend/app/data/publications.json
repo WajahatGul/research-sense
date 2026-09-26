@@ -8016,7 +8016,7 @@
         "order": 2
       },
       {
-        "researcher_id": 97,
+        "researcher_id": null,
         "full_name": "Abid Ali Minhas",
         "order": 3
       },
@@ -10212,7 +10212,7 @@
     "campus": "Lahore",
     "authors": [
       {
-        "researcher_id": 21,
+        "researcher_id": null,
         "full_name": "Muhammad Faizan Ullah",
         "order": 1
       },
@@ -10964,7 +10964,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -11936,7 +11936,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -14271,7 +14271,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 135,
+        "researcher_id": null,
         "full_name": "Sayed Aqib Hussain",
         "order": 1
       },
@@ -14374,7 +14374,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 135,
+        "researcher_id": null,
         "full_name": "Sajjad Hussain Shah",
         "order": 1
       },
@@ -14644,7 +14644,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 310,
+        "researcher_id": null,
         "full_name": "Naveed Iqbal N. Ulhaq",
         "order": 1
       },
@@ -19480,7 +19480,7 @@
         "order": 2
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 3
       }
@@ -20186,7 +20186,7 @@
         "order": 4
       },
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 5
       }
@@ -20865,7 +20865,7 @@
         "order": 2
       },
       {
-        "researcher_id": 14,
+        "researcher_id": null,
         "full_name": "Muhammad Khurram Hameed",
         "order": 3
       },
@@ -21435,7 +21435,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 1
       },
@@ -23631,7 +23631,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 135,
+        "researcher_id": null,
         "full_name": "Sajjad Hussain Shah",
         "order": 1
       },
@@ -24770,7 +24770,7 @@
         "order": 4
       },
       {
-        "researcher_id": 290,
+        "researcher_id": null,
         "full_name": "Ahmad Ali",
         "order": 5
       },
@@ -24986,7 +24986,7 @@
         "order": 2
       },
       {
-        "researcher_id": 135,
+        "researcher_id": null,
         "full_name": "Syed Zahid Hussain",
         "order": 3
       },
@@ -26148,7 +26148,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 225,
+        "researcher_id": null,
         "full_name": "Muhammad Rehman Zafar",
         "order": 1
       },
@@ -26526,7 +26526,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 186,
+        "researcher_id": null,
         "full_name": "Chaudry Bilal Ahmad Khan",
         "order": 1
       },
@@ -31473,7 +31473,7 @@
         "order": 2
       },
       {
-        "researcher_id": 59,
+        "researcher_id": null,
         "full_name": "Ali Raza",
         "order": 3
       },
@@ -32796,7 +32796,7 @@
         "order": 3
       },
       {
-        "researcher_id": 225,
+        "researcher_id": null,
         "full_name": "Abdul Rahman Mohammed Al-Ansari",
         "order": 4
       },
@@ -37817,7 +37817,7 @@
         "order": 5
       },
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 6
       },
@@ -38547,7 +38547,7 @@
         "order": 3
       },
       {
-        "researcher_id": 207,
+        "researcher_id": null,
         "full_name": "Muhammad Ahsan Chughtai",
         "order": 4
       }
@@ -39901,7 +39901,7 @@
         "order": 4
       },
       {
-        "researcher_id": 312,
+        "researcher_id": null,
         "full_name": "Syed Sajid Siraj",
         "order": 5
       }
@@ -40228,7 +40228,7 @@
         "order": 2
       },
       {
-        "researcher_id": 227,
+        "researcher_id": null,
         "full_name": "Muhammad Bilal Cheema",
         "order": 3
       },
@@ -41185,7 +41185,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 1
       },
@@ -42226,7 +42226,7 @@
         "order": 3
       },
       {
-        "researcher_id": 71,
+        "researcher_id": null,
         "full_name": "Muhammad Awais Mehmood",
         "order": 4
       },
@@ -43602,7 +43602,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 68,
+        "researcher_id": null,
         "full_name": "Muhammad Umair Shahid",
         "order": 1
       },
@@ -43901,7 +43901,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 83,
+        "researcher_id": null,
         "full_name": "Muhammad Zeeshan Khalid",
         "order": 1
       },
@@ -44408,7 +44408,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 135,
+        "researcher_id": null,
         "full_name": "Sayed Muqtada Hussain",
         "order": 1
       },
@@ -46707,7 +46707,7 @@
         "order": 1
       },
       {
-        "researcher_id": 227,
+        "researcher_id": null,
         "full_name": "Muhammad Bilal",
         "order": 2
       },
@@ -46763,7 +46763,7 @@
         "order": 2
       },
       {
-        "researcher_id": 97,
+        "researcher_id": null,
         "full_name": "Abid Ali Minhas",
         "order": 3
       },
@@ -48519,7 +48519,7 @@
         "order": 3
       },
       {
-        "researcher_id": 31,
+        "researcher_id": null,
         "full_name": "Syed Waseem Haider",
         "order": 4
       },
@@ -49211,7 +49211,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 59,
+        "researcher_id": null,
         "full_name": "Ali Raza",
         "order": 1
       },
@@ -49600,7 +49600,7 @@
         "order": 5
       },
       {
-        "researcher_id": 186,
+        "researcher_id": null,
         "full_name": "T. Ahmad",
         "order": 6
       },
@@ -50069,7 +50069,7 @@
         "order": 2
       },
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 3
       },
@@ -51640,7 +51640,7 @@
         "order": 1
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 2
       }
@@ -52612,7 +52612,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -52768,7 +52768,7 @@
         "order": 3
       },
       {
-        "researcher_id": 207,
+        "researcher_id": null,
         "full_name": "Muhammad Ahsan Chugtai",
         "order": 4
       },
@@ -54128,7 +54128,7 @@
     "campus": "Islamabad (H-11)",
     "authors": [
       {
-        "researcher_id": 139,
+        "researcher_id": null,
         "full_name": "Muhammad Nauman Ahmed Bhatti",
         "order": 1
       },
@@ -54351,7 +54351,7 @@
         "order": 1
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 2
       }
@@ -55140,7 +55140,7 @@
         "order": 2
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 3
       }
@@ -56261,7 +56261,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -57080,7 +57080,7 @@
         "order": 1
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 2
       }
@@ -57577,7 +57577,7 @@
         "order": 3
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 4
       },
@@ -58679,7 +58679,7 @@
         "order": 1
       },
       {
-        "researcher_id": 33,
+        "researcher_id": null,
         "full_name": "M. Jamil Ahmad",
         "order": 2
       }
@@ -62527,7 +62527,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -63443,7 +63443,7 @@
         "order": 3
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 4
       },
@@ -64015,7 +64015,7 @@
         "order": 6
       },
       {
-        "researcher_id": 63,
+        "researcher_id": null,
         "full_name": "Rana Muhammad Musharraf Saeed",
         "order": 7
       },
@@ -64923,7 +64923,7 @@
         "order": 1
       },
       {
-        "researcher_id": 290,
+        "researcher_id": null,
         "full_name": "Ahmad Ali",
         "order": 2
       }
@@ -65079,7 +65079,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 1
       },
@@ -65318,7 +65318,7 @@
         "order": 1
       },
       {
-        "researcher_id": 115,
+        "researcher_id": null,
         "full_name": "Daniya Muhammad Haroon",
         "order": 2
       },
@@ -65656,7 +65656,7 @@
         "order": 1
       },
       {
-        "researcher_id": 227,
+        "researcher_id": null,
         "full_name": "Muhammad Bilal Cheema",
         "order": 2
       },
@@ -66141,7 +66141,7 @@
         "order": 2
       },
       {
-        "researcher_id": 31,
+        "researcher_id": null,
         "full_name": "Syed Toqeer Haider",
         "order": 3
       },
@@ -66640,7 +66640,7 @@
         "order": 2
       },
       {
-        "researcher_id": 80,
+        "researcher_id": null,
         "full_name": "A. Mahmood",
         "order": 3
       }
@@ -69366,7 +69366,7 @@
         "order": 3
       },
       {
-        "researcher_id": 83,
+        "researcher_id": null,
         "full_name": "Muhammad Noman Khalid",
         "order": 4
       },
@@ -69480,7 +69480,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 68,
+        "researcher_id": null,
         "full_name": "T. Shahid",
         "order": 1
       },
@@ -70264,7 +70264,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -70699,7 +70699,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       },
@@ -70889,7 +70889,7 @@
         "order": 1
       },
       {
-        "researcher_id": 290,
+        "researcher_id": null,
         "full_name": "Ahmad Ali",
         "order": 2
       },
@@ -71016,7 +71016,7 @@
         "order": 2
       },
       {
-        "researcher_id": 207,
+        "researcher_id": null,
         "full_name": "Muhammad Ahsan Chughtai",
         "order": 3
       },
@@ -72436,7 +72436,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 31,
+        "researcher_id": null,
         "full_name": "Ali Haider",
         "order": 1
       },
@@ -72569,7 +72569,7 @@
         "order": 3
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 4
       }
@@ -72675,7 +72675,7 @@
         "order": 2
       },
       {
-        "researcher_id": 83,
+        "researcher_id": null,
         "full_name": "Muhammad Noman Khalid",
         "order": 3
       },
@@ -73111,7 +73111,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 1
       },
@@ -74893,7 +74893,7 @@
         "order": 2
       },
       {
-        "researcher_id": 207,
+        "researcher_id": null,
         "full_name": "Muhammad Ahsan Chughtai",
         "order": 3
       },
@@ -75257,7 +75257,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 227,
+        "researcher_id": null,
         "full_name": "Muhammad Bilal",
         "order": 1
       },
@@ -76536,7 +76536,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -76551,7 +76551,7 @@
         "order": 4
       },
       {
-        "researcher_id": 68,
+        "researcher_id": null,
         "full_name": "Muhammad Shahid",
         "order": 5
       },
@@ -78383,7 +78383,7 @@
         "order": 5
       },
       {
-        "researcher_id": 71,
+        "researcher_id": null,
         "full_name": "Muhammad Awais Mehmood",
         "order": 6
       }
@@ -78688,7 +78688,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -79425,7 +79425,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -79586,7 +79586,7 @@
         "order": 3
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 4
       },
@@ -80532,7 +80532,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 97,
+        "researcher_id": null,
         "full_name": "Abid Ali Minhas",
         "order": 1
       },
@@ -80819,7 +80819,7 @@
         "order": 1
       },
       {
-        "researcher_id": 290,
+        "researcher_id": null,
         "full_name": "Ahmad Ali",
         "order": 2
       },
@@ -81517,7 +81517,7 @@
         "order": 4
       },
       {
-        "researcher_id": 227,
+        "researcher_id": null,
         "full_name": "Muhammad Bilal",
         "order": 5
       },
@@ -81762,7 +81762,7 @@
         "order": 1
       },
       {
-        "researcher_id": 81,
+        "researcher_id": null,
         "full_name": "Imran Qamar Khan",
         "order": 2
       },
@@ -82035,7 +82035,7 @@
         "order": 1
       },
       {
-        "researcher_id": 68,
+        "researcher_id": null,
         "full_name": "Muhammad Ammar Shahid",
         "order": 2
       },
@@ -83203,7 +83203,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -84509,7 +84509,7 @@
         "order": 1
       },
       {
-        "researcher_id": 97,
+        "researcher_id": null,
         "full_name": "Ali Minhas Abid",
         "order": 2
       },
@@ -85534,7 +85534,7 @@
         "order": 1
       },
       {
-        "researcher_id": 33,
+        "researcher_id": null,
         "full_name": "M. Jamil Ahmad",
         "order": 2
       }
@@ -86059,7 +86059,7 @@
         "order": 1
       },
       {
-        "researcher_id": 207,
+        "researcher_id": null,
         "full_name": "Muhammad Ahsan Chugtai",
         "order": 2
       },
@@ -87197,7 +87197,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 186,
+        "researcher_id": null,
         "full_name": "Shahzad Ahmad Khan",
         "order": 1
       },
@@ -87800,7 +87800,7 @@
         "order": 4
       },
       {
-        "researcher_id": 83,
+        "researcher_id": null,
         "full_name": "Muhammad Khalid",
         "order": 5
       },
@@ -87922,7 +87922,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 71,
+        "researcher_id": null,
         "full_name": "Muhammad Awais Mehmood",
         "order": 1
       },
@@ -88043,7 +88043,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -88094,7 +88094,7 @@
         "order": 1
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 2
       }
@@ -88319,7 +88319,7 @@
         "order": 2
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 3
       },
@@ -88827,7 +88827,7 @@
         "order": 3
       },
       {
-        "researcher_id": 326,
+        "researcher_id": null,
         "full_name": "Abdul Hafeez Muhammad Younis",
         "order": 4
       },
@@ -88942,7 +88942,7 @@
         "order": 2
       },
       {
-        "researcher_id": 211,
+        "researcher_id": null,
         "full_name": "S M Shoaib Wasim",
         "order": 3
       }
@@ -89738,7 +89738,7 @@
         "order": 3
       },
       {
-        "researcher_id": 36,
+        "researcher_id": null,
         "full_name": "Rear Admiral R Nasir Mahmood",
         "order": 4
       },
@@ -89857,7 +89857,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -90133,7 +90133,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Mazhar Hussain",
         "order": 1
       },
@@ -90627,7 +90627,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -90722,7 +90722,7 @@
         "order": 2
       },
       {
-        "researcher_id": 59,
+        "researcher_id": null,
         "full_name": "Ali Raza",
         "order": 3
       }
@@ -91752,7 +91752,7 @@
         "order": 2
       },
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 3
       },
@@ -91824,7 +91824,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       },
@@ -91914,7 +91914,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -92006,7 +92006,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -92571,7 +92571,7 @@
         "order": 1
       },
       {
-        "researcher_id": 31,
+        "researcher_id": null,
         "full_name": "Ali Haider",
         "order": 2
       },
@@ -92635,7 +92635,7 @@
         "order": 1
       },
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Mohsin Raza Khan",
         "order": 2
       }
@@ -94020,7 +94020,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 186,
+        "researcher_id": null,
         "full_name": "Anosh Ahmad Khan",
         "order": 1
       },
@@ -94644,7 +94644,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 287,
+        "researcher_id": null,
         "full_name": "Muhammad Aasim Qureshi",
         "order": 1
       }
@@ -94846,7 +94846,7 @@
         "order": 3
       },
       {
-        "researcher_id": 115,
+        "researcher_id": null,
         "full_name": "Daniya Muhammad Haroon",
         "order": 4
       },
@@ -95646,7 +95646,7 @@
         "order": 4
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 5
       },
@@ -95716,7 +95716,7 @@
         "order": 3
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 4
       },
@@ -96216,7 +96216,7 @@
         "order": 4
       },
       {
-        "researcher_id": 317,
+        "researcher_id": null,
         "full_name": "Raja B. Khan",
         "order": 5
       }
@@ -96975,7 +96975,7 @@
         "order": 3
       },
       {
-        "researcher_id": 59,
+        "researcher_id": null,
         "full_name": "Ali Raza Chhalgri Baloch",
         "order": 4
       }
@@ -98213,7 +98213,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 94,
+        "researcher_id": null,
         "full_name": "Ibrar Hassan Khan",
         "order": 1
       },
@@ -100013,7 +100013,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 83,
+        "researcher_id": null,
         "full_name": "Muhammad Khalid",
         "order": 1
       },
@@ -101656,7 +101656,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Hussain, Muhammad Zunnurain",
         "order": 1
       }
@@ -101766,7 +101766,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Hussain, Muhammad Zunnurain",
         "order": 1
       }
@@ -101806,7 +101806,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Hussain, Muhammad Zunnurain",
         "order": 1
       }
@@ -101846,7 +101846,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Hussain, Muhammad Zunnurain",
         "order": 1
       }
@@ -101886,7 +101886,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Hussain, Muhammad Zunnurain",
         "order": 1
       }
@@ -101926,7 +101926,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 225,
+        "researcher_id": null,
         "full_name": "Muhammad Rahman",
         "order": 1
       },
@@ -101985,7 +101985,7 @@
     "campus": "Islamabad (E-8)",
     "authors": [
       {
-        "researcher_id": 225,
+        "researcher_id": null,
         "full_name": "Muhammad Rahman",
         "order": 1
       },
@@ -102313,7 +102313,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -102353,7 +102353,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -102443,7 +102443,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -102483,7 +102483,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -102665,7 +102665,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -104049,7 +104049,7 @@
         "order": 2
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 3
       },
@@ -104216,7 +104216,7 @@
         "order": 2
       },
       {
-        "researcher_id": 225,
+        "researcher_id": null,
         "full_name": "Muhammad Munib Ur Rehman",
         "order": 3
       }
@@ -104394,7 +104394,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -104434,7 +104434,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -108406,7 +108406,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 305,
+        "researcher_id": null,
         "full_name": "Dr Muhammad Ashfaq Hina Saleem",
         "order": 1
       }
@@ -109210,7 +109210,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -109250,7 +109250,7 @@
     "campus": "Karachi",
     "authors": [
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 1
       }
@@ -109364,7 +109364,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -109494,7 +109494,7 @@
         "order": 1
       },
       {
-        "researcher_id": 315,
+        "researcher_id": null,
         "full_name": "Muhammad Zunnurain Hussain",
         "order": 2
       },
@@ -111338,7 +111338,7 @@
         "order": 1
       },
       {
-        "researcher_id": 63,
+        "researcher_id": null,
         "full_name": "Muhammad Saeed Tayyab",
         "order": 2
       }

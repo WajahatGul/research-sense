@@ -1159,8 +1159,8 @@
       "Statistical Data Modeling",
       "Analysis"
     ],
-    "publication_count": 27,
-    "citation_count": 488,
+    "publication_count": 26,
+    "citation_count": 463,
     "topics": [
       {
         "topic_id": 52,
@@ -1179,8 +1179,8 @@
         "topic_name": "Hand Gesture Recognition Systems"
       },
       {
-        "topic_id": 56,
-        "topic_name": "Gait Recognition and Analysis"
+        "topic_id": 741,
+        "topic_name": "Human Pose and Action Recognition"
       }
     ],
     "profile_bio": "Muhammad Khurram Ehsan is a Head of Department / Senior Associate Professor in the Department of Computer Science at Bahria University, Islamabad (E-8) campus. Areas of expertise include Digital Twin (Wireless/RF), AI Enabled Next-GEN Networks SDNs, Information/Signal Processing and Statistical Data Modeling/Analysis. Holds a PhD in Wireless Communications, Signal Processing from University of Kassel, Germany (2016). Active in teaching, supervision and research.",
@@ -1191,7 +1191,7 @@
       "Age of Information Optimization",
       "IoT Networks and Protocols",
       "Hand Gesture Recognition Systems",
-      "Gait Recognition and Analysis"
+      "Human Pose and Action Recognition"
     ],
     "international_collaborations": [
       {
@@ -1207,16 +1207,8 @@
         "country": "ES"
       },
       {
-        "institution": "Instituto de TelecomunicaÃ§Ãµes",
+        "institution": "Instituto de Telecomunicações",
         "country": "PT"
-      },
-      {
-        "institution": "University of Limerick",
-        "country": "IE"
-      },
-      {
-        "institution": "Institut Polytechnique de Paris",
-        "country": "FR"
       },
       {
         "institution": "Petronas (Malaysia)",
@@ -1662,8 +1654,8 @@
       "Macroeconomics",
       "Financial Economics"
     ],
-    "publication_count": 17,
-    "citation_count": 138,
+    "publication_count": 16,
+    "citation_count": 93,
     "topics": [
       {
         "topic_id": 2,
@@ -2675,8 +2667,8 @@
       "Innovation",
       "Management"
     ],
-    "publication_count": 48,
-    "citation_count": 890,
+    "publication_count": 41,
+    "citation_count": 852,
     "topics": [
       {
         "topic_id": 1,
@@ -2767,7 +2759,7 @@
         "country": "TR"
       },
       {
-        "institution": "University NiccolÃ² Cusano",
+        "institution": "University Niccolò Cusano",
         "country": "IT"
       },
       {
@@ -2787,10 +2779,6 @@
         "country": "CN"
       },
       {
-        "institution": "Universiti Teknologi Petronas",
-        "country": "MY"
-      },
-      {
         "institution": "Centre Hospitalier Ibn Sina",
         "country": "MA"
       },
@@ -2807,10 +2795,6 @@
         "country": "OM"
       },
       {
-        "institution": "Jouf University",
-        "country": "SA"
-      },
-      {
         "institution": "University of Wollongong in Dubai",
         "country": "AE"
       },
@@ -2819,7 +2803,7 @@
         "country": "MY"
       },
       {
-        "institution": "UniversitÃ© Le Havre Normandie",
+        "institution": "Université Le Havre Normandie",
         "country": "FR"
       },
       {
@@ -2827,7 +2811,7 @@
         "country": "FR"
       },
       {
-        "institution": "MÃ©tis-Lab",
+        "institution": "Métis-Lab",
         "country": "FR"
       },
       {
@@ -2961,34 +2945,19 @@
     "expertise_areas": [
       "Equal Employment Opportunity- Gender Discrimination"
     ],
-    "publication_count": 2,
-    "citation_count": 4,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 43,
-        "topic_name": "Energy Efficient Wireless Sensor Networks"
-      },
-      {
-        "topic_id": 100,
-        "topic_name": "IoT-based Smart Home Systems"
-      },
-      {
-        "topic_id": 101,
-        "topic_name": "Mobile Ad Hoc Networks"
-      },
-      {
-        "topic_id": 42,
-        "topic_name": "Energy Harvesting in Wireless Networks"
+        "topic_id": 742,
+        "topic_name": "Equal Employment Opportunity- Gender Discrimination"
       }
     ],
     "profile_bio": "Captain Munawwar Ahmad PN (Retd) is a Senior Assistant Professor in the Department of HR and Management at Bahria University, Islamabad (E-8) campus. Areas of expertise include Equal Employment Opportunity- Gender Discrimination. Holds a MPhil in Management Sciences from BUIC (2013). Active in teaching, supervision and research.",
     "education": "MPhil in Management Sciences from BUIC (2013)",
     "source": "scraped",
     "research_areas": [
-      "Energy Efficient Wireless Sensor Networks",
-      "IoT-based Smart Home Systems",
-      "Mobile Ad Hoc Networks",
-      "Energy Harvesting in Wireless Networks"
+      "Equal Employment Opportunity- Gender Discrimination"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Assistant Professor"
@@ -3114,29 +3083,19 @@
     "expertise_areas": [
       "Human Resource"
     ],
-    "publication_count": 2,
+    "publication_count": 1,
     "citation_count": 2,
     "topics": [
       {
-        "topic_id": 105,
-        "topic_name": "Hydrocarbon exploration and reservoir analysis"
-      },
-      {
-        "topic_id": 106,
-        "topic_name": "Seismic Imaging and Inversion Techniques"
-      },
-      {
-        "topic_id": 107,
-        "topic_name": "Geological and Geophysical Studies"
+        "topic_id": 743,
+        "topic_name": "Neuroscience, Education and Cognitive Function"
       }
     ],
     "profile_bio": "Nasir Mahmood Qureshi is a Senior Assistant Professor in the Department of HR and Management at Bahria University, Islamabad (E-8) campus. Areas of expertise include Human Resource. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Hydrocarbon exploration and reservoir analysis",
-      "Seismic Imaging and Inversion Techniques",
-      "Geological and Geophysical Studies"
+      "Neuroscience, Education and Cognitive Function"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Assistant Professor",
@@ -4351,62 +4310,41 @@
       "Applied Linguistics",
       "Artificial Intelligence In Education"
     ],
-    "publication_count": 7,
-    "citation_count": 22,
+    "publication_count": 3,
+    "citation_count": 1,
     "topics": [
       {
-        "topic_id": 176,
-        "topic_name": "Artificial Intelligence in Healthcare and Education"
+        "topic_id": 128,
+        "topic_name": "Media Studies and Communication"
       },
       {
-        "topic_id": 177,
-        "topic_name": "Bone health and osteoporosis research"
+        "topic_id": 129,
+        "topic_name": "Public Relations and Crisis Communication"
       },
       {
-        "topic_id": 178,
-        "topic_name": "Dental Radiography and Imaging"
+        "topic_id": 130,
+        "topic_name": "Rhetoric and Communication Studies"
       },
       {
-        "topic_id": 34,
-        "topic_name": "Nanofluid Flow and Heat Transfer"
+        "topic_id": 697,
+        "topic_name": "Online Learning and Analytics"
       },
       {
-        "topic_id": 179,
-        "topic_name": "Spacecraft and Cryogenic Technologies"
+        "topic_id": 744,
+        "topic_name": "Educational and Psychological Assessments"
       }
     ],
     "profile_bio": "Muhammad Ali Raza is a Assistant Professor in the Department of International Relations at Bahria University, Islamabad (E-8) campus. Areas of expertise include English Language Teaching (ELT), Applied Linguistics, and Artificial Intelligence in Education. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Artificial Intelligence in Healthcare and Education",
-      "Bone health and osteoporosis research",
-      "Dental Radiography and Imaging",
-      "Nanofluid Flow and Heat Transfer",
-      "Spacecraft and Cryogenic Technologies"
+      "Media Studies and Communication",
+      "Public Relations and Crisis Communication",
+      "Rhetoric and Communication Studies",
+      "Online Learning and Analytics",
+      "Educational and Psychological Assessments"
     ],
-    "international_collaborations": [
-      {
-        "institution": "King Abdulaziz University",
-        "country": "SA"
-      },
-      {
-        "institution": "University of Electronic Science and Technology of China",
-        "country": "CN"
-      },
-      {
-        "institution": "National University of Malaysia",
-        "country": "MY"
-      },
-      {
-        "institution": "Universidad Alfonso X el Sabio",
-        "country": "ES"
-      },
-      {
-        "institution": "Taif University",
-        "country": "SA"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Assistant Professor",
     "openalex_id": "A5116536495"
   },
@@ -4555,46 +4493,41 @@
       "Peacebuilding",
       "Counter-extremism Studies"
     ],
-    "publication_count": 2,
-    "citation_count": 3,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 187,
-        "topic_name": "Full-Duplex Wireless Communications"
+        "topic_id": 745,
+        "topic_name": "Quranic Studies"
       },
       {
-        "topic_id": 188,
-        "topic_name": "Electromagnetic Simulation and Numerical Methods"
+        "topic_id": 746,
+        "topic_name": "Hadith Studies"
       },
       {
-        "topic_id": 189,
-        "topic_name": "Magneto-Optical Properties and Applications"
+        "topic_id": 747,
+        "topic_name": "Seerah Islamic Thought"
       },
       {
-        "topic_id": 2,
-        "topic_name": "Islamic Finance and Banking Studies"
+        "topic_id": 748,
+        "topic_name": "Jurisprudence"
       },
       {
-        "topic_id": 190,
-        "topic_name": "Linguistic, Cultural, and Literary Studies"
+        "topic_id": 749,
+        "topic_name": "Leadership"
       }
     ],
     "profile_bio": "Muhammad Saeed is a Assistant Professor in the Department of Islamic Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include ï‚· Quranic Studies, Hadith Studies, and Seerah ï‚· Islamic Thought, Jurisprudence, Leadership, and Governance ï‚· Islamic Society, Peacebuilding, and Counter-Extremism Studies. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Full-Duplex Wireless Communications",
-      "Electromagnetic Simulation and Numerical Methods",
-      "Magneto-Optical Properties and Applications",
-      "Islamic Finance and Banking Studies",
-      "Linguistic, Cultural, and Literary Studies"
+      "Quranic Studies",
+      "Hadith Studies",
+      "Seerah Islamic Thought",
+      "Jurisprudence",
+      "Leadership"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Southeast University",
-        "country": "CN"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Assistant Professor"
   },
   {
@@ -4801,46 +4734,21 @@
       "Hadith",
       "Seerah"
     ],
-    "publication_count": 5,
-    "citation_count": 13,
+    "publication_count": 1,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 205,
-        "topic_name": "Direction-of-Arrival Estimation Techniques"
-      },
-      {
-        "topic_id": 206,
-        "topic_name": "Antenna Design and Optimization"
-      },
-      {
-        "topic_id": 207,
-        "topic_name": "Radio Wave Propagation Studies"
-      },
-      {
-        "topic_id": 110,
-        "topic_name": "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
-      },
-      {
-        "topic_id": 111,
-        "topic_name": "Belt and Road Initiative"
+        "topic_id": 730,
+        "topic_name": "Reproductive Health and Technologies"
       }
     ],
     "profile_bio": "Syed Muhammad Shahid Tirmazi is a Head of Department in the Department of Islamic Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include Hadith and Seerah. Holds a PhD in Seerat un Nabi from National University of Modern Languages (2017). Active in teaching, supervision and research.",
     "education": "PhD in Seerat un Nabi from National University of Modern Languages (2017)",
     "source": "scraped",
     "research_areas": [
-      "Direction-of-Arrival Estimation Techniques",
-      "Antenna Design and Optimization",
-      "Radio Wave Propagation Studies",
-      "Politics and Conflicts in Afghanistan, Pakistan, and Middle East",
-      "Belt and Road Initiative"
+      "Reproductive Health and Technologies"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Asia Pacific University of Technology & Innovation",
-        "country": "MY"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Other",
     "openalex_id": "A5018331042"
   },
@@ -4946,54 +4854,31 @@
       "Mental Health Law",
       "Alternate Dispute Resolution"
     ],
-    "publication_count": 4,
-    "citation_count": 10,
+    "publication_count": 1,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 209,
-        "topic_name": "Consumer Attitudes and Food Labeling"
+        "topic_id": 750,
+        "topic_name": "Education and Vocational Training"
       },
       {
-        "topic_id": 4,
-        "topic_name": "Environmental Education and Sustainability"
+        "topic_id": 140,
+        "topic_name": "Education and Islamic Studies"
       },
       {
-        "topic_id": 89,
-        "topic_name": "Behavioral Health and Interventions"
-      },
-      {
-        "topic_id": 91,
-        "topic_name": "COVID-19 and Mental Health"
-      },
-      {
-        "topic_id": 210,
-        "topic_name": "Online and Blended Learning"
+        "topic_id": 751,
+        "topic_name": "Poverty, Education, and Child Welfare"
       }
     ],
     "profile_bio": "Muhammad Ifzal Mehmood is a Associate Professor in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include Family Law, Human Rights Law, Mental Health Law and Alternate Dispute Resolution. Holds a PhD in Human Right and Family Law from International Islamic University Malaysia (2000). Active in teaching, supervision and research.",
     "education": "PhD in Human Right and Family Law from International Islamic University Malaysia (2000)",
     "source": "scraped",
     "research_areas": [
-      "Consumer Attitudes and Food Labeling",
-      "Environmental Education and Sustainability",
-      "Behavioral Health and Interventions",
-      "COVID-19 and Mental Health",
-      "Online and Blended Learning"
+      "Education and Vocational Training",
+      "Education and Islamic Studies",
+      "Poverty, Education, and Child Welfare"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Fujian University of Technology",
-        "country": "CN"
-      },
-      {
-        "institution": "Xiamen National Accounting Institute",
-        "country": "CN"
-      },
-      {
-        "institution": "Xiamen University of Technology",
-        "country": "CN"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Associate Professor",
     "openalex_id": "A5026694537"
   },
@@ -5237,8 +5122,8 @@
       "Public International Law - Law Of The Sea",
       "Global Governance"
     ],
-    "publication_count": 3,
-    "citation_count": 6,
+    "publication_count": 2,
+    "citation_count": 3,
     "topics": [
       {
         "topic_id": 226,
@@ -5453,29 +5338,29 @@
       "Criminal Law",
       "Philosphy Of Law"
     ],
-    "publication_count": 1,
-    "citation_count": 3,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 240,
-        "topic_name": "Muscle activation and electromyography studies"
+        "topic_id": 752,
+        "topic_name": "International Maritime Law"
       },
       {
-        "topic_id": 241,
-        "topic_name": "Motor Control and Adaptation"
+        "topic_id": 753,
+        "topic_name": "Criminal Law"
       },
       {
-        "topic_id": 242,
-        "topic_name": "Balance, Gait, and Falls Prevention"
+        "topic_id": 754,
+        "topic_name": "Philosphy Of Law"
       }
     ],
     "profile_bio": "Mahmood Ahmed Shaikh is a Senior Assistant Professor in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include International Maritime Law, Criminal Law, Philosphy of Law. Holds a Ph.D in Criminal Law from University of Karachi (2016). Active in teaching, supervision and research.",
     "education": "Ph.D in Criminal Law from University of Karachi (2016)",
     "source": "scraped",
     "research_areas": [
-      "Muscle activation and electromyography studies",
-      "Motor Control and Adaptation",
-      "Balance, Gait, and Falls Prevention"
+      "International Maritime Law",
+      "Criminal Law",
+      "Philosphy Of Law"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Assistant Professor"
@@ -5494,36 +5379,21 @@
     "expertise_areas": [
       "Public International Law"
     ],
-    "publication_count": 1,
-    "citation_count": 1,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      },
-      {
-        "topic_id": 67,
-        "topic_name": "Quality and Supply Management"
-      },
-      {
-        "topic_id": 80,
-        "topic_name": "BIM and Construction Integration"
+        "topic_id": 755,
+        "topic_name": "Public International Law"
       }
     ],
     "profile_bio": "Muhammad Imran Khan is a Senior Assistant Professor â€“ Public International Law in the Department of Law at Bahria University, Islamabad (E-8) campus. Areas of expertise include Public International Law. Holds a PhD in International law and human rights law from University of Ferrara (2022). Active in teaching, supervision and research.",
     "education": "PhD in International law and human rights law from University of Ferrara (2022)",
     "source": "scraped",
     "research_areas": [
-      "Construction Project Management and Performance",
-      "Quality and Supply Management",
-      "BIM and Construction Integration"
+      "Public International Law"
     ],
-    "international_collaborations": [
-      {
-        "institution": "London South Bank University",
-        "country": "GB"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Senior Assistant Professor",
     "openalex_id": "A5101561238"
   },
@@ -5605,9 +5475,13 @@
       "Accouting",
       "Finance"
     ],
-    "publication_count": 25,
-    "citation_count": 227,
+    "publication_count": 20,
+    "citation_count": 214,
     "topics": [
+      {
+        "topic_id": 470,
+        "topic_name": "Financial Markets and Investment Strategies"
+      },
       {
         "topic_id": 3,
         "topic_name": "Corporate Finance and Governance"
@@ -5623,21 +5497,17 @@
       {
         "topic_id": 246,
         "topic_name": "Financial Reporting and Valuation Research"
-      },
-      {
-        "topic_id": 247,
-        "topic_name": "EEG and Brain-Computer Interfaces"
       }
     ],
     "profile_bio": "Muhammad Khalid Sohail is a Senior Professor in the Department of Management Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include Accouting and Finance. Holds a MS in Finance from COMSATS University, Islamabad (2006). Active in teaching, supervision and research.",
     "education": "MS in Finance from COMSATS University, Islamabad (2006)",
     "source": "scraped",
     "research_areas": [
+      "Financial Markets and Investment Strategies",
       "Corporate Finance and Governance",
       "FinTech, Crowdfunding, Digital Finance",
       "Auditing, Earnings Management, Governance",
-      "Financial Reporting and Valuation Research",
-      "EEG and Brain-Computer Interfaces"
+      "Financial Reporting and Valuation Research"
     ],
     "international_collaborations": [
       {
@@ -5647,10 +5517,6 @@
       {
         "institution": "University of East London",
         "country": "GB"
-      },
-      {
-        "institution": "King Abdullah University of Science and Technology",
-        "country": "SA"
       }
     ],
     "academic_rank": "Senior Professor",
@@ -6250,49 +6116,41 @@
       "Hate Speech",
       "Qualitative Research"
     ],
-    "publication_count": 15,
-    "citation_count": 49,
+    "publication_count": 5,
+    "citation_count": 0,
     "topics": [
+      {
+        "topic_id": 115,
+        "topic_name": "Social Media and Politics"
+      },
+      {
+        "topic_id": 128,
+        "topic_name": "Media Studies and Communication"
+      },
+      {
+        "topic_id": 756,
+        "topic_name": "Media, Religion, Digital Communication"
+      },
       {
         "topic_id": 2,
         "topic_name": "Islamic Finance and Banking Studies"
       },
       {
-        "topic_id": 77,
-        "topic_name": "Banking stability, regulation, efficiency"
-      },
-      {
-        "topic_id": 78,
-        "topic_name": "COVID-19 Pandemic Impacts"
-      },
-      {
-        "topic_id": 11,
-        "topic_name": "Microfinance and Financial Inclusion"
-      },
-      {
-        "topic_id": 248,
-        "topic_name": "Global and Cross-Cultural Management"
+        "topic_id": 148,
+        "topic_name": "Terrorism, Counterterrorism, and Political Violence"
       }
     ],
     "profile_bio": "Mohsin Hassan Khan is a Associate Professor in the Department of Media Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include Political Communication, Social Media Analytics, Hate Speech, Qualitative Research. Holds a PhD in Media Discourse from University of Malaya, Malaysia (2020). Active in teaching, supervision and research.",
     "education": "PhD in Media Discourse from University of Malaya, Malaysia (2020)",
     "source": "scraped",
     "research_areas": [
+      "Social Media and Politics",
+      "Media Studies and Communication",
+      "Media, Religion, Digital Communication",
       "Islamic Finance and Banking Studies",
-      "Banking stability, regulation, efficiency",
-      "COVID-19 Pandemic Impacts",
-      "Microfinance and Financial Inclusion",
-      "Global and Cross-Cultural Management"
+      "Terrorism, Counterterrorism, and Political Violence"
     ],
     "international_collaborations": [
-      {
-        "institution": "University of Greenwich",
-        "country": "GB"
-      },
-      {
-        "institution": "Tongji University",
-        "country": "CN"
-      },
       {
         "institution": "University of Gothenburg",
         "country": "SE"
@@ -6420,39 +6278,39 @@
       "Political Communication",
       "Current Affairs"
     ],
-    "publication_count": 9,
-    "citation_count": 67,
+    "publication_count": 5,
+    "citation_count": 2,
     "topics": [
-      {
-        "topic_id": 271,
-        "topic_name": "Cooperative Communication and Network Coding"
-      },
       {
         "topic_id": 272,
         "topic_name": "Landslides and related hazards"
       },
       {
-        "topic_id": 273,
-        "topic_name": "Molecular Communication and Nanonetworks"
+        "topic_id": 94,
+        "topic_name": "Impact of Technology on Adolescents"
       },
       {
-        "topic_id": 274,
-        "topic_name": "Evolutionary Algorithms and Applications"
+        "topic_id": 159,
+        "topic_name": "Child Development and Digital Technology"
       },
       {
-        "topic_id": 275,
-        "topic_name": "Modular Robots and Swarm Intelligence"
+        "topic_id": 269,
+        "topic_name": "Technology Adoption and User Behaviour"
+      },
+      {
+        "topic_id": 757,
+        "topic_name": "Cryospheric studies and observations"
       }
     ],
     "profile_bio": "Abid Ali Butt is a Assistant Professor in the Department of Media Studies at Bahria University, Islamabad (E-8) campus. Areas of expertise include Digital / Social Media effects, Digital Marketing, Political Communication, Current Affairs. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Cooperative Communication and Network Coding",
       "Landslides and related hazards",
-      "Molecular Communication and Nanonetworks",
-      "Evolutionary Algorithms and Applications",
-      "Modular Robots and Swarm Intelligence"
+      "Impact of Technology on Adolescents",
+      "Child Development and Digital Technology",
+      "Technology Adoption and User Behaviour",
+      "Cryospheric studies and observations"
     ],
     "international_collaborations": [
       {
@@ -6462,14 +6320,6 @@
       {
         "institution": "Anhui Normal University",
         "country": "CN"
-      },
-      {
-        "institution": "Al Yamamah University",
-        "country": "SA"
-      },
-      {
-        "institution": "King Saud University",
-        "country": "SA"
       }
     ],
     "academic_rank": "Assistant Professor",
@@ -7494,85 +7344,41 @@
       "Freight &amp",
       "Logistics"
     ],
-    "publication_count": 4,
-    "citation_count": 3,
+    "publication_count": 2,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 308,
-        "topic_name": "Infective Endocarditis Diagnosis and Management"
+        "topic_id": 87,
+        "topic_name": "Knowledge Management and Sharing"
       },
       {
-        "topic_id": 309,
-        "topic_name": "Streptococcal Infections and Treatments"
+        "topic_id": 84,
+        "topic_name": "Job Satisfaction and Organizational Behavior"
       },
       {
-        "topic_id": 310,
-        "topic_name": "Pleural and Pulmonary Diseases"
+        "topic_id": 758,
+        "topic_name": "Nursing education and management"
       },
       {
-        "topic_id": 311,
-        "topic_name": "Cardiac Valve Diseases and Treatments"
+        "topic_id": 97,
+        "topic_name": "Construction Project Management and Performance"
       },
       {
-        "topic_id": 312,
-        "topic_name": "Cardiac Structural Anomalies and Repair"
+        "topic_id": 253,
+        "topic_name": "Team Dynamics and Performance"
       }
     ],
     "profile_bio": "Muhammad Haroon Malik, is a Assistant Professor in the Department of Project Management and Supply Chain Management at Bahria University, Islamabad (E-8) campus. Areas of expertise include Supply Chain Management, Procurement, international businesses, cross border trade, freight &amp; logistics. Holds a PhD in Supply Chain Management from Putra Business School, Malaysia (2024). Active in teaching, supervision and research.",
     "education": "PhD in Supply Chain Management from Putra Business School, Malaysia (2024)",
     "source": "scraped",
     "research_areas": [
-      "Infective Endocarditis Diagnosis and Management",
-      "Streptococcal Infections and Treatments",
-      "Pleural and Pulmonary Diseases",
-      "Cardiac Valve Diseases and Treatments",
-      "Cardiac Structural Anomalies and Repair"
+      "Knowledge Management and Sharing",
+      "Job Satisfaction and Organizational Behavior",
+      "Nursing education and management",
+      "Construction Project Management and Performance",
+      "Team Dynamics and Performance"
     ],
     "international_collaborations": [
-      {
-        "institution": "Indira Gandhi Medical College",
-        "country": "IN"
-      },
-      {
-        "institution": "The Wright Center for Graduate Medical Education",
-        "country": "US"
-      },
-      {
-        "institution": "Geisinger Commonwealth School of Medicine",
-        "country": "US"
-      },
-      {
-        "institution": "CVS Health (United States)",
-        "country": "US"
-      },
-      {
-        "institution": "Saint Michael's Medical Center",
-        "country": "US"
-      },
-      {
-        "institution": "Icahn School of Medicine at Mount Sinai",
-        "country": "US"
-      },
-      {
-        "institution": "Wayne State University",
-        "country": "US"
-      },
-      {
-        "institution": "Cleveland Clinic",
-        "country": "US"
-      },
-      {
-        "institution": "Louisiana State University Health Sciences Center Shreveport",
-        "country": "US"
-      },
-      {
-        "institution": "University of Nevada, Las Vegas",
-        "country": "US"
-      },
-      {
-        "institution": "Detroit Medical Center",
-        "country": "US"
-      },
       {
         "institution": "Warsaw University of Technology Business School",
         "country": "PL"
@@ -8856,66 +8662,36 @@
       "Solar",
       "Wind"
     ],
-    "publication_count": 7,
-    "citation_count": 121,
+    "publication_count": 2,
+    "citation_count": 1,
     "topics": [
       {
-        "topic_id": 43,
-        "topic_name": "Energy Efficient Wireless Sensor Networks"
+        "topic_id": 759,
+        "topic_name": "Education and Critical Thinking Development"
       },
       {
-        "topic_id": 355,
-        "topic_name": "Antenna Design and Analysis"
+        "topic_id": 65,
+        "topic_name": "Engineering Education and Curriculum Development"
       },
       {
-        "topic_id": 42,
-        "topic_name": "Energy Harvesting in Wireless Networks"
+        "topic_id": 760,
+        "topic_name": "Problem and Project Based Learning"
       },
       {
-        "topic_id": 356,
-        "topic_name": "Advanced MIMO Systems Optimization"
-      },
-      {
-        "topic_id": 291,
-        "topic_name": "Security in Wireless Sensor Networks"
+        "topic_id": 52,
+        "topic_name": "IoT and Edge/Fog Computing"
       }
     ],
     "profile_bio": "Syed Khawar Hussain Shah is a Head of the Department in the Department of Computer Engineering at Bahria University, Islamabad (H-11) campus. Areas of expertise include Embedded System, IC fabrication, Renewable Energy, Power Quality, Solar, Wind. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Energy Efficient Wireless Sensor Networks",
-      "Antenna Design and Analysis",
-      "Energy Harvesting in Wireless Networks",
-      "Advanced MIMO Systems Optimization",
-      "Security in Wireless Sensor Networks"
+      "Education and Critical Thinking Development",
+      "Engineering Education and Curriculum Development",
+      "Problem and Project Based Learning",
+      "IoT and Edge/Fog Computing"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Zayed University",
-        "country": "AE"
-      },
-      {
-        "institution": "Taif University",
-        "country": "SA"
-      },
-      {
-        "institution": "Princess Nourah bint Abdulrahman University",
-        "country": "SA"
-      },
-      {
-        "institution": "Arab Academy for Science, Technology, and Maritime Transport",
-        "country": "EG"
-      },
-      {
-        "institution": "University of Technology Sydney",
-        "country": "AU"
-      },
-      {
-        "institution": "Macquarie University",
-        "country": "AU"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Other"
   },
   {
@@ -9300,8 +9076,8 @@
       "Data Science",
       "Cloud Computing"
     ],
-    "publication_count": 4,
-    "citation_count": 45,
+    "publication_count": 3,
+    "citation_count": 40,
     "topics": [
       {
         "topic_id": 106,
@@ -9340,7 +9116,7 @@
         "country": "CN"
       },
       {
-        "institution": "LuleÃ¥ University of Technology",
+        "institution": "Luleå University of Technology",
         "country": "SE"
       },
       {
@@ -11508,8 +11284,8 @@
       "Structural Geology",
       "Hydrogeology"
     ],
-    "publication_count": 21,
-    "citation_count": 189,
+    "publication_count": 19,
+    "citation_count": 139,
     "topics": [
       {
         "topic_id": 414,
@@ -11991,7 +11767,7 @@
     "expertise_areas": [
       "Communications & Signal Processing"
     ],
-    "publication_count": 35,
+    "publication_count": 34,
     "citation_count": 392,
     "topics": [
       {
@@ -12942,46 +12718,31 @@
       "Model-based Testing",
       "E-learning"
     ],
-    "publication_count": 4,
-    "citation_count": 25,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 85,
-        "topic_name": "Organizational and Employee Performance"
+        "topic_id": 39,
+        "topic_name": "Artificial Intelligence"
       },
       {
-        "topic_id": 104,
-        "topic_name": "Organizational Leadership and Management Strategies"
+        "topic_id": 761,
+        "topic_name": "Model-based Testing"
       },
       {
-        "topic_id": 96,
-        "topic_name": "Entrepreneurship Studies and Influences"
-      },
-      {
-        "topic_id": 105,
-        "topic_name": "Hydrocarbon exploration and reservoir analysis"
-      },
-      {
-        "topic_id": 362,
-        "topic_name": "Hydraulic Fracturing and Reservoir Analysis"
+        "topic_id": 465,
+        "topic_name": "E-learning"
       }
     ],
     "profile_bio": "Tamim Ahmad Khan is a Senior Professor in the Department of Software Engineering at Bahria University, Islamabad (H-11) campus. Areas of expertise include AI, Model-based Testing, e-learning. Holds a MS in Computer Engineering from Center for Adv. Studies in Eng. (CASE) (2005). Active in teaching, supervision and research.",
     "education": "MS in Computer Engineering from Center for Adv. Studies in Eng. (CASE) (2005)",
     "source": "scraped",
     "research_areas": [
-      "Organizational and Employee Performance",
-      "Organizational Leadership and Management Strategies",
-      "Entrepreneurship Studies and Influences",
-      "Hydrocarbon exploration and reservoir analysis",
-      "Hydraulic Fracturing and Reservoir Analysis"
+      "Artificial Intelligence",
+      "Model-based Testing",
+      "E-learning"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Kingston University",
-        "country": "GB"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Senior Professor"
   },
   {
@@ -13794,8 +13555,8 @@
       "ESG",
       "Sustainable Finance"
     ],
-    "publication_count": 17,
-    "citation_count": 97,
+    "publication_count": 15,
+    "citation_count": 95,
     "topics": [
       {
         "topic_id": 2,
@@ -13846,8 +13607,8 @@
     "expertise_areas": [
       "HRM"
     ],
-    "publication_count": 29,
-    "citation_count": 948,
+    "publication_count": 28,
+    "citation_count": 945,
     "topics": [
       {
         "topic_id": 2,
@@ -14036,8 +13797,8 @@
     "expertise_areas": [
       "Organizational Behavior"
     ],
-    "publication_count": 37,
-    "citation_count": 766,
+    "publication_count": 36,
+    "citation_count": 764,
     "topics": [
       {
         "topic_id": 84,
@@ -14234,21 +13995,9 @@
       "Statistics",
       "Econometric"
     ],
-    "publication_count": 9,
-    "citation_count": 48,
+    "publication_count": 4,
+    "citation_count": 29,
     "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      },
-      {
-        "topic_id": 85,
-        "topic_name": "Organizational and Employee Performance"
-      },
-      {
-        "topic_id": 269,
-        "topic_name": "Technology Adoption and User Behaviour"
-      },
       {
         "topic_id": 478,
         "topic_name": "Business Strategies and Management Research"
@@ -14256,26 +14005,34 @@
       {
         "topic_id": 479,
         "topic_name": "Business Strategies and Innovation"
+      },
+      {
+        "topic_id": 762,
+        "topic_name": "Consumer Market Behavior and Pricing"
+      },
+      {
+        "topic_id": 763,
+        "topic_name": "Banking, Crisis Management, COVID-19 Impact"
+      },
+      {
+        "topic_id": 78,
+        "topic_name": "COVID-19 Pandemic Impacts"
       }
     ],
     "profile_bio": "Syed Muhammad Ahsan Rizvi is a Senior Associate Professor in the Department of Business Studies at Bahria University, Karachi campus. Areas of expertise include Supply chain Management, Economics, Statistics and Econometric. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Construction Project Management and Performance",
-      "Organizational and Employee Performance",
-      "Technology Adoption and User Behaviour",
       "Business Strategies and Management Research",
-      "Business Strategies and Innovation"
+      "Business Strategies and Innovation",
+      "Consumer Market Behavior and Pricing",
+      "Banking, Crisis Management, COVID-19 Impact",
+      "COVID-19 Pandemic Impacts"
     ],
     "international_collaborations": [
       {
         "institution": "University of Electronic Science and Technology of China",
         "country": "CN"
-      },
-      {
-        "institution": "University of Bristol",
-        "country": "GB"
       },
       {
         "institution": "Chang'an University",
@@ -14530,7 +14287,7 @@
       "MIMO",
       "STBC Codes"
     ],
-    "publication_count": 9,
+    "publication_count": 8,
     "citation_count": 49,
     "topics": [
       {
@@ -14546,12 +14303,12 @@
         "topic_name": "Full-Duplex Wireless Communications"
       },
       {
-        "topic_id": 482,
-        "topic_name": "Global Energy Security and Policy"
+        "topic_id": 764,
+        "topic_name": "Advanced Wireless Communication Techniques"
       },
       {
-        "topic_id": 19,
-        "topic_name": "Energy and Environment Impacts"
+        "topic_id": 765,
+        "topic_name": "PAPR reduction in OFDM"
       }
     ],
     "profile_bio": "Shoaib Mughal is a Senior Associate Professor in the Department of Computer Engineering at Bahria University, Karachi campus. Areas of expertise include Channel Coding, Coded modulation, Coded-Cooperative Communication, MIMO, STBC Codes. Holds a Ph.D in Communication & Information System (Channel Coding) from Nanjing University of Aeronautics and Astronautics, China (2018). Active in teaching, supervision and research.",
@@ -14561,8 +14318,8 @@
       "Advanced Wireless Communication Technologies",
       "Cooperative Communication and Network Coding",
       "Full-Duplex Wireless Communications",
-      "Global Energy Security and Policy",
-      "Energy and Environment Impacts"
+      "Advanced Wireless Communication Techniques",
+      "PAPR reduction in OFDM"
     ],
     "international_collaborations": [
       {
@@ -15246,58 +15003,31 @@
       "Security",
       "Artificial Intelligence"
     ],
-    "publication_count": 5,
-    "citation_count": 34,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 191,
-        "topic_name": "Gender and Women's Rights"
+        "topic_id": 504,
+        "topic_name": "Internet of Things"
       },
       {
-        "topic_id": 192,
-        "topic_name": "Marriage and Family Dynamics"
+        "topic_id": 766,
+        "topic_name": "Security"
       },
       {
-        "topic_id": 193,
-        "topic_name": "Qurâ€™anic Interpretation Studies"
-      },
-      {
-        "topic_id": 507,
-        "topic_name": "Biometric Identification and Security"
-      },
-      {
-        "topic_id": 508,
-        "topic_name": "User Authentication and Security Systems"
+        "topic_id": 39,
+        "topic_name": "Artificial Intelligence"
       }
     ],
     "profile_bio": "Syed Muhammad Khaliq-ur-Rahman Raazi is a Senior Associate Professor in the Department of Computer Science at Bahria University, Karachi campus. Areas of expertise include IoT, Security, Artificial Intelligence. Holds a Ph.D in Computer Engineering from Kyung Hee University, Korea (2010). Active in teaching, supervision and research.",
     "education": "Ph.D in Computer Engineering from Kyung Hee University, Korea (2010)",
     "source": "scraped",
     "research_areas": [
-      "Gender and Women's Rights",
-      "Marriage and Family Dynamics",
-      "Qurâ€™anic Interpretation Studies",
-      "Biometric Identification and Security",
-      "User Authentication and Security Systems"
+      "Internet of Things",
+      "Security",
+      "Artificial Intelligence"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Jazan University",
-        "country": "SA"
-      },
-      {
-        "institution": "GIET University",
-        "country": "IN"
-      },
-      {
-        "institution": "Ramakrishna Mission Vidyamandira",
-        "country": "IN"
-      },
-      {
-        "institution": "International Islamic University Malaysia",
-        "country": "MY"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Senior Associate Professor"
   },
   {
@@ -15363,39 +15093,29 @@
       "Smart Systems",
       "Artificial Intelligence (AI)"
     ],
-    "publication_count": 5,
-    "citation_count": 24,
+    "publication_count": 0,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 437,
-        "topic_name": "Islanding Detection in Power Systems"
+        "topic_id": 504,
+        "topic_name": "Internet of Things"
       },
       {
-        "topic_id": 512,
-        "topic_name": "Power Systems Fault Detection"
+        "topic_id": 767,
+        "topic_name": "Smart Systems"
       },
       {
-        "topic_id": 417,
-        "topic_name": "Microgrid Control and Optimization"
-      },
-      {
-        "topic_id": 513,
-        "topic_name": "Cognitive Science and Mapping"
-      },
-      {
-        "topic_id": 514,
-        "topic_name": "Forecasting Techniques and Applications"
+        "topic_id": 768,
+        "topic_name": "Artificial Intelligence (AI)"
       }
     ],
     "profile_bio": "Bilal Muhammad Iqbal is a Senior Assistant Professor in the Department of Computer Science at Bahria University, Karachi campus. Areas of expertise include Internet of Things, Smart Systems, Artificial Intelligence (AI). Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Islanding Detection in Power Systems",
-      "Power Systems Fault Detection",
-      "Microgrid Control and Optimization",
-      "Cognitive Science and Mapping",
-      "Forecasting Techniques and Applications"
+      "Internet of Things",
+      "Smart Systems",
+      "Artificial Intelligence (AI)"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Assistant Professor"
@@ -18848,8 +18568,8 @@
       "NGO Management",
       "Sustainability"
     ],
-    "publication_count": 12,
-    "citation_count": 203,
+    "publication_count": 11,
+    "citation_count": 201,
     "topics": [
       {
         "topic_id": 632,
@@ -18985,13 +18705,9 @@
       "ESG",
       "Structural Equation Modeling"
     ],
-    "publication_count": 15,
-    "citation_count": 87,
+    "publication_count": 7,
+    "citation_count": 6,
     "topics": [
-      {
-        "topic_id": 516,
-        "topic_name": "Sentiment Analysis and Opinion Mining"
-      },
       {
         "topic_id": 634,
         "topic_name": "Open Source Software Innovations"
@@ -19005,56 +18721,28 @@
         "topic_name": "Business Strategies and Innovation"
       },
       {
-        "topic_id": 636,
-        "topic_name": "Autonomous Vehicle Technology and Safety"
+        "topic_id": 1,
+        "topic_name": "Environmental Sustainability in Business"
+      },
+      {
+        "topic_id": 287,
+        "topic_name": "Sustainable Supply Chain Management"
       }
     ],
     "profile_bio": "Muhammad Asif Qureshi is a Associate Professor in the Department of Management Studies at Bahria University, Karachi campus. Areas of expertise include HRM & OB, Technology Innovation, CSR, SDGs, ESG, Structural Equation Modeling. Holds a Ph.D in HRM from Universiti Utara Malaysia (2018). Active in teaching, supervision and research.",
     "education": "Ph.D in HRM from Universiti Utara Malaysia (2018)",
     "source": "scraped",
     "research_areas": [
-      "Sentiment Analysis and Opinion Mining",
       "Open Source Software Innovations",
       "Private Equity and Venture Capital",
       "Business Strategies and Innovation",
-      "Autonomous Vehicle Technology and Safety"
+      "Environmental Sustainability in Business",
+      "Sustainable Supply Chain Management"
     ],
     "international_collaborations": [
       {
-        "institution": "Rajshahi University of Engineering and Technology",
-        "country": "BD"
-      },
-      {
-        "institution": "Petronas (Malaysia)",
-        "country": "MY"
-      },
-      {
-        "institution": "Universiti Teknologi Petronas",
-        "country": "MY"
-      },
-      {
-        "institution": "Sultan Idris Education University",
-        "country": "MY"
-      },
-      {
-        "institution": "Ahlia University",
-        "country": "BH"
-      },
-      {
-        "institution": "University of Bisha",
-        "country": "SA"
-      },
-      {
-        "institution": "University of Luxembourg",
-        "country": "LU"
-      },
-      {
         "institution": "Jiangsu University",
         "country": "CN"
-      },
-      {
-        "institution": "University of the Sciences",
-        "country": "US"
       },
       {
         "institution": "Rockford University",
@@ -19197,28 +18885,28 @@
       "Bankruptcy Prediction",
       "Islamic Banking & Finance"
     ],
-    "publication_count": 7,
-    "citation_count": 27,
+    "publication_count": 3,
+    "citation_count": 0,
     "topics": [
       {
         "topic_id": 2,
         "topic_name": "Islamic Finance and Banking Studies"
       },
       {
-        "topic_id": 425,
-        "topic_name": "Electric Power System Optimization"
+        "topic_id": 11,
+        "topic_name": "Microfinance and Financial Inclusion"
       },
       {
-        "topic_id": 303,
-        "topic_name": "Energy Load and Power Forecasting"
+        "topic_id": 77,
+        "topic_name": "Banking stability, regulation, efficiency"
       },
       {
-        "topic_id": 305,
-        "topic_name": "Smart Grid Energy Management"
+        "topic_id": 6,
+        "topic_name": "Energy, Environment, Economic Growth"
       },
       {
-        "topic_id": 517,
-        "topic_name": "Text and Document Classification Technologies"
+        "topic_id": 7,
+        "topic_name": "Energy, Environment, and Transportation Policies"
       }
     ],
     "profile_bio": "Ahmad Ali Jan is a Assistant Professor in the Department of Management Studies at Bahria University, Karachi campus. Areas of expertise include Corporate Governance, Corporate Sustainability, Bankruptcy Prediction, Islamic Banking & Finance. Holds a PhD in Management/ Finance from Universiti Teknologi PETRONAS, Malaysia (2024). Active in teaching, supervision and research.",
@@ -19226,21 +18914,12 @@
     "source": "scraped",
     "research_areas": [
       "Islamic Finance and Banking Studies",
-      "Electric Power System Optimization",
-      "Energy Load and Power Forecasting",
-      "Smart Grid Energy Management",
-      "Text and Document Classification Technologies"
+      "Microfinance and Financial Inclusion",
+      "Banking stability, regulation, efficiency",
+      "Energy, Environment, Economic Growth",
+      "Energy, Environment, and Transportation Policies"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Heriot-Watt University",
-        "country": "GB"
-      },
-      {
-        "institution": "MÃ¤lardalen University",
-        "country": "SE"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Assistant Professor",
     "openalex_id": "A5006878086"
   },
@@ -19303,8 +18982,8 @@
       "Green Supply Chain Management",
       "Green Marketing"
     ],
-    "publication_count": 21,
-    "citation_count": 51,
+    "publication_count": 18,
+    "citation_count": 48,
     "topics": [
       {
         "topic_id": 287,
@@ -19549,8 +19228,8 @@
       "Finance",
       "Law"
     ],
-    "publication_count": 7,
-    "citation_count": 132,
+    "publication_count": 6,
+    "citation_count": 71,
     "topics": [
       {
         "topic_id": 2,
@@ -20125,9 +19804,13 @@
       "Digital Journalism",
       "Impact Of Social Media"
     ],
-    "publication_count": 10,
+    "publication_count": 9,
     "citation_count": 2,
     "topics": [
+      {
+        "topic_id": 110,
+        "topic_name": "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
+      },
       {
         "topic_id": 664,
         "topic_name": "Homicide, Infanticide, and Child Abuse"
@@ -20143,21 +19826,17 @@
       {
         "topic_id": 667,
         "topic_name": "Theatre and Performance Studies"
-      },
-      {
-        "topic_id": 110,
-        "topic_name": "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
       }
     ],
     "profile_bio": "Muhammad Ashfaq is a Senior Assistant Professor in the Department of Media Studies at Bahria University, Karachi campus. Areas of expertise include Media Content Analysis, Digital Journalism, Impact of Social Media. Holds a PhD in Media Studies from The Islamia University of Bahawalpur (2019). Active in teaching, supervision and research.",
     "education": "PhD in Media Studies from The Islamia University of Bahawalpur (2019)",
     "source": "scraped",
     "research_areas": [
+      "Politics and Conflicts in Afghanistan, Pakistan, and Middle East",
       "Homicide, Infanticide, and Child Abuse",
       "Suicide and Self-Harm Studies",
       "Gun Ownership and Violence Research",
-      "Theatre and Performance Studies",
-      "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
+      "Theatre and Performance Studies"
     ],
     "international_collaborations": [
       {
@@ -20391,30 +20070,13 @@
     "photo_url": null,
     "expertise": "-",
     "expertise_areas": [],
-    "publication_count": 1,
-    "citation_count": 34,
-    "topics": [
-      {
-        "topic_id": 407,
-        "topic_name": "Heavy Metal Exposure and Toxicity"
-      },
-      {
-        "topic_id": 395,
-        "topic_name": "Heavy metals in environment"
-      },
-      {
-        "topic_id": 679,
-        "topic_name": "Mercury impact and mitigation studies"
-      }
-    ],
+    "publication_count": 0,
+    "citation_count": 0,
+    "topics": [],
     "profile_bio": "Naveed Shams is a Senior Lecturer in the Department of Media Studies at Bahria University, Karachi campus. Areas of expertise include -. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
-    "research_areas": [
-      "Heavy Metal Exposure and Toxicity",
-      "Heavy metals in environment",
-      "Mercury impact and mitigation studies"
-    ],
+    "research_areas": [],
     "international_collaborations": [],
     "academic_rank": "Senior Lecturer"
   },
@@ -20472,24 +20134,24 @@
       "Film Semiotics",
       "Media Literacy"
     ],
-    "publication_count": 2,
-    "citation_count": 11,
+    "publication_count": 1,
+    "citation_count": 0,
     "topics": [
       {
-        "topic_id": 84,
-        "topic_name": "Job Satisfaction and Organizational Behavior"
+        "topic_id": 281,
+        "topic_name": "South Asian Cinema and Culture"
       },
       {
-        "topic_id": 682,
-        "topic_name": "Customer Service Quality and Loyalty"
+        "topic_id": 110,
+        "topic_name": "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
       }
     ],
     "profile_bio": "Syed Muhammad Sarim Sajid is a Senior Lecturer in the Department of Media Studies at Bahria University, Karachi campus. Areas of expertise include Films and AI, Film Semiotics, Media Literacy. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Job Satisfaction and Organizational Behavior",
-      "Customer Service Quality and Loyalty"
+      "South Asian Cinema and Culture",
+      "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Lecturer",
@@ -20643,66 +20305,41 @@
       "Stochastic Process",
       "Quantum Computing"
     ],
-    "publication_count": 51,
-    "citation_count": 183,
+    "publication_count": 10,
+    "citation_count": 71,
     "topics": [
       {
-        "topic_id": 39,
-        "topic_name": "Artificial Intelligence"
+        "topic_id": 484,
+        "topic_name": "Advanced Wireless Communication Technologies"
       },
       {
-        "topic_id": 52,
-        "topic_name": "IoT and Edge/Fog Computing"
+        "topic_id": 54,
+        "topic_name": "IoT Networks and Protocols"
       },
       {
-        "topic_id": 490,
-        "topic_name": "Cloud Computing and Resource Management"
+        "topic_id": 555,
+        "topic_name": "Power Line Communications and Noise"
       },
       {
-        "topic_id": 498,
-        "topic_name": "Computer Networks"
+        "topic_id": 511,
+        "topic_name": "Optical Wireless Communication Technologies"
       },
       {
-        "topic_id": 14,
-        "topic_name": "Blockchain Technology Applications and Security"
+        "topic_id": 769,
+        "topic_name": "Electromagnetic Compatibility and Noise Suppression"
       }
     ],
     "profile_bio": "Muhammad Hussain is a Senior Associate Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Application of Artificial intelligence, resource allocation interference/noise modeling in 5G/6G communications networks, Stochastic process, and Quantum Computing. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Artificial Intelligence",
-      "IoT and Edge/Fog Computing",
-      "Cloud Computing and Resource Management",
-      "Computer Networks",
-      "Blockchain Technology Applications and Security"
+      "Advanced Wireless Communication Technologies",
+      "IoT Networks and Protocols",
+      "Power Line Communications and Noise",
+      "Optical Wireless Communication Technologies",
+      "Electromagnetic Compatibility and Noise Suppression"
     ],
-    "international_collaborations": [
-      {
-        "institution": "Universiti Putra Malaysia",
-        "country": "MY"
-      },
-      {
-        "institution": "Risk Management Solutions (United Kingdom)",
-        "country": "GB"
-      },
-      {
-        "institution": "National College of Ireland",
-        "country": "IE"
-      },
-      {
-        "institution": "Applied Science Private University",
-        "country": "JO"
-      },
-      {
-        "institution": "Asia Pacific University of Technology & Innovation",
-        "country": "MY"
-      },
-      {
-        "institution": "Muscat College",
-        "country": "OM"
-      }
-    ],
+    "international_collaborations": [],
     "academic_rank": "Senior Associate Professor",
     "openalex_id": "A5100727750"
   },
@@ -20766,7 +20403,7 @@
       "Agile Development",
       "Technology Enhanced Learning"
     ],
-    "publication_count": 2,
+    "publication_count": 1,
     "citation_count": 10,
     "topics": [
       {
@@ -20780,14 +20417,6 @@
       {
         "topic_id": 686,
         "topic_name": "Persona Design and Applications"
-      },
-      {
-        "topic_id": 94,
-        "topic_name": "Impact of Technology on Adolescents"
-      },
-      {
-        "topic_id": 520,
-        "topic_name": "Digital Games and Media"
       }
     ],
     "profile_bio": "Bushra Fazal Khan is a Assistant Professor in the Department of Software Engineering at Bahria University, Karachi campus. Areas of expertise include Agile Development, Technology Enhanced Learning. Active in teaching, supervision and research.",
@@ -20796,9 +20425,7 @@
     "research_areas": [
       "Educational Games and Gamification",
       "Software Engineering Techniques and Practices",
-      "Persona Design and Applications",
-      "Impact of Technology on Adolescents",
-      "Digital Games and Media"
+      "Persona Design and Applications"
     ],
     "international_collaborations": [
       {
@@ -20816,14 +20443,6 @@
       {
         "institution": "University of Chinese Academy of Sciences",
         "country": "CN"
-      },
-      {
-        "institution": "Greater Manchester Police",
-        "country": "GB"
-      },
-      {
-        "institution": "University of Manchester",
-        "country": "GB"
       }
     ],
     "academic_rank": "Assistant Professor"
@@ -21081,7 +20700,7 @@
       "Entrepreneurship",
       "Incubation & Energy Simulation"
     ],
-    "publication_count": 27,
+    "publication_count": 26,
     "citation_count": 158,
     "topics": [
       {
@@ -21203,29 +20822,19 @@
       "Product Design. Usability Engineering",
       "Virtual Learning Environment"
     ],
-    "publication_count": 2,
+    "publication_count": 1,
     "citation_count": 4,
     "topics": [
       {
         "topic_id": 697,
         "topic_name": "Online Learning and Analytics"
-      },
-      {
-        "topic_id": 210,
-        "topic_name": "Online and Blended Learning"
-      },
-      {
-        "topic_id": 698,
-        "topic_name": "Innovative Teaching and Learning Methods"
       }
     ],
     "profile_bio": "Abdul Hafeez is a Senior Associate Professor in the Department of Computer Science at Bahria University, Lahore campus. Areas of expertise include Software Engineering and Product Design. Usability Engineering, Virtual Learning Environment. Active in teaching, supervision and research.",
     "education": "",
     "source": "scraped",
     "research_areas": [
-      "Online Learning and Analytics",
-      "Online and Blended Learning",
-      "Innovative Teaching and Learning Methods"
+      "Online Learning and Analytics"
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Associate Professor"

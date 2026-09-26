@@ -5,7 +5,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Environmental Sustainability in Business.",
     "source": "derived",
-    "researcher_count": 10,
+    "researcher_count": 11,
     "publication_count": 33
   },
   {
@@ -14,7 +14,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Islamic Finance and Banking Studies.",
     "source": "derived",
-    "researcher_count": 19,
+    "researcher_count": 18,
     "publication_count": 62
   },
   {
@@ -32,7 +32,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Environmental Education and Sustainability.",
     "source": "derived",
-    "researcher_count": 6,
+    "researcher_count": 5,
     "publication_count": 12
   },
   {
@@ -50,7 +50,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy, Environment, Economic Growth.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 8,
     "publication_count": 67
   },
   {
@@ -59,7 +59,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy, Environment, and Transportation Policies.",
     "source": "derived",
-    "researcher_count": 6,
+    "researcher_count": 7,
     "publication_count": 46
   },
   {
@@ -122,7 +122,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Blockchain Technology Applications and Security.",
     "source": "derived",
-    "researcher_count": 9,
+    "researcher_count": 8,
     "publication_count": 53
   },
   {
@@ -167,7 +167,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy and Environment Impacts.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 31
   },
   {
@@ -302,7 +302,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Nanofluid Flow and Heat Transfer.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 62
   },
   {
@@ -347,7 +347,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Artificial Intelligence.",
     "source": "derived",
-    "researcher_count": 12,
+    "researcher_count": 13,
     "publication_count": 11
   },
   {
@@ -374,7 +374,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy Harvesting in Wireless Networks.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 5,
     "publication_count": 28
   },
   {
@@ -383,7 +383,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy Efficient Wireless Sensor Networks.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 5,
     "publication_count": 30
   },
   {
@@ -482,7 +482,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in IoT Networks and Protocols.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 4,
     "publication_count": 21
   },
   {
@@ -500,7 +500,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Gait Recognition and Analysis.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 2
   },
   {
@@ -581,7 +581,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Engineering Education and Curriculum Development.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 4
   },
   {
@@ -599,7 +599,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Quality and Supply Management.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 14
   },
   {
@@ -716,7 +716,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in BIM and Construction Integration.",
     "source": "derived",
-    "researcher_count": 6,
+    "researcher_count": 5,
     "publication_count": 20
   },
   {
@@ -761,7 +761,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Organizational and Employee Performance.",
     "source": "derived",
-    "researcher_count": 19,
+    "researcher_count": 17,
     "publication_count": 45
   },
   {
@@ -779,7 +779,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Knowledge Management and Sharing.",
     "source": "derived",
-    "researcher_count": 9,
+    "researcher_count": 10,
     "publication_count": 26
   },
   {
@@ -797,7 +797,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Behavioral Health and Interventions.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 3
   },
   {
@@ -815,7 +815,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in COVID-19 and Mental Health.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 6
   },
   {
@@ -860,7 +860,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Entrepreneurship Studies and Influences.",
     "source": "derived",
-    "researcher_count": 9,
+    "researcher_count": 8,
     "publication_count": 39
   },
   {
@@ -869,7 +869,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Construction Project Management and Performance.",
     "source": "derived",
-    "researcher_count": 14,
+    "researcher_count": 13,
     "publication_count": 66
   },
   {
@@ -896,7 +896,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in IoT-based Smart Home Systems.",
     "source": "derived",
-    "researcher_count": 5,
+    "researcher_count": 4,
     "publication_count": 19
   },
   {
@@ -905,7 +905,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Mobile Ad Hoc Networks.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 32
   },
   {
@@ -932,7 +932,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Organizational Leadership and Management Strategies.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 6,
     "publication_count": 21
   },
   {
@@ -941,7 +941,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Hydrocarbon exploration and reservoir analysis.",
     "source": "derived",
-    "researcher_count": 9,
+    "researcher_count": 7,
     "publication_count": 81
   },
   {
@@ -950,7 +950,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Seismic Imaging and Inversion Techniques.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 6,
     "publication_count": 33
   },
   {
@@ -959,7 +959,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Geological and Geophysical Studies.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 2,
     "publication_count": 8
   },
   {
@@ -995,7 +995,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Belt and Road Initiative.",
     "source": "derived",
-    "researcher_count": 8,
+    "researcher_count": 7,
     "publication_count": 16
   },
   {
@@ -1031,7 +1031,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Social Media and Politics.",
     "source": "derived",
-    "researcher_count": 6,
+    "researcher_count": 7,
     "publication_count": 22
   },
   {
@@ -1148,7 +1148,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Media Studies and Communication.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 6,
     "publication_count": 19
   },
   {
@@ -1157,7 +1157,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Public Relations and Crisis Communication.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 5,
     "publication_count": 11
   },
   {
@@ -1166,7 +1166,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Rhetoric and Communication Studies.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 3,
     "publication_count": 2
   },
   {
@@ -1256,7 +1256,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Education and Islamic Studies.",
     "source": "derived",
-    "researcher_count": 8,
+    "researcher_count": 9,
     "publication_count": 20
   },
   {
@@ -1328,7 +1328,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Terrorism, Counterterrorism, and Political Violence.",
     "source": "derived",
-    "researcher_count": 5,
+    "researcher_count": 6,
     "publication_count": 11
   },
   {
@@ -1427,7 +1427,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Child Development and Digital Technology.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 3,
     "publication_count": 2
   },
   {
@@ -1580,7 +1580,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Artificial Intelligence in Healthcare and Education.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 4
   },
   {
@@ -1589,7 +1589,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Bone health and osteoporosis research.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -1598,7 +1598,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Dental Radiography and Imaging.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 4
   },
   {
@@ -1607,7 +1607,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Spacecraft and Cryogenic Technologies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -1679,7 +1679,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Full-Duplex Wireless Communications.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 5
   },
   {
@@ -1688,7 +1688,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Electromagnetic Simulation and Numerical Methods.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 2,
     "publication_count": 2
   },
   {
@@ -1697,7 +1697,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Magneto-Optical Properties and Applications.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 1
   },
   {
@@ -1706,7 +1706,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Linguistic, Cultural, and Literary Studies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 2
   },
   {
@@ -1715,7 +1715,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Gender and Women's Rights.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 6
   },
   {
@@ -1724,7 +1724,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Marriage and Family Dynamics.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 2,
     "publication_count": 5
   },
   {
@@ -1841,7 +1841,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Direction-of-Arrival Estimation Techniques.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 1
   },
   {
@@ -1850,7 +1850,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Antenna Design and Optimization.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 2
   },
   {
@@ -1859,7 +1859,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Radio Wave Propagation Studies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -1877,7 +1877,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Consumer Attitudes and Food Labeling.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -1886,7 +1886,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Online and Blended Learning.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 0,
     "publication_count": 7
   },
   {
@@ -2156,7 +2156,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Muscle activation and electromyography studies.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 6
   },
   {
@@ -2165,7 +2165,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Motor Control and Adaptation.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 8
   },
   {
@@ -2174,7 +2174,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Balance, Gait, and Falls Prevention.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 8
   },
   {
@@ -2219,7 +2219,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in EEG and Brain-Computer Interfaces.",
     "source": "derived",
-    "researcher_count": 8,
+    "researcher_count": 7,
     "publication_count": 32
   },
   {
@@ -2228,7 +2228,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Global and Cross-Cultural Management.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 2
   },
   {
@@ -2273,7 +2273,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Team Dynamics and Performance.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 3,
     "publication_count": 2
   },
   {
@@ -2435,7 +2435,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Cooperative Communication and Network Coding.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 16
   },
   {
@@ -2453,7 +2453,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Molecular Communication and Nanonetworks.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 15
   },
   {
@@ -2462,7 +2462,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Evolutionary Algorithms and Applications.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 2
   },
   {
@@ -2471,7 +2471,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Modular Robots and Swarm Intelligence.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 2
   },
   {
@@ -2525,7 +2525,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in South Asian Cinema and Culture.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 3
   },
   {
@@ -2579,7 +2579,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Sustainable Supply Chain Management.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 8,
     "publication_count": 26
   },
   {
@@ -2615,7 +2615,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Security in Wireless Sensor Networks.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 6
   },
   {
@@ -2723,7 +2723,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Energy Load and Power Forecasting.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 2,
     "publication_count": 10
   },
   {
@@ -2741,7 +2741,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Smart Grid Energy Management.",
     "source": "derived",
-    "researcher_count": 5,
+    "researcher_count": 4,
     "publication_count": 24
   },
   {
@@ -2768,7 +2768,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Infective Endocarditis Diagnosis and Management.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 2
   },
   {
@@ -2777,7 +2777,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Streptococcal Infections and Treatments.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -2786,7 +2786,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Pleural and Pulmonary Diseases.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -2795,7 +2795,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Cardiac Valve Diseases and Treatments.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -2804,7 +2804,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Cardiac Structural Anomalies and Repair.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -3191,7 +3191,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Antenna Design and Analysis.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 2,
     "publication_count": 8
   },
   {
@@ -3200,7 +3200,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Advanced MIMO Systems Optimization.",
     "source": "derived",
-    "researcher_count": 5,
+    "researcher_count": 4,
     "publication_count": 30
   },
   {
@@ -3254,7 +3254,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Hydraulic Fracturing and Reservoir Analysis.",
     "source": "derived",
-    "researcher_count": 7,
+    "researcher_count": 6,
     "publication_count": 46
   },
   {
@@ -3551,7 +3551,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Heavy metals in environment.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 9
   },
   {
@@ -3659,7 +3659,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Heavy Metal Exposure and Toxicity.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 7
   },
   {
@@ -3749,7 +3749,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Microgrid Control and Optimization.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 3,
     "publication_count": 42
   },
   {
@@ -3821,7 +3821,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Electric Power System Optimization.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 4
   },
   {
@@ -3929,7 +3929,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Islanding Detection in Power Systems.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 9
   },
   {
@@ -4181,7 +4181,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in E-learning.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 0
   },
   {
@@ -4226,7 +4226,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Financial Markets and Investment Strategies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 3
   },
   {
@@ -4334,7 +4334,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Global Energy Security and Policy.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 8
   },
   {
@@ -4352,7 +4352,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Advanced Wireless Communication Technologies.",
     "source": "derived",
-    "researcher_count": 4,
+    "researcher_count": 5,
     "publication_count": 16
   },
   {
@@ -4406,7 +4406,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Cloud Computing and Resource Management.",
     "source": "derived",
-    "researcher_count": 5,
+    "researcher_count": 4,
     "publication_count": 18
   },
   {
@@ -4478,7 +4478,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Computer Networks.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 6
   },
   {
@@ -4532,7 +4532,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Internet of Things.",
     "source": "derived",
-    "researcher_count": 3,
+    "researcher_count": 5,
     "publication_count": 0
   },
   {
@@ -4559,7 +4559,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Biometric Identification and Security.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 3
   },
   {
@@ -4568,7 +4568,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in User Authentication and Security Systems.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 7
   },
   {
@@ -4595,7 +4595,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Optical Wireless Communication Technologies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 3
   },
   {
@@ -4604,7 +4604,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Power Systems Fault Detection.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 5
   },
   {
@@ -4613,7 +4613,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Cognitive Science and Mapping.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -4622,7 +4622,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Forecasting Techniques and Applications.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -4640,7 +4640,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Sentiment Analysis and Opinion Mining.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 6
   },
   {
@@ -4649,7 +4649,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Text and Document Classification Technologies.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 3
   },
   {
@@ -4676,7 +4676,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Digital Games and Media.",
     "source": "derived",
-    "researcher_count": 2,
+    "researcher_count": 1,
     "publication_count": 2
   },
   {
@@ -4991,7 +4991,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Power Line Communications and Noise.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 8
   },
   {
@@ -5720,7 +5720,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Autonomous Vehicle Technology and Safety.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 4
   },
   {
@@ -6107,7 +6107,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Mercury impact and mitigation studies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 1
   },
   {
@@ -6134,7 +6134,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Customer Service Quality and Loyalty.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 8
   },
   {
@@ -6269,7 +6269,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Online Learning and Analytics.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 10
   },
   {
@@ -6278,7 +6278,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Innovative Teaching and Learning Methods.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 0,
     "publication_count": 2
   },
   {
@@ -6566,7 +6566,7 @@
     "icon": "sparkles",
     "description": "Research and expertise in Reproductive Health and Technologies.",
     "source": "derived",
-    "researcher_count": 1,
+    "researcher_count": 2,
     "publication_count": 1
   },
   {
@@ -6658,5 +6658,266 @@
     "source": "derived",
     "researcher_count": 1,
     "publication_count": 2
+  },
+  {
+    "topic_id": 741,
+    "topic_name": "Human Pose and Action Recognition",
+    "icon": "sparkles",
+    "description": "Research and expertise in Human Pose and Action Recognition.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 742,
+    "topic_name": "Equal Employment Opportunity- Gender Discrimination",
+    "icon": "sparkles",
+    "description": "Research and expertise in Equal Employment Opportunity- Gender Discrimination.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 743,
+    "topic_name": "Neuroscience, Education and Cognitive Function",
+    "icon": "sparkles",
+    "description": "Research and expertise in Neuroscience, Education and Cognitive Function.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 744,
+    "topic_name": "Educational and Psychological Assessments",
+    "icon": "sparkles",
+    "description": "Research and expertise in Educational and Psychological Assessments.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 745,
+    "topic_name": "Quranic Studies",
+    "icon": "sparkles",
+    "description": "Research and expertise in Quranic Studies.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 746,
+    "topic_name": "Hadith Studies",
+    "icon": "sparkles",
+    "description": "Research and expertise in Hadith Studies.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 747,
+    "topic_name": "Seerah Islamic Thought",
+    "icon": "sparkles",
+    "description": "Research and expertise in Seerah Islamic Thought.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 748,
+    "topic_name": "Jurisprudence",
+    "icon": "sparkles",
+    "description": "Research and expertise in Jurisprudence.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 749,
+    "topic_name": "Leadership",
+    "icon": "sparkles",
+    "description": "Research and expertise in Leadership.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 750,
+    "topic_name": "Education and Vocational Training",
+    "icon": "sparkles",
+    "description": "Research and expertise in Education and Vocational Training.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 751,
+    "topic_name": "Poverty, Education, and Child Welfare",
+    "icon": "sparkles",
+    "description": "Research and expertise in Poverty, Education, and Child Welfare.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 752,
+    "topic_name": "International Maritime Law",
+    "icon": "sparkles",
+    "description": "Research and expertise in International Maritime Law.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 753,
+    "topic_name": "Criminal Law",
+    "icon": "sparkles",
+    "description": "Research and expertise in Criminal Law.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 754,
+    "topic_name": "Philosphy Of Law",
+    "icon": "sparkles",
+    "description": "Research and expertise in Philosphy Of Law.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 755,
+    "topic_name": "Public International Law",
+    "icon": "sparkles",
+    "description": "Research and expertise in Public International Law.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 756,
+    "topic_name": "Media, Religion, Digital Communication",
+    "icon": "sparkles",
+    "description": "Research and expertise in Media, Religion, Digital Communication.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 757,
+    "topic_name": "Cryospheric studies and observations",
+    "icon": "sparkles",
+    "description": "Research and expertise in Cryospheric studies and observations.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 758,
+    "topic_name": "Nursing education and management",
+    "icon": "sparkles",
+    "description": "Research and expertise in Nursing education and management.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 759,
+    "topic_name": "Education and Critical Thinking Development",
+    "icon": "sparkles",
+    "description": "Research and expertise in Education and Critical Thinking Development.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 760,
+    "topic_name": "Problem and Project Based Learning",
+    "icon": "sparkles",
+    "description": "Research and expertise in Problem and Project Based Learning.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 761,
+    "topic_name": "Model-based Testing",
+    "icon": "sparkles",
+    "description": "Research and expertise in Model-based Testing.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 762,
+    "topic_name": "Consumer Market Behavior and Pricing",
+    "icon": "sparkles",
+    "description": "Research and expertise in Consumer Market Behavior and Pricing.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 763,
+    "topic_name": "Banking, Crisis Management, COVID-19 Impact",
+    "icon": "sparkles",
+    "description": "Research and expertise in Banking, Crisis Management, COVID-19 Impact.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 764,
+    "topic_name": "Advanced Wireless Communication Techniques",
+    "icon": "sparkles",
+    "description": "Research and expertise in Advanced Wireless Communication Techniques.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 765,
+    "topic_name": "PAPR reduction in OFDM",
+    "icon": "sparkles",
+    "description": "Research and expertise in PAPR reduction in OFDM.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 766,
+    "topic_name": "Security",
+    "icon": "sparkles",
+    "description": "Research and expertise in Security.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 767,
+    "topic_name": "Smart Systems",
+    "icon": "sparkles",
+    "description": "Research and expertise in Smart Systems.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 768,
+    "topic_name": "Artificial Intelligence (AI)",
+    "icon": "sparkles",
+    "description": "Research and expertise in Artificial Intelligence (AI).",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
+  },
+  {
+    "topic_id": 769,
+    "topic_name": "Electromagnetic Compatibility and Noise Suppression",
+    "icon": "sparkles",
+    "description": "Research and expertise in Electromagnetic Compatibility and Noise Suppression.",
+    "source": "derived",
+    "researcher_count": 1,
+    "publication_count": 0
   }
 ]
