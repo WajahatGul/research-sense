@@ -14,6 +14,8 @@ import { SearchCorrection } from "../components/SearchCorrection";
 import { PublicationItem } from "../components/PublicationItem";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
+import { plural } from "../config";
+import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Publications.module.css";
 
 const PAGE_SIZE = 10;
@@ -57,6 +59,7 @@ function coverageNote(stats?: Stats): string {
 }
 
 export default function Publications() {
+  const org = useOrganisation();
   const [params] = useSearchParams();
   const topicId = params.get("topic_id");
 
@@ -167,9 +170,9 @@ export default function Publications() {
             className={styles.select}
             value={pending.campus}
             onChange={(e) => setPending((p) => ({ ...p, campus: e.target.value }))}
-            aria-label="Filter by campus"
+            aria-label={`Filter by ${org.site.toLowerCase()}`}
           >
-            <option value="">All campuses</option>
+            <option value="">All {plural(org.site).toLowerCase()}</option>
             {campuses?.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -193,9 +196,9 @@ export default function Publications() {
             className={styles.select}
             value={pending.department}
             onChange={(e) => setPending((p) => ({ ...p, department: e.target.value }))}
-            aria-label="Filter by department"
+            aria-label={`Filter by ${org.unit.toLowerCase()}`}
           >
-            <option value="">All departments</option>
+            <option value="">All {plural(org.unit).toLowerCase()}</option>
             {departments?.map((d) => (
               <option key={d} value={d}>
                 {d}
@@ -208,11 +211,17 @@ export default function Publications() {
             onChange={(e) =>
               setPending((p) => ({ ...p, publicationType: e.target.value }))
             }
-            aria-label="Filter by paper type"
+            aria-label="Filter by document type"
           >
-            <option value="">All paper types</option>
-            <option value="journal">Journal papers</option>
-            <option value="conference">Conference papers</option>
+            <option value="">All document types</option>
+            {/* Only the types this organisation actually holds, with how
+                many of each: journal and conference used to be hard-coded,
+                which hid 229 book chapters and books entirely. */}
+            {org.document_types.map((t) => (
+              <option key={t.key} value={t.key}>
+                {t.label} ({t.count.toLocaleString()})
+              </option>
+            ))}
           </select>
           <div className={styles.dateGroup}>
             <div className={styles.dateField}>

@@ -22,14 +22,11 @@ class Settings:
         "http://localhost:5173,http://127.0.0.1:5173",
     ).split(",")
 
-    # Deploying institution's name. ResearchSense is institution-agnostic, but a
-    # deployment is always for one university (the customer), so it is set here.
-    # This build is configured for Bahria University, which owns the data and
-    # campuses shown. A different customer overrides RS_INSTITUTION_NAME (or sets
-    # it to "" for a neutral, unbranded look).
-    institution_name: str = os.getenv(
-        "RS_INSTITUTION_NAME", "Bahria University"
-    ).strip()
+    # The deploying organisation's name. ResearchSense is a product that any
+    # organisation can run on its own records, so nothing is branded by
+    # default; a deployment sets RS_INSTITUTION_NAME (and RS_ORG_KIND, see
+    # app/core/organisation.py) to say whose research it holds.
+    institution_name: str = os.getenv("RS_INSTITUTION_NAME", "").strip()
 
     # --- RAG chatbot ---
     # Accept both spellings; the key is created at console.groq.com (free tier).

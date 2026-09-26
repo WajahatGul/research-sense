@@ -24,7 +24,7 @@ export default function Guide() {
       <PageHeader
         eyebrow="Documentation"
         title="Get started"
-        description={`ResearchSense turns a university's scattered research record into one place you can search, read and ask questions of. This page explains what is inside, how to use it, and how far it can be trusted.`}
+        description={`ResearchSense turns an organisation's scattered research record into one place you can search, read and ask questions of. This page explains what is inside, how to use it, and how far it can be trusted.`}
       />
 
       <div className={`container ${styles.body}`}>
@@ -249,7 +249,7 @@ export default function Guide() {
             <dt className={styles.q}>Do I need an account to read anything?</dt>
             <dd className={styles.a}>
               No. Every page is public. An account only lets you manage your own
-              profile or build a portal for a different university.
+              profile or build a portal for a different organisation.
             </dd>
 
             <dt className={styles.q}>My profile is wrong. Can I fix it?</dt>

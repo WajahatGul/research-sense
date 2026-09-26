@@ -6,7 +6,7 @@ import { fetchClaimedIds } from "../api/auth";
 import { ApiError } from "../api/client";
 import { fetchResearcher } from "../api/researchers";
 import { askAssistant } from "../features/chat/askBus";
-import { INSTITUTION_NAME } from "../config";
+import { useOrganisation } from "../hooks/useOrganisation";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { DataNote } from "../components/DataNote";
@@ -34,6 +34,7 @@ function NotFoundProfile() {
 
 export default function ResearcherProfile() {
   const { id } = useParams();
+  const org = useOrganisation();
   const [searchParams] = useSearchParams();
   const withParam = searchParams.get("with");
   const withId = withParam && !Number.isNaN(Number(withParam)) ? Number(withParam) : null;
@@ -161,7 +162,7 @@ export default function ResearcherProfile() {
             <p className={styles.role}>{data.designation}</p>
             <p className={styles.inst}>
               {[
-                data.institution || INSTITUTION_NAME,
+                data.institution || org.name,
                 data.campus ? `${data.campus} campus` : "",
               ]
                 .filter(Boolean)

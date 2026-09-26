@@ -11,7 +11,7 @@ import {
   setToken,
 } from "../../api/auth";
 import { fetchResearchers } from "../../api/researchers";
-import { INSTITUTION_NAME } from "../../config";
+import { useOrganisation } from "../../hooks/useOrganisation";
 import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
@@ -46,7 +46,8 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
     }
   };
 
-  const institution = INSTITUTION_NAME || "this university";
+  const org = useOrganisation();
+  const institution = org.name || `this ${org.noun}`;
   const switchTo = (next: Kind) => {
     setKind(next);
     setError("");
@@ -87,7 +88,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
             className={kind === "researcher" ? styles.segOn : styles.seg}
             onClick={() => switchTo("researcher")}
           >
-            {institution}
+            {org.name || "Researcher"}
           </button>
           <button
             type="button"
@@ -96,7 +97,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
             className={kind === "institution" ? styles.segOn : styles.seg}
             onClick={() => switchTo("institution")}
           >
-            Another university
+            Another organisation
           </button>
         </div>
 

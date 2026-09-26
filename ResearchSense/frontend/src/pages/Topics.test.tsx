@@ -55,7 +55,7 @@ describe("Research areas", () => {
     expect(cards[0].textContent).toBe("Area 60");
     fireEvent.click(screen.getByRole("button", { name: "Show 12 more" }));
     expect(await screen.findAllByRole("heading", { level: 3 })).toHaveLength(60);
-  });
+  }, 15_000); // renders 108 cards; slow under a full parallel run
 
   it("sorts by researchers when asked", async () => {
     renderAt("/topics?sort=researchers");

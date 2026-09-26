@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { INSTITUTION_NAME } from "../../config";
+import { useOrganisation } from "../../hooks/useOrganisation";
 import { SearchBar } from "../../components/SearchBar";
 import styles from "./Hero.module.css";
 
 export function Hero() {
   const navigate = useNavigate();
+  const org = useOrganisation();
 
   return (
     <section className={styles.hero}>
@@ -13,10 +14,10 @@ export function Hero() {
       <div className={`container ${styles.inner}`}>
         <span className={styles.eyebrow}>Research Information System</span>
         <h1 className={styles.title}>
-          {INSTITUTION_NAME ? (
+          {org.name ? (
             <>
               The research of
-              <span className={styles.accent}> {INSTITUTION_NAME}</span>
+              <span className={styles.accent}> {org.name}</span>
             </>
           ) : (
             <>
@@ -26,8 +27,9 @@ export function Hero() {
           )}
         </h1>
         <p className={styles.lead}>
-          Find the right person, their research area, or a paper across every
-          campus. One index for the people and ideas shaping our research.
+          Find the right person, their research area, or a document across
+          every {org.site.toLowerCase()}. One index for the people and ideas
+          shaping the {org.noun}'s research.
         </p>
 
         <div className={styles.search}>

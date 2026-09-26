@@ -24,7 +24,7 @@ export default function Portal() {
   // let a stale `enabled: true` refetch the profile right after sign-out, so
   // the signed-in panel never went away.)
   const [token, setToken] = useState<string | null>(getToken());
-  // An institution workspace session is separate from the Bahria ORCID login:
+  // An institution workspace session is separate from the researcher ORCID login:
   // it has its own dashboard for building a profile from a CV.
   const [workspace, setWorkspace] = useState<WorkspaceSession | null>(
     getWorkspaceSession(),
@@ -83,7 +83,7 @@ export default function Portal() {
       <PageHeader
         eyebrow="Sign in"
         title="Your research, your profile"
-        description="Claim the profile that is already here, or create a private workspace for your own university. Reading the portal needs no account."
+        description="Claim the profile that is already here, or create a private workspace for your own organisation. Reading the portal needs no account."
       />
       <div className={`container ${styles.body}`}>
         {orcidError && (

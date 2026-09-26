@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCampuses } from "../api/researchers";
 import { Wordmark } from "../components/Wordmark";
 import { useInstitution } from "../hooks/useInstitution";
+import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
   const institution = useInstitution();
+  const org = useOrganisation();
   // Campuses come from the data being served, so a signed-in institution sees
   // its own sites rather than the demo deployment's.
   const { data: campuses } = useQuery({
@@ -21,10 +23,9 @@ export default function Footer() {
         <div className={styles.brandCol}>
           <Wordmark light />
           <p className={styles.blurb}>
-            A research information system {institution
-              ? `for ${institution}`
-              : "for universities"}. Profiles, publications, research areas and
-            projects across all campuses in one place.
+            A research information system for {institution}. Profiles,
+            publications, research areas and projects across every{" "}
+            {org.site.toLowerCase()} in one place.
           </p>
         </div>
 

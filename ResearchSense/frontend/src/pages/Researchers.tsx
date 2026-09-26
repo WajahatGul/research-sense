@@ -13,6 +13,7 @@ import { ResearcherCard } from "../components/ResearcherCard";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
 import { FilterBar } from "../features/researchers/FilterBar";
+import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Researchers.module.css";
 
 const PAGE_SIZE = 12;
@@ -62,6 +63,7 @@ function filtersFrom(params: URLSearchParams): Filters {
 
 export default function Researchers() {
   const [params, setParams] = useSearchParams();
+  const org = useOrganisation();
 
   // The URL is the record of what is being shown. Filtering, opening a
   // profile and pressing Back used to drop every filter and the page; now
@@ -116,7 +118,7 @@ export default function Researchers() {
       <PageHeader
         eyebrow="Directory"
         title="Researchers"
-        description="Browse faculty across all campuses. Filter by campus, department, designation, or search by name and area."
+        description={`Browse the people behind the ${org.noun}'s research. Filter by ${org.site.toLowerCase()}, ${org.unit.toLowerCase()} or rank, or search by name and area.`}
       >
         <div className={styles.search}>
           <SearchBar

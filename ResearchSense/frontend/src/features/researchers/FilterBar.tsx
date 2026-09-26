@@ -6,6 +6,8 @@ import {
   fetchCampuses,
   fetchDepartments,
 } from "../../api/researchers";
+import { plural } from "../../config";
+import { useOrganisation } from "../../hooks/useOrganisation";
 import styles from "./FilterBar.module.css";
 
 interface Props {
@@ -34,6 +36,7 @@ export function FilterBar({
   hasSearched,
   activeCount = 0,
 }: Props) {
+  const org = useOrganisation();
   // Phones fold the dropdowns behind one button, the same way the
   // publications page does, so both lists behave alike.
   const [open, setOpen] = useState(false);
@@ -74,9 +77,9 @@ export function FilterBar({
           className={styles.select}
           value={campus}
           onChange={(e) => onCampus(e.target.value)}
-          aria-label="Filter by campus"
+          aria-label={`Filter by ${org.site.toLowerCase()}`}
         >
-          <option value="">All campuses</option>
+          <option value="">All {plural(org.site).toLowerCase()}</option>
           {campuses?.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -87,9 +90,9 @@ export function FilterBar({
           className={styles.select}
           value={department}
           onChange={(e) => onDepartment(e.target.value)}
-          aria-label="Filter by department"
+          aria-label={`Filter by ${org.unit.toLowerCase()}`}
         >
-          <option value="">All departments</option>
+          <option value="">All {plural(org.unit).toLowerCase()}</option>
           {departments?.map((d) => (
             <option key={d} value={d}>
               {d}

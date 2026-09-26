@@ -7,9 +7,12 @@ import { fetchCampuses } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
+import { plural } from "../config";
+import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Projects.module.css";
 
 export default function Projects() {
+  const org = useOrganisation();
   const [campus, setCampus] = useState("");
   const { data: campuses } = useQuery({
     queryKey: ["campuses"],
@@ -32,9 +35,9 @@ export default function Projects() {
             className={styles.select}
             value={campus}
             onChange={(e) => setCampus(e.target.value)}
-            aria-label="Filter by campus"
+            aria-label={`Filter by ${org.site.toLowerCase()}`}
           >
-            <option value="">All campuses</option>
+            <option value="">All {plural(org.site).toLowerCase()}</option>
             {campuses?.map((c) => (
               <option key={c} value={c}>
                 {c}
