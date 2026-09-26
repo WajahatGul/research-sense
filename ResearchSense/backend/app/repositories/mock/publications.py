@@ -17,7 +17,9 @@ def _search_fields(p: dict) -> tuple[str, ...]:
     """Title first, then the authors and areas people also search by."""
     return (
         p.get("title") or "",
-        " ".join(a.get("name") or a.get("full_name") or "" for a in p.get("authors", [])),
+        " ".join(
+            a.get("name") or a.get("full_name") or "" for a in p.get("authors", [])
+        ),
         " ".join(t.get("topic_name") or "" for t in p.get("topics", [])),
     )
 
