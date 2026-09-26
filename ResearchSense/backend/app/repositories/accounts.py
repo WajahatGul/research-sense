@@ -10,8 +10,11 @@ from __future__ import annotations
 
 import secrets
 import sqlite3
+from contextlib import AbstractContextManager
 from datetime import UTC, datetime
 from pathlib import Path
+
+from app.core.db import connect
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "researchsense.db"
 
@@ -81,10 +84,9 @@ class AccountStore:
         if "submission_id" not in cols:
             con.execute("ALTER TABLE uploads ADD COLUMN submission_id INTEGER")
 
-    def _connect(self) -> sqlite3.Connection:
-        con = sqlite3.connect(DB_PATH)
-        con.row_factory = sqlite3.Row
-        return con
+    def _connect(self) -> AbstractContextManager[sqlite3.Connection]:
+        # Read DB_PATH at call time so tests can point the store elsewhere.
+        return connect(DB_PATH)
 
     # --- accounts ---
     def create_account(
