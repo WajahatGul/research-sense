@@ -107,6 +107,7 @@ export interface CollaborationSuggestion {
 export interface ResearcherDetail extends Researcher {
   profile_bio: string;
   education: string;
+  also_published_as?: string[];
   google_scholar_id: string | null;
   scopus_id: string | null;
   publications: PublicationRef[];

@@ -659,8 +659,8 @@
       "Information Retrieval",
       "Information Systems"
     ],
-    "publication_count": 35,
-    "citation_count": 764,
+    "publication_count": 36,
+    "citation_count": 766,
     "topics": [
       {
         "topic_id": 25,
@@ -752,7 +752,13 @@
       }
     ],
     "academic_rank": "Professor",
-    "openalex_id": "A5101651189"
+    "openalex_id": "A5101651189",
+    "also_published_as": [
+      {
+        "name": "Arif ur",
+        "openalex_id": "A5086571541"
+      }
+    ]
   },
   {
     "researcher_id": 9,
@@ -2315,8 +2321,8 @@
       "HR",
       "Leadership & Knowledge Management"
     ],
-    "publication_count": 8,
-    "citation_count": 65,
+    "publication_count": 13,
+    "citation_count": 117,
     "topics": [
       {
         "topic_id": 84,
@@ -2351,7 +2357,13 @@
     ],
     "international_collaborations": [],
     "academic_rank": "Senior Professor",
-    "openalex_id": "A5055136838"
+    "openalex_id": "A5055136838",
+    "also_published_as": [
+      {
+        "name": "Muhammad Arif",
+        "openalex_id": "A5101650838"
+      }
+    ]
   },
   {
     "researcher_id": 26,
@@ -7694,8 +7706,8 @@
       "Psychometrics",
       "Positive Psychology & Therapeutic Interventions"
     ],
-    "publication_count": 6,
-    "citation_count": 45,
+    "publication_count": 7,
+    "citation_count": 53,
     "topics": [
       {
         "topic_id": 254,
@@ -7735,7 +7747,13 @@
       }
     ],
     "academic_rank": "Associate Professor",
-    "openalex_id": "A5113976475"
+    "openalex_id": "A5113976475",
+    "also_published_as": [
+      {
+        "name": "N. I. Zaman",
+        "openalex_id": "A5113751499"
+      }
+    ]
   },
   {
     "researcher_id": 119,
@@ -21629,8 +21647,8 @@
       "Machine Learning",
       "Software Engineering"
     ],
-    "publication_count": 20,
-    "citation_count": 243,
+    "publication_count": 24,
+    "citation_count": 268,
     "topics": [
       {
         "topic_id": 14,
@@ -21718,7 +21736,13 @@
       }
     ],
     "academic_rank": "Senior Assistant Professor",
-    "openalex_id": "A5085995992"
+    "openalex_id": "A5085995992",
+    "also_published_as": [
+      {
+        "name": "Junaid Nasir",
+        "openalex_id": "A5112736453"
+      }
+    ]
   },
   {
     "researcher_id": 334,
@@ -34841,33 +34865,6 @@
     "source": "openalex"
   },
   {
-    "researcher_id": 812,
-    "full_name": "Muhammad Arif",
-    "designation": "",
-    "academic_rank": "",
-    "department": "",
-    "campus": "",
-    "institution": "Bahria University",
-    "email": null,
-    "orcid_id": null,
-    "openalex_id": "A5101650838",
-    "photo_url": null,
-    "expertise": "Corporate Social Responsibility Reporting, Entrepreneurship Studies and Influences, Customer Service Quality and Loyalty, Environmental Sustainability in Business, Advanced Technologies in Various Fields",
-    "publication_count": 5,
-    "citation_count": 52,
-    "topics": [],
-    "research_areas": [
-      "Corporate Social Responsibility Reporting",
-      "Entrepreneurship Studies and Influences",
-      "Customer Service Quality and Loyalty",
-      "Environmental Sustainability in Business",
-      "Advanced Technologies in Various Fields"
-    ],
-    "profile_bio": "",
-    "education": "",
-    "source": "openalex"
-  },
-  {
     "researcher_id": 813,
     "full_name": "Bahar Rehan",
     "designation": "",
@@ -46082,33 +46079,6 @@
     "source": "openalex"
   },
   {
-    "researcher_id": 1254,
-    "full_name": "Junaid Nasir",
-    "designation": "",
-    "academic_rank": "",
-    "department": "",
-    "campus": "",
-    "institution": "Bahria University",
-    "email": null,
-    "orcid_id": null,
-    "openalex_id": "A5112736453",
-    "photo_url": null,
-    "expertise": "Advanced Database Systems and Queries, Data Management and Algorithms, Data Mining Algorithms and Applications, Cloud Data Security Solutions, Data Quality and Management",
-    "publication_count": 4,
-    "citation_count": 25,
-    "topics": [],
-    "research_areas": [
-      "Advanced Database Systems and Queries",
-      "Data Management and Algorithms",
-      "Data Mining Algorithms and Applications",
-      "Cloud Data Security Solutions",
-      "Data Quality and Management"
-    ],
-    "profile_bio": "",
-    "education": "",
-    "source": "openalex"
-  },
-  {
     "researcher_id": 1255,
     "full_name": "Muhammad Iqbal Khan",
     "designation": "",
@@ -50060,31 +50030,6 @@
       "Customer churn and segmentation",
       "Consumer Market Behavior and Pricing",
       "Consumer Retail Behavior Studies"
-    ],
-    "profile_bio": "",
-    "education": "",
-    "source": "openalex"
-  },
-  {
-    "researcher_id": 1412,
-    "full_name": "Arif ur",
-    "designation": "",
-    "academic_rank": "",
-    "department": "",
-    "campus": "",
-    "institution": "Bahria University",
-    "email": null,
-    "orcid_id": null,
-    "openalex_id": "A5086571541",
-    "photo_url": null,
-    "expertise": "Advanced Database Systems and Queries, Semantic Web and Ontologies, Data Quality and Management",
-    "publication_count": 1,
-    "citation_count": 2,
-    "topics": [],
-    "research_areas": [
-      "Advanced Database Systems and Queries",
-      "Semantic Web and Ontologies",
-      "Data Quality and Management"
     ],
     "profile_bio": "",
     "education": "",
@@ -58103,31 +58048,6 @@
       "Antifungal resistance and susceptibility",
       "Fungal Infections and Studies",
       "Bartonella species infections research"
-    ],
-    "profile_bio": "",
-    "education": "",
-    "source": "openalex"
-  },
-  {
-    "researcher_id": 1732,
-    "full_name": "N. I. Zaman",
-    "designation": "",
-    "academic_rank": "",
-    "department": "",
-    "campus": "",
-    "institution": "Bahria University",
-    "email": null,
-    "orcid_id": null,
-    "openalex_id": "A5113751499",
-    "photo_url": null,
-    "expertise": "Grief, Bereavement, and Mental Health, Family and Disability Support Research, Family Support in Illness",
-    "publication_count": 1,
-    "citation_count": 8,
-    "topics": [],
-    "research_areas": [
-      "Grief, Bereavement, and Mental Health",
-      "Family and Disability Support Research",
-      "Family Support in Illness"
     ],
     "profile_bio": "",
     "education": "",

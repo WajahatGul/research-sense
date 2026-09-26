@@ -26,6 +26,9 @@ def _search_fields(rec: dict) -> tuple[str, ...]:
     old search ignored entirely."""
     return (
         rec["full_name"],
+        # Other spellings they have published under (see
+        # scripts/merge_author_variants.py), so the old name still finds them.
+        " ".join(a["name"] for a in rec.get("also_published_as", [])),
         rec.get("designation") or "",
         rec.get("department") or "",
         rec.get("expertise") or "",
@@ -112,6 +115,7 @@ class MockResearcherRepository(ResearcherRepository):
         detail = dict(rec)
         detail["publications"] = self._publications_for(researcher_id)
         detail["collaborators"] = self._collaborators_for(rec)
+        detail["also_published_as"] = [a["name"] for a in rec.get("also_published_as", [])]
         return ResearcherDetail(**detail)
 
     def departments(self) -> list[str]:

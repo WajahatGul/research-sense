@@ -125,6 +125,15 @@ export default function ResearcherProfile() {
           <p className={styles.education}>{data.education}</p>
         </div>
       )}
+
+      {data.also_published_as && data.also_published_as.length > 0 && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Also published as</h3>
+          <p className={styles.education}>
+            {data.also_published_as.join(", ")}. Those papers are listed here.
+          </p>
+        </div>
+      )}
     </>
   );
   // Show the first ten papers; the rest on request.
