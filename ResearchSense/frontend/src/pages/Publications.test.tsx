@@ -128,4 +128,20 @@ describe("Publications", () => {
 
     expect(mockFetchPublications).toHaveBeenCalledTimes(callsBefore);
   });
+
+  it("says how many filters are active on the folded filter button", async () => {
+    renderPage();
+
+    const toggle = await screen.findByRole("button", { name: "Filters" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggle);
+    fireEvent.change(screen.getByLabelText("Filter by campus"), {
+      target: { value: "Islamabad (E-8)" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Search publications" }));
+
+    expect(
+      await screen.findByRole("button", { name: "Hide filters · 1 active" }),
+    ).toHaveAttribute("aria-expanded", "true");
+  });
 });

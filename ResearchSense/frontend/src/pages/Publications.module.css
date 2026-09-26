@@ -30,6 +30,48 @@
   text-overflow: ellipsis;
 }
 
+/* Wide screens: the wrapper is invisible to layout, so the filters sit in
+   the row exactly as before. */
+.filters {
+  display: contents;
+}
+
+.filterToggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .filterToggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--navy);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .filterToggle:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .filters {
+    display: none;
+  }
+
+  .filtersOpen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+  }
+}
+
 .dateGroup {
   display: flex;
   gap: 10px;

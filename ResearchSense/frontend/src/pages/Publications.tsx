@@ -68,6 +68,7 @@ export default function Publications() {
   const [pending, setPending] = useState<Filters>({ ...blankFilters, q: initialQ });
   const [applied, setApplied] = useState<Filters>(() => ({ ...blankFilters, q: initialQ }));
   const [page, setPage] = useState(1);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const { data: years } = useQuery({
     queryKey: ["pub-years"],
@@ -119,6 +120,15 @@ export default function Publications() {
     setPage(1);
   };
 
+  const activeFilters = [
+    applied.campus,
+    applied.year,
+    applied.department,
+    applied.publicationType,
+    applied.dateFrom,
+    applied.dateTo,
+  ].filter(Boolean).length;
+
   return (
     <>
       <PageHeader
@@ -135,6 +145,23 @@ export default function Publications() {
               hideButton
             />
           </div>
+          {/* On a phone seven filter controls filled the whole first screen
+              before a single result. There they fold behind one button that
+              says how many are active; wider screens show them as before. */}
+          <button
+            type="button"
+            className={styles.filterToggle}
+            aria-expanded={filtersOpen}
+            aria-controls="publication-filters"
+            onClick={() => setFiltersOpen((v) => !v)}
+          >
+            {filtersOpen ? "Hide filters" : "Filters"}
+            {activeFilters > 0 && ` · ${activeFilters} active`}
+          </button>
+          <div
+            id="publication-filters"
+            className={`${styles.filters} ${filtersOpen ? styles.filtersOpen : ""}`}
+          >
           <select
             className={styles.select}
             value={pending.campus}
@@ -215,6 +242,7 @@ export default function Publications() {
                 aria-label="To date"
               />
             </div>
+          </div>
           </div>
           <button
             type="button"
