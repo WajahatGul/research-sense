@@ -8,7 +8,7 @@ export default function Ask() {
       <PageHeader
         eyebrow="Research assistant"
         title="Ask ResearchSense"
-        description="Ask in plain English about researchers, publications, projects, or the papers in our library. Answers come only from indexed ResearchSense data; anything outside it is declined."
+        description="Ask in plain English about researchers, publications or papers. Answers come only from ResearchSense data, with sources; if the data cannot answer, the assistant says so."
       />
       <div className={`container ${styles.body}`}>
         <ChatPanel prefillFromUrl />
