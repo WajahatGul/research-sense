@@ -26,16 +26,16 @@ export function Hero() {
           )}
         </h1>
         <p className={styles.lead}>
-          Search researchers, publications, and projects across every campus.
-          One index for the people and ideas shaping our research.
+          Find the right person, their research area, or a paper across every
+          campus. One index for the people and ideas shaping our research.
         </p>
 
         <div className={styles.search}>
           <SearchBar
             size="lg"
-            placeholder="Search a researcher, topic, or publication…"
+            placeholder="A name, a research area, or words from a paper title…"
             onSearch={(q) =>
-              navigate(`/researchers${q ? `?q=${encodeURIComponent(q)}` : ""}`)
+              navigate(q ? `/search?q=${encodeURIComponent(q)}` : "/researchers")
             }
           />
         </div>
@@ -46,7 +46,7 @@ export function Hero() {
             <button
               key={t}
               className={styles.chip}
-              onClick={() => navigate(`/researchers?q=${encodeURIComponent(t)}`)}
+              onClick={() => navigate(`/search?q=${encodeURIComponent(t)}`)}
             >
               {t}
             </button>

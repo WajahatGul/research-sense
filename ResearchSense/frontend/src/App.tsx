@@ -14,6 +14,7 @@ import StaffAccess from "./pages/StaffAccess";
 import Guide from "./pages/Guide";
 import Portal from "./pages/Portal";
 import Ask from "./pages/Ask";
+import Search from "./pages/Search";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/researchers" element={<Researchers />} />
         <Route path="/researchers/:id" element={<ResearcherProfile />} />

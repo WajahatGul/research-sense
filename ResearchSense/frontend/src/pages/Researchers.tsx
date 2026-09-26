@@ -8,6 +8,7 @@ import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
+import { SearchCorrection } from "../components/SearchCorrection";
 import { ResearcherCard } from "../components/ResearcherCard";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -131,6 +132,9 @@ export default function Researchers() {
           {coverageNote(stats)}
         </DataNote>
 
+        {data?.corrected_query && (
+          <SearchCorrection typed={applied.q} shown={data.corrected_query} />
+        )}
         {isLoading && <Loader />}
         {isError && <ErrorState />}
         {data && data.items.length === 0 && (

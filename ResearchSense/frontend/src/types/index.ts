@@ -5,6 +5,9 @@ export interface Paginated<T> {
   total: number;
   page: number;
   page_size: number;
+  /** Set when the typed query found nothing and these are the results for
+   * the closest spelling the corpus contains. */
+  corrected_query?: string | null;
 }
 
 export interface Stats {

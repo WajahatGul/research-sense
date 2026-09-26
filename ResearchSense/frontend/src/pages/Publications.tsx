@@ -9,6 +9,7 @@ import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
+import { SearchCorrection } from "../components/SearchCorrection";
 import { PublicationItem } from "../components/PublicationItem";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
@@ -234,6 +235,9 @@ export default function Publications() {
 
         {!hasSearched && (
           <EmptyState message="Choose your filters and press Search to see publications." />
+        )}
+        {data?.corrected_query && (
+          <SearchCorrection typed={applied?.q ?? ""} shown={data.corrected_query} />
         )}
         {hasSearched && isLoading && <Loader />}
         {hasSearched && isError && <ErrorState />}
