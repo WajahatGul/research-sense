@@ -49,27 +49,44 @@ function coverageNote(stats?: Stats): string {
   return note;
 }
 
+const FILTER_KEYS = ["q", "campus", "department", "designation"] as const;
+
+function filtersFrom(params: URLSearchParams): Filters {
+  return {
+    q: params.get("q") ?? "",
+    campus: params.get("campus") ?? "",
+    department: params.get("department") ?? "",
+    designation: params.get("designation") ?? "",
+  };
+}
+
 export default function Researchers() {
   const [params, setParams] = useSearchParams();
-  const initialQ = params.get("q") ?? "";
 
-  const [pending, setPending] = useState<Filters>({
-    q: initialQ,
-    campus: "",
-    department: "",
-    designation: "",
-  });
-  // The directory should let a visitor "browse faculty across all campuses"
-  // straight away, so it starts with an applied (empty) filter set and shows
-  // the first page of researchers on load instead of an empty prompt. A
-  // deep-linked query (e.g. from a chat source chip) simply pre-fills it.
-  const [applied, setApplied] = useState<Filters>(() => ({
-    q: initialQ,
-    campus: "",
-    department: "",
-    designation: "",
-  }));
-  const [page, setPage] = useState(1);
+  // The URL is the record of what is being shown. Filtering, opening a
+  // profile and pressing Back used to drop every filter and the page; now
+  // Back, refresh and a shared link all return to the same list. With no
+  // parameters the directory simply lists everyone, so "browse faculty"
+  // works on arrival.
+  const applied = filtersFrom(params);
+  const page = Math.max(Number(params.get("page")) || 1, 1);
+  const urlKey = params.toString();
+
+  // Unsubmitted edits to the controls. When the URL changes (Back, a link),
+  // the controls follow it.
+  const [pending, setPending] = useState<Filters>(applied);
+  const [seenKey, setSeenKey] = useState(urlKey);
+  if (seenKey !== urlKey) {
+    setSeenKey(urlKey);
+    setPending(applied);
+  }
+
+  const show = (f: Filters, p: number) => {
+    const next = new URLSearchParams();
+    for (const key of FILTER_KEYS) if (f[key]) next.set(key, f[key]);
+    if (p > 1) next.set("page", String(p));
+    setParams(next);
+  };
 
   const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
   const { data, isLoading, isError } = useQuery({
@@ -89,14 +106,10 @@ export default function Researchers() {
   const runSearch = (overrides?: Partial<Filters>) => {
     const next = overrides ? { ...pending, ...overrides } : pending;
     if (overrides) setPending(next);
-    setApplied(next);
-    setPage(1);
+    show(next, 1);
   };
 
-  const runQuerySearch = (value: string) => {
-    setParams(value ? { q: value } : {});
-    runSearch({ q: value });
-  };
+  const runQuerySearch = (value: string) => runSearch({ q: value });
 
   return (
     <>
@@ -107,8 +120,9 @@ export default function Researchers() {
       >
         <div className={styles.search}>
           <SearchBar
+            key={applied.q}
             placeholder="Search researchers…"
-            defaultValue={pending.q}
+            defaultValue={applied.q}
             onSearch={runQuerySearch}
             hideButton
           />
@@ -153,7 +167,7 @@ export default function Researchers() {
             page={page}
             pageSize={PAGE_SIZE}
             total={data.total}
-            onChange={setPage}
+            onChange={(p) => show(applied, p)}
           />
         )}
       </div>

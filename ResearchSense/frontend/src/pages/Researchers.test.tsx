@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Paginated, Researcher } from "../types";
@@ -53,17 +53,23 @@ const researcherPage: Paginated<Researcher> = {
   page_size: 12,
 };
 
-function renderPage() {
+function renderPage(url = "/researchers") {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[url]}>
         <Researchers />
+        <LocationProbe />
       </MemoryRouter>
     </QueryClientProvider>,
   );
+}
+
+function LocationProbe() {
+  const location = useLocation();
+  return <output data-testid="location">{location.search}</output>;
 }
 
 beforeEach(() => {
@@ -84,6 +90,32 @@ beforeEach(() => {
 });
 
 describe("Researchers", () => {
+  it("restores filters and page from the URL (Back, refresh, shared link)", async () => {
+    renderPage("/researchers?campus=Karachi&department=Computer%20Science&page=2");
+
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenCalledWith(
+        expect.objectContaining({
+          campus: "Karachi",
+          department: "Computer Science",
+          page: 2,
+        }),
+      ),
+    );
+  });
+
+  it("records a submitted search in the URL", async () => {
+    renderPage();
+
+    const input = await screen.findByPlaceholderText("Search researchers…");
+    fireEvent.change(input, { target: { value: "ayesha" } });
+    fireEvent.submit(input.closest("form")!);
+
+    await waitFor(() =>
+      expect(screen.getByTestId("location").textContent).toBe("?q=ayesha"),
+    );
+  });
+
   it("fetches the first page of researchers on mount", async () => {
     renderPage();
 
