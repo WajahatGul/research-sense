@@ -15,7 +15,7 @@
     "description": "Research and expertise in Islamic Finance and Banking Studies.",
     "source": "derived",
     "researcher_count": 18,
-    "publication_count": 62
+    "publication_count": 59
   },
   {
     "topic_id": 3,
@@ -51,7 +51,7 @@
     "description": "Research and expertise in Energy, Environment, Economic Growth.",
     "source": "derived",
     "researcher_count": 8,
-    "publication_count": 67
+    "publication_count": 66
   },
   {
     "topic_id": 7,
@@ -96,7 +96,7 @@
     "description": "Research and expertise in Microfinance and Financial Inclusion.",
     "source": "derived",
     "researcher_count": 8,
-    "publication_count": 24
+    "publication_count": 23
   },
   {
     "topic_id": 12,
@@ -105,7 +105,7 @@
     "description": "Research and expertise in FinTech, Crowdfunding, Digital Finance.",
     "source": "derived",
     "researcher_count": 8,
-    "publication_count": 20
+    "publication_count": 18
   },
   {
     "topic_id": 13,
@@ -114,7 +114,7 @@
     "description": "Research and expertise in Halal products and consumer behavior.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 7
+    "publication_count": 6
   },
   {
     "topic_id": 14,
@@ -123,7 +123,7 @@
     "description": "Research and expertise in Blockchain Technology Applications and Security.",
     "source": "derived",
     "researcher_count": 8,
-    "publication_count": 53
+    "publication_count": 52
   },
   {
     "topic_id": 15,
@@ -168,7 +168,7 @@
     "description": "Research and expertise in Energy and Environment Impacts.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 31
+    "publication_count": 30
   },
   {
     "topic_id": 20,
@@ -348,7 +348,7 @@
     "description": "Research and expertise in Artificial Intelligence.",
     "source": "derived",
     "researcher_count": 13,
-    "publication_count": 11
+    "publication_count": 7
   },
   {
     "topic_id": 40,
@@ -366,7 +366,7 @@
     "description": "Research and expertise in Computer Vision.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 42,
@@ -384,7 +384,7 @@
     "description": "Research and expertise in Energy Efficient Wireless Sensor Networks.",
     "source": "derived",
     "researcher_count": 5,
-    "publication_count": 30
+    "publication_count": 29
   },
   {
     "topic_id": 44,
@@ -420,7 +420,7 @@
     "description": "Research and expertise in Computational Drug Discovery Methods.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 48,
@@ -582,7 +582,7 @@
     "description": "Research and expertise in Engineering Education and Curriculum Development.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 4
+    "publication_count": 3
   },
   {
     "topic_id": 66,
@@ -690,7 +690,7 @@
     "description": "Research and expertise in Banking stability, regulation, efficiency.",
     "source": "derived",
     "researcher_count": 7,
-    "publication_count": 18
+    "publication_count": 17
   },
   {
     "topic_id": 78,
@@ -699,7 +699,7 @@
     "description": "Research and expertise in COVID-19 Pandemic Impacts.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 10
+    "publication_count": 9
   },
   {
     "topic_id": 79,
@@ -708,7 +708,7 @@
     "description": "Research and expertise in Global Energy and Sustainability Research.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 80,
@@ -717,7 +717,7 @@
     "description": "Research and expertise in BIM and Construction Integration.",
     "source": "derived",
     "researcher_count": 5,
-    "publication_count": 20
+    "publication_count": 18
   },
   {
     "topic_id": 81,
@@ -753,7 +753,7 @@
     "description": "Research and expertise in Job Satisfaction and Organizational Behavior.",
     "source": "derived",
     "researcher_count": 15,
-    "publication_count": 58
+    "publication_count": 57
   },
   {
     "topic_id": 85,
@@ -762,7 +762,7 @@
     "description": "Research and expertise in Organizational and Employee Performance.",
     "source": "derived",
     "researcher_count": 17,
-    "publication_count": 45
+    "publication_count": 43
   },
   {
     "topic_id": 86,
@@ -771,7 +771,7 @@
     "description": "Research and expertise in Workplace Spirituality and Leadership.",
     "source": "derived",
     "researcher_count": 9,
-    "publication_count": 27
+    "publication_count": 26
   },
   {
     "topic_id": 87,
@@ -780,7 +780,7 @@
     "description": "Research and expertise in Knowledge Management and Sharing.",
     "source": "derived",
     "researcher_count": 10,
-    "publication_count": 26
+    "publication_count": 25
   },
   {
     "topic_id": 88,
@@ -852,7 +852,7 @@
     "description": "Research and expertise in Innovation and Socioeconomic Development.",
     "source": "derived",
     "researcher_count": 7,
-    "publication_count": 23
+    "publication_count": 22
   },
   {
     "topic_id": 96,
@@ -861,7 +861,7 @@
     "description": "Research and expertise in Entrepreneurship Studies and Influences.",
     "source": "derived",
     "researcher_count": 8,
-    "publication_count": 39
+    "publication_count": 36
   },
   {
     "topic_id": 97,
@@ -870,7 +870,7 @@
     "description": "Research and expertise in Construction Project Management and Performance.",
     "source": "derived",
     "researcher_count": 13,
-    "publication_count": 66
+    "publication_count": 58
   },
   {
     "topic_id": 98,
@@ -897,7 +897,7 @@
     "description": "Research and expertise in IoT-based Smart Home Systems.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 19
+    "publication_count": 18
   },
   {
     "topic_id": 101,
@@ -906,7 +906,7 @@
     "description": "Research and expertise in Mobile Ad Hoc Networks.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 32
+    "publication_count": 31
   },
   {
     "topic_id": 102,
@@ -933,7 +933,7 @@
     "description": "Research and expertise in Organizational Leadership and Management Strategies.",
     "source": "derived",
     "researcher_count": 6,
-    "publication_count": 21
+    "publication_count": 20
   },
   {
     "topic_id": 105,
@@ -960,7 +960,7 @@
     "description": "Research and expertise in Geological and Geophysical Studies.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 108,
@@ -987,7 +987,7 @@
     "description": "Research and expertise in Politics and Conflicts in Afghanistan, Pakistan, and Middle East.",
     "source": "derived",
     "researcher_count": 11,
-    "publication_count": 25
+    "publication_count": 24
   },
   {
     "topic_id": 111,
@@ -1257,7 +1257,7 @@
     "description": "Research and expertise in Education and Islamic Studies.",
     "source": "derived",
     "researcher_count": 9,
-    "publication_count": 20
+    "publication_count": 19
   },
   {
     "topic_id": 141,
@@ -1329,7 +1329,7 @@
     "description": "Research and expertise in Terrorism, Counterterrorism, and Political Violence.",
     "source": "derived",
     "researcher_count": 6,
-    "publication_count": 11
+    "publication_count": 10
   },
   {
     "topic_id": 149,
@@ -1473,7 +1473,7 @@
     "description": "Research and expertise in Islamic Studies and Radicalism.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 6
+    "publication_count": 5
   },
   {
     "topic_id": 165,
@@ -1716,7 +1716,7 @@
     "description": "Research and expertise in Gender and Women's Rights.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 6
+    "publication_count": 5
   },
   {
     "topic_id": 192,
@@ -1725,7 +1725,7 @@
     "description": "Research and expertise in Marriage and Family Dynamics.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 193,
@@ -1734,7 +1734,7 @@
     "description": "Research and expertise in Qur’anic Interpretation Studies.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 194,
@@ -2337,7 +2337,7 @@
     "description": "Research and expertise in Family Business Performance and Succession.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 261,
@@ -2436,7 +2436,7 @@
     "description": "Research and expertise in Cooperative Communication and Network Coding.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 16
+    "publication_count": 15
   },
   {
     "topic_id": 272,
@@ -2445,7 +2445,7 @@
     "description": "Research and expertise in Landslides and related hazards.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 273,
@@ -2598,7 +2598,7 @@
     "description": "Research and expertise in Digital Transformation in Industry.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 10
+    "publication_count": 9
   },
   {
     "topic_id": 290,
@@ -2607,7 +2607,7 @@
     "description": "Research and expertise in Resource-Constrained Project Scheduling.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 291,
@@ -2625,7 +2625,7 @@
     "description": "Research and expertise in Collaboration in agile enterprises.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 293,
@@ -2670,7 +2670,7 @@
     "description": "Research and expertise in Data Science.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 298,
@@ -2688,7 +2688,7 @@
     "description": "Research and expertise in Organizational Learning and Leadership.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 7
+    "publication_count": 6
   },
   {
     "topic_id": 300,
@@ -2697,7 +2697,7 @@
     "description": "Research and expertise in Human Resource and Talent Management.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 10
+    "publication_count": 9
   },
   {
     "topic_id": 301,
@@ -2742,7 +2742,7 @@
     "description": "Research and expertise in Smart Grid Energy Management.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 24
+    "publication_count": 21
   },
   {
     "topic_id": 306,
@@ -2940,7 +2940,7 @@
     "description": "Research and expertise in Emotional Intelligence and Performance.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 9
+    "publication_count": 8
   },
   {
     "topic_id": 328,
@@ -3021,7 +3021,7 @@
     "description": "Research and expertise in Radiomics and Machine Learning in Medical Imaging.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 19
+    "publication_count": 17
   },
   {
     "topic_id": 337,
@@ -3039,7 +3039,7 @@
     "description": "Research and expertise in AI in cancer detection.",
     "source": "derived",
     "researcher_count": 6,
-    "publication_count": 16
+    "publication_count": 15
   },
   {
     "topic_id": 339,
@@ -3048,7 +3048,7 @@
     "description": "Research and expertise in Retinal Imaging and Analysis.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 21
+    "publication_count": 20
   },
   {
     "topic_id": 340,
@@ -3057,7 +3057,7 @@
     "description": "Research and expertise in Glaucoma and retinal disorders.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 13
+    "publication_count": 12
   },
   {
     "topic_id": 341,
@@ -3246,7 +3246,7 @@
     "description": "Research and expertise in Vehicular Ad Hoc Networks (VANETs).",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 29
+    "publication_count": 28
   },
   {
     "topic_id": 362,
@@ -3309,7 +3309,7 @@
     "description": "Research and expertise in Machine Learning.",
     "source": "derived",
     "researcher_count": 10,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 369,
@@ -3318,7 +3318,7 @@
     "description": "Research and expertise in Deep Learning.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 370,
@@ -3444,7 +3444,7 @@
     "description": "Research and expertise in Software Engineering.",
     "source": "derived",
     "researcher_count": 5,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 384,
@@ -3552,7 +3552,7 @@
     "description": "Research and expertise in Heavy metals in environment.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 9
+    "publication_count": 8
   },
   {
     "topic_id": 396,
@@ -3561,7 +3561,7 @@
     "description": "Research and expertise in Water Quality and Pollution Assessment.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 12
+    "publication_count": 11
   },
   {
     "topic_id": 397,
@@ -3588,7 +3588,7 @@
     "description": "Research and expertise in Air Quality and Health Impacts.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 10
+    "publication_count": 9
   },
   {
     "topic_id": 400,
@@ -3642,7 +3642,7 @@
     "description": "Research and expertise in Geochemistry and Geologic Mapping.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 26
+    "publication_count": 25
   },
   {
     "topic_id": 406,
@@ -3651,7 +3651,7 @@
     "description": "Research and expertise in Healthcare and Environmental Waste Management.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 6
+    "publication_count": 5
   },
   {
     "topic_id": 407,
@@ -3660,7 +3660,7 @@
     "description": "Research and expertise in Heavy Metal Exposure and Toxicity.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 7
+    "publication_count": 6
   },
   {
     "topic_id": 408,
@@ -3750,7 +3750,7 @@
     "description": "Research and expertise in Microgrid Control and Optimization.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 42
+    "publication_count": 40
   },
   {
     "topic_id": 418,
@@ -3759,7 +3759,7 @@
     "description": "Research and expertise in Hybrid Renewable Energy Systems.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 14
+    "publication_count": 11
   },
   {
     "topic_id": 419,
@@ -3768,7 +3768,7 @@
     "description": "Research and expertise in Optimal Power Flow Distribution.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 14
+    "publication_count": 13
   },
   {
     "topic_id": 420,
@@ -3849,7 +3849,7 @@
     "description": "Research and expertise in Frequency Control in Power Systems.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 10
+    "publication_count": 9
   },
   {
     "topic_id": 429,
@@ -4020,7 +4020,7 @@
     "description": "Research and expertise in Advanced Battery Technologies Research.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 448,
@@ -4038,7 +4038,7 @@
     "description": "Research and expertise in Electric Vehicles and Infrastructure.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 5
+    "publication_count": 4
   },
   {
     "topic_id": 450,
@@ -4308,7 +4308,7 @@
     "description": "Research and expertise in Business Strategies and Innovation.",
     "source": "derived",
     "researcher_count": 3,
-    "publication_count": 4
+    "publication_count": 3
   },
   {
     "topic_id": 480,
@@ -4335,7 +4335,7 @@
     "description": "Research and expertise in Global Energy Security and Policy.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 483,
@@ -4353,7 +4353,7 @@
     "description": "Research and expertise in Advanced Wireless Communication Technologies.",
     "source": "derived",
     "researcher_count": 5,
-    "publication_count": 16
+    "publication_count": 15
   },
   {
     "topic_id": 485,
@@ -4479,7 +4479,7 @@
     "description": "Research and expertise in Computer Networks.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 6
+    "publication_count": 3
   },
   {
     "topic_id": 499,
@@ -4551,7 +4551,7 @@
     "description": "Research and expertise in Cybersecurity.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 4
+    "publication_count": 2
   },
   {
     "topic_id": 507,
@@ -4749,7 +4749,7 @@
     "description": "Research and expertise in Soil and Land Suitability Analysis.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 529,
@@ -4812,7 +4812,7 @@
     "description": "Research and expertise in Thermochemical Biomass Conversion Processes.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 6
+    "publication_count": 5
   },
   {
     "topic_id": 536,
@@ -4830,7 +4830,7 @@
     "description": "Research and expertise in COVID-19 impact on air quality.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 8
+    "publication_count": 7
   },
   {
     "topic_id": 538,
@@ -5100,7 +5100,7 @@
     "description": "Research and expertise in Brain Tumor Detection and Classification.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 14
+    "publication_count": 13
   },
   {
     "topic_id": 568,
@@ -5109,7 +5109,7 @@
     "description": "Research and expertise in Medical Image Segmentation Techniques.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 7
+    "publication_count": 6
   },
   {
     "topic_id": 569,
@@ -5433,7 +5433,7 @@
     "description": "Research and expertise in Mental Health Treatment and Access.",
     "source": "derived",
     "researcher_count": 4,
-    "publication_count": 7
+    "publication_count": 6
   },
   {
     "topic_id": 605,
@@ -5586,7 +5586,7 @@
     "description": "Research and expertise in Child and Adolescent Psychosocial and Emotional Development.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 622,
@@ -5703,7 +5703,7 @@
     "description": "Research and expertise in Open Source Software Innovations.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 635,
@@ -5712,7 +5712,7 @@
     "description": "Research and expertise in Private Equity and Venture Capital.",
     "source": "derived",
     "researcher_count": 2,
-    "publication_count": 3
+    "publication_count": 2
   },
   {
     "topic_id": 636,
@@ -6153,7 +6153,7 @@
     "description": "Research and expertise in Lung Cancer Diagnosis and Treatment.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 12
+    "publication_count": 10
   },
   {
     "topic_id": 685,
@@ -6162,7 +6162,7 @@
     "description": "Research and expertise in Colorectal Cancer Screening and Detection.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 3
+    "publication_count": 2
   },
   {
     "topic_id": 686,
@@ -6252,7 +6252,7 @@
     "description": "Research and expertise in AI in Service Interactions.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 3
+    "publication_count": 1
   },
   {
     "topic_id": 696,
@@ -6261,7 +6261,7 @@
     "description": "Research and expertise in Educational Leadership and Innovation.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 4
+    "publication_count": 2
   },
   {
     "topic_id": 697,
@@ -6558,7 +6558,7 @@
     "description": "Research and expertise in Schizophrenia research and treatment.",
     "source": "derived",
     "researcher_count": 1,
-    "publication_count": 2
+    "publication_count": 1
   },
   {
     "topic_id": 730,

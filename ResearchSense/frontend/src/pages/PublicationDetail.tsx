@@ -163,7 +163,34 @@ export default function PublicationDetail() {
             </section>
           )}
 
-          {areas.length > 0 && (
+          {p.versions && p.versions.length > 0 && (
+          <section aria-labelledby="versions-h">
+            <h2 id="versions-h" className={styles.h2}>
+              Other versions
+            </h2>
+            <p className={styles.note}>
+              The same work also appears here. A preprint is often free to read.
+            </p>
+            <ul className={styles.versions}>
+              {p.versions.map((v, i) => (
+                <li key={`${v.doi ?? v.journal_name}-${i}`}>
+                  {v.doi ? (
+                    <a href={`https://doi.org/${v.doi}`} target="_blank" rel="noreferrer">
+                      {v.journal_name || "Another copy"} ↗
+                    </a>
+                  ) : (
+                    v.journal_name || "Another copy"
+                  )}
+                  {v.publication_year && (
+                    <span className={styles.versionYear}> · {v.publication_year}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {areas.length > 0 && (
             <section aria-labelledby="areas-h">
               <h2 id="areas-h" className={styles.h2}>
                 Research areas

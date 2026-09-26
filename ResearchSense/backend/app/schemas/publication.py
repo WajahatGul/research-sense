@@ -7,6 +7,14 @@ from pydantic import BaseModel
 from app.schemas.topic import TopicRef
 
 
+class PublicationVersion(BaseModel):
+    """Another copy of the same work: a preprint, a reprint, a second DOI."""
+
+    journal_name: str = ""
+    doi: str | None = None
+    publication_year: int | None = None
+
+
 class AuthorRef(BaseModel):
     """An author as listed on a publication."""
 
@@ -34,6 +42,9 @@ class Publication(BaseModel):
     coauthor_institutions: list[dict] = []
     international: bool = False
     source: str = "sample"
+    # Other copies of this work, folded in by
+    # scripts/merge_duplicate_publications.py.
+    versions: list[PublicationVersion] = []
 
 
 class PublicationRef(BaseModel):

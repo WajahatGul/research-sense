@@ -139,6 +139,16 @@ class MockPublicationRepository(PublicationRepository):
         rec = next(
             (p for p in self._all() if p["publication_id"] == publication_id), None
         )
+        if rec is None:
+            # A copy folded into another record (a preprint, a second DOI):
+            # old links, bookmarks and chat history still reach the paper.
+            kept = next(
+                (m["kept_id"] for m in loader.load("publication_duplicates")
+                 if m["removed_id"] == publication_id),
+                None,
+            )
+            if kept is not None and kept != publication_id:
+                return self.get(kept)
         return Publication(**rec) if rec else None
 
     def related(self, publication_id: int, limit: int = 5) -> list[Publication]:

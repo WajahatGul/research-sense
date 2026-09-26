@@ -30,10 +30,26 @@ def run_refresh() -> str:
     store = AccountStore.instance()
     run_id = store.start_refresh()
     try:
-        from scripts import build_index, fetch_publications
+        from scripts import (
+            build_index,
+            fetch_publications,
+            merge_author_variants,
+            merge_duplicate_publications,
+            unlink_misattributed,
+        )
 
         log.info("refresh: fetching publications from OpenAlex")
         fetch_publications.main()
+        # The fetch renumbers every paper, so the logs of earlier clean-ups
+        # (which name papers by id) describe a numbering that no longer
+        # exists; start them afresh, then clean the new data the same way:
+        # one person per profile, papers only on their real authors, one
+        # record per work.
+        for name in ("author_merges", "author_unlinks", "publication_duplicates"):
+            (fetch_publications.DATA_DIR / f"{name}.json").unlink(missing_ok=True)
+        merge_author_variants.main(write=True)
+        unlink_misattributed.main(write=True)
+        merge_duplicate_publications.main(write=True)
         log.info("refresh: refreshing index fact cards")
         # Preserve full-text chunks (downloaded papers, faculty uploads, the
         # library): the refresh changes structured data, not PDFs, and a

@@ -116,6 +116,28 @@
   max-width: 70ch;
 }
 
+.note {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.versions {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.versions a {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.versionYear {
+  color: var(--muted);
+}
+
 .areas {
   display: flex;
   flex-wrap: wrap;
@@ -145,6 +167,7 @@
 @media (pointer: coarse) {
   .crumbs a,
   .authors a,
+  .versions a,
   .areaLink {
     min-height: 44px;
     display: inline-flex;

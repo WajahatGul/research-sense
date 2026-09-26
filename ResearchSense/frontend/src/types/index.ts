@@ -57,6 +57,8 @@ export interface Publication {
   topics: TopicRef[];
   topic_names?: string[];
   source: string;
+  /** Other copies of the same work: a preprint, a reprint, a second DOI. */
+  versions?: { journal_name: string; doi: string | null; publication_year: number | null }[];
 }
 
 export interface PublicationRef {

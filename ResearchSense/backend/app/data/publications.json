@@ -6048,7 +6048,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.3884750",
+        "publication_year": 2020
+      }
+    ]
   },
   {
     "publication_id": 77,
@@ -9656,7 +9663,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Figshare",
+        "doi": null,
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 124,
@@ -13657,102 +13671,6 @@
       {
         "name": "Zabol University",
         "country": "IR"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 177,
-    "title": "A blockchain-based efficient, secure and anonymous conditional privacy-preserving and authentication scheme for the Internet of Vehicles",
-    "abstract": "",
-    "doi": null,
-    "publication_year": 2022,
-    "journal_name": "Figshare",
-    "publication_type": "journal",
-    "citation_count": 35,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": 138,
-        "full_name": "Kashif Naseer Qureshi",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Luqman Shahzad",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Abdelzahir Abdelmaboud",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Taiseer Abdalla Elfadil Eisa",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Bandar Alamri",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ibrahim Tariq Javed",
-        "order": 6
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Arafat Al-Dhaqm",
-        "order": 7
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Noël Crespi",
-        "order": 8
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 14,
-        "topic_name": "Blockchain Technology Applications and Security"
-      },
-      {
-        "topic_id": 361,
-        "topic_name": "Vehicular Ad Hoc Networks (VANETs)"
-      }
-    ],
-    "topic_names": [
-      "Blockchain Technology Applications and Security",
-      "Vehicular Ad Hoc Networks (VANETs)",
-      "Privacy-Preserving Technologies in Data"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "King Khalid University",
-        "country": "SA"
-      },
-      {
-        "name": "University of Limerick",
-        "country": "IE"
-      },
-      {
-        "name": "University of Technology Malaysia",
-        "country": "MY"
-      },
-      {
-        "name": "University of Aden",
-        "country": "YE"
-      },
-      {
-        "name": "Institut Polytechnique de Paris",
-        "country": "FR"
       }
     ],
     "international": true,
@@ -19353,7 +19271,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Preprints.org",
+        "doi": "10.20944/preprints202208.0015.v1",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 252,
@@ -21340,7 +21265,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Preprints.org",
+        "doi": "10.20944/preprints201904.0069.v1",
+        "publication_year": 2019
+      }
+    ]
   },
   {
     "publication_id": 277,
@@ -21636,7 +21568,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Preprints.org",
+        "doi": "10.20944/preprints202211.0222.v1",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 281,
@@ -21686,7 +21625,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.1108/ijppm-12-2015-0182.html?utm_source=repec&utm_medium=feed&utm_campaign=repec",
+        "publication_year": 2017
+      }
+    ]
   },
   {
     "publication_id": 282,
@@ -22013,7 +21959,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.3892634",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 286,
@@ -30648,7 +30601,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.4547942",
+        "publication_year": 2023
+      }
+    ]
   },
   {
     "publication_id": 406,
@@ -33579,7 +33539,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": null,
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 446,
@@ -34210,7 +34177,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.5100236",
+        "publication_year": 2025
+      }
+    ]
   },
   {
     "publication_id": 454,
@@ -38379,65 +38353,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 513,
-    "title": "Moderating Effect of Senior Management Support on the Relationship Between Schedule Delay Factors and Project Performance",
-    "abstract": "",
-    "doi": "10.2139/ssrn.3892634",
-    "publication_year": 2021,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 12,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Abrar Hussain",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Simon P. Philbin",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      },
-      {
-        "topic_id": 80,
-        "topic_name": "BIM and Construction Integration"
-      },
-      {
-        "topic_id": 290,
-        "topic_name": "Resource-Constrained Project Scheduling"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance",
-      "BIM and Construction Integration",
-      "Resource-Constrained Project Scheduling"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "London South Bank University",
-        "country": "GB"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 514,
     "title": "Acoustic Propagation and Transmission Loss Analysis in Shallow Water of Northern Arabian Sea",
     "abstract": "",
@@ -38656,7 +38571,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Preprints.org",
+        "doi": "10.20944/preprints202210.0036.v1",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 517,
@@ -43014,7 +42936,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "International Journal of Economic and Environmental Geology",
+        "doi": "10.46660/ijeeg.v12i2.99",
+        "publication_year": 2023
+      }
+    ]
   },
   {
     "publication_id": 579,
@@ -43432,7 +43361,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "arXiv (Cornell University)",
+        "doi": "10.48550/arxiv.2009.05978",
+        "publication_year": 2020
+      }
+    ]
   },
   {
     "publication_id": 585,
@@ -44163,7 +44099,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Preprints.org",
+        "doi": "10.20944/preprints202205.0057.v1",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 597,
@@ -46971,84 +46914,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 639,
-    "title": "Analyzing the Prospect of Hybrid Energy in the Cement Industry of Pakistan Using Homer Pro",
-    "abstract": "",
-    "doi": "10.20944/preprints202208.0015.v1",
-    "publication_year": 2022,
-    "journal_name": "Preprints.org",
-    "publication_type": "journal",
-    "citation_count": 8,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Yasir Basheer",
-        "order": 1
-      },
-      {
-        "researcher_id": 164,
-        "full_name": "Asad Waqar",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Saeed Mian Qaisar",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Toqeer Ahmed",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Nasim Ullah",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Sattam Alotaibi",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 418,
-        "topic_name": "Hybrid Renewable Energy Systems"
-      },
-      {
-        "topic_id": 305,
-        "topic_name": "Smart Grid Energy Management"
-      }
-    ],
-    "topic_names": [
-      "Hybrid Renewable Energy Systems",
-      "Smart Grid Energy Management",
-      "Integrated Energy Systems Optimization"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Effat University",
-        "country": "SA"
-      },
-      {
-        "name": "National University of Sciences and Technology",
-        "country": "PK"
-      },
-      {
-        "name": "Taif University",
-        "country": "SA"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 640,
     "title": "Securing Edge Devices in IoT and 6G: A Trust-Based Approach for Resource-Constrained Environments",
     "abstract": "",
@@ -49034,56 +48899,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 669,
-    "title": "Systematic Literature Review of Project Manager’s Leadership Competencies",
-    "abstract": "",
-    "doi": "10.2139/ssrn.3884750",
-    "publication_year": 2020,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 7,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Simon P. Philbin",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Farooq A. Cheema",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance",
-      "Competency Development and Evaluation"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "London South Bank University",
-        "country": "GB"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 670,
     "title": "Synthesis of Ni, Co-doped MoS2 as Electrocatalyst for Oxygen Evolution Reaction",
     "abstract": "",
@@ -50399,7 +50214,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": null,
+        "publication_year": 2017
+      }
+    ]
   },
   {
     "publication_id": 690,
@@ -51671,7 +51493,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "iRASD Journal of Economics",
+        "doi": "10.52131/joe.2021.0303.0045",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 710,
@@ -51793,7 +51622,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Research Square",
+        "doi": "10.21203/rs.3.rs-618930/v2",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 711,
@@ -54680,7 +54516,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "International Journal of Economic and Environmental Geology",
+        "doi": "10.46660/ijeeg.v12i3.64",
+        "publication_year": 2023
+      }
+    ]
   },
   {
     "publication_id": 752,
@@ -54852,7 +54695,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "IGI Global eBooks",
+        "doi": "10.4018/978-1-5225-0196-1.ch082",
+        "publication_year": 2016
+      }
+    ]
   },
   {
     "publication_id": 755,
@@ -57064,56 +56914,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 787,
-    "title": "Bank Capital Structure Dynamics and Covid-19: Evidence from South Asia",
-    "abstract": "",
-    "doi": "10.52131/joe.2021.0303.0045",
-    "publication_year": 2021,
-    "journal_name": "iRASD Journal of Economics",
-    "publication_type": "journal",
-    "citation_count": 4,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 21,
-        "full_name": "Khalil Ullah Mohammad",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mohsin Raza Khan",
-        "order": 2
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 2,
-        "topic_name": "Islamic Finance and Banking Studies"
-      },
-      {
-        "topic_id": 77,
-        "topic_name": "Banking stability, regulation, efficiency"
-      },
-      {
-        "topic_id": 78,
-        "topic_name": "COVID-19 Pandemic Impacts"
-      }
-    ],
-    "topic_names": [
-      "Islamic Finance and Banking Studies",
-      "Banking stability, regulation, efficiency",
-      "COVID-19 Pandemic Impacts"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 788,
     "title": "NISQE: Non-Intrusive Speech Quality Evaluator Based on Natural Statistics of Mean Subtracted Contrast Normalized Coefficients of Spectrogram",
     "abstract": "",
@@ -59316,7 +59116,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "IGI Global eBooks",
+        "doi": "10.4018/978-1-5225-0571-6.ch023",
+        "publication_year": 2016
+      }
+    ]
   },
   {
     "publication_id": 822,
@@ -59434,83 +59241,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 824,
-    "title": "Min-Max Regret-Based Approach for Sizing and Placement of DGs in Distribution System Under A 24h Load Horizon",
-    "abstract": "",
-    "doi": "10.20944/preprints202205.0057.v1",
-    "publication_year": 2022,
-    "journal_name": "Preprints.org",
-    "publication_type": "journal",
-    "citation_count": 4,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Asad Abbas",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Saeed Mian Qaisar",
-        "order": 2
-      },
-      {
-        "researcher_id": 164,
-        "full_name": "Asad Waqar",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Nasim Ullah",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ahmad Aziz Al Ahmadi",
-        "order": 5
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 419,
-        "topic_name": "Optimal Power Flow Distribution"
-      },
-      {
-        "topic_id": 305,
-        "topic_name": "Smart Grid Energy Management"
-      },
-      {
-        "topic_id": 417,
-        "topic_name": "Microgrid Control and Optimization"
-      }
-    ],
-    "topic_names": [
-      "Optimal Power Flow Distribution",
-      "Smart Grid Energy Management",
-      "Microgrid Control and Optimization"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Chungnam National University",
-        "country": "KR"
-      },
-      {
-        "name": "Effat University",
-        "country": "SA"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Taif University",
-        "country": "SA"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 825,
     "title": "The Role of Big Data Analytics and Decision-Making in Achieving Project Success",
     "abstract": "",
@@ -59556,157 +59286,6 @@
       {
         "name": "London South Bank University",
         "country": "GB"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 826,
-    "title": "Techno-Economic Analysis of Hybrid Renewable Energy Based Electricity Supply to Gwadar, Pakistan",
-    "abstract": "",
-    "doi": "10.20944/preprints202210.0036.v1",
-    "publication_year": 2022,
-    "journal_name": "Preprints.org",
-    "publication_type": "journal",
-    "citation_count": 4,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Ali",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Syed Umaid Ali",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Saeed Mian Qaisar",
-        "order": 3
-      },
-      {
-        "researcher_id": 164,
-        "full_name": "Asad Waqar",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Faheem Haroon",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ahmad Alzahrani",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 418,
-        "topic_name": "Hybrid Renewable Energy Systems"
-      },
-      {
-        "topic_id": 482,
-        "topic_name": "Global Energy Security and Policy"
-      }
-    ],
-    "topic_names": [
-      "Hybrid Renewable Energy Systems",
-      "Global Energy Security and Policy",
-      "Integrated Energy Systems Optimization"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Effat University",
-        "country": "SA"
-      },
-      {
-        "name": "Najran University",
-        "country": "SA"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 827,
-    "title": "Investigating the Optimal DOD and Battery Technology for Hybrid Energy Generation Models in Cement Industry Using HOMER Pro",
-    "abstract": "",
-    "doi": "10.20944/preprints202211.0222.v1",
-    "publication_year": 2022,
-    "journal_name": "Preprints.org",
-    "publication_type": "journal",
-    "citation_count": 4,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Yasir Basheer",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Saeed Mian Qaisar",
-        "order": 2
-      },
-      {
-        "researcher_id": 164,
-        "full_name": "Asad Waqar",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Fahad Lateef",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ahmad Alzahrani",
-        "order": 5
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 447,
-        "topic_name": "Advanced Battery Technologies Research"
-      },
-      {
-        "topic_id": 418,
-        "topic_name": "Hybrid Renewable Energy Systems"
-      },
-      {
-        "topic_id": 449,
-        "topic_name": "Electric Vehicles and Infrastructure"
-      }
-    ],
-    "topic_names": [
-      "Advanced Battery Technologies Research",
-      "Hybrid Renewable Energy Systems",
-      "Electric Vehicles and Infrastructure"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Riphah International University",
-        "country": "PK"
-      },
-      {
-        "name": "Effat University",
-        "country": "SA"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Najran University",
-        "country": "SA"
       }
     ],
     "international": true,
@@ -66780,7 +66359,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "IGI Global eBooks",
+        "doi": "10.4018/978-1-6684-7552-2.ch024",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 931,
@@ -67051,51 +66637,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 935,
-    "title": "3-D Segmentation of Lung Nodules Using Hybrid Levelsets",
-    "abstract": "",
-    "doi": "10.20944/preprints201904.0069.v1",
-    "publication_year": 2019,
-    "journal_name": "Preprints.org",
-    "publication_type": "journal",
-    "citation_count": 3,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 314,
-        "full_name": "Hina Shakir",
-        "order": 1
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 336,
-        "topic_name": "Radiomics and Machine Learning in Medical Imaging"
-      },
-      {
-        "topic_id": 684,
-        "topic_name": "Lung Cancer Diagnosis and Treatment"
-      },
-      {
-        "topic_id": 685,
-        "topic_name": "Colorectal Cancer Screening and Detection"
-      }
-    ],
-    "topic_names": [
-      "Radiomics and Machine Learning in Medical Imaging",
-      "Lung Cancer Diagnosis and Treatment",
-      "Colorectal Cancer Screening and Detection"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 936,
     "title": "Exploring Relationship between Multi-dimensional Top Management Support and Project Success: An International Study",
     "abstract": "",
@@ -67183,69 +66724,6 @@
       {
         "name": "Coventry University",
         "country": "GB"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 938,
-    "title": "Investigating the Impact of Task-Oriented, Relationship-Oriented, and Innovation-Oriented Leadership Competencies on Project Success in Pakistan: A Moderated Model of Multi-Dimensional Senior Management Support.",
-    "abstract": "",
-    "doi": "10.2139/ssrn.4547942",
-    "publication_year": 2023,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 3,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Simon P. Philbin",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Osman Sadiq Paracha",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 85,
-        "topic_name": "Organizational and Employee Performance"
-      },
-      {
-        "topic_id": 84,
-        "topic_name": "Job Satisfaction and Organizational Behavior"
-      },
-      {
-        "topic_id": 299,
-        "topic_name": "Organizational Learning and Leadership"
-      }
-    ],
-    "topic_names": [
-      "Organizational and Employee Performance",
-      "Job Satisfaction and Organizational Behavior",
-      "Organizational Learning and Leadership"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "London South Bank University",
-        "country": "GB"
-      },
-      {
-        "name": "University of Wah",
-        "country": "PK"
       }
     ],
     "international": true,
@@ -72154,51 +71632,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1015,
-    "title": "Assessment of Marine Coastal Water Pollution from Karachi Harbour Pakistan",
-    "abstract": "",
-    "doi": "10.46660/ijeeg.v12i2.99",
-    "publication_year": 2023,
-    "journal_name": "International Journal of Economic and Environmental Geology",
-    "publication_type": "journal",
-    "citation_count": 2,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Yasmin Nergis",
-        "order": 1
-      },
-      {
-        "researcher_id": 235,
-        "full_name": "Jawad Abdullah Butt",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mughal Sharif",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 396,
-        "topic_name": "Water Quality and Pollution Assessment"
-      }
-    ],
-    "topic_names": [
-      "Water Quality and Pollution Assessment"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1016,
     "title": "The Impact of Personal Religiosity on Individuals’ Investment Decisions",
     "abstract": "",
@@ -73466,7 +72899,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Research Square",
+        "doi": "10.21203/rs.3.rs-270805/v1",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 1038,
@@ -74923,7 +74363,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Middle East J of Management",
+        "doi": "10.1504/mejm.2021.10035585",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 1060,
@@ -75243,7 +74690,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "medRxiv",
+        "doi": "10.1101/2022.07.01.22277148",
+        "publication_year": 2022
+      }
+    ]
   },
   {
     "publication_id": 1065,
@@ -77811,7 +77265,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "International Journal of Economic and Environmental Geology",
+        "doi": "10.46660/ijeeg.v12i4.76",
+        "publication_year": 2023
+      }
+    ]
   },
   {
     "publication_id": 1101,
@@ -78066,70 +77527,6 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1105,
-    "title": "Assessment of Rice Husk Biomass Potential for Power Generation in Pakistan",
-    "abstract": "",
-    "doi": "10.46660/ijeeg.v12i4.76",
-    "publication_year": 2023,
-    "journal_name": "International Journal of Economic and Environmental Geology",
-    "publication_type": "journal",
-    "citation_count": 1,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 235,
-        "full_name": "Jawad Abdullah Butt",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Yasmin Nergis",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ahmad Hussain",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mughal Sharif",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 535,
-        "topic_name": "Thermochemical Biomass Conversion Processes"
-      },
-      {
-        "topic_id": 79,
-        "topic_name": "Global Energy and Sustainability Research"
-      },
-      {
-        "topic_id": 19,
-        "topic_name": "Energy and Environment Impacts"
-      }
-    ],
-    "topic_names": [
-      "Thermochemical Biomass Conversion Processes",
-      "Global Energy and Sustainability Research",
-      "Energy and Environment Impacts"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "King Abdul Aziz University Hospital",
-        "country": "SA"
-      }
-    ],
-    "international": true,
     "source": "openalex"
   },
   {
@@ -81084,7 +80481,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.4331685",
+        "publication_year": 2018
+      }
+    ]
   },
   {
     "publication_id": 1152,
@@ -81290,7 +80694,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "International Journal of Economic and Environmental Geology",
+        "doi": "10.46660/ojs.v10i3.300",
+        "publication_year": 2019
+      }
+    ]
   },
   {
     "publication_id": 1155,
@@ -82111,66 +81522,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1169,
-    "title": "Segmentation of Lung Nodules in CT Scan Data",
-    "abstract": "",
-    "doi": "10.4018/978-1-5225-0571-6.ch023",
-    "publication_year": 2016,
-    "journal_name": "IGI Global eBooks",
-    "publication_type": "journal",
-    "citation_count": 1,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": 128,
-        "full_name": "Shehzad Khalid",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Anwar C. Shaukat",
-        "order": 2
-      },
-      {
-        "researcher_id": 129,
-        "full_name": "Amina Jameel",
-        "order": 3
-      },
-      {
-        "researcher_id": 166,
-        "full_name": "Imran Fareed",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 684,
-        "topic_name": "Lung Cancer Diagnosis and Treatment"
-      },
-      {
-        "topic_id": 336,
-        "topic_name": "Radiomics and Machine Learning in Medical Imaging"
-      },
-      {
-        "topic_id": 338,
-        "topic_name": "AI in cancer detection"
-      }
-    ],
-    "topic_names": [
-      "Lung Cancer Diagnosis and Treatment",
-      "Radiomics and Machine Learning in Medical Imaging",
-      "AI in cancer detection"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1170,
     "title": "GVDeepNet: Unsupervised Deep Learning Techniques for Effective Genetic Variant Classification",
     "abstract": "",
@@ -82353,43 +81704,6 @@
         "name": "Institute of Business Management",
         "country": "PK"
       },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1173,
-    "title": "Impact of QEC Leaders Intellectual Competencies on Quality Enhancement of Higher Education Institutions",
-    "abstract": "",
-    "doi": "10.5281/zenodo.4331685",
-    "publication_year": 2018,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 1,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 110,
-        "full_name": "Muhammad Iftikhar Ali",
-        "order": 1
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 65,
-        "topic_name": "Engineering Education and Curriculum Development"
-      }
-    ],
-    "topic_names": [
-      "Engineering Education and Curriculum Development",
-      "Competency Development and Evaluation",
-      "Technology Assessment and Management"
-    ],
-    "coauthor_institutions": [
       {
         "name": "Bahria University",
         "country": "PK"
@@ -83933,124 +83247,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1199,
-    "title": "Contamination Level, Source Identification And Health Risk Assessment of Potentially Toxic Elements In Drinking Water Sources of Mining And Non-Mining Areas of Khyber Pakhtunkhwa, Pakistan",
-    "abstract": "",
-    "doi": "10.21203/rs.3.rs-618930/v2",
-    "publication_year": 2021,
-    "journal_name": "Research Square",
-    "publication_type": "journal",
-    "citation_count": 1,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Zahid Imran Bhatti",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Ishtiaq",
-        "order": 2
-      },
-      {
-        "researcher_id": 159,
-        "full_name": "Said Akbar Khan",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Javed Nawab",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Sardar Khan",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Shams Ali Baig",
-        "order": 6
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Ihsan",
-        "order": 7
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Zia Ud Din",
-        "order": 8
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Asad Khan",
-        "order": 9
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Junaid Ghani",
-        "order": 10
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 407,
-        "topic_name": "Heavy Metal Exposure and Toxicity"
-      },
-      {
-        "topic_id": 395,
-        "topic_name": "Heavy metals in environment"
-      },
-      {
-        "topic_id": 406,
-        "topic_name": "Healthcare and Environmental Waste Management"
-      }
-    ],
-    "topic_names": [
-      "Heavy Metal Exposure and Toxicity",
-      "Heavy metals in environment",
-      "Healthcare and Environmental Waste Management"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "East China University of Technology",
-        "country": "CN"
-      },
-      {
-        "name": "Northwest General Hospital and Research Center",
-        "country": "PK"
-      },
-      {
-        "name": "The Northwest School",
-        "country": "US"
-      },
-      {
-        "name": "China University of Geosciences",
-        "country": "CN"
-      },
-      {
-        "name": "University of Peshawar",
-        "country": "PK"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Abdul Wali Khan University Mardan",
-        "country": "PK"
-      },
-      {
-        "name": "FATA University",
-        "country": "PK"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1200,
     "title": "It takes more than the project manager: The importance of senior management support for successful social sectors projects",
     "abstract": "",
@@ -84888,7 +84084,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": null,
+        "publication_year": 2017
+      }
+    ]
   },
   {
     "publication_id": 1214,
@@ -85878,61 +85081,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1231,
-    "title": "Multimodal Medical Image registration using Discrete Wavelet Transform and Gaussian Pyramids",
-    "abstract": "",
-    "doi": "10.48550/arxiv.2009.05978",
-    "publication_year": 2020,
-    "journal_name": "arXiv (Cornell University)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 314,
-        "full_name": "Hina Shakir",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "S. Talha Ahsan",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Faisal, Nabiha",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 568,
-        "topic_name": "Medical Image Segmentation Techniques"
-      },
-      {
-        "topic_id": 567,
-        "topic_name": "Brain Tumor Detection and Classification"
-      }
-    ],
-    "topic_names": [
-      "Medical Image Segmentation Techniques",
-      "Brain Tumor Detection and Classification",
-      "Image and Signal Denoising Methods"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Usman Institute of Technology",
-        "country": null
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1232,
     "title": "Role of Competition and Stakeholders in Driving Financial Performance: A Case of Microfinance Banks of Pakistan.",
     "abstract": "",
@@ -86034,60 +85182,6 @@
       "Financial Reporting and Valuation Research"
     ],
     "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1234,
-    "title": "The influence of contractual complexity on opportunistic behaviour: moderating role of formal control",
-    "abstract": "",
-    "doi": "10.1504/mejm.2021.10035585",
-    "publication_year": 2021,
-    "journal_name": "Middle East J of Management",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Qurratulain Ahsan",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Ahsan Chugtai",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Saif Ul Haq",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Malik Muhammad Irfan Aslam",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "University of Lahore",
-        "country": "PK"
-      },
       {
         "name": "Bahria University",
         "country": "PK"
@@ -86505,56 +85599,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1242,
-    "title": "The Role of Transformational Leader in Developing Knowledge Culture in Public Sector Hospitals",
-    "abstract": "",
-    "doi": null,
-    "publication_year": 2017,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Sobia Mahmood",
-        "order": 1
-      },
-      {
-        "researcher_id": 25,
-        "full_name": "Muhammad Arif Khattak",
-        "order": 2
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 85,
-        "topic_name": "Organizational and Employee Performance"
-      },
-      {
-        "topic_id": 87,
-        "topic_name": "Knowledge Management and Sharing"
-      },
-      {
-        "topic_id": 300,
-        "topic_name": "Human Resource and Talent Management"
-      }
-    ],
-    "topic_names": [
-      "Organizational and Employee Performance",
-      "Knowledge Management and Sharing",
-      "Human Resource and Talent Management"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1243,
     "title": "Media and Human Rights: A Study of the Kashmir Conflict in the Indian Press",
     "abstract": "",
@@ -86927,41 +85971,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1249,
-    "title": "Significance of Communication and Project Management Processes in Public Sector Projects",
-    "abstract": "",
-    "doi": null,
-    "publication_year": 2017,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1250,
     "title": "Energy Efficient Node Deployment for Heterogeneous Wireless Sensor Networks",
     "abstract": "",
@@ -87019,7 +86028,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Journal of Applied and Emerging Sciences",
+        "doi": "10.36785/2021111486",
+        "publication_year": 2021
+      }
+    ]
   },
   {
     "publication_id": 1251,
@@ -87507,168 +86523,6 @@
       {
         "name": "Western Carolina University",
         "country": "US"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1260,
-    "title": "Distributed Reed-Muller Coded-Cooperative Spatial Modulation",
-    "abstract": "",
-    "doi": "10.21203/rs.3.rs-270805/v1",
-    "publication_year": 2021,
-    "journal_name": "Research Square",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 211,
-        "full_name": "Shoaib Mughal",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Rahim Umar",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Fengfan Yang",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Hongjun Xu",
-        "order": 4
-      },
-      {
-        "researcher_id": 209,
-        "full_name": "Rizwan Iqbal",
-        "order": 5
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 484,
-        "topic_name": "Advanced Wireless Communication Technologies"
-      },
-      {
-        "topic_id": 271,
-        "topic_name": "Cooperative Communication and Network Coding"
-      }
-    ],
-    "topic_names": [
-      "Advanced Wireless Communication Technologies",
-      "Cooperative Communication and Network Coding",
-      "Satellite Communication Systems"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Nanjing University of Aeronautics and Astronautics",
-        "country": "CN"
-      },
-      {
-        "name": "Howard College",
-        "country": "US"
-      },
-      {
-        "name": "University of KwaZulu-Natal",
-        "country": "ZA"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1261,
-    "title": "Do Project Managers’ Emotional Leadership Competencies Affect the Success of Public Sector Projects in Pakistan?",
-    "abstract": "",
-    "doi": null,
-    "publication_year": 2021,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Khalid Mahmood Lodhi",
-        "order": 2
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      },
-      {
-        "topic_id": 327,
-        "topic_name": "Emotional Intelligence and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance",
-      "Emotional Intelligence and Performance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1262,
-    "title": "Development and Validation of an Instrument for Multidimensional Top Management Support",
-    "abstract": "",
-    "doi": "10.1108/ijppm-12-2015-0182.html?utm_source=repec&utm_medium=feed&utm_campaign=repec",
-    "publication_year": 2017,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Noor Mohamad",
-        "order": 2
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "University of Technology Malaysia",
-        "country": "MY"
       }
     ],
     "international": true,
@@ -88434,66 +87288,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1276,
-    "title": "Energy Efficient Node Deployment for Heterogeneous Wireless Sensor Networks",
-    "abstract": "",
-    "doi": "10.36785/2021111486",
-    "publication_year": 2021,
-    "journal_name": "Journal of Applied and Emerging Sciences",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": 130,
-        "full_name": "Shahzad Hassan",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Shahida Khanam",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Maria Ahmad",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Imtiaz Alam",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 43,
-        "topic_name": "Energy Efficient Wireless Sensor Networks"
-      },
-      {
-        "topic_id": 100,
-        "topic_name": "IoT-based Smart Home Systems"
-      },
-      {
-        "topic_id": 101,
-        "topic_name": "Mobile Ad Hoc Networks"
-      }
-    ],
-    "topic_names": [
-      "Energy Efficient Wireless Sensor Networks",
-      "IoT-based Smart Home Systems",
-      "Mobile Ad Hoc Networks"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1277,
     "title": "Correction to: Role of Suction/Injection on Natural Convection Flow of Magnetite Nanoparticles in Vertical Porous Micro-annulus Between Two Concentric Tubes: A Purely Analytical Approach",
     "abstract": "",
@@ -88551,212 +87345,6 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1278,
-    "title": "Differentiating between Leadership Competencies and Styles",
-    "abstract": "",
-    "doi": "10.4018/978-1-5225-0196-1.ch082",
-    "publication_year": 2016,
-    "journal_name": "IGI Global eBooks",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 106,
-        "full_name": "Riaz Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Noor Mohamad",
-        "order": 2
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      },
-      {
-        "topic_id": 80,
-        "topic_name": "BIM and Construction Integration"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance",
-      "BIM and Construction Integration",
-      "Value Engineering and Management"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "University of Technology Malaysia",
-        "country": "MY"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1279,
-    "title": "Evaluation of Fractal Dimension and Topographic Surface Roughness (Vertical Dissection) in Astore-Deosai-Skardu Region in GIS Environment Using ASTER GDEM",
-    "abstract": "",
-    "doi": "10.46660/ojs.v10i3.300",
-    "publication_year": 2019,
-    "journal_name": "International Journal of Economic and Environmental Geology",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Amer Masood",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Syed Amer Mahmood",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Khubaib Abuzar",
-        "order": 3
-      },
-      {
-        "researcher_id": 97,
-        "full_name": "Abid Ali",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ahmed Muneeb Mehta",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Shafiq",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 272,
-        "topic_name": "Landslides and related hazards"
-      },
-      {
-        "topic_id": 107,
-        "topic_name": "Geological and Geophysical Studies"
-      },
-      {
-        "topic_id": 405,
-        "topic_name": "Geochemistry and Geologic Mapping"
-      }
-    ],
-    "topic_names": [
-      "Landslides and related hazards",
-      "Geological and Geophysical Studies",
-      "Geochemistry and Geologic Mapping"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "University of the Punjab",
-        "country": "PK"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Pakistan Space and Upper Atmosphere Research Commission",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1280,
-    "title": "Attitude towards Mental Help-Seeking, Motivation, and Economic Resources in Connection with Positive, Negative, and General Psychopathological Symptoms of Schizophrenia: A Pilot Study of a Psychoeducation Program",
-    "abstract": "",
-    "doi": "10.1101/2022.07.01.22277148",
-    "publication_year": 2022,
-    "journal_name": "medRxiv",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Lahore",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Qasir Abbas",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Khawar Bilal Baig",
-        "order": 2
-      },
-      {
-        "researcher_id": 350,
-        "full_name": "Urooj Sadiq",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Umar Khan",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mafia Shahzadi",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Zoobia Ramzan",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 729,
-        "topic_name": "Schizophrenia research and treatment"
-      },
-      {
-        "topic_id": 604,
-        "topic_name": "Mental Health Treatment and Access"
-      },
-      {
-        "topic_id": 621,
-        "topic_name": "Child and Adolescent Psychosocial and Emotional Development"
-      }
-    ],
-    "topic_names": [
-      "Schizophrenia research and treatment",
-      "Mental Health Treatment and Access",
-      "Child and Adolescent Psychosocial and Emotional Development"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Government College University, Faisalabad",
-        "country": "PK"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Dow University of Health Sciences",
-        "country": "PK"
-      }
-    ],
-    "international": false,
     "source": "openalex"
   },
   {
@@ -89331,7 +87919,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "International Journal of Business Performance Management",
+        "doi": "10.1504/ijbpm.2023.129856",
+        "publication_year": 2023
+      }
+    ]
   },
   {
     "publication_id": 1291,
@@ -89600,69 +88195,6 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1296,
-    "title": "Harmonising Microfinance With Islamic Banking",
-    "abstract": "",
-    "doi": "10.4018/978-1-6684-7552-2.ch024",
-    "publication_year": 2022,
-    "journal_name": "IGI Global eBooks",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 3,
-        "full_name": "Shahab Aziz",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Maizaitulaidawati Md Husin",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Ashfaq",
-        "order": 3
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 11,
-        "topic_name": "Microfinance and Financial Inclusion"
-      },
-      {
-        "topic_id": 2,
-        "topic_name": "Islamic Finance and Banking Studies"
-      },
-      {
-        "topic_id": 12,
-        "topic_name": "FinTech, Crowdfunding, Digital Finance"
-      }
-    ],
-    "topic_names": [
-      "Microfinance and Financial Inclusion",
-      "Islamic Finance and Banking Studies",
-      "FinTech, Crowdfunding, Digital Finance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "University of Technology Malaysia",
-        "country": "MY"
-      },
-      {
-        "name": "IU International University of Applied Sciences",
-        "country": "DE"
-      }
-    ],
-    "international": true,
     "source": "openalex"
   },
   {
@@ -90168,66 +88700,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1306,
-    "title": "Ambient Air Quality Assessment in Karachi, Sindh Pakistan",
-    "abstract": "",
-    "doi": "10.46660/ijeeg.v12i3.64",
-    "publication_year": 2023,
-    "journal_name": "International Journal of Economic and Environmental Geology",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Idress",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Yasmin Nergis",
-        "order": 2
-      },
-      {
-        "researcher_id": 235,
-        "full_name": "Jawad Abdullah Butt",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mughal Sharif",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 537,
-        "topic_name": "COVID-19 impact on air quality"
-      },
-      {
-        "topic_id": 399,
-        "topic_name": "Air Quality and Health Impacts"
-      },
-      {
-        "topic_id": 6,
-        "topic_name": "Energy, Environment, Economic Growth"
-      }
-    ],
-    "topic_names": [
-      "COVID-19 impact on air quality",
-      "Air Quality and Health Impacts",
-      "Energy, Environment, Economic Growth"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1307,
     "title": "Power relations in dating relationships: A phenomenological study of violence in university students in Samarinda City",
     "abstract": "",
@@ -90275,56 +88747,6 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1308,
-    "title": "Mapping the impact of contractual governance and trust on project performance in construction industry – the moderating effect of shadow of future",
-    "abstract": "",
-    "doi": "10.1504/ijbpm.2023.129856",
-    "publication_year": 2023,
-    "journal_name": "International Journal of Business Performance Management",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Hafiz Abdul Mannan",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "u Saif",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "l Haq",
-        "order": 3
-      },
-      {
-        "researcher_id": 289,
-        "full_name": "Rao Muhammad Rashid",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 97,
-        "topic_name": "Construction Project Management and Performance"
-      }
-    ],
-    "topic_names": [
-      "Construction Project Management and Performance"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
     "source": "openalex"
   },
   {
@@ -93871,7 +92293,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Journal of the Saudi Society of Agricultural Sciences",
+        "doi": "10.1007/s44447-025-00095-8",
+        "publication_year": 2026
+      }
+    ]
   },
   {
     "publication_id": 1368,
@@ -94670,93 +93099,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1381,
-    "title": "Enhanced Glaucoma Classification Through Advanced Segmentation by Integrating Cup-to-Disc Ratio and Neuro-Retinal Rim Features",
-    "abstract": "",
-    "doi": "10.2139/ssrn.5100236",
-    "publication_year": 2025,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Rabia Pannu",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Zubair",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Owais",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Shoaib Hassan",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Umair",
-        "order": 5
-      },
-      {
-        "researcher_id": 142,
-        "full_name": "Syed Muhammad Usman",
-        "order": 6
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mousa Albashrawi",
-        "order": 7
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Irfan Hussain",
-        "order": 8
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 339,
-        "topic_name": "Retinal Imaging and Analysis"
-      },
-      {
-        "topic_id": 340,
-        "topic_name": "Glaucoma and retinal disorders"
-      }
-    ],
-    "topic_names": [
-      "Retinal Imaging and Analysis",
-      "Glaucoma and retinal disorders"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "University of Central Punjab",
-        "country": "PK"
-      },
-      {
-        "name": "Khalifa University of Science and Technology",
-        "country": "AE"
-      },
-      {
-        "name": "Nanjing University of Science and Technology",
-        "country": "CN"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1382,
     "title": "Model-Based Seismic Inversion to Delineate Tight Carbonate Reservoirs, Dhulian Area, Upper Indus Basin, Pakistan",
     "abstract": "",
@@ -95064,7 +93406,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.5132787",
+        "publication_year": 2025
+      }
+    ]
   },
   {
     "publication_id": 1386,
@@ -95157,70 +93506,6 @@
       {
         "name": "King Saud University",
         "country": "SA"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1387,
-    "title": "Formal and Informal Entrepreneurship: The Consequences of Weak Formal Institutions",
-    "abstract": "",
-    "doi": "10.2139/ssrn.5132787",
-    "publication_year": 2025,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": 90,
-        "full_name": "Danish Junaid",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Dr Amjad Masood",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Étienne St-Jean",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Dr Muhammad Usman",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 96,
-        "topic_name": "Entrepreneurship Studies and Influences"
-      },
-      {
-        "topic_id": 95,
-        "topic_name": "Innovation and Socioeconomic Development"
-      },
-      {
-        "topic_id": 260,
-        "topic_name": "Family Business Performance and Succession"
-      }
-    ],
-    "topic_names": [
-      "Entrepreneurship Studies and Influences",
-      "Innovation and Socioeconomic Development",
-      "Family Business Performance and Succession"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Université du Québec à Trois-Rivières",
-        "country": "CA"
       }
     ],
     "international": true,
@@ -101299,78 +99584,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1483,
-    "title": "Prominent Characterstics of Leadership: An Analytical Study in the Light of Surah Al-Kahf",
-    "abstract": "",
-    "doi": "10.5281/zenodo.17706812",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Asad",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Dr. Muhsin Ramazan İşsever",
-        "order": 2
-      },
-      {
-        "researcher_id": 283,
-        "full_name": "Dr. Nasurullah Qureshi",
-        "order": 3
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.17706812",
+        "publication_year": 2025
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 140,
-        "topic_name": "Education and Islamic Studies"
-      },
-      {
-        "topic_id": 104,
-        "topic_name": "Organizational Leadership and Management Strategies"
-      },
-      {
-        "topic_id": 86,
-        "topic_name": "Workplace Spirituality and Leadership"
-      }
-    ],
-    "topic_names": [
-      "Education and Islamic Studies",
-      "Organizational Leadership and Management Strategies",
-      "Workplace Spirituality and Leadership"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "National University of Modern Languages",
-        "country": "PK"
-      },
-      {
-        "name": "Türkisch-Deutsche Universität",
-        "country": "TR"
-      },
-      {
-        "name": "Istanbul Commerce University",
-        "country": "TR"
-      },
-      {
-        "name": "Istanbul University",
-        "country": "TR"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1484,
@@ -101479,61 +99700,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1486,
-    "title": "Impact of Regulatory Technology, Shariah Regulations and Shariah Audit on Islamic Banking Performance: Mediating Role of Maqasid E Shariah and Financial Inclusion",
-    "abstract": "",
-    "doi": "10.5281/zenodo.17943236",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Nazakat Khan",
-        "order": 1
-      },
-      {
-        "researcher_id": 202,
-        "full_name": "Dr. Muhammad Imran",
-        "order": 2
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.17943236",
+        "publication_year": 2025
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 2,
-        "topic_name": "Islamic Finance and Banking Studies"
-      },
-      {
-        "topic_id": 12,
-        "topic_name": "FinTech, Crowdfunding, Digital Finance"
-      },
-      {
-        "topic_id": 13,
-        "topic_name": "Halal products and consumer behavior"
-      }
-    ],
-    "topic_names": [
-      "Islamic Finance and Banking Studies",
-      "FinTech, Crowdfunding, Digital Finance",
-      "Halal products and consumer behavior"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Qurtuba University of Science and Information Technology",
-        "country": "PK"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1487,
@@ -101685,76 +99859,6 @@
     "source": "openalex"
   },
   {
-    "publication_id": 1490,
-    "title": "Adaptive and Intelligent Control Architectures for Smart Microgrid Systems: A Comprehensive Review",
-    "abstract": "",
-    "doi": "10.2139/ssrn.5971460",
-    "publication_year": 2025,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (H-11)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Saqib Rana",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Adil Ali Raja",
-        "order": 2
-      },
-      {
-        "researcher_id": 173,
-        "full_name": "Rashid Iqbal",
-        "order": 3
-      },
-      {
-        "researcher_id": 166,
-        "full_name": "Imran Fareed Nizami",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Sohail Shehzad",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Yaseen",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 417,
-        "topic_name": "Microgrid Control and Optimization"
-      },
-      {
-        "topic_id": 428,
-        "topic_name": "Frequency Control in Power Systems"
-      },
-      {
-        "topic_id": 305,
-        "topic_name": "Smart Grid Energy Management"
-      }
-    ],
-    "topic_names": [
-      "Microgrid Control and Optimization",
-      "Frequency Control in Power Systems",
-      "Smart Grid Energy Management"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
-  },
-  {
     "publication_id": 1491,
     "title": "Hyb SleepNet A Hybrid Autoencoder-Gradient Boosting Framework with GAN based Augmentation for Sleep Disorder Diagnosis",
     "abstract": "",
@@ -101792,47 +99896,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1492,
-    "title": "Hyb SleepNet A Hybrid Autoencoder-Gradient Boosting Framework with GAN based Augmentation for Sleep Disorder Diagnosis",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18067527",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Hussain, Muhammad Zunnurain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18067527",
+        "publication_year": 2025
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 39,
-        "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 368,
-        "topic_name": "Machine Learning"
-      }
-    ],
-    "topic_names": [
-      "Artificial Intelligence",
-      "Machine Learning"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1493,
@@ -101872,47 +99943,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1494,
-    "title": "Privacy Preserving Collaborative Intrusion Detection A Federated Learning Approach for Scalable Heterogeneous Networks",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18084589",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Hussain, Muhammad Zunnurain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18084589",
+        "publication_year": 2025
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 506,
-        "topic_name": "Cybersecurity"
-      },
-      {
-        "topic_id": 498,
-        "topic_name": "Computer Networks"
-      }
-    ],
-    "topic_names": [
-      "Cybersecurity",
-      "Computer Networks"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1495,
@@ -101971,66 +100009,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1496,
-    "title": "Family Court Decisions Regarding Khula and Dissolution of Marriage: An Analytical Study in the Light of Islamic Teachings (A Special Study of Islamabad: 2022–2024)",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18113566",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Rahman",
-        "order": 1
-      },
-      {
-        "researcher_id": 64,
-        "full_name": "Dr. Rahim Ullah",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Sadheer Khan (Mufti Muhammad Hassan)",
-        "order": 3
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18113566",
+        "publication_year": 2025
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 191,
-        "topic_name": "Gender and Women's Rights"
-      },
-      {
-        "topic_id": 192,
-        "topic_name": "Marriage and Family Dynamics"
-      },
-      {
-        "topic_id": 193,
-        "topic_name": "Qur’anic Interpretation Studies"
-      }
-    ],
-    "topic_names": [
-      "Gender and Women's Rights",
-      "Marriage and Family Dynamics",
-      "Qur’anic Interpretation Studies"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "International Islamic University Malaysia",
-        "country": "MY"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1497,
@@ -102339,47 +100325,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1502,
-    "title": "Block Fed SDN A Decentralized and Privacy Preserving Framework for Healthcare IoT using Federated Learning and Blockchain",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18182019",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Zunnurain Hussain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18182019",
+        "publication_year": 2026
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 506,
-        "topic_name": "Cybersecurity"
-      },
-      {
-        "topic_id": 498,
-        "topic_name": "Computer Networks"
-      }
-    ],
-    "topic_names": [
-      "Cybersecurity",
-      "Computer Networks"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1503,
@@ -102469,47 +100422,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1505,
-    "title": "Multi-Scale CNN and Bi Directional LSTM with Dual Lead Fusion for Arrhythmia Classification in IoMT Systems",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18223690",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Zunnurain Hussain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18223690",
+        "publication_year": 2026
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 39,
-        "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 369,
-        "topic_name": "Deep Learning"
-      }
-    ],
-    "topic_names": [
-      "Artificial Intelligence",
-      "Deep Learning"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1506,
@@ -102980,7 +100900,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18311387",
+        "publication_year": 2025
+      }
+    ]
   },
   {
     "publication_id": 1513,
@@ -103059,74 +100986,6 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1514,
-    "title": "Strategic Growth and Innovation at Venture Dive: A Case Study of a Global Software Development Firm",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18311387",
-    "publication_year": 2025,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Omer Rafique (Ph.D)",
-        "order": 1
-      },
-      {
-        "researcher_id": 287,
-        "full_name": "Muhammad Asif Qureshi",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ubedullah Amjad Ali",
-        "order": 3
-      },
-      {
-        "researcher_id": 286,
-        "full_name": "Liaqat Ali",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 634,
-        "topic_name": "Open Source Software Innovations"
-      },
-      {
-        "topic_id": 635,
-        "topic_name": "Private Equity and Venture Capital"
-      },
-      {
-        "topic_id": 479,
-        "topic_name": "Business Strategies and Innovation"
-      }
-    ],
-    "topic_names": [
-      "Open Source Software Innovations",
-      "Private Equity and Venture Capital",
-      "Business Strategies and Innovation"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Shaheed Zulfiqar Ali Bhutto Institute of Science and Technology",
-        "country": "PK"
-      },
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Iqra University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
     "source": "openalex"
   },
   {
@@ -103265,66 +101124,6 @@
       {
         "name": "Bahria University",
         "country": "PK"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1517,
-    "title": "Geospatial analysis of Musa acuminata cultivation using multi-temporal remote sensing – Uthal Balochistan",
-    "abstract": "",
-    "doi": "10.1007/s44447-025-00095-8",
-    "publication_year": 2026,
-    "journal_name": "Journal of the Saudi Society of Agricultural Sciences",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 233,
-        "full_name": "Salma Hamza",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Toheed",
-        "order": 2
-      },
-      {
-        "researcher_id": 237,
-        "full_name": "Shaista Mahmud",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Syed Nawaz-ul-Huda",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 528,
-        "topic_name": "Soil and Land Suitability Analysis"
-      }
-    ],
-    "topic_names": [
-      "Soil and Land Suitability Analysis",
-      "Remote Sensing in Agriculture",
-      "Banana Cultivation and Research"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Institute of Business Administration Karachi",
-        "country": "PK"
-      },
-      {
-        "name": "Geospatial Information Authority of Japan",
-        "country": "JP"
       }
     ],
     "international": true,
@@ -104420,47 +102219,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1535,
-    "title": "Multimodal Behavioral Fingerprinting of IoMT Devices A Forensic Approach Using Network and Biometric Signatures",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18597665",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Zunnurain Hussain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18597665",
+        "publication_year": 2026
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 39,
-        "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 41,
-        "topic_name": "Computer Vision"
-      }
-    ],
-    "topic_names": [
-      "Artificial Intelligence",
-      "Computer Vision"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1536,
@@ -105148,80 +102914,19 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1547,
-    "title": "Entrepreneurship Education in the Age of Generative Artificial Intelligence: Opportunities, Challenges, and Pedagogical Shifts",
-    "abstract": "",
-    "doi": "10.5281/zenodo.18935981",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": 324,
-        "full_name": "Syed Rizwan Ali",
-        "order": 1
+        "journal_name": "Academy of Education and Social Sciences Review",
+        "doi": "10.48112/aessr.v6i1.1221",
+        "publication_year": 2026
       },
       {
-        "researcher_id": null,
-        "full_name": "Shaikh Zunain Uddin",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mehdi Abbas",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Talha Bin Shuja",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Faraz",
-        "order": 5
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.18935981",
+        "publication_year": 2026
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 96,
-        "topic_name": "Entrepreneurship Studies and Influences"
-      },
-      {
-        "topic_id": 695,
-        "topic_name": "AI in Service Interactions"
-      },
-      {
-        "topic_id": 696,
-        "topic_name": "Educational Leadership and Innovation"
-      }
-    ],
-    "topic_names": [
-      "Entrepreneurship Studies and Influences",
-      "AI in Service Interactions",
-      "Educational Leadership and Innovation"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "University of Karachi",
-        "country": "PK"
-      },
-      {
-        "name": "Hope International University",
-        "country": "US"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1548,
@@ -105574,7 +103279,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.5971460",
+        "publication_year": 2025
+      }
+    ]
   },
   {
     "publication_id": 1553,
@@ -106922,7 +104634,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.19632374",
+        "publication_year": 2026
+      }
+    ]
   },
   {
     "publication_id": 1573,
@@ -106972,91 +104691,6 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1574,
-    "title": "Data accompanying the GitHub repository SMUAbdullah/paper-MPL-short-reads",
-    "abstract": "",
-    "doi": "10.5281/zenodo.19632374",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Lahore",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Syed Muhammad Abdullah",
-        "order": 1
-      },
-      {
-        "researcher_id": 331,
-        "full_name": "Muhammad Saqib Sohail",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Raymond H. Y. Louie",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Yanni Sun",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Barton, John",
-        "order": 5
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Matthew R. McKay",
-        "order": 6
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 297,
-        "topic_name": "Data Science"
-      },
-      {
-        "topic_id": 383,
-        "topic_name": "Software Engineering"
-      }
-    ],
-    "topic_names": [
-      "Data Science",
-      "Software Engineering"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Hong Kong University of Science and Technology",
-        "country": "HK"
-      },
-      {
-        "name": "UNSW Sydney",
-        "country": "AU"
-      },
-      {
-        "name": "City University of Hong Kong",
-        "country": "HK"
-      },
-      {
-        "name": "University of Pittsburgh",
-        "country": "US"
-      },
-      {
-        "name": "The University of Melbourne",
-        "country": "AU"
-      }
-    ],
-    "international": true,
     "source": "openalex"
   },
   {
@@ -107167,79 +104801,6 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1577,
-    "title": "Entrepreneurship Education in the Age of Generative Artificial Intelligence: Opportunities, Challenges, and Pedagogical Shifts",
-    "abstract": "",
-    "doi": "10.48112/aessr.v6i1.1221",
-    "publication_year": 2026,
-    "journal_name": "Academy of Education and Social Sciences Review",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": 324,
-        "full_name": "Syed Rizwan Ali",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Shaikh Zunain Uddin",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Mehdi Abbas",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Talha Bin Shuja",
-        "order": 4
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Faraz",
-        "order": 5
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 96,
-        "topic_name": "Entrepreneurship Studies and Influences"
-      },
-      {
-        "topic_id": 696,
-        "topic_name": "Educational Leadership and Innovation"
-      },
-      {
-        "topic_id": 695,
-        "topic_name": "AI in Service Interactions"
-      }
-    ],
-    "topic_names": [
-      "Entrepreneurship Studies and Influences",
-      "Educational Leadership and Innovation",
-      "AI in Service Interactions"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "University of Karachi",
-        "country": "PK"
-      },
-      {
-        "name": "Hope International University",
-        "country": "US"
-      }
-    ],
-    "international": true,
     "source": "openalex"
   },
   {
@@ -109236,47 +106797,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1608,
-    "title": "TrustFusionNet: An Explainable Heterogeneous Multi-Source Fusion Framework for Real-Time IoT Intrusion Detection Using Temporal, Graph, and Sensor Modalities",
-    "abstract": "",
-    "doi": "10.5281/zenodo.20391287",
-    "publication_year": 2026,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": null,
-        "full_name": "Muhammad Zunnurain Hussain",
-        "order": 1
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.20391287",
+        "publication_year": 2026
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 39,
-        "topic_name": "Artificial Intelligence"
-      },
-      {
-        "topic_id": 498,
-        "topic_name": "Computer Networks"
-      }
-    ],
-    "topic_names": [
-      "Artificial Intelligence",
-      "Computer Networks"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1609,
@@ -109397,7 +106925,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "SSRN Electronic Journal",
+        "doi": "10.2139/ssrn.6831663",
+        "publication_year": 2026
+      }
+    ]
   },
   {
     "publication_id": 1611,
@@ -109475,58 +107010,6 @@
       }
     ],
     "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1612,
-    "title": "Quanta Cure: A Hybrid Quantum-Classical GraphNeural Network Framework for Protein-LigandBinding Affinity Prediction using 3D SpatialGraphs",
-    "abstract": "",
-    "doi": "10.2139/ssrn.6831663",
-    "publication_year": 2026,
-    "journal_name": "SSRN Electronic Journal",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Safwaan Saleem",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Zunnurain Hussain",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Danish",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Muhammad Samiullah",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 47,
-        "topic_name": "Computational Drug Discovery Methods"
-      }
-    ],
-    "topic_names": [
-      "Computational Drug Discovery Methods",
-      "Advanced Graph Neural Networks",
-      "Protein Structure and Dynamics"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
     "source": "openalex"
   },
   {
@@ -111109,62 +108592,14 @@
       }
     ],
     "international": false,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1637,
-    "title": "Strategies for Countering Religious Extremism in Pakistan: An Analysis of Universities' Role",
-    "abstract": "",
-    "doi": "10.5281/zenodo.21066331",
-    "publication_year": 2024,
-    "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Karachi",
-    "authors": [
+    "source": "openalex",
+    "versions": [
       {
-        "researcher_id": 283,
-        "full_name": "Nasurullah Qureshi",
-        "order": 1
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Sajjad Ahmed",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Naz Afshan",
-        "order": 3
+        "journal_name": "Zenodo (CERN European Organization for Nuclear Research)",
+        "doi": "10.5281/zenodo.21066331",
+        "publication_year": 2024
       }
-    ],
-    "topics": [
-      {
-        "topic_id": 148,
-        "topic_name": "Terrorism, Counterterrorism, and Political Violence"
-      },
-      {
-        "topic_id": 110,
-        "topic_name": "Politics and Conflicts in Afghanistan, Pakistan, and Middle East"
-      },
-      {
-        "topic_id": 164,
-        "topic_name": "Islamic Studies and Radicalism"
-      }
-    ],
-    "topic_names": [
-      "Terrorism, Counterterrorism, and Political Violence",
-      "Politics and Conflicts in Afghanistan, Pakistan, and Middle East",
-      "Islamic Studies and Radicalism"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": false,
-    "source": "openalex"
+    ]
   },
   {
     "publication_id": 1638,
@@ -111814,7 +109249,14 @@
       }
     ],
     "international": true,
-    "source": "openalex"
+    "source": "openalex",
+    "versions": [
+      {
+        "journal_name": "Social science review archives.",
+        "doi": "10.70670/sra.v4i1.2345",
+        "publication_year": 2026
+      }
+    ]
   },
   {
     "publication_id": 1648,
@@ -111921,70 +109363,6 @@
       },
       {
         "name": "Bahria University",
-        "country": "PK"
-      }
-    ],
-    "international": true,
-    "source": "openalex"
-  },
-  {
-    "publication_id": 1650,
-    "title": "Digital Transformation and Organizational Performance: The Mediating Role of Servitization and the Moderating Role of Organizational Adaptive Capacity in Project-Intensive Organizations",
-    "abstract": "",
-    "doi": "10.70670/sra.v4i1.2345",
-    "publication_year": 2026,
-    "journal_name": "Social science review archives.",
-    "publication_type": "journal",
-    "citation_count": 0,
-    "campus": "Islamabad (E-8)",
-    "authors": [
-      {
-        "researcher_id": null,
-        "full_name": "Hammad Ahmed",
-        "order": 1
-      },
-      {
-        "researcher_id": 110,
-        "full_name": "Muhammad Iftikhar Ali",
-        "order": 2
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Maryam Batool",
-        "order": 3
-      },
-      {
-        "researcher_id": null,
-        "full_name": "Ehtasham Ul Haq",
-        "order": 4
-      }
-    ],
-    "topics": [
-      {
-        "topic_id": 292,
-        "topic_name": "Collaboration in agile enterprises"
-      },
-      {
-        "topic_id": 289,
-        "topic_name": "Digital Transformation in Industry"
-      }
-    ],
-    "topic_names": [
-      "Service and Product Innovation",
-      "Collaboration in agile enterprises",
-      "Digital Transformation in Industry"
-    ],
-    "coauthor_institutions": [
-      {
-        "name": "Bahria University",
-        "country": "PK"
-      },
-      {
-        "name": "Lincoln University College",
-        "country": "MY"
-      },
-      {
-        "name": "Quaid-i-Azam University",
         "country": "PK"
       }
     ],

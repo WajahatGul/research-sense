@@ -89,4 +89,16 @@ describe("PublicationDetail", () => {
     renderAt(1);
     expect(await screen.findByText(/don’t have a publication at this address/)).toBeInTheDocument();
   });
+
+  it("lists other versions of the same work", async () => {
+    vi.mocked(fetchPublication).mockResolvedValue({
+      ...paper,
+      versions: [{ journal_name: "SSRN Electronic Journal", doi: "10.2139/ssrn.1", publication_year: 2020 }],
+    });
+    renderAt(5371);
+    expect(await screen.findByRole("link", { name: /SSRN Electronic Journal/ })).toHaveAttribute(
+      "href",
+      "https://doi.org/10.2139/ssrn.1",
+    );
+  });
 });
