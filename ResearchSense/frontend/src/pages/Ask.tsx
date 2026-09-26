@@ -11,7 +11,7 @@ export default function Ask() {
         description="Ask in plain English about researchers, publications, projects, or the papers in our library. Answers come only from indexed ResearchSense data; anything outside it is declined."
       />
       <div className={`container ${styles.body}`}>
-        <ChatPanel />
+        <ChatPanel prefillFromUrl />
       </div>
     </>
   );

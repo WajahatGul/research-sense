@@ -65,11 +65,16 @@ function loadTurns(key: string): Turn[] {
 }
 
 export function ChatPanel(
-  { fill = false, submitSignal, visible = true }:
+  { fill = false, submitSignal, visible = true, prefillFromUrl = false }:
     {
       fill?: boolean;
       submitSignal?: { text: string; nonce: number };
       visible?: boolean;
+      /** Only the /ask page reads "?q=" into the box. The floating widget is
+       * mounted on every page, and when it did this it swallowed the search
+       * term of /search, /researchers and /publications links and wiped
+       * their filters too. */
+      prefillFromUrl?: boolean;
     } = {},
 ) {
   const [chatKey, setChatKey] = useState(currentChatKey);
@@ -136,11 +141,14 @@ export function ChatPanel(
   // "/ask?q=..." (e.g. the Library page's "Ask about it") prefills the box.
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
-    const q = searchParams.get("q");
+    const q = prefillFromUrl ? searchParams.get("q") : null;
     if (q) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time consumption of the "q" URL param on mount, not a render loop.
       setInput(q);
-      setSearchParams({}, { replace: true });
+      // Drop only the consumed parameter, never the page's other state.
+      const rest = new URLSearchParams(searchParams);
+      rest.delete("q");
+      setSearchParams(rest, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
