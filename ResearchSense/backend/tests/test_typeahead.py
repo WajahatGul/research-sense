@@ -50,3 +50,10 @@ def test_fast_enough_to_run_per_keystroke():
     for q in ("ma", "mac", "mach", "machi", "machin"):
         _get(q=q)
     assert (time.perf_counter() - start) / 5 < 0.25
+
+
+def test_areas_can_be_narrowed_to_a_department():
+    everything = client.get("/api/topics").json()
+    cs = client.get("/api/topics", params={"department": "Computer Science"}).json()
+    assert 0 < len(cs) < len(everything)
+    assert "Topic Modeling" in {t["topic_name"] for t in cs}
