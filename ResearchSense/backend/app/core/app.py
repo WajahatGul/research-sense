@@ -43,16 +43,38 @@ if not log.handlers:
     log.setLevel(logging.INFO)
     log.propagate = False
 
+# The trace middleware below logs each request once, with its ID and
+# duration but without the query string (which holds what people searched
+# for). Uvicorn's own access log would repeat every line and print the query
+# string, so it is switched off here, whichever command starts the server.
+logging.getLogger("uvicorn.access").disabled = True
+
 # A caller may pass its own ID to correlate across services, but only a
 # short, plain token: anything else could forge or corrupt log lines.
 _REQUEST_ID = re.compile(r"[A-Za-z0-9-]{1,64}")
 
 
+def _warm_search_indexes() -> None:
+    """Tokenise the public corpus once at startup (~1 s) so the first
+    visitor to search after a restart does not pay for it."""
+    from app.repositories.mock.publications import MockPublicationRepository
+    from app.repositories.mock.researchers import MockResearcherRepository
+
+    try:
+        for repo in (MockResearcherRepository(), MockPublicationRepository()):
+            repo.list(query="warm")  # per-record tokens
+            repo.suggest("warm")  # spelling-correction vocabulary
+    except Exception:  # warming is an optimisation, never a startup failure
+        log.exception("search index warm-up failed")
+
+
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     task = asyncio.create_task(weekly_refresh_loop())
+    warm = asyncio.create_task(asyncio.to_thread(_warm_search_indexes))
     yield
     task.cancel()
+    warm.cancel()
 
 
 def create_app() -> FastAPI:
