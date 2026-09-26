@@ -328,6 +328,29 @@ def find_duplicate(doi: str | None, title: str) -> dict | None:
     return None
 
 
+def find_pending_duplicate(doi: str | None, title: str) -> dict | None:
+    """Return a submission awaiting approval with this DOI or title, if any.
+
+    ``find_duplicate`` only sees published papers; without this check a paper
+    submitted twice before review entered the approval queue twice.
+    Rejected submissions are not pending, so a corrected resubmission works.
+    """
+    from app.repositories.accounts import AccountStore
+
+    doi_norm = _norm_doi(doi) if doi else None
+    title_norm = _norm_title(title)
+    for sub in AccountStore.instance().pending_submissions():
+        try:
+            rec = json.loads(sub.get("record_json") or "{}")
+        except ValueError:
+            continue
+        if doi_norm and rec.get("doi") and _norm_doi(rec["doi"]) == doi_norm:
+            return sub
+        if title_norm and _norm_title(rec.get("title", "")) == title_norm:
+            return sub
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Record building + persistence
 # ---------------------------------------------------------------------------
@@ -572,6 +595,13 @@ def _create(meta: dict, submitter: dict, source: str) -> dict:
         ),
         "source": source,
     }
+    # Idempotent from the researcher's side: a second click, or a retry after
+    # a slow response, must not put the same paper in the queue twice.
+    if find_pending_duplicate(record.get("doi"), record["title"]):
+        raise SubmissionError(
+            "This publication is already waiting for approval. You will see it "
+            "under your submissions; there is no need to send it again."
+        )
     sub_id = AccountStore.instance().create_submission(
         "publication",
         submitter["researcher_id"],
