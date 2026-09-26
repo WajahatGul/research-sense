@@ -5,11 +5,21 @@ from __future__ import annotations
 import re
 from datetime import date as _date
 
+from app.core.textsearch import Query, correct, vocabulary
 from app.repositories import loader
 from app.repositories.base import PublicationRepository
 from app.schemas.publication import Publication
 
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def _search_fields(p: dict) -> tuple[str, ...]:
+    """Title first, then the authors and areas people also search by."""
+    return (
+        p.get("title") or "",
+        " ".join(a.get("name") or a.get("full_name") or "" for a in p.get("authors", [])),
+        " ".join(t.get("topic_name") or "" for t in p.get("topics", [])),
+    )
 
 
 def effective_date(p: dict) -> str:
@@ -84,9 +94,11 @@ class MockPublicationRepository(PublicationRepository):
         dept_of = {
             r["researcher_id"]: r.get("department") for r in loader.load("researchers")
         }
-        result = []
+        q = Query(query)
+        result: list[tuple[float, Publication]] = []
         for p in rows:
-            if query and query.lower() not in p["title"].lower():
+            score = q.score(*_search_fields(p)) if q else 0.0
+            if score is None:
                 continue
             if year is not None and p["publication_year"] != year:
                 continue
@@ -111,9 +123,14 @@ class MockPublicationRepository(PublicationRepository):
                 dept_of=dept_of,
             ):
                 continue
-            result.append(Publication(**p))
-        result.sort(key=lambda p: p.publication_year, reverse=True)
-        return result
+            result.append((score, Publication(**p)))
+        # Best title match first when searching; newest first when browsing.
+        result.sort(key=lambda sp: (-sp[0], -(sp[1].publication_year or 0)))
+        return [p for _, p in result]
+
+    def suggest(self, query: str | None) -> str | None:
+        vocab = vocabulary(f for p in self._all() for f in _search_fields(p))
+        return correct(query, vocab)
 
     def get(self, publication_id: int) -> Publication | None:
         rec = next(

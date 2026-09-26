@@ -47,6 +47,10 @@ class ResearcherRepository(ABC):
     ) -> list[dict]:  # pragma: no cover
         raise NotImplementedError
 
+    def suggest(self, query: str | None) -> str | None:
+        """Closest in-corpus spelling of a query that found nothing."""
+        return None
+
 
 class PublicationRepository(ABC):
     @abstractmethod
@@ -68,6 +72,10 @@ class PublicationRepository(ABC):
 
     @abstractmethod
     def get(self, publication_id: int) -> Publication | None: ...
+
+    def suggest(self, query: str | None) -> str | None:
+        """Closest in-corpus spelling of a query that found nothing."""
+        return None
 
 
 class TopicRepository(ABC):
