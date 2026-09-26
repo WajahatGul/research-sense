@@ -85,3 +85,13 @@
     min-height: 44px;
   }
 }
+
+/* The assistant's button floats in the bottom-right corner. Mid-page it
+   moves off content as you scroll, but at the end of the page there is
+   nowhere left to scroll, and on phones it sat on top of the last footer
+   line. Reserve its height (58 px + 24 px margin) below the footer. */
+@media (max-width: 768px) {
+  .footer {
+    padding-bottom: calc(var(--sp-6) + 90px);
+  }
+}
