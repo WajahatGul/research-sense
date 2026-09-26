@@ -67,6 +67,44 @@
   gap: 16px;
 }
 
+.field + .field {
+  margin-top: 40px;
+}
+
+.fieldHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 14px;
+}
+
+.fieldTitle {
+  margin: 0;
+  font-size: var(--step-2);
+  color: var(--navy);
+}
+
+.fieldCount {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.fieldMore {
+  margin-top: 14px;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--navy);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fieldMore:hover {
+  color: var(--gold-ink);
+}
+
 .moreRow {
   display: flex;
   flex-wrap: wrap;
@@ -110,7 +148,8 @@
 @media (pointer: coarse) {
   .select,
   .clear,
-  .more {
+  .more,
+  .fieldMore {
     min-height: 44px;
   }
 }

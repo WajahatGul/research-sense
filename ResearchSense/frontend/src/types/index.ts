@@ -35,6 +35,9 @@ export interface Topic {
   publication_count: number;
   researcher_count: number;
   source: string;
+  field?: string;
+  domain?: string;
+  field_source?: string;
 }
 
 export interface AuthorRef {

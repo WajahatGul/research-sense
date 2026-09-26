@@ -12,7 +12,7 @@ class MockTopicRepository(TopicRepository):
     def _all(self) -> list[dict]:
         return loader.load("topics")
 
-    def list(self, *, query=None, department=None):
+    def list(self, *, query=None, department=None, field=None):
         q = Query(query)
         # "What does my department work on?": the areas its faculty list.
         in_department = (
@@ -28,6 +28,8 @@ class MockTopicRepository(TopicRepository):
         scored = []
         for t in self._all():
             if in_department is not None and t["topic_id"] not in in_department:
+                continue
+            if field is not None and (t.get("field") or "Other") != field:
                 continue
             score = q.score(t["topic_name"]) if q else 0.0
             if score is not None:

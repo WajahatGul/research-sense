@@ -57,3 +57,15 @@ def test_areas_can_be_narrowed_to_a_department():
     cs = client.get("/api/topics", params={"department": "Computer Science"}).json()
     assert 0 < len(cs) < len(everything)
     assert "Topic Modeling" in {t["topic_name"] for t in cs}
+
+
+def test_areas_are_filed_under_broad_fields():
+    rows = client.get("/api/topics").json()
+    assert sum(1 for t in rows if t["field"]) / len(rows) > 0.95
+    modeling = next(t for t in rows if t["topic_name"] == "Topic Modeling")
+    assert (modeling["field"], modeling["field_source"]) == ("Computer Science", "openalex")
+
+
+def test_areas_can_be_narrowed_to_a_field():
+    cs = client.get("/api/topics", params={"field": "Computer Science"}).json()
+    assert cs and all(t["field"] == "Computer Science" for t in cs)

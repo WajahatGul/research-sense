@@ -10,8 +10,8 @@ class TopicService:
     def __init__(self, repo: TopicRepository):
         self._repo = repo
 
-    def list(self, *, query=None, department=None) -> list[Topic]:
-        return self._repo.list(query=query, department=department)
+    def list(self, *, query=None, department=None, field=None) -> list[Topic]:
+        return self._repo.list(query=query, department=department, field=field)
 
     def get(self, topic_id: int) -> Topic | None:
         return self._repo.get(topic_id)

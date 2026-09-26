@@ -12,7 +12,13 @@ vi.mock("../api/topics", () => ({ fetchTopics: vi.fn() }));
 vi.mock("../api/researchers", () => ({ fetchDepartments: vi.fn() }));
 vi.mock("../api/suggest", () => ({ fetchSuggestions: vi.fn().mockResolvedValue([]) }));
 
-const topic = (id: number, name: string, pubs: number, people: number): Topic => ({
+const topic = (
+  id: number,
+  name: string,
+  pubs: number,
+  people: number,
+  field = "Computer Science",
+): Topic => ({
   topic_id: id,
   topic_name: name,
   description: "",
@@ -20,6 +26,7 @@ const topic = (id: number, name: string, pubs: number, people: number): Topic =>
   publication_count: pubs,
   researcher_count: people,
   source: "derived",
+  field,
 });
 
 function Where() {
@@ -43,13 +50,23 @@ describe("Research areas", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(fetchDepartments).mockResolvedValue(["Computer Science", "Psychology"]);
-    vi.mocked(fetchTopics).mockResolvedValue(
-      Array.from({ length: 60 }, (_, i) => topic(i + 1, `Area ${i + 1}`, i, 60 - i)),
-    );
+    vi.mocked(fetchTopics).mockResolvedValue([
+      ...Array.from({ length: 60 }, (_, i) => topic(i + 1, `Area ${i + 1}`, i, 60 - i)),
+      topic(61, "Tafseer", 0, 2, "Social Sciences"),
+    ]);
   });
 
-  it("shows the largest areas first, a page at a time", async () => {
+  it("groups areas under their fields, largest field first", async () => {
     renderAt("/topics");
+    const fields = await screen.findAllByRole("heading", { level: 2 });
+    expect(fields.map((h) => h.textContent)).toEqual(["Computer Science", "Social Sciences"]);
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(4 + 1);
+    fireEvent.click(screen.getByRole("button", { name: "All 60 areas in Computer Science →" }));
+    expect(screen.getByTestId("where").textContent).toBe("?field=Computer+Science");
+  });
+
+  it("shows a field's areas largest first, a page at a time", async () => {
+    renderAt("/topics?field=Computer+Science");
     const cards = await screen.findAllByRole("heading", { level: 3 });
     expect(cards).toHaveLength(48);
     expect(cards[0].textContent).toBe("Area 60");
@@ -58,7 +75,7 @@ describe("Research areas", () => {
   }, 15_000); // renders 108 cards; slow under a full parallel run
 
   it("sorts by researchers when asked", async () => {
-    renderAt("/topics?sort=researchers");
+    renderAt("/topics?field=Computer+Science&sort=researchers");
     const cards = await screen.findAllByRole("heading", { level: 3 });
     expect(cards[0].textContent).toBe("Area 1");
   });

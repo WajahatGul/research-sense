@@ -32,6 +32,7 @@ def run_refresh() -> str:
     try:
         from scripts import (
             build_index,
+            classify_topics,
             fetch_publications,
             merge_author_variants,
             merge_duplicate_publications,
@@ -50,6 +51,9 @@ def run_refresh() -> str:
         merge_author_variants.main(write=True)
         unlink_misattributed.main(write=True)
         merge_duplicate_publications.main(write=True)
+        # The fetch rewrites topics.json, so file the areas under fields again
+        # (from the cached OpenAlex hierarchy: no extra requests).
+        classify_topics.main(write=True)
         log.info("refresh: refreshing index fact cards")
         # Preserve full-text chunks (downloaded papers, faculty uploads, the
         # library): the refresh changes structured data, not PDFs, and a

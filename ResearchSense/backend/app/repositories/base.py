@@ -85,7 +85,11 @@ class PublicationRepository(ABC):
 class TopicRepository(ABC):
     @abstractmethod
     def list(
-        self, *, query: str | None = None, department: str | None = None
+        self,
+        *,
+        query: str | None = None,
+        department: str | None = None,
+        field: str | None = None,
     ) -> list[Topic]: ...
 
     @abstractmethod

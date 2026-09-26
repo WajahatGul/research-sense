@@ -15,6 +15,11 @@ class Topic(BaseModel):
     publication_count: int = 0
     researcher_count: int = 0
     source: str = "sample"
+    # The broad field it belongs to (OpenAlex's hierarchy; see
+    # scripts/classify_topics.py). "" when it could not be placed.
+    field: str = ""
+    domain: str = ""
+    field_source: str = ""  # "openalex" or "department" (a best guess)
 
 
 class TopicRef(BaseModel):
