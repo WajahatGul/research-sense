@@ -12,6 +12,7 @@ import { Badge } from "../components/Badge";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
 import { provenance } from "../lib/provenance";
+import { usePageTitle } from "../hooks/usePageTitle";
 import { coauthoredFirst } from "./coauthoredFirst";
 import styles from "./ResearcherProfile.module.css";
 
@@ -59,6 +60,13 @@ export default function ResearcherProfile() {
     retry: false,
   });
   const isClaimed = Boolean(data && claimedIds?.includes(data.researcher_id));
+
+  usePageTitle(
+    data?.full_name ??
+      (isError && error instanceof ApiError && error.status === 404
+        ? "Profile not found"
+        : "Researcher"),
+  );
 
   if (isLoading) return <Loader />;
   // Only a 404 means the person does not exist. A timeout or dropped

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
+import { usePageTitle } from "../hooks/usePageTitle";
 import styles from "./NotFound.module.css";
 
 export default function NotFound() {
+  usePageTitle("Page not found");
   return (
     <div className={`container ${styles.wrap}`}>
       <span className={`mono ${styles.code}`}>404</span>

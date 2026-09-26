@@ -10,8 +10,12 @@ export default function Layout() {
   useScrollTop();
   return (
     <div className={styles.shell}>
+      {/* First Tab stop: keyboard users skip the header's links. */}
+      <a className={styles.skip} href="#main">
+        Skip to content
+      </a>
       <Header />
-      <main className={styles.main}>
+      <main id="main" tabIndex={-1} className={styles.main}>
         <Outlet />
       </main>
       <Footer />
