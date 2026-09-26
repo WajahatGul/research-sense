@@ -18,6 +18,7 @@ import type {
   VenueRow,
   YearRow,
 } from "../../api/analytics";
+import styles from "./charts.module.css";
 
 // Fixed campus -> hue assignment (validated palette; color follows the
 // entity, never the rank, so filtered views keep the same colors).
@@ -87,42 +88,51 @@ export function CitationsTrend({ data }: { data: CitationRow[] }) {
 }
 
 export function TopVenues({ data }: { data: VenueRow[] }) {
-  const rows = data.slice(0, 8);
   return (
-    <ResponsiveContainer width="100%" height={rows.length * 42 + 30}>
-      <BarChart data={rows} layout="vertical"
-                margin={{ top: 0, right: 40, bottom: 0, left: 8 }}>
-        <XAxis type="number" hide />
-        <YAxis type="category" dataKey="venue" width={230}
-               tick={{ fill: INK, fontSize: 12 }} tickLine={false}
-               axisLine={false} />
-        <Tooltip contentStyle={tooltipStyle} />
-        <Bar dataKey="publications" fill="#3b6fd4" barSize={14}
-             radius={[0, 4, 4, 0]}
-             label={{ position: "right", fill: INK, fontSize: 12 }} />
-      </BarChart>
-    </ResponsiveContainer>
+    <RankedBars
+      label="Top publication venues"
+      rows={data.slice(0, 8).map((r) => ({ name: r.venue, value: r.publications }))}
+    />
   );
 }
 
-// Publications by department — top 10, horizontal bars, single hue (nominal
-// categorical: one series, so no legend box — the section title names it).
+// Publications by department — top 10, one series, so no legend box — the
+// section title names it.
 export function DepartmentBars({ data }: { data: DepartmentRow[] }) {
-  const rows = data.slice(0, 10);
   return (
-    <ResponsiveContainer width="100%" height={rows.length * 42 + 30}>
-      <BarChart data={rows} layout="vertical"
-                margin={{ top: 0, right: 40, bottom: 0, left: 8 }}>
-        <XAxis type="number" allowDecimals={false} hide />
-        <YAxis type="category" dataKey="department" width={220}
-               tick={{ fill: INK, fontSize: 12 }} tickLine={false}
-               axisLine={false} />
-        <Tooltip contentStyle={tooltipStyle} />
-        <Bar dataKey="publications" fill="#3b6fd4" barSize={14}
-             radius={[0, 4, 4, 0]}
-             label={{ position: "right", fill: INK, fontSize: 12 }} />
-      </BarChart>
-    </ResponsiveContainer>
+    <RankedBars
+      label="Publications by department"
+      rows={data.slice(0, 10).map((r) => ({ name: r.department, value: r.publications }))}
+    />
+  );
+}
+
+/** A ranked list with bars drawn to one honest scale.
+ *
+ * These were SVG bar charts with a fixed 230 px label column. On a phone
+ * the card is ~290 px wide, so the bars got the ~60 px left over and 228
+ * papers looked almost the same as 81 — the picture misstated the data.
+ * As HTML the name wraps above its bar on narrow screens, every bar is a
+ * share of the largest value at any width, and screen readers read each
+ * name with its number instead of an unlabelled drawing.
+ */
+function RankedBars({ rows, label }: { rows: { name: string; value: number }[]; label: string }) {
+  const max = Math.max(1, ...rows.map((r) => r.value));
+  return (
+    <ol className={styles.ranked} aria-label={label}>
+      {rows.map((r) => (
+        <li key={r.name} className={styles.rankedRow}>
+          <span className={styles.rankedName}>{r.name}</span>
+          <span className={styles.rankedTrack} aria-hidden="true">
+            <span
+              className={styles.rankedBar}
+              style={{ width: `${(r.value / max) * 100}%` }}
+            />
+          </span>
+          <span className={`mono ${styles.rankedValue}`}>{r.value.toLocaleString()}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 

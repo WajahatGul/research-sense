@@ -106,11 +106,13 @@ export default function Analytics() {
                 {campusTotals.map((row) => (
                   <tr key={row.campus}>
                     <td>
-                      <span
-                        className={styles.dot}
-                        style={{ background: CAMPUS_COLORS[row.campus] }}
-                      />
-                      {row.campus}
+                      <span className={styles.campusCell}>
+                        <span
+                          className={styles.dot}
+                          style={{ background: CAMPUS_COLORS[row.campus] }}
+                        />
+                        {row.campus}
+                      </span>
                     </td>
                     <td className="mono">{row.researchers}</td>
                     <td className="mono">{row.publications}</td>
@@ -120,6 +122,27 @@ export default function Analytics() {
               </tbody>
             </table>
             </div>
+            {/* Four columns do not fit a phone; there the same figures read
+                as one line per campus instead of a table whose last column
+                sits off-screen. Only one of the two is ever displayed. */}
+            <ul className={styles.campusList}>
+              {campusTotals.map((row) => (
+                <li key={row.campus} className={styles.campusItem}>
+                  <span className={styles.campusCell}>
+                    <span
+                      className={styles.dot}
+                      style={{ background: CAMPUS_COLORS[row.campus] }}
+                    />
+                    <strong>{row.campus}</strong>
+                  </span>
+                  <span className={styles.campusStats}>
+                    <span className="mono">{row.researchers}</span> researchers ·{" "}
+                    <span className="mono">{row.publications}</span> publications ·{" "}
+                    <span className="mono">{row.citations.toLocaleString()}</span> citations
+                  </span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <section className={styles.card}>
