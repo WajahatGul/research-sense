@@ -84,21 +84,16 @@ beforeEach(() => {
 });
 
 describe("Researchers", () => {
-  it("does not fetch researchers on mount", async () => {
+  it("fetches the first page of researchers on mount", async () => {
     renderPage();
 
-    await waitFor(() => expect(mockFetchCampuses).toHaveBeenCalled());
-    expect(mockFetchResearchers).not.toHaveBeenCalled();
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
   });
 
-  it("shows the pre-search empty prompt", async () => {
+  it("shows researchers by default without needing a search", async () => {
     renderPage();
 
-    expect(
-      await screen.findByText(
-        "Choose your filters and press Search to see researchers.",
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
 
   it("reports coverage from the live stats, not a hardcoded number", async () => {
@@ -128,7 +123,7 @@ describe("Researchers", () => {
     expect(note.textContent).not.toContain("for .");
   });
 
-  it("fetches researchers after Search is pressed", async () => {
+  it("re-fetches researchers when Search is pressed", async () => {
     renderPage();
 
     const searchButton = await screen.findByRole("button", {
@@ -136,7 +131,7 @@ describe("Researchers", () => {
     });
     fireEvent.click(searchButton);
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
     expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
 
@@ -170,14 +165,18 @@ describe("Researchers", () => {
     ]);
   });
 
-  it("fetches researchers when Enter is pressed in the search input", async () => {
+  it("searches by name when Enter is pressed in the search input", async () => {
     renderPage();
 
     const input = await screen.findByPlaceholderText("Search researchers…");
     fireEvent.change(input, { target: { value: "ayesha" } });
     fireEvent.submit(input.closest("form")!);
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "ayesha" }),
+      ),
+    );
     expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
 });

@@ -58,30 +58,30 @@ export default function Researchers() {
     department: "",
     designation: "",
   });
-  // A deep-linked query (e.g. from a chat source chip) counts as an
-  // implicit search, so it runs immediately instead of waiting for the button.
-  const [applied, setApplied] = useState<Filters | null>(() =>
-    initialQ ? { q: initialQ, campus: "", department: "", designation: "" } : null,
-  );
+  // The directory should let a visitor "browse faculty across all campuses"
+  // straight away, so it starts with an applied (empty) filter set and shows
+  // the first page of researchers on load instead of an empty prompt. A
+  // deep-linked query (e.g. from a chat source chip) simply pre-fills it.
+  const [applied, setApplied] = useState<Filters>(() => ({
+    q: initialQ,
+    campus: "",
+    department: "",
+    designation: "",
+  }));
   const [page, setPage] = useState(1);
-
-  const hasSearched = applied !== null;
 
   const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
   const { data, isLoading, isError } = useQuery({
     queryKey: ["researchers", applied, page],
-    queryFn: () => {
-      const f = applied ?? { q: "", campus: "", department: "", designation: "" };
-      return fetchResearchers({
-        q: f.q,
-        campus: f.campus,
-        department: f.department,
-        designation: f.designation,
+    queryFn: () =>
+      fetchResearchers({
+        q: applied.q,
+        campus: applied.campus,
+        department: applied.department,
+        designation: applied.designation,
         page,
         page_size: PAGE_SIZE,
-      });
-    },
-    enabled: hasSearched,
+      }),
     placeholderData: keepPreviousData,
   });
 
@@ -120,7 +120,7 @@ export default function Researchers() {
           department={pending.department}
           designation={pending.designation}
           total={data?.total ?? 0}
-          hasSearched={hasSearched}
+          hasSearched={true}
           onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
           onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
           onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
@@ -131,15 +131,12 @@ export default function Researchers() {
           {coverageNote(stats)}
         </DataNote>
 
-        {!hasSearched && (
-          <EmptyState message="Choose your filters and press Search to see researchers." />
-        )}
-        {hasSearched && isLoading && <Loader />}
-        {hasSearched && isError && <ErrorState />}
-        {hasSearched && data && data.items.length === 0 && (
+        {isLoading && <Loader />}
+        {isError && <ErrorState />}
+        {data && data.items.length === 0 && (
           <EmptyState message="No researchers match these filters yet." />
         )}
-        {hasSearched && data && data.items.length > 0 && (
+        {data && data.items.length > 0 && (
           <div className={styles.grid}>
             {data.items.map((r) => (
               <ResearcherCard key={r.researcher_id} researcher={r} />
@@ -147,7 +144,7 @@ export default function Researchers() {
           </div>
         )}
 
-        {hasSearched && data && (
+        {data && (
           <Pagination
             page={page}
             pageSize={PAGE_SIZE}
