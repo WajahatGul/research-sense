@@ -10,20 +10,26 @@ Matching works on normalised tokens: a query term matches when it starts a
 word in the record, or (for longer terms) appears anywhere once spaces are
 removed. When a query finds nothing, ``correct`` proposes the closest words
 from the corpus so the caller can show "Showing results for …".
+
+Records are tokenised once per loaded dataset (``index_for``) rather than on
+every query: re-tokenising 9,500 publications per keystroke-sized request
+cost ~0.4 s on a hit and ~1.4 s on a typo.
 """
 
 from __future__ import annotations
 
 import difflib
 import re
-from collections import Counter
-from collections.abc import Iterable, Mapping
+from collections import Counter, OrderedDict
+from collections.abc import Callable, Iterable, Mapping, Sequence
 
 _TOKEN = re.compile(r"[a-z0-9]+")
 # Long enough that matching inside a compacted phrase is meaningful rather
 # than accidental ("ai" occurs inside hundreds of unrelated words).
 _MIN_COMPACT_TERM = 5
 _MIN_VOCAB_WORD = 3
+# Datasets indexed at once (demo corpus plus a few institution workspaces).
+_MAX_INDEXES = 8
 
 
 def _singular(tok: str) -> str:
@@ -39,47 +45,63 @@ def tokens(text: str | None) -> list[str]:
     return [_singular(t) for t in _TOKEN.findall((text or "").lower())]
 
 
+class Entry:
+    """One record's searchable text, prepared for fast matching.
+
+    ``spaced`` is " w1 w2 …": a term starts a word exactly when " term"
+    occurs in it, so prefix matching becomes one substring test.
+    """
+
+    __slots__ = ("head", "head_spaced", "spaced", "compact")
+
+    def __init__(self, primary: str | None, *secondary: str | None):
+        head = tokens(primary)
+        words = head + [w for f in secondary for w in tokens(f)]
+        self.head = " ".join(head)
+        self.head_spaced = " " + self.head
+        self.spaced = " " + " ".join(words)
+        self.compact = "".join(words)
+
+
 class Query:
     """A parsed search query that can match and rank records."""
 
     def __init__(self, text: str | None):
         self.text = (text or "").strip()
         self.terms = tokens(self.text)
+        self._phrase = " ".join(self.terms)
 
     def __bool__(self) -> bool:
         return bool(self.terms)
 
-    def matches(self, *fields: str | None) -> bool:
-        """Every term appears somewhere across ``fields``, in any order."""
-        words = [w for f in fields for w in tokens(f)]
-        compact = "".join(words)
-        return all(
-            any(w.startswith(t) for w in words)
-            or (len(t) >= _MIN_COMPACT_TERM and t in compact)
-            for t in self.terms
-        )
+    def score_entry(self, e: Entry) -> float | None:
+        """Relevance of a prepared record, or None when it does not match.
+
+        Every term must appear (any order). An exact or leading match in the
+        primary field (a name, a title) outranks one buried elsewhere, so the
+        person you typed comes first.
+        """
+        for t in self.terms:
+            if f" {t}" not in e.spaced and not (
+                len(t) >= _MIN_COMPACT_TERM and t in e.compact
+            ):
+                return None
+        score = 0.0
+        if e.head == self._phrase:
+            score += 100
+        elif e.head.startswith(self._phrase):
+            score += 60
+        elif self._phrase in e.head:
+            score += 40
+        score += 20 * sum(1 for t in self.terms if f" {t}" in e.head_spaced)
+        return score
 
     def score(self, primary: str | None, *secondary: str | None) -> float | None:
-        """Relevance of a record, or None when it does not match.
+        return self.score_entry(Entry(primary, *secondary))
 
-        ``primary`` is the field people usually mean (a name, a title).
-        An exact or leading match there outranks a match buried in a
-        secondary field, so the person you typed comes first.
-        """
-        if not self.matches(primary, *secondary):
-            return None
-        head = tokens(primary)
-        phrase = " ".join(self.terms)
-        joined = " ".join(head)
-        score = 0.0
-        if joined == phrase:
-            score += 100
-        elif joined.startswith(phrase):
-            score += 60
-        elif phrase in joined:
-            score += 40
-        score += 20 * sum(1 for t in self.terms if any(w.startswith(t) for w in head))
-        return score
+    def matches(self, *fields: str | None) -> bool:
+        """Every term appears somewhere across ``fields``, in any order."""
+        return self.score(*fields) is not None
 
 
 def vocabulary(texts: Iterable[str | None]) -> Counter[str]:
@@ -109,3 +131,45 @@ def correct(text: str | None, vocab: Mapping[str, int]) -> str | None:
         else:
             out.append(term)
     return " ".join(out) if changed else None
+
+
+class SearchIndex:
+    """Prepared entries and word frequencies for one loaded dataset."""
+
+    def __init__(
+        self, rows: Sequence[dict], fields: Callable[[dict], Sequence[str | None]]
+    ):
+        self.rows = rows  # held so the dataset's identity cannot be reused
+        self.entries = [Entry(*fields(r)) for r in rows]
+        self._fields = fields
+        self._vocab: Counter[str] | None = None
+
+    @property
+    def vocab(self) -> Counter[str]:
+        # Built on the first miss only; most queries never need it.
+        if self._vocab is None:
+            self._vocab = vocabulary(f for r in self.rows for f in self._fields(r))
+        return self._vocab
+
+
+_indexes: OrderedDict[tuple[str, int], SearchIndex] = OrderedDict()
+
+
+def index_for(
+    name: str, rows: Sequence[dict], fields: Callable[[dict], Sequence[str | None]]
+) -> SearchIndex:
+    """The index for this exact dataset object, built on first use.
+
+    The loader returns the same list until data is refreshed, and a new list
+    afterwards, so identity is a correct and free invalidation signal.
+    """
+    key = (name, id(rows))
+    idx = _indexes.get(key)
+    if idx is None or idx.rows is not rows:
+        idx = SearchIndex(rows, fields)
+        _indexes[key] = idx
+        while len(_indexes) > _MAX_INDEXES:
+            _indexes.popitem(last=False)
+    else:
+        _indexes.move_to_end(key)
+    return idx

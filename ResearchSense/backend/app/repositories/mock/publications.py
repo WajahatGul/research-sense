@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from datetime import date as _date
 
-from app.core.textsearch import Query, correct, vocabulary
+from app.core.textsearch import Query, correct, index_for
 from app.repositories import loader
 from app.repositories.base import PublicationRepository
 from app.schemas.publication import Publication
@@ -97,9 +97,10 @@ class MockPublicationRepository(PublicationRepository):
             r["researcher_id"]: r.get("department") for r in loader.load("researchers")
         }
         q = Query(query)
+        entries = index_for("publications", rows, _search_fields).entries if q else None
         result: list[tuple[float, Publication]] = []
-        for p in rows:
-            score = q.score(*_search_fields(p)) if q else 0.0
+        for i, p in enumerate(rows):
+            score = q.score_entry(entries[i]) if entries else 0.0
             if score is None:
                 continue
             if year is not None and p["publication_year"] != year:
@@ -131,7 +132,7 @@ class MockPublicationRepository(PublicationRepository):
         return [p for _, p in result]
 
     def suggest(self, query: str | None) -> str | None:
-        vocab = vocabulary(f for p in self._all() for f in _search_fields(p))
+        vocab = index_for("publications", self._all(), _search_fields).vocab
         return correct(query, vocab)
 
     def get(self, publication_id: int) -> Publication | None:

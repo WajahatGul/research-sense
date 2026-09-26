@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.core.textsearch import Query, correct, vocabulary
+from app.core.textsearch import Query, correct, index_for
 from app.repositories import loader
 from app.repositories.base import ResearcherRepository
 from app.schemas.researcher import (
@@ -68,8 +68,10 @@ class MockResearcherRepository(ResearcherRepository):
         topic_id=None,
     ):
         q = Query(query)
+        rows = self._all()
+        entries = index_for("researchers", rows, _search_fields).entries if q else None
         scored: list[tuple[float, dict]] = []
-        for r in self._all():
+        for i, r in enumerate(rows):
             # Publication-only profiles surface when someone searches by
             # name — a Bahria author looking for their own work — but not
             # when browsing, where they would bury the full profiles under
@@ -78,7 +80,7 @@ class MockResearcherRepository(ResearcherRepository):
                 continue
             if not _passes_filters(r, campus, department, designation, topic_id):
                 continue
-            score = q.score(*_search_fields(r)) if q else 0.0
+            score = q.score_entry(entries[i]) if entries else 0.0
             if score is None:
                 continue
             scored.append((score, r))
@@ -87,7 +89,7 @@ class MockResearcherRepository(ResearcherRepository):
         return [Researcher(**r) for _, r in scored]
 
     def suggest(self, query: str | None) -> str | None:
-        vocab = vocabulary(f for r in self._all() for f in _search_fields(r))
+        vocab = index_for("researchers", self._all(), _search_fields).vocab
         return correct(query, vocab)
 
     def get(self, researcher_id: int) -> ResearcherDetail | None:
