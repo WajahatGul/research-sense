@@ -84,8 +84,19 @@ class MockResearcherRepository(ResearcherRepository):
             if score is None:
                 continue
             scored.append((score, r))
-        # Best match first when searching; alphabetical when browsing.
-        scored.sort(key=lambda sr: (-sr[0], sr[1]["full_name"]))
+        # Best match first when searching; alphabetical when browsing. On a
+        # tie, a full directory profile outranks a name-only author stub,
+        # then more publications outrank fewer: searching "machine
+        # learning" used to list bare names like "Aamana" above faculty
+        # simply because they sort earlier alphabetically.
+        scored.sort(
+            key=lambda sr: (
+                -sr[0],
+                loader.is_extended(sr[1]),
+                -(sr[1].get("publication_count") or 0) if q else 0,
+                sr[1]["full_name"],
+            )
+        )
         return [Researcher(**r) for _, r in scored]
 
     def suggest(self, query: str | None) -> str | None:

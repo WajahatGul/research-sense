@@ -91,3 +91,13 @@ def test_correct_prefers_the_common_word_over_a_rare_typo_in_the_data():
 def test_area_search_ranks_the_closest_name_first():
     names = [t.topic_name for t in MockTopicRepository().list(query="machine learning")]
     assert names and "machine learning" in names[0].lower()
+
+
+def test_full_profiles_outrank_name_only_author_stubs_on_a_tie():
+    from app.repositories import loader
+
+    repo = MockResearcherRepository()
+    rows = {r["researcher_id"]: r for r in loader.load("researchers")}
+    top = repo.list(query="machine learning")[:6]
+    assert top, "expected matches"
+    assert not any(loader.is_extended(rows[r.researcher_id]) for r in top)
