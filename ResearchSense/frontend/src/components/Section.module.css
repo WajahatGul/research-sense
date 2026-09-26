@@ -1,5 +1,7 @@
 .section {
-  padding: 64px 24px 0;
+  /* Horizontal space comes from .container, like every other block; an extra
+     24 px here indented sections out of line with the page header. */
+  padding: 64px 0 0;
 }
 
 .head {
