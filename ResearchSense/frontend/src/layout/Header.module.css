@@ -77,6 +77,35 @@
   transform: translateY(-1px);
 }
 
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.divider {
+  width: 1px;
+  height: 22px;
+  margin: 0 8px;
+  background: var(--line-strong);
+}
+
+.link:focus-visible,
+.cta:focus-visible,
+.toggle:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
 .toggle {
   display: none;
   flex-direction: column;
@@ -93,9 +122,9 @@
   border-radius: 2px;
 }
 
-/* The full row is 8 links + a CTA + the wordmark; below ~1180px it can no
-   longer sit on one line without crowding, so collapse to the menu here. */
-@media (max-width: 1180px) {
+/* Five destinations + Search + Sign in fit on one line down to tablet
+   width; only below that does the bar collapse into a menu. */
+@media (max-width: 960px) {
   .toggle {
     display: flex;
   }
@@ -127,5 +156,16 @@
   .cta {
     margin: 8px 0 0;
     text-align: center;
+  }
+
+  .divider {
+    width: auto;
+    height: 1px;
+    margin: 8px 0;
+  }
+
+  .link,
+  .cta {
+    min-height: 44px;
   }
 }

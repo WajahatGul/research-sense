@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { INSTITUTION_NAME } from "../../config";
 import { SearchBar } from "../../components/SearchBar";
@@ -52,6 +52,10 @@ export function Hero() {
             </button>
           ))}
         </div>
+
+        <p className={styles.newHere}>
+          New here? <Link to="/guide">See what you can do with ResearchSense →</Link>
+        </p>
       </div>
     </section>
   );

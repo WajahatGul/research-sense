@@ -33,15 +33,18 @@ export default function Footer() {
           <Link to="/researchers">Researchers</Link>
           <Link to="/publications">Publications</Link>
           <Link to="/topics">Research Areas</Link>
-          <Link to="/projects">Projects</Link>
+          <Link to="/collaboration">Collaboration finder</Link>
+          <Link to="/analytics">Analytics</Link>
         </nav>
 
         <nav className={styles.col}>
           <span className={styles.head}>Tools</span>
-          <Link to="/guide">Get started</Link>
-          <Link to="/collaboration">Collaboration finder</Link>
-          <Link to="/library">Library</Link>
+          <Link to="/search">Search everything</Link>
           <Link to="/ask">Ask ResearchSense</Link>
+          <Link to="/library">Library</Link>
+          <Link to="/guide">Get started</Link>
+          <Link to="/projects">Sample projects</Link>
+          <Link to="/portal">Faculty sign in</Link>
         </nav>
 
         {!!campuses?.length && (

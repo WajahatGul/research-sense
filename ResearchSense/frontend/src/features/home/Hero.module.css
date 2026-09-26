@@ -86,3 +86,14 @@
   background: rgba(255, 255, 255, 0.14);
   border-color: var(--gold);
 }
+
+.newHere {
+  margin: var(--sp-4) 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--step--1);
+}
+
+.newHere a {
+  color: var(--gold-soft);
+  font-weight: 600;
+}
