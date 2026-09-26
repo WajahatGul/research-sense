@@ -72,11 +72,7 @@ export function SearchBar({
     setActive(-1);
     if (s.kind === "researcher") navigate(`/researchers/${s.id}`);
     else if (s.kind === "topic") navigate(`/topics/${s.id}`);
-    else {
-      // Papers have no page of their own: search for the exact title.
-      setValue(s.label);
-      onSearch(s.label);
-    }
+    else navigate(`/publications/${s.id}`);
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

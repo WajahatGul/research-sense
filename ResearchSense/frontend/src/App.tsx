@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 const Researchers = lazy(() => import("./pages/Researchers"));
 const ResearcherProfile = lazy(() => import("./pages/ResearcherProfile"));
 const Publications = lazy(() => import("./pages/Publications"));
+const PublicationDetail = lazy(() => import("./pages/PublicationDetail"));
 const Topics = lazy(() => import("./pages/Topics"));
 const TopicDetail = lazy(() => import("./pages/TopicDetail"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/researchers" element={<Researchers />} />
         <Route path="/researchers/:id" element={<ResearcherProfile />} />
         <Route path="/publications" element={<Publications />} />
+        <Route path="/publications/:id" element={<PublicationDetail />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/topics/:id" element={<TopicDetail />} />
         <Route path="/projects" element={<Projects />} />

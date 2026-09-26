@@ -32,7 +32,9 @@ function sourceLink(s: ChatSource): string {
     case "topic":
       return s.ref_id ? `/publications?topic_id=${s.ref_id}` : "/topics";
     case "publication":
-      return `/publications?q=${encodeURIComponent(titleFromLabel(s.label))}`;
+      return s.ref_id
+        ? `/publications/${s.ref_id}`
+        : `/publications?q=${encodeURIComponent(titleFromLabel(s.label))}`;
     case "paper":
       // Library papers (unattributed, no ref_id) live on the Library page;
       // faculty papers land on the author's profile.

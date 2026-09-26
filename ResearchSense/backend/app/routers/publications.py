@@ -59,6 +59,17 @@ def list_years(service: PublicationService = Depends(get_publication_service)):
     return service.years()
 
 
+@router.get("/{publication_id}/related", response_model=list[Publication])
+def related_publications(
+    publication_id: int,
+    limit: int = Query(5, ge=1, le=20),
+    service: PublicationService = Depends(get_publication_service),
+):
+    if service.get(publication_id) is None:
+        raise HTTPException(status_code=404, detail="Publication not found")
+    return service.related(publication_id, limit)
+
+
 @router.get("/{publication_id}", response_model=Publication)
 def get_publication(
     publication_id: int,

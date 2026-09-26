@@ -51,6 +51,10 @@ class ResearcherRepository(ABC):
         """Closest in-corpus spelling of a query that found nothing."""
         return None
 
+    def related(self, publication_id: int, limit: int = 5) -> list[Publication]:
+        """Papers a reader of this one would look at next."""
+        return []
+
 
 class PublicationRepository(ABC):
     @abstractmethod

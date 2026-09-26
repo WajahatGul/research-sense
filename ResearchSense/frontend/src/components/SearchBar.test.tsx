@@ -16,6 +16,7 @@ function setup(onSearch = vi.fn()) {
         <Routes>
           <Route path="/" element={<SearchBar suggest="all" onSearch={onSearch} />} />
           <Route path="/researchers/:id" element={<p>profile page</p>} />
+          <Route path="/publications/:id" element={<p>paper page</p>} />
         </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
@@ -56,12 +57,11 @@ describe("SearchBar suggestions", () => {
     expect(await screen.findByText("profile page")).toBeTruthy();
   });
 
-  it("searches for the exact title when a paper is picked", async () => {
-    const onSearch = vi.fn();
-    const input = setup(onSearch);
+  it("opens a paper's own page when a paper is picked", async () => {
+    const input = setup();
     fireEvent.change(input, { target: { value: "data" } });
     fireEvent.mouseDown(await screen.findByRole("option", { name: /Database Preservation/ }));
-    expect(onSearch).toHaveBeenCalledWith("Database Preservation");
+    expect(await screen.findByText("paper page")).toBeTruthy();
   });
 
   it("Escape closes the list", async () => {

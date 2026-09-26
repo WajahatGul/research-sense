@@ -140,3 +140,33 @@ class MockPublicationRepository(PublicationRepository):
             (p for p in self._all() if p["publication_id"] == publication_id), None
         )
         return Publication(**rec) if rec else None
+
+    def related(self, publication_id: int, limit: int = 5) -> list[Publication]:
+        """Papers sharing this one's research areas, then its authors.
+
+        A shared area counts for more than a shared author: a reader who
+        opened a paper on fish classification wants more on that subject,
+        not the same author's unrelated work. Ties go to the newer paper.
+        """
+        rows = self._all()
+        me = next((p for p in rows if p["publication_id"] == publication_id), None)
+        if me is None:
+            return []
+        areas = set(me.get("topic_names", []))
+        people = {
+            a["researcher_id"] for a in me.get("authors", []) if a.get("researcher_id")
+        }
+        title = me["title"].strip().lower()
+        scored = []
+        for p in rows:
+            if p["publication_id"] == publication_id or p["title"].strip().lower() == title:
+                continue
+            shared_areas = len(areas & set(p.get("topic_names", [])))
+            shared_people = len(
+                people & {a.get("researcher_id") for a in p.get("authors", [])}
+            )
+            score = 2 * shared_areas + shared_people
+            if score:
+                scored.append((score, p.get("publication_year") or 0, p))
+        scored.sort(key=lambda s: (-s[0], -s[1]))
+        return [Publication(**p) for _, _, p in scored[:limit]]

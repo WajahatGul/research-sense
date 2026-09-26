@@ -55,6 +55,9 @@ class PublicationService:
     def get(self, publication_id: int) -> Publication | None:
         return self._repo.get(publication_id)
 
+    def related(self, publication_id: int, limit: int = 5) -> list[Publication]:
+        return self._repo.related(publication_id, limit)
+
     def years(self) -> list[int]:
         rows = self._repo.list()
         return sorted({p.publication_year for p in rows}, reverse=True)

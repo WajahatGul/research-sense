@@ -62,6 +62,18 @@
   text-decoration: underline;
 }
 
+.authorLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 2px;
+}
+
+.authorLink:hover {
+  color: var(--navy);
+  text-decoration-color: var(--navy);
+}
+
 .actions {
   display: inline-flex;
   gap: 12px;

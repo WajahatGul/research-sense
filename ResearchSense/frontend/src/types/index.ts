@@ -55,6 +55,7 @@ export interface Publication {
   campus: string;
   authors: AuthorRef[];
   topics: TopicRef[];
+  topic_names?: string[];
   source: string;
 }
 
