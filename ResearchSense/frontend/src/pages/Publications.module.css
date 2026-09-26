@@ -145,3 +145,13 @@
   color: var(--navy);
   font-weight: 600;
 }
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .select,
+  .dateInput,
+  .searchButton {
+    min-height: 44px;
+  }
+}

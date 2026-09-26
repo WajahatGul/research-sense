@@ -3,10 +3,13 @@
   align-items: center;
   padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.5;
-  white-space: nowrap;
+  /* Short labels stay on one line, but a long research-area name wraps
+     inside its card instead of pushing the whole page sideways. */
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .default {

@@ -59,3 +59,23 @@
 .lg .button {
   padding: 12px 26px;
 }
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  /* The field fills the pill, so a tap anywhere on it starts typing
+     instead of landing on padding. */
+  .form {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .input {
+    min-height: 44px;
+    align-self: stretch;
+  }
+
+  .button {
+    min-height: 44px;
+  }
+}

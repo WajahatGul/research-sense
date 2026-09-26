@@ -330,3 +330,14 @@
   border-bottom: 1px dotted var(--line-strong);
   cursor: help;
 }
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .pubAction,
+  .intlMore {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
