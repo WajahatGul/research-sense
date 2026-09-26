@@ -8,6 +8,7 @@ import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { TopicCard } from "../components/TopicCard";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
+import { useTerms } from "../hooks/useOrganisation";
 import styles from "./Topics.module.css";
 
 type Sort = "publications" | "researchers" | "name";
@@ -35,6 +36,7 @@ const fieldOf = (t: Topic) => t.field || OTHER;
 
 export default function Topics() {
   const [params, setParams] = useSearchParams();
+  const t = useTerms();
   const q = params.get("q") ?? "";
   const department = params.get("department") ?? "";
   const field = params.get("field") ?? "";
@@ -125,11 +127,11 @@ export default function Topics() {
             </select>
             <select
               className={styles.select}
-              aria-label="Filter by department"
+              aria-label={`Filter by ${t.unit}`}
               value={department}
               onChange={(e) => update({ department: e.target.value })}
             >
-              <option value="">All departments</option>
+              <option value="">All {t.units}</option>
               {departments?.map((d) => (
                 <option key={d} value={d}>
                   {d}

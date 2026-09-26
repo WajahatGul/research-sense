@@ -7,6 +7,8 @@ interface Props {
   centerId: number;
   centerName: string;
   collaborators: CollaborationSuggestion[];
+  /** The organisation's word for a location ("campus", "site"). */
+  site?: string;
 }
 
 function shortName(name: string): string {
@@ -25,7 +27,7 @@ function initials(name: string): string {
 // around them. Link thickness and node ring encode the NUMBER of shared
 // research areas (the honest signal), and each suggestion lists the actual
 // shared areas so the recommendation is explainable.
-export function NetworkView({ centerId, centerName, collaborators }: Props) {
+export function NetworkView({ centerId, centerName, collaborators, site = "campus" }: Props) {
   const size = 460;
   const c = size / 2;
   const radius = 165;
@@ -116,7 +118,7 @@ export function NetworkView({ centerId, centerName, collaborators }: Props) {
         </p>
         <p className={`${styles.sideHint} ${styles.graphKey}`}>
           In the graph, filled gold nodes are co-authors and gold-ringed nodes
-          are cross-campus; 🌐 marks researchers who have published with
+          are at another {site}; 🌐 marks researchers who have published with
           institutions outside Pakistan.
         </p>
         <ul className={styles.legend}>
@@ -135,7 +137,7 @@ export function NetworkView({ centerId, centerName, collaborators }: Props) {
                       </span>
                     )}
                     {!n.same_campus && (
-                      <span className={styles.crossBadge}>cross-campus</span>
+                      <span className={styles.crossBadge}>other {site}</span>
                     )}
                     {n.international && (
                       <span

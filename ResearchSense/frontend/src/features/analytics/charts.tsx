@@ -103,10 +103,16 @@ export function TopVenues({ data }: { data: VenueRow[] }) {
 
 // Publications by department — top 10, one series, so no legend box — the
 // section title names it.
-export function DepartmentBars({ data }: { data: DepartmentRow[] }) {
+export function DepartmentBars({
+  data,
+  units = "departments",
+}: {
+  data: DepartmentRow[];
+  units?: string;
+}) {
   return (
     <RankedBars
-      label="Publications by department"
+      label={`Publications by ${units.replace(/s$/, "")}`}
       rows={data.slice(0, 10).map((r) => ({ name: r.department, value: r.publications }))}
     />
   );

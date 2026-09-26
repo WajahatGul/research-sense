@@ -5,6 +5,7 @@ import { fetchCampuses } from "../api/researchers";
 import { Wordmark } from "../components/Wordmark";
 import { useInstitution } from "../hooks/useInstitution";
 import { useOrganisation } from "../hooks/useOrganisation";
+import { plural } from "../config";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -45,13 +46,13 @@ export default function Footer() {
           <Link to="/library">Library</Link>
           <Link to="/guide">Get started</Link>
           <Link to="/projects">Sample projects</Link>
-          <Link to="/portal">Faculty sign in</Link>
+          <Link to="/portal">Sign in</Link>
         </nav>
 
         {!!campuses?.length && (
           <div className={styles.col}>
             <span className={styles.head}>
-              {campuses.length === 1 ? "Campus" : "Campuses"}
+              {campuses.length === 1 ? org.site : plural(org.site)}
             </span>
             {campuses.map((c) => (
               <span key={c}>{c}</span>

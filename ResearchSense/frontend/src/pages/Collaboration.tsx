@@ -13,6 +13,7 @@ import {
 import { PageHeader } from "../components/PageHeader";
 import { Loader, ErrorState } from "../components/StateViews";
 import { NetworkView } from "../features/collaboration/NetworkView";
+import { useTerms } from "../hooks/useOrganisation";
 import styles from "./Collaboration.module.css";
 
 type CampusFilter = "all" | "same" | "cross";
@@ -26,6 +27,7 @@ const SORTS: { key: CollabSort; label: string }[] = [
 ];
 
 export default function Collaboration() {
+  const t = useTerms();
   // The chosen researcher lives in the URL (?researcher=138), so refresh,
   // Back and a shared link return to the same view instead of a blank page.
   const [params, setParams] = useSearchParams();
@@ -105,8 +107,8 @@ export default function Collaboration() {
 
   const CAMPUS_TABS: { key: CampusFilter; label: string }[] = [
     { key: "all", label: "All" },
-    { key: "same", label: "Same campus" },
-    { key: "cross", label: "Cross-campus" },
+    { key: "same", label: `Same ${t.site}` },
+    { key: "cross", label: `Other ${t.sites}` },
   ];
 
   return (
@@ -171,7 +173,7 @@ export default function Collaboration() {
                 onChange={(e) => setSort(e.target.value as CollabSort)}
                 aria-label="Sort collaborators"
               >
-                {SORTS.map((s) => (
+                {SORTS.map((s) => ({ ...s, label: s.key === "campus" ? t.Site : s.label })).map((s) => (
                   <option key={s.key} value={s.key}>
                     {s.label}
                   </option>
@@ -199,6 +201,7 @@ export default function Collaboration() {
                 centerId={detail.researcher_id}
                 centerName={detail.full_name}
                 collaborators={filtered}
+                site={t.site}
               />
             ) : (
               <p className={styles.none}>

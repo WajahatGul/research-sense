@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { fetchOrganisation, type Organisation } from "../api/organisation";
+import { plural } from "../config";
 import { SESSION_EVENT } from "../lib/session";
 
 /** Used until the API answers, and if it cannot: neutral words that fit any
@@ -33,4 +34,33 @@ export function useOrganisation(): Organisation {
   }, [client]);
 
   return data ?? NEUTRAL;
+}
+
+export interface Terms {
+  site: string; // "campus"
+  sites: string; // "campuses"
+  Site: string; // "Campus"
+  Sites: string; // "Campuses"
+  unit: string; // "department"
+  units: string; // "departments"
+  people: string; // "researchers"
+  noun: string; // "institution"
+}
+
+/** The organisation's words, ready for sentences and headings, so a
+ * company reads "sites" and "teams" where a university reads "campuses"
+ * and "departments". */
+export function useTerms(): Terms {
+  const org = useOrganisation();
+  const Sites = plural(org.site);
+  return {
+    site: org.site.toLowerCase(),
+    sites: Sites.toLowerCase(),
+    Site: org.site,
+    Sites,
+    unit: org.unit.toLowerCase(),
+    units: plural(org.unit).toLowerCase(),
+    people: org.people.toLowerCase(),
+    noun: org.noun,
+  };
 }

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchStats } from "../api/stats";
 import { PageHeader } from "../components/PageHeader";
 import { useInstitution } from "../hooks/useInstitution";
+import { useTerms } from "../hooks/useOrganisation";
 import styles from "./Guide.module.css";
 
 /** The page to send someone who has never seen ResearchSense.
@@ -15,6 +16,7 @@ import styles from "./Guide.module.css";
  */
 export default function Guide() {
   const institution = useInstitution();
+  const t = useTerms();
   const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
 
   const n = (value?: number) => (value ?? 0).toLocaleString();
@@ -32,7 +34,7 @@ export default function Guide() {
         <section className={styles.figures} aria-label="What is indexed">
           <div className={styles.figure}>
             <span className={styles.figureNum}>{n(stats?.researchers)}</span>
-            <span className={styles.figureLabel}>faculty profiles</span>
+            <span className={styles.figureLabel}>directory profiles</span>
           </div>
           <div className={styles.figure}>
             <span className={styles.figureNum}>{n(stats?.publications)}</span>
@@ -44,7 +46,7 @@ export default function Guide() {
           </div>
           <div className={styles.figure}>
             <span className={styles.figureNum}>{n(stats?.campuses)}</span>
-            <span className={styles.figureLabel}>campuses</span>
+            <span className={styles.figureLabel}>{t.sites}</span>
           </div>
         </section>
 
@@ -105,7 +107,7 @@ export default function Guide() {
             <article className={styles.feature}>
               <h3 className={styles.h3}>Find people by what they work on</h3>
               <p className={styles.copy}>
-                Filter the directory by campus, department and rank, or search
+                Filter the directory by {t.site}, {t.unit} and rank, or search
                 a topic and see who publishes in it. Research areas are derived
                 from the papers themselves, not from a form somebody filled in
                 once.
@@ -115,15 +117,15 @@ export default function Guide() {
               <h3 className={styles.h3}>Read the output</h3>
               <p className={styles.copy}>
                 Publications are listed with their venue, year, citation count
-                and a link to the paper. Filter by date range, department or
-                type to see a slice of the record rather than all of it.
+                and a link to the paper. Filter by date range, {t.unit} or
+                document type to see a slice of the record rather than all of it.
               </p>
             </article>
             <article className={styles.feature}>
               <h3 className={styles.h3}>See the shape of the research</h3>
               <p className={styles.copy}>
-                Analytics charts publication and citation trends per campus,
-                the leading venues, and how often campuses co-author. It is
+                Analytics charts publication and citation trends per {t.site},
+                the leading venues, and how often {t.sites} co-author. It is
                 computed from the indexed records, so it moves when they do.
               </p>
             </article>
@@ -198,8 +200,8 @@ export default function Guide() {
             <div>
               <h3 className={styles.h3}>Two kinds of profile</h3>
               <p className={styles.copy}>
-                <strong>Directory profiles</strong> come from the faculty
-                listing and carry a department, campus, biography and
+                <strong>Directory profiles</strong> come from the {t.noun}'s
+                staff listing and carry a {t.unit}, {t.site}, biography and
                 education. They are what you see when browsing.
               </p>
               <p className={styles.copy}>
