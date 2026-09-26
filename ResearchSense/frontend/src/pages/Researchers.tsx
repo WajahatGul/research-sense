@@ -136,6 +136,7 @@ export default function Researchers() {
           designation={pending.designation}
           total={data?.total ?? 0}
           hasSearched={true}
+          activeCount={[applied.campus, applied.department, applied.designation].filter(Boolean).length}
           onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
           onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
           onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}

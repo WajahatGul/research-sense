@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -17,6 +18,8 @@ interface Props {
   onSearch: () => void;
   total: number;
   hasSearched: boolean;
+  /** Filters currently applied (from the URL), shown on the folded button. */
+  activeCount?: number;
 }
 
 export function FilterBar({
@@ -29,7 +32,11 @@ export function FilterBar({
   onSearch,
   total,
   hasSearched,
+  activeCount = 0,
 }: Props) {
+  // Phones fold the dropdowns behind one button, the same way the
+  // publications page does, so both lists behave alike.
+  const [open, setOpen] = useState(false);
   const { data: campuses } = useQuery({
     queryKey: ["campuses"],
     queryFn: fetchCampuses,
@@ -49,6 +56,20 @@ export function FilterBar({
         {hasSearched ? `${total.toLocaleString()} researchers` : ""}
       </span>
       <div className={styles.filters}>
+        <button
+          type="button"
+          className={styles.filterToggle}
+          aria-expanded={open}
+          aria-controls="researcher-filters"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? "Hide filters" : "Filters"}
+          {activeCount > 0 && ` · ${activeCount} active`}
+        </button>
+        <div
+          id="researcher-filters"
+          className={`${styles.selects} ${open ? styles.selectsOpen : ""}`}
+        >
         <select
           className={styles.select}
           value={campus}
@@ -88,6 +109,7 @@ export function FilterBar({
             </option>
           ))}
         </select>
+        </div>
         <button
           type="button"
           className={styles.searchButton}
