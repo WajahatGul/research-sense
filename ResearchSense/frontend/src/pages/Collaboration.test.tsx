@@ -9,18 +9,25 @@ import type {
   Researcher,
   ResearcherDetail,
 } from "../types";
-import { fetchCollaborators, fetchResearcher, fetchResearchers } from "../api/researchers";
+import {
+  fetchCollaborators,
+  fetchFeaturedResearchers,
+  fetchResearcher,
+  fetchResearchers,
+} from "../api/researchers";
 import Collaboration from "./Collaboration";
 
 vi.mock("../api/researchers", () => ({
   fetchResearchers: vi.fn(),
   fetchResearcher: vi.fn(),
   fetchCollaborators: vi.fn(),
+  fetchFeaturedResearchers: vi.fn(),
 }));
 
 const mockFetchResearchers = vi.mocked(fetchResearchers);
 const mockFetchResearcher = vi.mocked(fetchResearcher);
 const mockFetchCollaborators = vi.mocked(fetchCollaborators);
+const mockFetchFeatured = vi.mocked(fetchFeaturedResearchers);
 
 const researcher: Researcher = {
   researcher_id: 1,
@@ -81,13 +88,13 @@ function page(items: Researcher[]): Paginated<Researcher> {
   return { items, total: items.length, page: 1, page_size: 8 };
 }
 
-function renderPage() {
+function renderPage(url = "/collaboration") {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[url]}>
         <Collaboration />
       </MemoryRouter>
     </QueryClientProvider>,
@@ -96,6 +103,7 @@ function renderPage() {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockFetchFeatured.mockResolvedValue([]);
 });
 
 describe("Collaboration", () => {
@@ -111,18 +119,30 @@ describe("Collaboration", () => {
     expect(mockFetchCollaborators).not.toHaveBeenCalled();
   });
 
-  it("shows the pick-a-researcher prompt before a researcher is selected", async () => {
+  it("offers researchers to start from instead of a blank prompt", async () => {
+    mockFetchFeatured.mockResolvedValue([researcher]);
     mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
     mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
 
     renderPage();
 
-    expect(
-      await screen.findByText(
-        "Pick a researcher to see who they could collaborate with.",
-      ),
-    ).toBeInTheDocument();
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(await screen.findByText(/start with one of these/)).toBeInTheDocument();
+    const pick = await screen.findByRole("button", { name: new RegExp(researcher.full_name) });
+    fireEvent.click(pick);
+    await waitFor(() =>
+      expect(mockFetchResearcher).toHaveBeenCalledWith(researcher.researcher_id),
+    );
+  });
+
+  it("restores the chosen researcher from the URL", async () => {
+    mockFetchResearcher.mockImplementation(() => new Promise(() => {}));
+    mockFetchCollaborators.mockImplementation(() => new Promise(() => {}));
+
+    renderPage(`/collaboration?researcher=${researcher.researcher_id}`);
+
+    await waitFor(() =>
+      expect(mockFetchResearcher).toHaveBeenCalledWith(researcher.researcher_id),
+    );
   });
 
   it("queries the server (not a preloaded array) with the typed name, debounced", async () => {

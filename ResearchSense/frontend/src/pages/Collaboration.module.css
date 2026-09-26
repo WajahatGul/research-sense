@@ -146,3 +146,58 @@
 .retryButton:focus-visible {
   color: var(--gold-ink);
 }
+
+.starters {
+  padding: var(--sp-5) 0;
+}
+
+.startersLead {
+  margin: 0 0 var(--sp-3);
+  color: var(--muted);
+}
+
+.starterList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.starter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 64px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.starter:hover {
+  border-color: var(--navy);
+}
+
+.starter:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.starterName {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.starterMeta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 560px) {
+  .starterList {
+    grid-template-columns: 1fr;
+  }
+}

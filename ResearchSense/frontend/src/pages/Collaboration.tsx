@@ -1,15 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 
 import type { Researcher } from "../types";
 import {
   fetchResearchers,
   fetchResearcher,
+  fetchFeaturedResearchers,
   fetchCollaborators,
   type CollabSort,
 } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
-import { Loader, ErrorState, EmptyState } from "../components/StateViews";
+import { Loader, ErrorState } from "../components/StateViews";
 import { NetworkView } from "../features/collaboration/NetworkView";
 import styles from "./Collaboration.module.css";
 
@@ -24,17 +26,28 @@ const SORTS: { key: CollabSort; label: string }[] = [
 ];
 
 export default function Collaboration() {
-  const [selected, setSelected] = useState<number | null>(null);
-  const [selectedName, setSelectedName] = useState<string>("");
+  // The chosen researcher lives in the URL (?researcher=138), so refresh,
+  // Back and a shared link return to the same view instead of a blank page.
+  const [params, setParams] = useSearchParams();
+  const selected = Number(params.get("researcher")) || null;
+  const [pickedName, setPickedName] = useState<string>("");
   const [campusFilter, setCampusFilter] = useState<CampusFilter>("all");
   const [areaFilter, setAreaFilter] = useState<string>("");
   const [sort, setSort] = useState<CollabSort>("relevance");
 
   const selectResearcher = (r: Researcher) => {
-    setSelected(r.researcher_id);
-    setSelectedName(r.full_name);
+    setParams({ researcher: String(r.researcher_id) });
+    setPickedName(r.full_name);
     setAreaFilter("");
   };
+
+  // A blank finder asks visitors to recall a name. Offer a few to start
+  // from; recognising a person is easier than remembering how to spell one.
+  const { data: starters } = useQuery({
+    queryKey: ["featured", 4],
+    queryFn: () => fetchFeaturedResearchers(4),
+    enabled: selected == null,
+  });
 
   const activeId = selected;
 
@@ -68,7 +81,8 @@ export default function Collaboration() {
   const isLoading = detailLoading || collabLoading;
   const isError = detailError || collabError;
 
-  const all = collabRows ?? [];
+  // A new [] on every render made both memos below recompute every time.
+  const all = useMemo(() => collabRows ?? [], [collabRows]);
 
   // Areas available to filter by: everything shared with any collaborator.
   const areaOptions = useMemo(() => {
@@ -103,14 +117,33 @@ export default function Collaboration() {
         description="Pick a researcher to see who they could collaborate with — proven past co-authors first, then people who share the most research areas."
       >
         <ResearcherTypeahead
-          selectedName={selectedName}
+          selectedName={pickedName || detail?.full_name || ""}
           onSelect={selectResearcher}
         />
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
         {activeId == null && (
-          <EmptyState message="Pick a researcher to see who they could collaborate with." />
+          <div className={styles.starters}>
+            <p className={styles.startersLead}>
+              Type a name above, or start with one of these researchers:
+            </p>
+            <div className={styles.starterList}>
+              {starters?.map((r) => (
+                <button
+                  key={r.researcher_id}
+                  type="button"
+                  className={styles.starter}
+                  onClick={() => selectResearcher(r)}
+                >
+                  <span className={styles.starterName}>{r.full_name}</span>
+                  <span className={styles.starterMeta}>
+                    {[r.department, r.campus].filter(Boolean).join(" · ")}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
         {activeId != null && isLoading && <Loader />}
