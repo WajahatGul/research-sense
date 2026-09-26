@@ -99,4 +99,12 @@ describe("Search", () => {
     expect(screen.getByRole("link", { name: "Browse research areas" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Ask the assistant" })).toBeInTheDocument();
   });
+
+  it("invites a search instead of reporting no matches when the box is empty", async () => {
+    renderAt("/search");
+
+    expect(await screen.findByText(/in one go/)).toBeInTheDocument();
+    expect(screen.queryByText(/Nothing matches/)).not.toBeInTheDocument();
+    expect(fetchResearchers).not.toHaveBeenCalled();
+  });
 });

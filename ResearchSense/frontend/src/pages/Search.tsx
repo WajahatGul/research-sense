@@ -55,7 +55,8 @@ export default function Search() {
   const nPeople = people.data?.total ?? 0;
   const nPapers = papers.data?.total ?? 0;
   const topicHits = areas.data ?? [];
-  const nothing = !loading && !failed && nPeople + nPapers + topicHits.length === 0;
+  const nothing =
+    q !== "" && !loading && !failed && nPeople + nPapers + topicHits.length === 0;
   const seeAll = encodeURIComponent(effective);
 
   return (
