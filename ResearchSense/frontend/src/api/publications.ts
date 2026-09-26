@@ -12,7 +12,7 @@ export interface PublicationFilters {
   date_from?: string;
   date_to?: string;
   department?: string;
-  publication_type?: "journal" | "conference";
+  publication_type?: string;
   page?: number;
   page_size?: number;
 }

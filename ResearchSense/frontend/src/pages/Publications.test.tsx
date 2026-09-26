@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Paginated, Publication } from "../types";
@@ -45,14 +45,19 @@ const publicationPage: Paginated<Publication> = {
   page_size: 10,
 };
 
-function renderPage() {
+function Where() {
+  return <output data-testid="where">{useLocation().search}</output>;
+}
+
+function renderPage(url = "/publications") {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[url]}>
         <Publications />
+        <Where />
       </MemoryRouter>
     </QueryClientProvider>,
   );
@@ -143,5 +148,23 @@ describe("Publications", () => {
     expect(
       await screen.findByRole("button", { name: "Hide filters · 1 active" }),
     ).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("keeps the applied filters in the URL", async () => {
+    renderPage();
+    await screen.findByText("A Great Paper");
+    fireEvent.change(screen.getByLabelText("Filter by year"), { target: { value: "2025" } });
+    fireEvent.click(screen.getByRole("button", { name: "Search publications" }));
+    expect(screen.getByTestId("where").textContent).toBe("?year=2025");
+  });
+
+  it("restores a shared or bookmarked link", async () => {
+    renderPage("/publications?q=graph&type=book-chapter&page=2");
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "graph", publication_type: "book-chapter", page: 2 }),
+      ),
+    );
+    expect(screen.getByLabelText("Search publication titles…")).toHaveValue("graph");
   });
 });

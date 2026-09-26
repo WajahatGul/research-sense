@@ -30,15 +30,24 @@ interface Filters {
   dateTo: string;
 }
 
-const blankFilters: Filters = {
-  q: "",
-  year: "",
-  campus: "",
-  department: "",
-  publicationType: "",
-  dateFrom: "",
-  dateTo: "",
+// Short, readable URL names for each filter: /publications?type=book&year=2023
+const URL_KEYS: Record<keyof Filters, string> = {
+  q: "q",
+  year: "year",
+  campus: "campus",
+  department: "department",
+  publicationType: "type",
+  dateFrom: "from",
+  dateTo: "to",
 };
+
+function filtersFrom(params: URLSearchParams): Filters {
+  const f = {} as Filters;
+  for (const [key, name] of Object.entries(URL_KEYS) as [keyof Filters, string][]) {
+    f[key] = params.get(name) ?? "";
+  }
+  return f;
+}
 
 /** What this list covers, in one sentence.
  *
@@ -60,18 +69,36 @@ function coverageNote(stats?: Stats): string {
 
 export default function Publications() {
   const org = useOrganisation();
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const topicId = params.get("topic_id");
 
-  // Seed the search from the URL so other pages (e.g. chat source chips)
-  // can deep-link straight to a title. The list starts with the newest
-  // papers already showing: a catalogue that is blank until you press Search
-  // looks empty, not ready.
-  const initialQ = params.get("q") ?? "";
-  const [pending, setPending] = useState<Filters>({ ...blankFilters, q: initialQ });
-  const [applied, setApplied] = useState<Filters>(() => ({ ...blankFilters, q: initialQ }));
-  const [page, setPage] = useState(1);
+  // The URL is the record of what is being shown, as on Researchers and
+  // Research areas. Filters used to live only in memory: opening a paper's
+  // author and pressing Back dropped them all, and a filtered list could not
+  // be shared or bookmarked. With no parameters the newest papers show: a
+  // catalogue that is blank until you press Search looks empty, not ready.
+  const applied = filtersFrom(params);
+  const page = Math.max(Number(params.get("page")) || 1, 1);
+  const urlKey = params.toString();
+
+  // Unsubmitted edits to the controls follow the URL when it changes.
+  const [pending, setPending] = useState<Filters>(applied);
+  const [seenKey, setSeenKey] = useState(urlKey);
+  if (seenKey !== urlKey) {
+    setSeenKey(urlKey);
+    setPending(applied);
+  }
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const show = (f: Filters, p: number) => {
+    const next = new URLSearchParams();
+    for (const [key, name] of Object.entries(URL_KEYS) as [keyof Filters, string][]) {
+      if (f[key]) next.set(name, f[key]);
+    }
+    if (topicId) next.set("topic_id", topicId);
+    if (p > 1) next.set("page", String(p));
+    setParams(next);
+  };
 
   const { data: years } = useQuery({
     queryKey: ["pub-years"],
@@ -95,7 +122,7 @@ export default function Publications() {
   });
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["publications", applied, topicId, page],
+    queryKey: ["publications", urlKey],
     queryFn: () => {
       const f = applied;
       return fetchPublications({
@@ -103,9 +130,7 @@ export default function Publications() {
         year: f.year ? Number(f.year) : undefined,
         campus: f.campus || undefined,
         department: f.department || undefined,
-        publication_type: f.publicationType
-          ? (f.publicationType as "journal" | "conference")
-          : undefined,
+        publication_type: f.publicationType || undefined,
         date_from: f.dateFrom || undefined,
         date_to: f.dateTo || undefined,
         topic_id: topicId ? Number(topicId) : undefined,
@@ -119,8 +144,7 @@ export default function Publications() {
   const runSearch = (overrides?: Partial<Filters>) => {
     const next = overrides ? { ...pending, ...overrides } : pending;
     if (overrides) setPending(next);
-    setApplied(next);
-    setPage(1);
+    show(next, 1);
   };
 
   const activeFilters = [
@@ -137,14 +161,15 @@ export default function Publications() {
       <PageHeader
         eyebrow="Research output"
         title="Publications"
-        description="Journal articles and conference papers from researchers across all campuses."
+        description={`Articles, papers, chapters and books by the ${org.noun}'s researchers, newest first.`}
       >
         <div className={styles.controls}>
           <div className={styles.search}>
             <SearchBar
+              key={applied.q}
               placeholder="Search publication titles…"
               suggest="publications"
-              defaultValue={pending.q}
+              defaultValue={applied.q}
               onSearch={(v) => runSearch({ q: v })}
               hideButton
             />
@@ -305,7 +330,7 @@ export default function Publications() {
             page={page}
             pageSize={PAGE_SIZE}
             total={data.total}
-            onChange={setPage}
+            onChange={(p) => show(applied, p)}
           />
         )}
       </div>
