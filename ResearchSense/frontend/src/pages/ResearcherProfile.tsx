@@ -3,6 +3,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
+import { ApiError } from "../api/client";
 import { fetchResearcher } from "../api/researchers";
 import { askAssistant } from "../features/chat/askBus";
 import { INSTITUTION_NAME } from "../config";
@@ -15,6 +16,18 @@ import styles from "./ResearcherProfile.module.css";
 
 const INTL_CAP = 10;
 
+function NotFoundProfile() {
+  return (
+    <div className="container" style={{ padding: "64px 0", textAlign: "center" }}>
+      <p style={{ margin: "0 0 12px", color: "var(--muted)" }}>
+        We don’t have a profile at this address. It may have been merged or
+        the link may be mistyped.
+      </p>
+      <Link to="/researchers">Browse the researcher directory →</Link>
+    </div>
+  );
+}
+
 export default function ResearcherProfile() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
@@ -23,7 +36,7 @@ export default function ResearcherProfile() {
 
   const [showAllIntl, setShowAllIntl] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["researcher", id],
     queryFn: () => fetchResearcher(Number(id)),
     enabled: Boolean(id),
@@ -44,7 +57,13 @@ export default function ResearcherProfile() {
   const isClaimed = Boolean(data && claimedIds?.includes(data.researcher_id));
 
   if (isLoading) return <Loader />;
-  if (isError || !data) return <ErrorState message="Researcher not found." />;
+  // Only a 404 means the person does not exist. A timeout or dropped
+  // connection is not "not found" — saying so would send people away from a
+  // profile that is really there.
+  if (isError && error instanceof ApiError && error.status === 404) {
+    return <NotFoundProfile />;
+  }
+  if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
 
   // Degrade gracefully if the backend (e.g. an older deployed version) omits a
   // list — render what is present instead of crashing the whole profile page.
