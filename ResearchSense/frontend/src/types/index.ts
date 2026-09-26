@@ -66,6 +66,8 @@ export interface PublicationRef {
   citation_count: number;
   doi: string | null;
   author_ids: number[];
+  /** Where the record came from (see lib/provenance). */
+  source?: string;
 }
 
 export interface Researcher {

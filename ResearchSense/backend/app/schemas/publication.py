@@ -47,3 +47,5 @@ class PublicationRef(BaseModel):
     citation_count: int = 0
     doi: str | None = None
     author_ids: list[int] = []
+    #: How the record arrived: harvested ("openalex…") or author-submitted.
+    source: str = ""

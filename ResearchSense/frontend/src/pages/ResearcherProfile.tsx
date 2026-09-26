@@ -11,6 +11,7 @@ import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
+import { provenance } from "../lib/provenance";
 import { coauthoredFirst } from "./coauthoredFirst";
 import styles from "./ResearcherProfile.module.css";
 
@@ -172,6 +173,10 @@ export default function ResearcherProfile() {
                     <span className="mono">{p.publication_year}</span> ·{" "}
                     {p.journal_name} ·{" "}
                     <span className="mono">{p.citation_count}</span> citations
+                    {" · "}
+                    <span className={styles.pubSource} title={provenance(p.source).detail}>
+                      {provenance(p.source).label}
+                    </span>
                     {" · "}
                     {p.doi && (
                       <>

@@ -285,3 +285,8 @@
 .pubAction:hover {
   text-decoration: underline;
 }
+
+.pubSource {
+  border-bottom: 1px dotted var(--line-strong);
+  cursor: help;
+}

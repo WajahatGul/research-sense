@@ -131,6 +131,7 @@ class MockResearcherRepository(ResearcherRepository):
                         "journal_name": p.get("journal_name", ""),
                         "citation_count": p.get("citation_count", 0),
                         "doi": p.get("doi"),
+                        "source": p.get("source", ""),
                         # Author researcher_ids we could resolve (unmatched
                         # authors have researcher_id=None and are dropped).
                         # Lets the frontend detect a shared paper between two

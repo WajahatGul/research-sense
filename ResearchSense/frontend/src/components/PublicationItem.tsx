@@ -1,10 +1,12 @@
 import { askAssistant } from "../features/chat/askBus";
 
 import type { Publication } from "../types";
+import { provenance } from "../lib/provenance";
 import { Badge } from "./Badge";
 import styles from "./PublicationItem.module.css";
 
 export function PublicationItem({ pub }: { pub: Publication }) {
+  const origin = provenance(pub.source);
   return (
     <article className={styles.item}>
       <div className={styles.year}>
@@ -38,6 +40,9 @@ export function PublicationItem({ pub }: { pub: Publication }) {
             <span className="mono">{pub.citation_count}</span> citations
           </span>
           {pub.campus && <span className={styles.campus}>{pub.campus}</span>}
+          <span className={styles.source} title={origin.detail}>
+            {origin.label}
+          </span>
           <span className={styles.actions}>
             {pub.doi && (
               <a
