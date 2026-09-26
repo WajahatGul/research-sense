@@ -245,9 +245,49 @@
   font-style: italic;
 }
 
+.identityNarrow {
+  display: none;
+}
+
+.pubsMore {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 0 20px;
+  border: 1px solid var(--navy);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--navy);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pubsMore:hover {
+  background: var(--navy);
+  color: #fff;
+}
+
+.pubsMore:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
 @media (max-width: 860px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .identityNarrow {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .identityWide {
+    display: none;
   }
 
   .heroInner {

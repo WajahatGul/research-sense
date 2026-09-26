@@ -17,6 +17,8 @@ import styles from "./ResearcherProfile.module.css";
 
 const INTL_CAP = 10;
 
+const PUB_PREVIEW = 10;
+
 function NotFoundProfile() {
   return (
     <div className="container" style={{ padding: "64px 0", textAlign: "center" }}>
@@ -36,6 +38,7 @@ export default function ResearcherProfile() {
   const withId = withParam && !Number.isNaN(Number(withParam)) ? Number(withParam) : null;
 
   const [showAllIntl, setShowAllIntl] = useState(false);
+  const [showAllPubs, setShowAllPubs] = useState(false);
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["researcher", id],
@@ -89,6 +92,38 @@ export default function ResearcherProfile() {
     : intlCollabs.slice(0, INTL_CAP);
   const intlRemaining = intlCollabs.length - INTL_CAP;
 
+  // What this person works on and their background: short, and what a
+  // visitor wants first. On a phone the sidebar used to fall below all of
+  // a researcher's papers (90 here: ~13,000 px of scrolling), so on narrow
+  // screens it is shown before the list instead.
+  const identity = (
+    <>
+      {areas.length > 0 && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Research areas</h3>
+          <div className={styles.topics}>
+            {areas.map((name) => (
+              <Badge key={name} tone="gold">
+                {name}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data.education && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Education</h3>
+          <p className={styles.education}>{data.education}</p>
+        </div>
+      )}
+    </>
+  );
+  // Show the first ten papers; the rest on request.
+  const visiblePublications = showAllPubs
+    ? orderedPublications
+    : orderedPublications.slice(0, PUB_PREVIEW);
+
   return (
     <>
       <header className={styles.hero}>
@@ -140,6 +175,8 @@ export default function ResearcherProfile() {
             </section>
           )}
 
+          <div className={styles.identityNarrow}>{identity}</div>
+
           <section>
             <h2 className={styles.h2}>
               Publications{" "}
@@ -158,7 +195,7 @@ export default function ResearcherProfile() {
               </p>
             )}
             <ul className={styles.pubs}>
-              {orderedPublications.map((p) => (
+              {visiblePublications.map((p) => (
                 <li key={p.publication_id} className={styles.pub}>
                   <span className={styles.pubTitle}>
                     {p.doi ? (
@@ -201,29 +238,23 @@ export default function ResearcherProfile() {
                 <li className={styles.pubMeta}>No publications recorded yet.</li>
               )}
             </ul>
+            {orderedPublications.length > PUB_PREVIEW && (
+              <button
+                type="button"
+                className={styles.pubsMore}
+                aria-expanded={showAllPubs}
+                onClick={() => setShowAllPubs((v) => !v)}
+              >
+                {showAllPubs
+                  ? "Show fewer publications"
+                  : `Show all ${orderedPublications.length} publications`}
+              </button>
+            )}
           </section>
         </main>
 
         <aside className={styles.aside}>
-          {areas.length > 0 && (
-            <div className={styles.card}>
-              <h3 className={styles.h3}>Research areas</h3>
-              <div className={styles.topics}>
-                {areas.map((name) => (
-                  <Badge key={name} tone="gold">
-                    {name}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {data.education && (
-            <div className={styles.card}>
-              <h3 className={styles.h3}>Education</h3>
-              <p className={styles.education}>{data.education}</p>
-            </div>
-          )}
+          <div className={styles.identityWide}>{identity}</div>
 
           {intlCollabs.length > 0 && (
             <div className={styles.card}>
