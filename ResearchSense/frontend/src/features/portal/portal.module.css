@@ -541,3 +541,40 @@
     align-items: center;
   }
 }
+
+/* Profile claims: the evidence an admin judges by, as label/value pairs. */
+.evidence {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  margin: 8px 0 12px;
+  font-size: 0.9rem;
+}
+
+.evidence dt {
+  color: var(--muted);
+}
+
+.evidence dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.evidence a {
+  color: var(--navy);
+}
+
+.claimWarn {
+  color: #9a3412;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 480px) {
+  .evidence {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence dd {
+    margin-bottom: 6px;
+  }
+}

@@ -17,6 +17,7 @@ from app.schemas.auth import (
     LoginRequest,
     MeResponse,
     OrcidStart,
+    ClaimResult,
     TokenResponse,
 )
 from app.services import orcid_oauth
@@ -25,7 +26,7 @@ from app.services.auth_service import AuthService
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 
-@router.post("/claim", response_model=TokenResponse)
+@router.post("/claim", response_model=ClaimResult)
 def claim_profile(
     payload: ClaimRequest,
     service: AuthService = Depends(get_auth_service),

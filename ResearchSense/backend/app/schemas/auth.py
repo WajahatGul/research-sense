@@ -56,6 +56,32 @@ class TokenResponse(BaseModel):
     full_name: str | None = None
 
 
+class ClaimResult(BaseModel):
+    """What happened to a claim: live now (with a session) or waiting."""
+
+    status: str  # "approved" | "pending"
+    message: str
+    token: str | None = None
+    role: str | None = None
+    researcher_id: int | None = None
+    full_name: str | None = None
+
+
+class PendingClaim(BaseModel):
+    """A claim for the admin to judge, with the evidence side by side."""
+
+    id: int
+    orcid_id: str
+    researcher_id: int
+    profile_name: str
+    profile_department: str = ""
+    profile_campus: str = ""
+    orcid_names: list[str] = []
+    orcid_employers: list[str] = []
+    submitted_at: str
+    competing_claims: int = 0  # other claims waiting on the same profile
+
+
 class UploadedPaper(BaseModel):
     title: str
     filename: str

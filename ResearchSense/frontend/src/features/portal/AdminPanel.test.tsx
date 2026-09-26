@@ -15,6 +15,9 @@ import {
 import { AdminPanel } from "./AdminPanel";
 
 vi.mock("../../api/auth", () => ({
+  approveClaim: vi.fn(),
+  fetchPendingClaims: vi.fn().mockResolvedValue([]),
+  rejectClaim: vi.fn(),
   approvePaper: vi.fn(),
   fetchAdminAccounts: vi.fn(),
   fetchPendingPapers: vi.fn(),

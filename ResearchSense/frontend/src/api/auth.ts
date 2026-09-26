@@ -40,7 +40,7 @@ const authHeaders = () => ({ Authorization: `Bearer ${getToken()}` });
 
 // --- endpoints ---
 export const claimProfile = (researcher_id: number, orcid_id: string, password: string) =>
-  post<TokenResponse>("/api/auth/claim", { researcher_id, orcid_id, password });
+  post<ClaimResult>("/api/auth/claim", { researcher_id, orcid_id, password });
 
 export const login = (orcid_id: string, password: string) =>
   post<TokenResponse>("/api/auth/login", { orcid_id, password });
@@ -227,3 +227,41 @@ export const beginOrcidClaim = (researcher_id: number, password: string) =>
     researcher_id,
     password,
   });
+
+// --- Profile claims (admin approval) -----------------------------------------
+// A claim made by typing an ORCID iD waits for an admin: ORCID iDs are public,
+// so typing one proves nothing. Signing in at orcid.org goes live at once.
+
+export interface ClaimResult {
+  status: "approved" | "pending";
+  message: string;
+  token: string | null;
+  role: "researcher" | null;
+  researcher_id: number | null;
+  full_name: string | null;
+}
+
+export interface PendingClaim {
+  id: number;
+  orcid_id: string;
+  researcher_id: number;
+  profile_name: string;
+  profile_department: string;
+  profile_campus: string;
+  orcid_names: string[];
+  orcid_employers: string[];
+  submitted_at: string;
+  competing_claims: number;
+}
+
+export async function fetchPendingClaims(): Promise<PendingClaim[]> {
+  const res = await fetch("/api/admin/claims", { headers: authHeaders() });
+  if (!res.ok) throw new Error("Admin access required");
+  return res.json();
+}
+
+export const approveClaim = (id: number) =>
+  authedPost<ClaimResult>(`/api/admin/claims/${id}/approve`, {});
+
+export const rejectClaim = (id: number, note: string) =>
+  authedPost<{ status: string }>(`/api/admin/claims/${id}/reject`, { note });

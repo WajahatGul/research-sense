@@ -34,13 +34,23 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   const [mode, setMode] = useState<Mode>("signin");
   const [kind, setKind] = useState<Kind>("researcher");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
-  const submit = async (action: () => Promise<{ token: string }>) => {
+  // A claim typed in by hand comes back without a session: it waits for an
+  // administrator. That is an outcome to explain, not an error to show.
+  const submit = async (
+    action: () => Promise<{ token: string | null; message?: string }>,
+  ) => {
     setError("");
+    setNotice("");
     try {
       const res = await action();
-      setToken(res.token);
-      onSignedIn();
+      if (res.token) {
+        setToken(res.token);
+        onSignedIn();
+      } else {
+        setNotice(res.message ?? "Your request was received.");
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     }
@@ -104,6 +114,11 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
         {/* Above the form, not below it: the claim form is tall enough that an
             error under the submit button lands off-screen, so the user presses
             the button and sees nothing happen. */}
+        {notice && (
+          <p className={styles.status} role="status">
+            {notice}
+          </p>
+        )}
         {error && (
           <p className={styles.error} role="alert">
             {error}
@@ -164,7 +179,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   );
 }
 
-type Submit = (action: () => Promise<{ token: string }>) => void;
+type Submit = (action: () => Promise<{ token: string | null; message?: string }>) => void;
 
 function LoginForm({ onSubmit }: { onSubmit: Submit }) {
   const [orcid, setOrcid] = useState("");
@@ -356,8 +371,8 @@ function ClaimForm({
         />
       </label>
       <p className={styles.hint}>
-        It must be your own iD: the name on the public ORCID record is checked
-        against the profile you are claiming.
+        It must be your own iD. An administrator checks the public ORCID
+        record against the profile before your account opens.
       </p>
       <button
         type="submit"

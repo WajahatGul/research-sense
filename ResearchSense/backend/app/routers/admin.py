@@ -5,14 +5,15 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+from collections import Counter
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.core.deps import get_researcher_service
+from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
-from app.schemas.auth import ClaimedAccount
+from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
 from app.services import refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
@@ -24,6 +25,45 @@ router = APIRouter(
 
 class RejectBody(BaseModel):
     note: str | None = None
+
+
+@router.get("/claims", response_model=list[PendingClaim])
+def pending_claims():
+    """Profile claims waiting for a decision, with the evidence to judge by."""
+    service = get_researcher_service()
+    store = AccountStore.instance()
+    rows = store.pending_claims()
+    waiting_on = Counter(c["researcher_id"] for c in rows)
+    out = []
+    for c in rows:
+        researcher = service.get(c["researcher_id"])
+        evidence = json.loads(c.get("evidence_json") or "{}")
+        out.append(
+            PendingClaim(
+                id=c["id"],
+                orcid_id=c["orcid_id"],
+                researcher_id=c["researcher_id"],
+                profile_name=researcher.full_name if researcher else "(unknown)",
+                profile_department=researcher.department if researcher else "",
+                profile_campus=researcher.campus if researcher else "",
+                orcid_names=evidence.get("orcid_names", []),
+                orcid_employers=evidence.get("orcid_employers", []),
+                submitted_at=c["submitted_at"],
+                competing_claims=waiting_on[c["researcher_id"]] - 1,
+            )
+        )
+    return out
+
+
+@router.post("/claims/{claim_id}/approve", response_model=ClaimResult)
+def approve_claim(claim_id: int):
+    return get_auth_service().approve_claim(claim_id)
+
+
+@router.post("/claims/{claim_id}/reject")
+def reject_claim(claim_id: int, body: RejectBody):
+    get_auth_service().reject_claim(claim_id, body.note)
+    return {"status": "rejected"}
 
 
 @router.get("/accounts", response_model=list[ClaimedAccount])

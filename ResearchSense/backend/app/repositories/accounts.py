@@ -44,6 +44,17 @@ CREATE TABLE IF NOT EXISTS refresh_log (
     finished_at TEXT,
     status      TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS claims (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    orcid_id      TEXT NOT NULL,
+    researcher_id INTEGER NOT NULL,
+    password_hash TEXT NOT NULL,
+    evidence_json TEXT NOT NULL DEFAULT '{}',
+    status        TEXT NOT NULL DEFAULT 'pending',
+    submitted_at  TEXT NOT NULL,
+    reviewed_at   TEXT,
+    note          TEXT
+);
 CREATE TABLE IF NOT EXISTS submissions (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     kind          TEXT NOT NULL,
@@ -134,6 +145,58 @@ class AccountStore:
                 "SELECT researcher_id FROM accounts WHERE active = 1"
             ).fetchall()
         return {r["researcher_id"] for r in rows}
+
+    # --- profile claims (admin approval for claims ORCID did not prove) ---
+    # A claim is not an account. Several people may claim one profile while
+    # they wait; approving one creates the account and turns the rest down,
+    # so a false claim cannot lock the real owner out.
+    def create_claim(
+        self, orcid_id: str, researcher_id: int, password_hash: str, evidence_json: str
+    ) -> int:
+        with self._connect() as con:
+            cur = con.execute(
+                "INSERT INTO claims (orcid_id, researcher_id, password_hash,"
+                " evidence_json, submitted_at) VALUES (?, ?, ?, ?, ?)",
+                (orcid_id, researcher_id, password_hash, evidence_json, _now()),
+            )
+            return int(cur.lastrowid)
+
+    def get_claim(self, claim_id: int) -> dict | None:
+        with self._connect() as con:
+            row = con.execute("SELECT * FROM claims WHERE id = ?", (claim_id,)).fetchone()
+        return dict(row) if row else None
+
+    def pending_claims(self) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT * FROM claims WHERE status = 'pending' ORDER BY id"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def latest_claim_for_orcid(self, orcid_id: str) -> dict | None:
+        with self._connect() as con:
+            row = con.execute(
+                "SELECT * FROM claims WHERE orcid_id = ? ORDER BY id DESC LIMIT 1",
+                (orcid_id,),
+            ).fetchone()
+        return dict(row) if row else None
+
+    def set_claim_status(self, claim_id: int, status: str, note: str | None = None) -> None:
+        with self._connect() as con:
+            con.execute(
+                "UPDATE claims SET status = ?, reviewed_at = ?, note = ? WHERE id = ?",
+                (status, _now(), note, claim_id),
+            )
+
+    def reject_pending_claims_for(self, researcher_id: int, note: str) -> int:
+        """Turn down every claim still waiting on this profile."""
+        with self._connect() as con:
+            cur = con.execute(
+                "UPDATE claims SET status = 'rejected', reviewed_at = ?, note = ?"
+                " WHERE researcher_id = ? AND status = 'pending'",
+                (_now(), note, researcher_id),
+            )
+            return cur.rowcount
 
     # --- uploads ---
     def record_upload(

@@ -12,6 +12,7 @@ import {
   triggerRefresh,
 } from "../../api/auth";
 import { Badge } from "../../components/Badge";
+import { ClaimsQueue } from "./ClaimsQueue";
 import styles from "./portal.module.css";
 
 // Human-readable venue/DOI line for a pending item's stored payload — shape
@@ -124,6 +125,8 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
         </button>
         {message && <p className={styles.status}>{message}</p>}
       </section>
+
+      <ClaimsQueue />
 
       <section className={styles.section}>
         <h3 className={styles.h3}>Pending papers</h3>
