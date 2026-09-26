@@ -89,3 +89,17 @@
 .list {
   border-bottom: 1px solid var(--line);
 }
+
+.scope {
+  margin: 0 0 var(--sp-3);
+  padding: 10px 14px;
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.scope a {
+  color: var(--navy);
+  font-weight: 600;
+}

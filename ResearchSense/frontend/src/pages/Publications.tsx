@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchPublications, fetchPublicationYears } from "../api/publications";
 import { fetchCampuses, fetchDepartments } from "../api/researchers";
 import { fetchStats } from "../api/stats";
+import { fetchTopic } from "../api/topics";
 import type { Stats } from "../types";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
@@ -85,6 +86,12 @@ export default function Publications() {
   });
 
   const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
+  // Name the area a deep link filtered by, so the list explains itself.
+  const { data: activeTopic } = useQuery({
+    queryKey: ["topic", Number(topicId)],
+    queryFn: () => fetchTopic(Number(topicId)),
+    enabled: topicId != null,
+  });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["publications", applied, topicId, page],
@@ -226,6 +233,16 @@ export default function Publications() {
 
       <div className={`container ${styles.body}`}>
         <DataNote>{coverageNote(stats)}</DataNote>
+
+        {topicId && (
+          <p className={styles.scope}>
+            Showing publications in{" "}
+            <Link to={`/topics/${topicId}`}>
+              {activeTopic?.topic_name ?? "this research area"}
+            </Link>
+            . <Link to="/publications">Show all publications</Link>
+          </p>
+        )}
 
         {hasSearched && (
           <span className={`mono ${styles.count}`}>

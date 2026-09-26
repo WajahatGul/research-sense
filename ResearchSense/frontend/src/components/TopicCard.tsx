@@ -14,7 +14,7 @@ function monogram(name: string): string {
 export function TopicCard({ topic }: { topic: Topic }) {
   return (
     <Link
-      to={`/publications?topic_id=${topic.topic_id}`}
+      to={`/topics/${topic.topic_id}`}
       className={styles.card}
     >
       <span className={styles.mono}>{monogram(topic.topic_name)}</span>

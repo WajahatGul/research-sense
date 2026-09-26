@@ -17,7 +17,7 @@ export default function Topics() {
       <PageHeader
         eyebrow="Fields of inquiry"
         title="Research areas"
-        description="The topics that organise research across the institution. Select an area to see its publications."
+        description="The topics that organise research across the institution. Open an area to see who works on it and what they have published."
       />
       <div className={`container ${styles.body}`}>
         {isLoading && <Loader />}
