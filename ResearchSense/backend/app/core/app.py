@@ -3,15 +3,20 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
+import re
+import time
+import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from app.core.config import settings
+from app.core.health import check as health_check
 from app.core.security import workspace_from_token
 from app.repositories.loader import set_workspace
 from app.routers import (
@@ -29,6 +34,18 @@ from app.routers import (
     workspace,
 )
 from app.services.refresh_service import weekly_refresh_loop
+
+log = logging.getLogger("researchsense")
+if not log.handlers:
+    _handler = logging.StreamHandler()
+    _handler.setFormatter(logging.Formatter("%(levelname)s:     %(message)s"))
+    log.addHandler(_handler)
+    log.setLevel(logging.INFO)
+    log.propagate = False
+
+# A caller may pass its own ID to correlate across services, but only a
+# short, plain token: anything else could forge or corrupt log lines.
+_REQUEST_ID = re.compile(r"[A-Za-z0-9-]{1,64}")
 
 
 @asynccontextmanager
@@ -78,9 +95,40 @@ def create_app() -> FastAPI:
     ):
         app.include_router(module.router)
 
+    @app.middleware("http")
+    async def trace(request, call_next):
+        """Give every request an ID and a duration, in the response and the log.
+
+        Added last so it wraps everything: the time measured is the time the
+        caller waited. Only the path is logged — query strings carry what
+        people searched for, which does not belong in server logs.
+        """
+        incoming = request.headers.get("x-request-id", "")
+        rid = incoming if _REQUEST_ID.fullmatch(incoming) else uuid.uuid4().hex[:12]
+        start = time.perf_counter()
+        try:
+            response = await call_next(request)
+        except Exception:
+            log.exception("%s %s %s failed", rid, request.method, request.url.path)
+            raise
+        ms = (time.perf_counter() - start) * 1000
+        response.headers["X-Request-ID"] = rid
+        response.headers["Server-Timing"] = f"app;dur={ms:.1f}"
+        log.info(
+            "%s %s %s %d %.1fms",
+            rid,
+            request.method,
+            request.url.path,
+            response.status_code,
+            ms,
+        )
+        return response
+
     @app.get("/api/health", tags=["health"])
-    def health() -> dict[str, str]:
-        return {"status": "ok", "service": settings.app_name}
+    def health() -> JSONResponse:
+        serving, report = health_check()
+        report["service"] = settings.app_name
+        return JSONResponse(report, status_code=200 if serving else 503)
 
     _mount_frontend(app)
     return app
