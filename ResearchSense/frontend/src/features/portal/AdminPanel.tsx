@@ -147,7 +147,11 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
                 <li key={`${p.kind}-${p.id}`} className={styles.pendingItem}>
                   <div className={styles.pendingHead}>
                     <Badge tone={p.kind === "publication" ? "navy" : "default"}>
-                      {p.kind === "publication" ? "Publication" : "PDF upload"}
+                      {p.kind === "publication"
+                        ? "Publication"
+                        : p.kind === "library"
+                          ? "Library paper (read by the assistant)"
+                          : "PDF upload"}
                     </Badge>
                     <span className={styles.pendingTitle}>{p.title}</span>
                   </div>

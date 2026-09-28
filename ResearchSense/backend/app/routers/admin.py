@@ -200,6 +200,10 @@ def approve_paper(sub_id: int, admin: dict = Depends(current_admin)):
     if sub["kind"] == "publication":
         submission_service.publish_record(json.loads(sub["record_json"]))
     merged = staging.merge_staged(sub_id)
+    if sub["kind"] == "library":
+        from app.services import library_service
+
+        library_service.approve_library(json.loads(sub["record_json"]), merged)
     if merged == 0 and sub["kind"] in ("publication", "upload"):
         log.warning(
             "Approval of submission %s (kind=%s) merged 0 staged chunks — "
@@ -222,6 +226,10 @@ def reject_paper(sub_id: int, body: RejectBody, admin: dict = Depends(current_ad
     if sub is None:
         raise HTTPException(status_code=404, detail="No such submission")
     staging.discard_staged(sub_id)
+    if sub["kind"] == "library":
+        from app.services import library_service
+
+        library_service.discard_library(json.loads(sub["record_json"]))
     if sub["kind"] == "upload":
         from app.routers.papers import UPLOADS_DIR
 

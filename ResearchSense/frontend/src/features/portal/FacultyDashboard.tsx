@@ -13,6 +13,7 @@ import styles from "./portal.module.css";
 function kindLabel(kind: string): string {
   if (kind === "publication") return "Publication";
   if (kind === "upload") return "PDF upload";
+  if (kind === "library") return "Library paper";
   return kind;
 }
 

@@ -208,10 +208,11 @@ def study_doi(
     except LibraryError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     return StudyResult(
-        **result,
+        title=result["title"],
+        chunks_added=0,
         message=(
-            "Added to the library. Ask the assistant anything about "
-            "this paper — it has read the full text."
+            "Sent for review. The assistant will read this paper once an "
+            "administrator approves it; see My submissions for its status."
         ),
     )
 
@@ -232,9 +233,10 @@ async def study_upload(
     except LibraryError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     return StudyResult(
-        **result,
+        title=result["title"],
+        chunks_added=0,
         message=(
-            "Added to the library. Ask the assistant anything about "
-            "this paper — it has read the full text."
+            "Sent for review. The assistant will read this paper once an "
+            "administrator approves it; see My submissions for its status."
         ),
     )

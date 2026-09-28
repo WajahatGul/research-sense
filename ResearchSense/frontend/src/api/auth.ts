@@ -178,7 +178,7 @@ export async function studyUpload(title: string, file: File) {
 
 export interface PendingPaper {
   id: number;
-  kind: "publication" | "upload";
+  kind: "publication" | "upload" | "library";
   researcher_id: number;
   title: string;
   submitted_at: string;
