@@ -1,0 +1,80 @@
+.body {
+  padding-top: var(--sp-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.name {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--navy);
+}
+
+.where {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.areas {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.links a {
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.links a:hover {
+  color: var(--gold-ink);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (pointer: coarse) {
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

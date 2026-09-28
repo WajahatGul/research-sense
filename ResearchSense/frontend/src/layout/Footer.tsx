@@ -35,6 +35,7 @@ export default function Footer() {
           <Link to="/researchers">Researchers</Link>
           <Link to="/publications">Publications</Link>
           <Link to="/topics">Research Areas</Link>
+          <Link to="/departments">{plural(org.unit)}</Link>
           <Link to="/collaboration">Collaboration finder</Link>
           <Link to="/analytics">Analytics</Link>
         </nav>

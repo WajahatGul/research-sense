@@ -23,6 +23,7 @@ from app.routers import (
     admin,
     analytics,
     auth,
+    departments,
     chat,
     library,
     papers,
@@ -118,6 +119,7 @@ def create_app() -> FastAPI:
         workspace,
         suggest,
         organisation,
+        departments,
     ):
         app.include_router(module.router)
 

@@ -35,7 +35,7 @@ export function HeroPanel() {
     {
       label: t.units.charAt(0).toUpperCase() + t.units.slice(1),
       value: stats?.departments,
-      to: "/analytics",
+      to: "/departments",
     },
   ];
 
