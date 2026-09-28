@@ -1,6 +1,8 @@
 .hero {
   position: relative;
-  overflow: hidden;
+  /* No overflow clipping: the search suggestions open below the box and
+     must be able to extend past the hero. The grid decoration below is
+     inset to the hero, so nothing else spills out. */
   background:
     radial-gradient(90% 120% at 85% -10%, rgba(201, 162, 39, 0.18), transparent 55%),
     linear-gradient(160deg, var(--navy) 0%, var(--navy-900) 100%);
@@ -18,8 +20,18 @@
   mask-image: radial-gradient(70% 80% at 40% 20%, #000, transparent 75%);
 }
 
+/* Search on the left, what is inside on the right. The search column is
+   the wider one: it holds the one primary action on the screen. */
 .inner {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.main {
+  min-width: 0;
 }
 
 .eyebrow {
@@ -31,9 +43,11 @@
 }
 
 .title {
-  max-width: 15ch;
+  /* Two lines for the generic headline; at 15ch it broke into four and
+     pushed the search box to the bottom of the screen. */
+  max-width: 21ch;
   margin: 18px 0 0;
-  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  font-size: clamp(2.2rem, 4.4vw, 3.5rem);
   font-weight: 600;
   line-height: 1.06;
 }
@@ -108,6 +122,140 @@
   .newHere a {
     display: inline-flex;
     align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* --- What is inside: quieter than the search box, outlined not filled --- */
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 22px;
+}
+
+.counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.count {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #fff;
+  transition: background 0.15s;
+}
+
+.count:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.countValue {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.countPending {
+  display: block;
+  width: 64px;
+  height: 1.6rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.countLabel {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.fields {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fieldsLabel {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.fieldList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fieldLink {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 4px;
+  color: #fff;
+  font-size: 0.92rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.fieldLink:hover {
+  color: var(--gold-soft);
+}
+
+.fieldN {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.allFields {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--gold-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* Tablets and phones: the panel follows the search as one row of counts;
+   the field list goes (Research areas is one tap away in the menu). */
+@media (max-width: 960px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .fields {
+    display: none;
+  }
+
+  .counts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .counts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+}
+
+@media (pointer: coarse) {
+  .count,
+  .fieldLink,
+  .allFields {
     min-height: 44px;
   }
 }
