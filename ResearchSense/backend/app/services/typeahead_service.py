@@ -16,10 +16,12 @@ import heapq
 
 from pydantic import BaseModel
 
+from app.core.areas import paper_areas
 from app.core.textsearch import Query, index_for
 from app.repositories import loader
 from app.repositories.mock.publications import _search_fields as _publication_fields
 from app.repositories.mock.researchers import _search_fields as _researcher_fields
+from app.repositories.mock.topics import _head_counts
 
 SCOPES = ("researchers", "topics", "publications")
 MIN_CHARS = 2
@@ -57,6 +59,7 @@ PER_KIND_IN_MIX = 5
 LEAD_KIND_CAP = 5
 OTHER_KIND_CAP = 3
 GUARANTEED_PER_KIND = 2
+EMPTY_AREA_PENALTY = 50
 
 
 def suggest(text: str | None, scope: str | None = None, limit: int = 5) -> list[Suggestion]:
@@ -83,11 +86,22 @@ def suggest(text: str | None, scope: str | None = None, limit: int = 5) -> list[
 
     if "topics" in scopes:
         rows = loader.load("topics")
-        for score, t in _best("topics", rows, _topic_fields, q, per_kind,
-                              lambda t: -(t.get("publication_count") or 0)):
-            n = t.get("publication_count") or 0
+        papers = paper_areas(rows, loader.load("publications"))[1]
+        people = _head_counts(rows, loader.load("researchers"))
+        for score, t in _best("topics", rows, _topic_fields, q, per_kind + 3,
+                              lambda t: -papers.get(t["topic_id"], 0)):
+            n = papers.get(t["topic_id"], 0)
+            m = people.get(" ".join(t["topic_name"].lower().split()), 0)
+            if n == 0:
+                # An area with no papers (someone's own wording for their
+                # expertise) is a weak destination: keep it below every
+                # area that has papers matching as well.
+                score -= EMPTY_AREA_PENALTY
+            detail = " · ".join(x for x in (
+                f"{n} publication{'' if n == 1 else 's'}" if n else "",
+                f"{m} researcher{'' if m == 1 else 's'}" if m else "") if x)
             ranked.append((score, Suggestion(kind="topic", id=t["topic_id"], label=t["topic_name"],
-                                             detail=f"{n} publication{'' if n == 1 else 's'}")))
+                                             detail=detail or "No papers yet")))
 
     if "publications" in scopes:
         rows = loader.load("publications")

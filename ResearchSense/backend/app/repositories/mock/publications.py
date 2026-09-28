@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from datetime import date as _date
 
+from app.core.areas import paper_areas
 from app.core.textsearch import Query, correct, index_for
 from app.repositories import loader
 from app.repositories.base import PublicationRepository
@@ -98,6 +99,7 @@ class MockPublicationRepository(PublicationRepository):
         }
         q = Query(query)
         entries = index_for("publications", rows, _search_fields).entries if q else None
+        in_area = paper_areas(loader.load("topics"), rows)[0] if topic_id is not None else {}
         result: list[tuple[float, Publication]] = []
         for i, p in enumerate(rows):
             score = q.score_entry(entries[i]) if entries else 0.0
@@ -107,9 +109,7 @@ class MockPublicationRepository(PublicationRepository):
                 continue
             if campus and p.get("campus") != campus:
                 continue
-            if topic_id is not None and topic_id not in {
-                t["topic_id"] for t in p.get("topics", [])
-            }:
+            if topic_id is not None and topic_id not in in_area.get(p["publication_id"], ()):
                 continue
             if author_id is not None and not any(
                 a.get("researcher_id") == author_id for a in p.get("authors", [])

@@ -32,3 +32,34 @@ def test_head_count_list_and_assistant_agree():
 
 def test_an_unknown_area_lists_no_one():
     assert client.get("/api/researchers", params={"topic_id": 999999}).json()["total"] == 0
+
+
+def test_an_area_includes_papers_on_its_narrower_topics():
+    area = client.get(f"/api/topics/{ML}").json()
+    listed = client.get("/api/publications", params={"topic_id": ML, "page_size": 1}).json()["total"]
+    assert area["publication_count"] == listed > 100  # was 4: exact label only
+
+
+def test_every_label_on_a_paper_counts_not_only_the_first_four():
+    rows = client.get("/api/topics", params={"q": "Islamic Finance and Banking Studies"}).json()
+    area = next(t for t in rows if t["topic_name"] == "Islamic Finance and Banking Studies")
+    assert area["publication_count"] >= 231  # showed 59
+
+
+def test_single_words_are_not_matched_inside_longer_names():
+    from app.core.areas import paper_areas
+    topics = [{"topic_id": 1, "topic_name": "Health"},
+              {"topic_id": 2, "topic_name": "Machine Learning"}]
+    pubs = [{"publication_id": 9, "topics": [],
+             "topic_names": ["Health Informatics and Machine Learning Applications"]}]
+    assert paper_areas(topics, pubs)[0][9] == {2}
+
+
+def test_areas_without_papers_sink_in_suggestions():
+    from app.services.typeahead_service import suggest
+
+    top = suggest("machine learning", None, 8)
+    areas = [s for s in top if s.kind == "topic"]
+    assert areas[0].label == "Machine Learning"
+    assert "182" in areas[0].detail or "publications" in areas[0].detail
+    assert "Machine Learning Data Mining Big Data" not in [s.label for s in top[:4]]

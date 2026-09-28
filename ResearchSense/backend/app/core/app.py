@@ -70,6 +70,10 @@ def _warm_search_indexes() -> None:
             repo.suggest("warm")  # spelling-correction vocabulary
         # "Is this also you?" suggestions compare every author record with
         # every profile (~5 s); do it now, not on a researcher's first visit.
+        # Area head counts and which papers belong to each area (~1 s).
+        from app.repositories.mock.topics import MockTopicRepository
+
+        MockTopicRepository().list()
         from app.services import identity_service
 
         identity_service.candidates(limit=1)
