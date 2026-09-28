@@ -80,6 +80,10 @@ def test_a_refresh_cleans_the_new_data_before_indexing(monkeypatch, tmp_path):
     calls = []
     monkeypatch.setattr(fetch_publications, "DATA_DIR", tmp_path)
     (tmp_path / "publication_duplicates.json").write_text("[]")
+    # Enough data for the post-refresh check to pass.
+    (tmp_path / "researchers.json").write_text('[{"researcher_id": 1}]')
+    (tmp_path / "publications.json").write_text('[{"publication_id": 1}]')
+    (tmp_path / "topics.json").write_text('[{"topic_id": 1}]')
     monkeypatch.setattr(fetch_publications, "main", lambda: calls.append("fetch"))
     monkeypatch.setattr(merge_author_variants, "main", lambda write: calls.append("people"))
     monkeypatch.setattr(unlink_misattributed, "main", lambda write: calls.append("unlink"))
