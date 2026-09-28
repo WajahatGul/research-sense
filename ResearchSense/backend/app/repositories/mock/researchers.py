@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from app.core.areas import works_in
 from app.core.textsearch import Query, correct, index_for
 from app.repositories import loader
 from app.repositories.base import ResearcherRepository
@@ -41,7 +42,7 @@ def _passes_filters(
     campus: str | None,
     department: str | None,
     designation: str | None,
-    topic_id: int | None,
+    topic_name: str | None,
 ) -> bool:
     if campus and rec.get("campus") != campus:
         return False
@@ -52,9 +53,7 @@ def _passes_filters(
         rec.get("academic_rank"),
     ):
         return False
-    return topic_id is None or topic_id in {
-        t["topic_id"] for t in rec.get("topics", [])
-    }
+    return topic_name is None or works_in(rec, topic_name)
 
 
 class MockResearcherRepository(ResearcherRepository):
@@ -72,6 +71,12 @@ class MockResearcherRepository(ResearcherRepository):
     ):
         q = Query(query)
         rows = self._all()
+        topic_name = None
+        if topic_id is not None:
+            topic_name = next(
+                (t["topic_name"] for t in loader.load("topics") if t["topic_id"] == topic_id),
+                "\0",  # an unknown area matches no one
+            )
         entries = index_for("researchers", rows, _search_fields).entries if q else None
         scored: list[tuple[float, dict]] = []
         for i, r in enumerate(rows):
@@ -81,7 +86,7 @@ class MockResearcherRepository(ResearcherRepository):
             # thousands of cards carrying nothing but a name.
             if loader.is_extended(r) and not q:
                 continue
-            if not _passes_filters(r, campus, department, designation, topic_id):
+            if not _passes_filters(r, campus, department, designation, topic_name):
                 continue
             score = q.score_entry(entries[i]) if entries else 0.0
             if score is None:
@@ -96,7 +101,9 @@ class MockResearcherRepository(ResearcherRepository):
             key=lambda sr: (
                 -sr[0],
                 loader.is_extended(sr[1]),
-                -(sr[1].get("publication_count") or 0) if q else 0,
+                # The people an area is listed with lead with its most
+                # published members, not the alphabet.
+                -(sr[1].get("publication_count") or 0) if q or topic_id else 0,
                 sr[1]["full_name"],
             )
         )
