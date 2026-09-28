@@ -14,6 +14,14 @@ import {
 } from "../../api/auth";
 import { AdminPanel } from "./AdminPanel";
 
+vi.mock("../../api/corrections", () => ({
+  fetchPendingCorrections: vi.fn().mockResolvedValue([]),
+  fetchIdentityCandidates: vi.fn().mockResolvedValue([]),
+  approveCorrection: vi.fn(),
+  rejectCorrection: vi.fn(),
+  decideCandidate: vi.fn(),
+}));
+
 vi.mock("../../api/auth", () => ({
   approveClaim: vi.fn(),
   fetchPendingClaims: vi.fn().mockResolvedValue([]),

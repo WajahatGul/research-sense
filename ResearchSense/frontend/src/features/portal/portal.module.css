@@ -578,3 +578,35 @@
     margin-bottom: 6px;
   }
 }
+
+/* Record corrections (YourRecord.tsx) */
+.samplePapers {
+  margin: 6px 0 10px;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.textButton {
+  margin-left: auto;
+  border: none;
+  background: none;
+  padding: 4px 6px;
+  color: var(--navy);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.textButton:hover {
+  color: var(--gold-ink);
+}
+
+@media (pointer: coarse) {
+  .textButton {
+    min-height: 44px;
+  }
+}

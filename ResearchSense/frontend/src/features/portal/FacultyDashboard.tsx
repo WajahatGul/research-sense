@@ -7,6 +7,7 @@ import { fetchMySubmissions, uploadPaper } from "../../api/auth";
 import { fetchPublications } from "../../api/publications";
 import { AddPublication } from "./AddPublication";
 import { StudyPaper } from "./StudyPaper";
+import { YourRecord } from "./YourRecord";
 import styles from "./portal.module.css";
 
 function kindLabel(kind: string): string {
@@ -119,33 +120,7 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
         )}
       </section>
 
-      <section className={styles.section}>
-        <h3 className={styles.h3}>Your publications</h3>
-        <p className={styles.hint}>
-          Publications linked to your profile — including ones you add above.
-          They also appear on your public profile, in Publications, and in
-          Analytics.
-        </p>
-        {!myPubs || myPubs.items.length === 0 ? (
-          <p className={styles.hint}>No publications on your profile yet.</p>
-        ) : (
-          <ul className={styles.uploads}>
-            {myPubs.items.map((p) => (
-              <li key={p.publication_id} className={styles.upload}>
-                <span>
-                  {p.title}
-                  {(p.source === "doi" || p.source === "manual") && (
-                    <span className={styles.uploadDate}> · added by you</span>
-                  )}
-                </span>
-                <span className={`mono ${styles.uploadDate}`}>
-                  {p.publication_year}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <YourRecord papers={myPubs?.items ?? []} />
 
       <StudyPaper />
 
