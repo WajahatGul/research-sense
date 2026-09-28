@@ -212,6 +212,9 @@ class AuthService:
 
     def me(self, token_payload: dict) -> MeResponse:
         if token_payload.get("role") == "admin":
+            from app.services import admin_accounts
+
+            admin_accounts.ensure_first_admin()
             admin = self._store.get_admin(token_payload.get("sub", "")) or {}
             return MeResponse(role="admin", full_name=admin.get("username"),
                               password_weak=bool(admin.get("weak_password")))
