@@ -60,7 +60,7 @@ export function SearchBar({
   const { data } = useQuery({
     queryKey: ["suggest", suggest, typed],
     queryFn: () =>
-      fetchSuggestions(typed, suggest === "all" ? undefined : suggest, suggest === "all" ? 3 : 6),
+      fetchSuggestions(typed, suggest === "all" ? undefined : suggest, suggest === "all" ? 8 : 6),
     enabled,
     staleTime: 60_000,
   });

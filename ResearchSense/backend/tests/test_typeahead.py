@@ -31,8 +31,30 @@ def test_one_letter_suggests_nothing():
 
 
 def test_all_scopes_are_labelled():
-    kinds = {s["kind"] for s in _get(q="machine learning")}
+    kinds = {s["kind"] for s in _get(q="machine learning", limit=10)}
     assert kinds == {"researcher", "topic", "publication"}
+
+
+def test_the_best_match_comes_first_whatever_its_kind():
+    # People who match only through their research areas used to come
+    # first; the area whose name is what was typed belongs on top.
+    first = _get(q="machine learning", limit=8)[0]
+    assert (first["kind"], first["label"]) == ("topic", "Machine Learning")
+    assert _get(q="machine", limit=8)[0]["kind"] != "researcher"
+
+
+def test_a_topic_search_still_offers_people():
+    kinds = [s["kind"] for s in _get(q="machine learning", limit=8)]
+    assert "researcher" in kinds
+
+
+def test_a_name_still_puts_the_person_first():
+    first = _get(q="arif ur rahman", limit=8)[0]
+    assert (first["kind"], first["label"]) == ("researcher", "Arif Ur Rahman")
+
+
+def test_a_mixed_list_respects_the_total_limit():
+    assert len(_get(q="data", limit=8)) == 8
 
 
 def test_scope_limits_the_kinds():
