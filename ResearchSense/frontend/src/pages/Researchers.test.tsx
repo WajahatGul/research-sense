@@ -155,23 +155,26 @@ describe("Researchers", () => {
     expect(note.textContent).not.toContain("for .");
   });
 
-  it("re-fetches researchers when Search is pressed", async () => {
+  it("applies a filter the moment it is chosen", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search researchers",
+    await screen.findByText("Dr. Ayesha Khan");
+    fireEvent.change(screen.getByLabelText("Filter by designation"), {
+      target: { value: "Professor" },
     });
-    fireEvent.click(searchButton);
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
-    expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenLastCalledWith(
+        expect.objectContaining({ designation: "Professor" }),
+      ),
+    );
   });
 
-  it("renders exactly one Search button", async () => {
+  it("renders exactly one Search button, the search box's own", async () => {
     renderPage();
 
-    await screen.findByRole("button", { name: "Search researchers" });
-    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    await screen.findByText("Dr. Ayesha Khan");
+    const searchButtons = screen.getAllByRole("button", { name: /^search$/i });
     expect(searchButtons).toHaveLength(1);
   });
 

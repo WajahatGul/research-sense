@@ -101,22 +101,6 @@
   cursor: pointer;
 }
 
-.searchButton {
-  border: none;
-  background: var(--navy);
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 11px 24px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.searchButton:hover {
-  background: var(--navy-900);
-}
-
 .body {
   padding-top: var(--sp-6);
 }
@@ -150,8 +134,7 @@
    thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
 @media (pointer: coarse) {
   .select,
-  .dateInput,
-  .searchButton {
+  .dateInput {
     min-height: 44px;
   }
 }

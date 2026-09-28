@@ -17,7 +17,6 @@ interface Props {
   onCampus: (v: string) => void;
   onDepartment: (v: string) => void;
   onDesignation: (v: string) => void;
-  onSearch: () => void;
   total: number;
   hasSearched: boolean;
   /** Filters currently applied (from the URL), shown on the folded button. */
@@ -31,7 +30,6 @@ export function FilterBar({
   onCampus,
   onDepartment,
   onDesignation,
-  onSearch,
   total,
   hasSearched,
   activeCount = 0,
@@ -113,14 +111,6 @@ export function FilterBar({
           ))}
         </select>
         </div>
-        <button
-          type="button"
-          className={styles.searchButton}
-          onClick={onSearch}
-          aria-label="Search researchers"
-        >
-          Search
-        </button>
       </div>
     </div>
   );

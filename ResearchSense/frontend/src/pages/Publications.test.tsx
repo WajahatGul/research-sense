@@ -87,23 +87,11 @@ describe("Publications", () => {
     ).toBeInTheDocument();
   });
 
-  it("fetches publications after Search is pressed", async () => {
+  it("renders exactly one Search button, the search box's own", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search publications",
-    });
-    fireEvent.click(searchButton);
-
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalled());
-    expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
-  });
-
-  it("renders exactly one Search button", async () => {
-    renderPage();
-
-    await screen.findByRole("button", { name: "Search publications" });
-    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    await screen.findByText("A Great Paper");
+    const searchButtons = screen.getAllByRole("button", { name: /^search$/i });
     expect(searchButtons).toHaveLength(1);
   });
 
@@ -122,16 +110,19 @@ describe("Publications", () => {
     expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
   });
 
-  it("does not refetch when a filter changes without pressing Search", async () => {
+  it("applies a filter the moment it is chosen", async () => {
     renderPage();
 
     await screen.findByText("A Great Paper");
-    const callsBefore = mockFetchPublications.mock.calls.length;
+    fireEvent.change(screen.getByLabelText("Filter by campus"), {
+      target: { value: "Islamabad (E-8)" },
+    });
 
-    const campusSelect = screen.getByLabelText("Filter by campus");
-    fireEvent.change(campusSelect, { target: { value: "Islamabad (E-8)" } });
-
-    expect(mockFetchPublications).toHaveBeenCalledTimes(callsBefore);
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ campus: "Islamabad (E-8)" }),
+      ),
+    );
   });
 
   it("says how many filters are active on the folded filter button", async () => {
@@ -143,7 +134,6 @@ describe("Publications", () => {
     fireEvent.change(screen.getByLabelText("Filter by campus"), {
       target: { value: "Islamabad (E-8)" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "Search publications" }));
 
     expect(
       await screen.findByRole("button", { name: "Hide filters · 1 active" }),
@@ -154,7 +144,6 @@ describe("Publications", () => {
     renderPage();
     await screen.findByText("A Great Paper");
     fireEvent.change(screen.getByLabelText("Filter by year"), { target: { value: "2025" } });
-    fireEvent.click(screen.getByRole("button", { name: "Search publications" }));
     expect(screen.getByTestId("where").textContent).toBe("?year=2025");
   });
 

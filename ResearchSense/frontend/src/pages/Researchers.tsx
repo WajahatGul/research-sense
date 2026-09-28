@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
@@ -72,16 +71,7 @@ export default function Researchers() {
   // works on arrival.
   const applied = filtersFrom(params);
   const page = Math.max(Number(params.get("page")) || 1, 1);
-  const urlKey = params.toString();
 
-  // Unsubmitted edits to the controls. When the URL changes (Back, a link),
-  // the controls follow it.
-  const [pending, setPending] = useState<Filters>(applied);
-  const [seenKey, setSeenKey] = useState(urlKey);
-  if (seenKey !== urlKey) {
-    setSeenKey(urlKey);
-    setPending(applied);
-  }
 
   const show = (f: Filters, p: number) => {
     const next = new URLSearchParams();
@@ -105,13 +95,8 @@ export default function Researchers() {
     placeholderData: keepPreviousData,
   });
 
-  const runSearch = (overrides?: Partial<Filters>) => {
-    const next = overrides ? { ...pending, ...overrides } : pending;
-    if (overrides) setPending(next);
-    show(next, 1);
-  };
-
-  const runQuerySearch = (value: string) => runSearch({ q: value });
+  // A filter applies the moment it is chosen (see Publications).
+  const apply = (changes: Partial<Filters>) => show({ ...applied, ...changes }, 1);
 
   return (
     <>
@@ -126,24 +111,22 @@ export default function Researchers() {
             placeholder="Search researchers…"
             suggest="researchers"
             defaultValue={applied.q}
-            onSearch={runQuerySearch}
-            hideButton
+            onSearch={(value) => apply({ q: value })}
           />
         </div>
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
         <FilterBar
-          campus={pending.campus}
-          department={pending.department}
-          designation={pending.designation}
+          campus={applied.campus}
+          department={applied.department}
+          designation={applied.designation}
           total={data?.total ?? 0}
           hasSearched={true}
           activeCount={[applied.campus, applied.department, applied.designation].filter(Boolean).length}
-          onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
-          onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
-          onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
-          onSearch={() => runSearch()}
+          onCampus={(v) => apply({ campus: v })}
+          onDepartment={(v) => apply({ department: v })}
+          onDesignation={(v) => apply({ designation: v })}
         />
 
         <DataNote>

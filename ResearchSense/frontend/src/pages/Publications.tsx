@@ -81,13 +81,6 @@ export default function Publications() {
   const page = Math.max(Number(params.get("page")) || 1, 1);
   const urlKey = params.toString();
 
-  // Unsubmitted edits to the controls follow the URL when it changes.
-  const [pending, setPending] = useState<Filters>(applied);
-  const [seenKey, setSeenKey] = useState(urlKey);
-  if (seenKey !== urlKey) {
-    setSeenKey(urlKey);
-    setPending(applied);
-  }
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const show = (f: Filters, p: number) => {
@@ -141,11 +134,11 @@ export default function Publications() {
     placeholderData: keepPreviousData,
   });
 
-  const runSearch = (overrides?: Partial<Filters>) => {
-    const next = overrides ? { ...pending, ...overrides } : pending;
-    if (overrides) setPending(next);
-    show(next, 1);
-  };
+  // A filter applies the moment it is chosen, as on Research areas. It used
+  // to wait for a separate Search button, so choosing "2023" changed nothing
+  // on screen until a second press, and the same control behaved one way
+  // here and another way on the next page.
+  const apply = (changes: Partial<Filters>) => show({ ...applied, ...changes }, 1);
 
   const activeFilters = [
     applied.campus,
@@ -170,8 +163,7 @@ export default function Publications() {
               placeholder="Search publication titles…"
               suggest="publications"
               defaultValue={applied.q}
-              onSearch={(v) => runSearch({ q: v })}
-              hideButton
+              onSearch={(v) => apply({ q: v })}
             />
           </div>
           {/* On a phone seven filter controls filled the whole first screen
@@ -193,8 +185,8 @@ export default function Publications() {
           >
           <select
             className={styles.select}
-            value={pending.campus}
-            onChange={(e) => setPending((p) => ({ ...p, campus: e.target.value }))}
+            value={applied.campus}
+            onChange={(e) => apply({ campus: e.target.value })}
             aria-label={`Filter by ${org.site.toLowerCase()}`}
           >
             <option value="">All {plural(org.site).toLowerCase()}</option>
@@ -206,8 +198,8 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={pending.year}
-            onChange={(e) => setPending((p) => ({ ...p, year: e.target.value }))}
+            value={applied.year}
+            onChange={(e) => apply({ year: e.target.value })}
             aria-label="Filter by year"
           >
             <option value="">All years</option>
@@ -219,8 +211,8 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={pending.department}
-            onChange={(e) => setPending((p) => ({ ...p, department: e.target.value }))}
+            value={applied.department}
+            onChange={(e) => apply({ department: e.target.value })}
             aria-label={`Filter by ${org.unit.toLowerCase()}`}
           >
             <option value="">All {plural(org.unit).toLowerCase()}</option>
@@ -232,10 +224,8 @@ export default function Publications() {
           </select>
           <select
             className={styles.select}
-            value={pending.publicationType}
-            onChange={(e) =>
-              setPending((p) => ({ ...p, publicationType: e.target.value }))
-            }
+            value={applied.publicationType}
+            onChange={(e) => apply({ publicationType: e.target.value })}
             aria-label="Filter by document type"
           >
             <option value="">All document types</option>
@@ -257,10 +247,8 @@ export default function Publications() {
                 id="pub-date-from"
                 type="date"
                 className={styles.dateInput}
-                value={pending.dateFrom}
-                onChange={(e) =>
-                  setPending((p) => ({ ...p, dateFrom: e.target.value }))
-                }
+                value={applied.dateFrom}
+                onChange={(e) => apply({ dateFrom: e.target.value })}
                 aria-label="From date"
               />
             </div>
@@ -272,21 +260,13 @@ export default function Publications() {
                 id="pub-date-to"
                 type="date"
                 className={styles.dateInput}
-                value={pending.dateTo}
-                onChange={(e) => setPending((p) => ({ ...p, dateTo: e.target.value }))}
+                value={applied.dateTo}
+                onChange={(e) => apply({ dateTo: e.target.value })}
                 aria-label="To date"
               />
             </div>
           </div>
           </div>
-          <button
-            type="button"
-            className={styles.searchButton}
-            onClick={() => runSearch()}
-            aria-label="Search publications"
-          >
-            Search
-          </button>
         </div>
       </PageHeader>
 
