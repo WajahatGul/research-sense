@@ -38,6 +38,7 @@ from app.routers import (
     topics,
     workspace,
 )
+from app.services import backup_service
 from app.services.refresh_service import weekly_refresh_loop
 
 log = logging.getLogger("researchsense")
@@ -85,9 +86,11 @@ def _warm_search_indexes() -> None:
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     task = asyncio.create_task(weekly_refresh_loop())
+    backups = asyncio.create_task(backup_service.daily_backup_loop())
     warm = asyncio.create_task(asyncio.to_thread(_warm_search_indexes))
     yield
     task.cancel()
+    backups.cancel()
     warm.cancel()
 
 

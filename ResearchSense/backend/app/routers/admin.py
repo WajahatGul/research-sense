@@ -14,7 +14,7 @@ from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import admin_accounts, refresh_service, staging, submission_service
+from app.services import admin_accounts, backup_service, refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
 
@@ -161,6 +161,32 @@ async def trigger_refresh(admin: dict = Depends(current_admin)):
     _audit(admin, "refresh.started")
     asyncio.get_running_loop().run_in_executor(None, refresh_service.run_refresh)
     return {"status": "started"}
+
+
+@router.get("/backups")
+def list_backups():
+    return {"backups": backup_service.list_backups(), "folder": str(backup_service.backup_dir())}
+
+
+@router.post("/backups")
+def take_backup(admin: dict = Depends(current_admin)):
+    try:
+        made = backup_service.take()
+    except backup_service.BackupError as exc:
+        raise HTTPException(status_code=500, detail=f"Backup failed: {exc}") from exc
+    _audit(admin, "backup.taken", made["name"])
+    return made
+
+
+@router.post("/backups/{name}/restore")
+def restore_backup(name: str, admin: dict = Depends(current_admin)):
+    try:
+        result = backup_service.restore(name)
+    except backup_service.BackupError as exc:
+        raise HTTPException(status_code=400, detail=f"Not restored: {exc}") from exc
+    # Written after the restore, so the restored log records it.
+    _audit(admin, "backup.restored", name, f"previous state kept as {result['previous']}")
+    return result
 
 
 @router.get("/papers/pending")

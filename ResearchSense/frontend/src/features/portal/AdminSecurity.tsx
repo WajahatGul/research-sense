@@ -58,6 +58,8 @@ const ACTION: Record<string, string> = {
   "identity.same_person": "merged an author record into",
   "identity.different_people": "marked as a different person from",
   "refresh.started": "started a data refresh",
+  "backup.taken": "made a backup",
+  "backup.restored": "restored the backup",
 };
 
 /** Who can administer, and what each of them has done.
