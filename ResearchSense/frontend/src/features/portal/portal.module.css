@@ -636,3 +636,9 @@
 .activityWarn {
   color: #9a3412;
 }
+
+.inviteActions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

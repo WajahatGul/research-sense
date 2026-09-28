@@ -7,6 +7,7 @@ import { fetchMySubmissions, uploadPaper } from "../../api/auth";
 import { fetchPublications } from "../../api/publications";
 import { AddPublication } from "./AddPublication";
 import { StudyPaper } from "./StudyPaper";
+import { InviteCoauthors } from "./InviteCoauthors";
 import { YourRecord } from "./YourRecord";
 import styles from "./portal.module.css";
 
@@ -122,6 +123,8 @@ export function FacultyDashboard({ me, onChanged, onSignOut }: {
       </section>
 
       <YourRecord papers={myPubs?.items ?? []} />
+
+      <InviteCoauthors />
 
       <StudyPaper />
 

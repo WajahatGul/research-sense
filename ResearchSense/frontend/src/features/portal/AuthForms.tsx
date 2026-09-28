@@ -30,8 +30,15 @@ import styles from "./portal.module.css";
 type Mode = "signin" | "create";
 type Kind = "researcher" | "institution";
 
-export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
-  const [mode, setMode] = useState<Mode>("signin");
+export function AuthForms({
+  onSignedIn,
+  claimFor,
+}: {
+  onSignedIn: () => void;
+  /** Arrived from a co-author's invitation: open the claim form on this profile. */
+  claimFor?: { id: number; name: string };
+}) {
+  const [mode, setMode] = useState<Mode>(claimFor ? "create" : "signin");
   const [kind, setKind] = useState<Kind>("researcher");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -129,7 +136,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
           (mode === "signin" ? (
             <LoginForm onSubmit={submit} />
           ) : (
-            <ClaimForm onSubmit={submit} onError={setError} />
+            <ClaimForm onSubmit={submit} onError={setError} initial={claimFor} />
           ))}
 
         {kind === "institution" && (
@@ -222,12 +229,14 @@ function LoginForm({ onSubmit }: { onSubmit: Submit }) {
 function ClaimForm({
   onSubmit,
   onError,
+  initial,
 }: {
   onSubmit: Submit;
   onError: (message: string) => void;
+  initial?: { id: number; name: string };
 }) {
-  const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<number | null>(null);
+  const [search, setSearch] = useState(initial?.name ?? "");
+  const [selected, setSelected] = useState<number | null>(initial?.id ?? null);
   const [orcid, setOrcid] = useState("");
   const [password, setPassword] = useState("");
   const [sending, setSending] = useState(false);

@@ -9,6 +9,7 @@ import {
   setToken as storeToken,
 } from "../api/auth";
 import { getWorkspaceSession, type WorkspaceSession } from "../api/workspace";
+import { fetchResearcher } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { Loader } from "../components/StateViews";
 import { AdminPanel } from "../features/portal/AdminPanel";
@@ -44,6 +45,14 @@ export default function Portal() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [orcidError, setOrcidError] = useState("");
   const [orcidNotice, setOrcidNotice] = useState("");
+  // Arrived from a co-author's invitation (?claim=ID): open the claim form on
+  // that profile, so accepting takes a password and one press.
+  const invitedId = Number(searchParams.get("claim")) || null;
+  const { data: invited } = useQuery({
+    queryKey: ["researcher", invitedId],
+    queryFn: () => fetchResearcher(invitedId as number),
+    enabled: invitedId != null,
+  });
   /* eslint-disable react-hooks/set-state-in-effect --
      A one-time read of the OAuth return on mount, not a render loop: the
      parameters are cleared in the same pass, so this cannot run again. */
@@ -100,7 +109,13 @@ export default function Portal() {
           </p>
         )}
         {token && !workspace && isLoading && <Loader />}
-        {signedOut && <AuthForms onSignedIn={onSignedIn} />}
+        {signedOut && (invitedId == null || invited) && (
+          <AuthForms
+            key={invited?.researcher_id ?? "none"}
+            onSignedIn={onSignedIn}
+            claimFor={invited ? { id: invited.researcher_id, name: invited.full_name } : undefined}
+          />
+        )}
         {workspace && (
           <WorkspaceDashboard
             session={workspace}

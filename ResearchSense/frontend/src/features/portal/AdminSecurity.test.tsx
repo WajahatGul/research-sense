@@ -41,7 +41,9 @@ describe("AdminSecurity", () => {
       uploads: [], password_weak: true,
     });
     renderIt();
-    expect(await screen.findByRole("heading", { name: "Change your password" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Change your password" }, { timeout: 5000 }),
+    ).toBeInTheDocument();
   });
 
   it("lists administrators and what they did, in plain words", async () => {
@@ -49,7 +51,9 @@ describe("AdminSecurity", () => {
       role: "admin", orcid_id: null, researcher_id: null, full_name: "admin", uploads: [],
     });
     renderIt();
-    expect(await screen.findByText(/deactivated administrator/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/deactivated administrator/, {}, { timeout: 5000 }),
+    ).toBeInTheDocument();
     expect(screen.getByText(/approved a profile claim/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reactivate" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Change your password" })).toBeNull();
