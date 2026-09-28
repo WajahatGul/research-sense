@@ -14,7 +14,7 @@ from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import admin_accounts, backup_service, notify_service, usage_service, refresh_service, staging, submission_service
+from app.services import admin_accounts, alerts_service, backup_service, notify_service, usage_service, refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
 
@@ -170,6 +170,14 @@ def outbox():
     return {"messages": notify_service.recent(), "mail_server": notify_service._smtp() is not None}
 
 
+@router.post("/alerts/run")
+def run_alerts(admin: dict = Depends(current_admin)):
+    """Check every saved search now (it also runs after each refresh and approval)."""
+    sent = alerts_service.run_all()
+    _audit(admin, "alerts.run", "", f"{sent} sent")
+    return {"sent": sent}
+
+
 @router.get("/usage")
 def usage(days: int = 30):
     return usage_service.summary(max(1, min(days, 365)))
@@ -253,6 +261,7 @@ def approve_paper(sub_id: int, admin: dict = Depends(current_admin)):
     store.set_submission_status(sub_id, "approved")
     _audit(admin, "paper.approved", f"submission {sub_id}", sub["title"])
     notify_service.paper_decided(sub, approved=True)
+    alerts_service.run_in_background()  # someone may be waiting for this paper
     return {"status": "approved", "id": sub_id, "chunks_merged": merged}
 
 

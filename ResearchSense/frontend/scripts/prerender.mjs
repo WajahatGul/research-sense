@@ -166,7 +166,7 @@ function main() {
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemap);
   fs.writeFileSync(
     path.join(DIST, "robots.txt"),
-    `User-agent: *\nDisallow: /portal\nDisallow: /staff-access\nDisallow: /api/\nSitemap: ${SITE}/sitemap.xml\n`,
+    `User-agent: *\nDisallow: /portal\nDisallow: /staff-access\nDisallow: /alerts\nDisallow: /api/\nSitemap: ${SITE}/sitemap.xml\n`,
   );
   console.log(`prerender: ${people.length} researcher and ${publications.length} paper pages, sitemap of ${urls.length} URLs`);
 }

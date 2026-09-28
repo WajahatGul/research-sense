@@ -60,6 +60,7 @@ const ACTION: Record<string, string> = {
   "refresh.started": "started a data refresh",
   "backup.taken": "made a backup",
   "backup.restored": "restored the backup",
+  "alerts.run": "checked saved-search alerts",
 };
 
 /** Who can administer, and what each of them has done.

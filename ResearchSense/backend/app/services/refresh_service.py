@@ -75,6 +75,7 @@ def run_refresh() -> str:
         _reload()
         store.finish_refresh(run_id, "ok")
         log.info("refresh: done")
+        _send_alerts()  # tell people what the new data brought
         return "ok"
     except Exception as exc:  # noqa: BLE001 - record and surface, don't hide
         note = f"error: {exc}"
@@ -88,6 +89,16 @@ def run_refresh() -> str:
         return note
     finally:
         _lock.release()
+
+
+def _send_alerts() -> None:
+    """After the refresh is kept: its success must not depend on the alerts."""
+    try:
+        from app.services import alerts_service
+
+        alerts_service.run_all()
+    except Exception:  # noqa: BLE001
+        log.exception("saved-search alerts after refresh failed")
 
 
 def _reload() -> None:

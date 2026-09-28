@@ -21,6 +21,7 @@ from app.core.security import workspace_from_token
 from app.repositories.loader import set_workspace
 from app.routers import (
     admin,
+    alerts,
     analytics,
     auth,
     corrections,
@@ -139,6 +140,7 @@ def create_app() -> FastAPI:
         corrections,
         invitations,
         events,
+        alerts,
     ):
         app.include_router(module.router)
     app.include_router(corrections.admin)

@@ -117,6 +117,19 @@ CREATE TABLE IF NOT EXISTS outbox (
     status    TEXT NOT NULL,
     error     TEXT
 );
+-- Searches people keep, to hear about new matches (see alerts_service).
+CREATE TABLE IF NOT EXISTS saved_searches (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    email        TEXT NOT NULL,
+    kind         TEXT NOT NULL,
+    filters_json TEXT NOT NULL,
+    token        TEXT NOT NULL UNIQUE,
+    confirmed    INTEGER NOT NULL DEFAULT 0,
+    stopped      INTEGER NOT NULL DEFAULT 0,
+    seen_json    TEXT NOT NULL DEFAULT '[]',
+    created_at   TEXT NOT NULL,
+    last_sent_at TEXT
+);
 """
 
 

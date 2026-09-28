@@ -1,0 +1,79 @@
+.trigger {
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--navy);
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.trigger:hover {
+  border-color: var(--navy);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+
+.input {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 7px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.save {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--surface);
+  cursor: pointer;
+}
+
+.cancel {
+  font: inherit;
+  font-size: 0.85rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 8px 4px;
+}
+
+.error {
+  flex-basis: 100%;
+  margin: 0;
+  color: #a03030;
+  font-size: 0.85rem;
+}
+
+.done {
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--paper);
+  border-left: 3px solid var(--gold);
+  padding: 8px 12px;
+  margin: 0 0 12px;
+}

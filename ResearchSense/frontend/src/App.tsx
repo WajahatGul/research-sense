@@ -12,6 +12,7 @@ const Publications = lazy(() => import("./pages/Publications"));
 const PublicationDetail = lazy(() => import("./pages/PublicationDetail"));
 const Topics = lazy(() => import("./pages/Topics"));
 const Departments = lazy(() => import("./pages/Departments"));
+const Alerts = lazy(() => import("./pages/Alerts"));
 const TopicDetail = lazy(() => import("./pages/TopicDetail"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Collaboration = lazy(() => import("./pages/Collaboration"));
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/publications/:id" element={<PublicationDetail />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/departments" element={<Departments />} />
+        <Route path="/alerts" element={<Alerts />} />
         <Route path="/topics/:id" element={<TopicDetail />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/collaboration" element={<Collaboration />} />

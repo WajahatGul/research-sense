@@ -7,6 +7,7 @@ import { fetchCampuses, fetchDepartments } from "../api/researchers";
 import { fetchStats } from "../api/stats";
 import { fetchTopic } from "../api/topics";
 import type { Stats } from "../types";
+import { KeepSearch } from "../components/KeepSearch";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
@@ -288,6 +289,20 @@ export default function Publications() {
             {(data?.total ?? 0).toLocaleString()} publication{pluralS(data?.total ?? 0)}
           </span>
         )}
+        <KeepSearch
+          key={urlKey}
+          kind="publications"
+          filters={{
+            q: applied.q || undefined,
+            year: applied.year || undefined,
+            campus: applied.campus || undefined,
+            department: applied.department || undefined,
+            publication_type: applied.publicationType || undefined,
+            date_from: applied.dateFrom || undefined,
+            date_to: applied.dateTo || undefined,
+            topic_id: topicId ?? undefined,
+          }}
+        />
 
         {data?.corrected_query && (
           <SearchCorrection typed={applied.q ?? ""} shown={data.corrected_query} />

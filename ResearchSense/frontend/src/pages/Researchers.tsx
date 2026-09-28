@@ -4,6 +4,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { fetchResearchers } from "../api/researchers";
 import { fetchStats } from "../api/stats";
 import type { Stats } from "../types";
+import { KeepSearch } from "../components/KeepSearch";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
@@ -127,6 +128,17 @@ export default function Researchers() {
           onCampus={(v) => apply({ campus: v })}
           onDepartment={(v) => apply({ department: v })}
           onDesignation={(v) => apply({ designation: v })}
+        />
+
+        <KeepSearch
+          key={JSON.stringify(applied)}
+          kind="researchers"
+          filters={{
+            q: applied.q || undefined,
+            campus: applied.campus || undefined,
+            department: applied.department || undefined,
+            designation: applied.designation || undefined,
+          }}
         />
 
         <DataNote>
