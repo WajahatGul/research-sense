@@ -25,6 +25,7 @@ from app.routers import (
     auth,
     corrections,
     departments,
+    events,
     invitations,
     chat,
     library,
@@ -137,6 +138,7 @@ def create_app() -> FastAPI:
         departments,
         corrections,
         invitations,
+        events,
     ):
         app.include_router(module.router)
     app.include_router(corrections.admin)

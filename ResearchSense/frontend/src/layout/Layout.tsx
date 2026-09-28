@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
@@ -6,10 +6,13 @@ import Footer from "./Footer";
 import { ChatWidget } from "../features/chat/ChatWidget";
 import { useScrollTop } from "../hooks/useScrollTop";
 import { Loader } from "../components/StateViews";
+import { track } from "../api/usage";
 import styles from "./Layout.module.css";
 
 export default function Layout() {
   useScrollTop();
+  // Counted once a day per browser, server-side (returning visitors).
+  useEffect(() => track("visit"), []);
   return (
     <div className={styles.shell}>
       {/* First Tab stop: keyboard users skip the header's links. */}

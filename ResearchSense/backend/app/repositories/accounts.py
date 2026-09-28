@@ -94,6 +94,17 @@ CREATE TABLE IF NOT EXISTS submissions (
     reviewed_at   TEXT,
     note          TEXT
 );
+-- What people do, counted without knowing who they are: `visitor` is a
+-- random id the browser made up, never an IP, account or name.
+CREATE TABLE IF NOT EXISTS events (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    at       TEXT NOT NULL,
+    day      TEXT NOT NULL,
+    kind     TEXT NOT NULL,
+    visitor  TEXT NOT NULL DEFAULT '',
+    detail   TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS events_kind_day ON events (kind, day);
 """
 
 

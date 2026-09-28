@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,6 +12,7 @@ import {
 } from "../../api/auth";
 import { fetchResearchers } from "../../api/researchers";
 import { useOrganisation } from "../../hooks/useOrganisation";
+import { track } from "../../api/usage";
 import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
@@ -240,6 +241,11 @@ function ClaimForm({
   const [orcid, setOrcid] = useState("");
   const [password, setPassword] = useState("");
   const [sending, setSending] = useState(false);
+  // Picking a profile is where a claim starts; comparing that with claims
+  // sent shows whether the form is losing people.
+  useEffect(() => {
+    if (selected != null) track("claim_started", String(selected));
+  }, [selected]);
 
   const { data: claimed } = useQuery({
     queryKey: ["claimed-ids"],

@@ -10,6 +10,7 @@ from fastapi.responses import Response
 from app.core.deps import get_researcher_service
 from app.schemas.common import Paginated
 from app.schemas.researcher import CollaborationSuggestion, Researcher, ResearcherDetail
+from app.services import usage_service
 from app.services.researcher_service import ResearcherService
 
 router = APIRouter(prefix="/api/researchers", tags=["researchers"])
@@ -26,7 +27,7 @@ def list_researchers(
     page_size: int = Query(12, ge=1, le=100),
     service: ResearcherService = Depends(get_researcher_service),
 ):
-    return service.list(
+    result = service.list(
         query=q,
         campus=campus,
         department=department,
@@ -35,6 +36,11 @@ def list_researchers(
         page=page,
         page_size=page_size,
     )
+    # A search alone that finds nothing is a gap in the directory (filters
+    # narrowing to nothing are not).
+    if q and result.total == 0 and not (campus or department or designation or topic_id):
+        usage_service.search_found_nothing("researchers", q)
+    return result
 
 
 @router.get("/featured", response_model=list[Researcher])

@@ -14,6 +14,7 @@ import {
 import { Badge } from "../../components/Badge";
 import { AdminSecurity } from "./AdminSecurity";
 import { Backups } from "./Backups";
+import { Usage } from "./Usage";
 import { ClaimsQueue } from "./ClaimsQueue";
 import { CorrectionsQueue } from "./CorrectionsQueue";
 import styles from "./portal.module.css";
@@ -130,6 +131,8 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
       </section>
 
       <AdminSecurity />
+
+      <Usage />
 
       <Backups />
 

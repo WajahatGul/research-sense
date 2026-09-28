@@ -14,7 +14,7 @@ from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import admin_accounts, backup_service, refresh_service, staging, submission_service
+from app.services import admin_accounts, backup_service, usage_service, refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
 
@@ -161,6 +161,11 @@ async def trigger_refresh(admin: dict = Depends(current_admin)):
     _audit(admin, "refresh.started")
     asyncio.get_running_loop().run_in_executor(None, refresh_service.run_refresh)
     return {"status": "started"}
+
+
+@router.get("/usage")
+def usage(days: int = 30):
+    return usage_service.summary(max(1, min(days, 365)))
 
 
 @router.get("/backups")

@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from app.core.deps import get_publication_service
 from app.schemas.common import Paginated
 from app.schemas.publication import Publication
+from app.services import usage_service
 from app.services.publication_service import PublicationService
 
 router = APIRouter(prefix="/api/publications", tags=["publications"])
@@ -37,7 +38,7 @@ def list_publications(
         raise HTTPException(status_code=422, detail="date_from must be YYYY-MM-DD")
     if date_to is not None and not _DATE_RE.match(date_to):
         raise HTTPException(status_code=422, detail="date_to must be YYYY-MM-DD")
-    return service.list(
+    result = service.list(
         query=q,
         year=year,
         topic_id=topic_id,
@@ -52,6 +53,14 @@ def list_publications(
         page=page,
         page_size=page_size,
     )
+    filtered = any(
+        v is not None
+        for v in (year, topic_id, author_id, campus, year_from, year_to,
+                  department, publication_type, date_from, date_to)
+    )
+    if q and result.total == 0 and not filtered:
+        usage_service.search_found_nothing("publications", q)
+    return result
 
 
 @router.get("/years", response_model=list[int])

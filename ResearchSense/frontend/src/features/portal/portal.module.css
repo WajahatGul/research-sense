@@ -642,3 +642,11 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+
+.usageFigures {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+  display: grid;
+  gap: 0.35rem;
+}
