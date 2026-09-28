@@ -58,6 +58,11 @@ export function ClaimsQueue() {
             <li key={c.id} className={styles.pendingItem}>
               <div className={styles.pendingHead}>
                 <span className={styles.pendingTitle}>{c.profile_name}</span>
+                {c.orcid_verified && (
+                  <span className={`${styles.statusChip} ${styles.statusApproved}`}>
+                    Signed in at ORCID
+                  </span>
+                )}
                 {c.competing_claims > 0 && (
                   <strong className={styles.claimWarn}>
                     {c.competing_claims} other claim{c.competing_claims === 1 ? "" : "s"} on

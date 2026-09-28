@@ -104,6 +104,7 @@ def pending_claims():
                 orcid_employers=evidence.get("orcid_employers", []),
                 submitted_at=c["submitted_at"],
                 competing_claims=waiting_on[c["researcher_id"]] - 1,
+                orcid_verified=bool(evidence.get("orcid_verified")),
             )
         )
     return out

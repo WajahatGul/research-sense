@@ -137,3 +137,37 @@ def test_orcid_sign_in_is_proof_and_goes_live_at_once(client):
 
 def test_claim_endpoints_are_admin_only(client):
     assert client.get("/api/admin/claims").status_code in (401, 403)
+
+
+def test_orcid_sign_in_on_someone_elses_profile_waits_for_review(client, monkeypatch):
+    """Owning an ORCID iD does not make you the person on any profile you pick."""
+    from app.services.orcid_service import OrcidVerificationError
+
+    def mismatch(orcid, name):
+        raise OrcidVerificationError("registered to someone else")
+
+    monkeypatch.setattr(auth_service, "verify_claim", mismatch)
+    monkeypatch.setattr(auth_service, "fetch_record_names", lambda orcid: ["Someone Else"])
+    service = auth_service.AuthService(
+        __import__("app.repositories.mock.researchers", fromlist=["x"]).MockResearcherRepository()
+    )
+    result = service.claim_verified(ARIF, OTHER_ORCID, "a-password-1")
+    assert result.status == "pending" and result.token is None
+    _admin(client)
+    [pending] = client.get("/api/admin/claims").json()
+    assert pending["orcid_verified"] is True
+    assert pending["orcid_names"] == ["Someone Else"]
+
+
+def test_the_orcid_return_page_says_a_claim_is_waiting(client, monkeypatch):
+    from app.services import orcid_oauth
+    from app.services.orcid_service import OrcidVerificationError
+
+    monkeypatch.setattr(auth_service, "verify_claim",
+                        lambda o, n: (_ for _ in ()).throw(OrcidVerificationError("x")))
+    monkeypatch.setattr(auth_service, "fetch_record_names", lambda orcid: [])
+    monkeypatch.setattr(orcid_oauth, "exchange", lambda code: OTHER_ORCID)
+    state = orcid_oauth.begin(ARIF, "a-password-1").split("state=")[1]
+    r = client.get("/api/auth/orcid/callback", params={"state": state, "code": "c"},
+                   follow_redirects=False)
+    assert r.status_code == 303 and "orcid_notice=" in r.headers["location"]

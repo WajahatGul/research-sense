@@ -43,13 +43,16 @@ export default function Portal() {
   // clear it so a refresh does not replay a stale result.
   const [searchParams, setSearchParams] = useSearchParams();
   const [orcidError, setOrcidError] = useState("");
+  const [orcidNotice, setOrcidNotice] = useState("");
   /* eslint-disable react-hooks/set-state-in-effect --
      A one-time read of the OAuth return on mount, not a render loop: the
      parameters are cleared in the same pass, so this cannot run again. */
   useEffect(() => {
     const granted = searchParams.get("orcid_token");
     const failed = searchParams.get("orcid_error");
-    if (!granted && !failed) return;
+    const notice = searchParams.get("orcid_notice");
+    if (!granted && !failed && !notice) return;
+    if (notice) setOrcidNotice(notice);
     if (granted) {
       storeToken(granted);
       setToken(granted);
@@ -89,6 +92,11 @@ export default function Portal() {
         {orcidError && (
           <p className={styles.orcidError} role="alert">
             {orcidError}
+          </p>
+        )}
+        {orcidNotice && (
+          <p className={styles.orcidNotice} role="status">
+            {orcidNotice}
           </p>
         )}
         {token && !workspace && isLoading && <Loader />}

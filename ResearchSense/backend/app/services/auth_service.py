@@ -14,6 +14,7 @@ from app.schemas.auth import ClaimResult, MeResponse, TokenResponse, UploadedPap
 from app.services.orcid_service import (
     OrcidVerificationError,
     fetch_record_employers,
+    fetch_record_names,
     verify_claim,
 )
 
@@ -135,10 +136,14 @@ class AuthService:
     ) -> ClaimResult:
         """Complete a claim where ORCID itself authenticated the person.
 
-        The registry name check is deliberately skipped: signing in at
-        orcid.org is stronger evidence than a name match, and a researcher
-        whose ORCID record spells their name differently should not be blocked
-        by the weaker test after passing the stronger one.
+        Signing in at orcid.org proves the person owns this iD. It does not
+        prove the iD belongs to the profile they picked: anyone with an ORCID
+        account could otherwise pick any profile and own it at once. So the
+        account opens immediately only when the iD is also tied to the
+        profile, by the directory record itself or by the name on the ORCID
+        record matching the profile. Otherwise the claim waits for an
+        administrator, marked as ORCID-verified, with the record's names and
+        employers as evidence.
         """
         researcher = self._researchers.get(researcher_id)
         if researcher is None:
@@ -150,6 +155,36 @@ class AuthService:
         if self._store.get_account(orcid_id):
             raise HTTPException(
                 status_code=409, detail="This ORCID iD already has an account"
+            )
+        waiting = self._store.latest_claim_for_orcid(orcid_id)
+        if waiting and waiting["status"] == "pending":
+            raise HTTPException(
+                status_code=409,
+                detail="A claim with this ORCID iD is already waiting for approval.",
+            )
+        if researcher.orcid_id and researcher.orcid_id == orcid_id:
+            return self._open_account(
+                orcid_id, researcher_id, hash_password(password), researcher.full_name
+            )
+        try:
+            verify_claim(orcid_id, researcher.full_name)
+        except OrcidVerificationError:
+            try:
+                names = fetch_record_names(orcid_id)
+            except OrcidVerificationError:
+                names = []
+            evidence = {"orcid_names": names,
+                        "orcid_employers": fetch_record_employers(orcid_id),
+                        "orcid_verified": True}
+            self._store.create_claim(orcid_id, researcher_id, hash_password(password),
+                                     json.dumps(evidence))
+            return ClaimResult(
+                status="pending",
+                message=("ORCID confirmed this iD is yours, but the name on your ORCID "
+                         "record does not match this profile, so an administrator will "
+                         "check before your account opens."),
+                researcher_id=researcher_id,
+                full_name=researcher.full_name,
             )
         return self._open_account(
             orcid_id, researcher_id, hash_password(password), researcher.full_name

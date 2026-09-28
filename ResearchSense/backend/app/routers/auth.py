@@ -84,7 +84,9 @@ def orcid_callback(
         return back("orcid_error=" + quote(str(exc)))
     except HTTPException as exc:
         return back("orcid_error=" + quote(str(exc.detail)))
-    return back("orcid_token=" + quote(session.token))
+    if session.token:
+        return back("orcid_token=" + quote(session.token))
+    return back("orcid_notice=" + quote(session.message))
 
 
 @router.post("/login", response_model=TokenResponse)

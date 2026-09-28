@@ -280,6 +280,7 @@ export interface PendingClaim {
   orcid_employers: string[];
   submitted_at: string;
   competing_claims: number;
+  orcid_verified?: boolean;
 }
 
 export async function fetchPendingClaims(): Promise<PendingClaim[]> {

@@ -80,6 +80,7 @@ class PendingClaim(BaseModel):
     orcid_employers: list[str] = []
     submitted_at: str
     competing_claims: int = 0  # other claims waiting on the same profile
+    orcid_verified: bool = False  # they signed in at orcid.org as this iD
 
 
 class UploadedPaper(BaseModel):
