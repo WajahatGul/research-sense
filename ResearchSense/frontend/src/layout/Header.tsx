@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import { Wordmark } from "../components/Wordmark";
 import { SESSION_EVENT } from "../lib/session";
@@ -28,6 +28,9 @@ function hasSession(): boolean {
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(hasSession);
+  // The home page's own search box is the main thing on that page; a second
+  // "Search" in the header there is a duplicate route to the same place.
+  const onHome = useLocation().pathname === "/";
 
   useEffect(() => {
     const sync = () => setSignedIn(hasSession());
@@ -73,13 +76,15 @@ export default function Header() {
             </NavLink>
           ))}
           <span className={styles.divider} aria-hidden="true" />
-          <NavLink to="/search" className={linkClass} onClick={close}>
-            <svg viewBox="0 0 24 24" className={styles.icon} aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-            Search
-          </NavLink>
+          {!onHome && (
+            <NavLink to="/search" className={linkClass} onClick={close}>
+              <svg viewBox="0 0 24 24" className={styles.icon} aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+              Search
+            </NavLink>
+          )}
           <Link to="/portal" className={styles.cta} onClick={close}>
             {signedIn ? "Your portal" : "Sign in"}
           </Link>
