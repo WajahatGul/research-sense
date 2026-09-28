@@ -14,6 +14,7 @@ import { Loader, ErrorState } from "../components/StateViews";
 import { provenance } from "../lib/provenance";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { coauthoredFirst } from "./coauthoredFirst";
+import { pluralS } from "../config";
 import styles from "./ResearcherProfile.module.css";
 
 const INTL_CAP = 10;
@@ -239,7 +240,7 @@ export default function ResearcherProfile() {
                   <span className={styles.pubMeta}>
                     <span className="mono">{p.publication_year}</span> ·{" "}
                     {p.journal_name} ·{" "}
-                    <span className="mono">{p.citation_count}</span> citations
+                    <span className="mono">{p.citation_count}</span> citation{pluralS(p.citation_count)}
                     {" · "}
                     <span className={styles.pubSource} title={provenance(p.source).detail}>
                       {provenance(p.source).label}

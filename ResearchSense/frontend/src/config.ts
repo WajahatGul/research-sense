@@ -14,3 +14,6 @@ export const BRAND_TAGLINE = "Research Portal";
 export function plural(word: string): string {
   return /(s|x|ch|sh)$/i.test(word) ? `${word}es` : `${word}s`;
 }
+
+/** "1 publication", "2 publications": the plural ending for a count. */
+export const pluralS = (n: number) => (n === 1 ? "" : "s");

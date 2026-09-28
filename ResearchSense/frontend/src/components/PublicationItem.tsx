@@ -6,6 +6,7 @@ import type { Publication } from "../types";
 import { provenance } from "../lib/provenance";
 import { useOrganisation } from "../hooks/useOrganisation";
 import { Badge } from "./Badge";
+import { pluralS } from "../config";
 import styles from "./PublicationItem.module.css";
 
 export function PublicationItem({ pub }: { pub: Publication }) {
@@ -46,7 +47,7 @@ export function PublicationItem({ pub }: { pub: Publication }) {
           </Badge>
           <span className={styles.journal}>{pub.journal_name}</span>
           <span className={styles.cites}>
-            <span className="mono">{pub.citation_count}</span> citations
+            <span className="mono">{pub.citation_count}</span> citation{pluralS(pub.citation_count)}
           </span>
           {pub.campus && <span className={styles.campus}>{pub.campus}</span>}
           <span className={styles.source} title={origin.detail}>

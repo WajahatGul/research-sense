@@ -11,6 +11,7 @@ import { ResearcherCard } from "../components/ResearcherCard";
 import { Section } from "../components/Section";
 import { ErrorState, Loader } from "../components/StateViews";
 import { askAssistant } from "../features/chat/askBus";
+import { pluralS } from "../config";
 import styles from "./TopicDetail.module.css";
 
 const PAPERS = 5;
@@ -63,7 +64,7 @@ export default function TopicDetail() {
       <PageHeader
         eyebrow="Research area"
         title={t.topic_name}
-        description={`${t.researcher_count} researchers and ${t.publication_count} publications in ResearchSense are tagged with this area.`}
+        description={`${t.researcher_count} researcher${pluralS(t.researcher_count)} and ${t.publication_count} publication${pluralS(t.publication_count)} in ResearchSense are tagged with this area.`}
       >
         <nav className={styles.crumbs} aria-label="Breadcrumb">
           <Link to="/topics">Research areas</Link>

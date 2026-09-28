@@ -15,6 +15,7 @@ import {
   TopVenues,
 } from "../features/analytics/charts";
 import { useTerms } from "../hooks/useOrganisation";
+import { pluralS } from "../config";
 import styles from "./Analytics.module.css";
 
 /** What the charts below cover, in one sentence.
@@ -138,9 +139,9 @@ export default function Analytics() {
                     <strong>{row.campus}</strong>
                   </span>
                   <span className={styles.campusStats}>
-                    <span className="mono">{row.researchers}</span> researchers ·{" "}
-                    <span className="mono">{row.publications}</span> publications ·{" "}
-                    <span className="mono">{row.citations.toLocaleString()}</span> citations
+                    <span className="mono">{row.researchers}</span> researcher{pluralS(row.researchers)} ·{" "}
+                    <span className="mono">{row.publications}</span> publication{pluralS(row.publications)} ·{" "}
+                    <span className="mono">{row.citations.toLocaleString()}</span> citation{pluralS(row.citations)}
                   </span>
                 </li>
               ))}

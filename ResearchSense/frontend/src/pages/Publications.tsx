@@ -14,7 +14,7 @@ import { SearchCorrection } from "../components/SearchCorrection";
 import { PublicationItem } from "../components/PublicationItem";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
-import { plural } from "../config";
+import { plural, pluralS } from "../config";
 import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Publications.module.css";
 
@@ -285,7 +285,7 @@ export default function Publications() {
 
         {(
           <span className={`mono ${styles.count}`}>
-            {(data?.total ?? 0).toLocaleString()} publications
+            {(data?.total ?? 0).toLocaleString()} publication{pluralS(data?.total ?? 0)}
           </span>
         )}
 
