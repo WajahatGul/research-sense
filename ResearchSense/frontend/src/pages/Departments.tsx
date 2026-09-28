@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { get } from "../api/client";
+import { apiUrl, get } from "../api/client";
 import { PageHeader } from "../components/PageHeader";
 import { ErrorState, Loader } from "../components/StateViews";
 import { useTerms } from "../hooks/useOrganisation";
@@ -17,6 +18,10 @@ interface Department {
 
 const fetchDepartmentSummaries = () => get<Department[]>("/api/departments");
 
+// The research office's annual return: this year and the five before.
+const THIS_YEAR = new Date().getFullYear();
+const YEARS = Array.from({ length: 6 }, (_, i) => THIS_YEAR - i);
+
 /** The organisation's units, as a way in.
  *
  * "22 Departments" on the home page opened Analytics, where departments are
@@ -26,6 +31,8 @@ const fetchDepartmentSummaries = () => get<Department[]>("/api/departments");
  */
 export default function Departments() {
   const t = useTerms();
+  // One year for every card: offices usually file the same year for all units.
+  const [year, setYear] = useState(THIS_YEAR - 1);
   const Units = t.units.charAt(0).toUpperCase() + t.units.slice(1);
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["department-summaries"],
@@ -37,7 +44,7 @@ export default function Departments() {
       <PageHeader
         eyebrow="Directory"
         title={Units}
-        description={`Every ${t.unit} with its people, its papers and what it mostly works on, largest first.`}
+        description={`Every ${t.unit} with its people, its papers and what it mostly works on, largest first. Each can download its annual research return.`}
       />
       <div className={`container ${styles.body}`}>
         {isLoading && <Loader />}
@@ -65,6 +72,23 @@ export default function Departments() {
                       {d.publications === 1 ? "paper" : "papers"}
                     </Link>
                     <Link to={`/topics?department=${q}`}>Research areas</Link>
+                  </div>
+                  <div className={styles.report}>
+                    <label htmlFor={`year-${d.name}`}>Annual report</label>
+                    <select
+                      id={`year-${d.name}`}
+                      value={year}
+                      onChange={(e) => setYear(Number(e.target.value))}
+                    >
+                      {YEARS.map((y) => (
+                        <option key={y} value={y}>
+                          {y}
+                        </option>
+                      ))}
+                    </select>
+                    <a href={apiUrl(`/api/departments/${q}/report?year=${year}`)} download>
+                      Download (Excel)
+                    </a>
                   </div>
                 </li>
               );

@@ -342,3 +342,22 @@
     min-height: 44px;
   }
 }
+
+.exports {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.exports a {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+@media (pointer: coarse) {
+  .exports a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

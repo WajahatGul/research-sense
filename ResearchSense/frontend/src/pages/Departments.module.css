@@ -59,6 +59,30 @@
   color: var(--gold-ink);
 }
 
+.report {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding-top: 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.report select {
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+  color: var(--ink);
+}
+
+.report a {
+  color: var(--navy);
+  font-weight: 600;
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -72,7 +96,9 @@
 }
 
 @media (pointer: coarse) {
-  .links a {
+  .links a,
+  .report a,
+  .report select {
     display: inline-flex;
     align-items: center;
     min-height: 44px;

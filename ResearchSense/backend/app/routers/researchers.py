@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import re
+
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import Response
 
 from app.core.deps import get_researcher_service
 from app.schemas.common import Paginated
@@ -79,6 +82,30 @@ def researcher_collaborators(
     service: ResearcherService = Depends(get_researcher_service),
 ):
     return service.collaborators(researcher_id, sort=sort)
+
+
+@router.get("/{researcher_id}/export")
+def export_publications(
+    researcher_id: int,
+    format: str = Query("bibtex", pattern="^(bibtex|csv)$"),
+    service: ResearcherService = Depends(get_researcher_service),
+):
+    """A researcher's publication list for a CV, reference manager or file."""
+    from app.services import export_service
+
+    person = service.get(researcher_id)
+    if person is None:
+        raise HTTPException(status_code=404, detail="Researcher not found")
+    slug = re.sub(r"[^a-z0-9]+", "-", person.full_name.lower()).strip("-")
+    if format == "csv":
+        body, kind, ext = export_service.publications_csv(researcher_id), "text/csv", "csv"
+    else:
+        body, kind, ext = export_service.bibtex(researcher_id), "application/x-bibtex", "bib"
+    return Response(
+        content=body.encode("utf-8"),
+        media_type=f"{kind}; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{slug}-publications.{ext}"'},
+    )
 
 
 @router.get("/{researcher_id}", response_model=ResearcherDetail)

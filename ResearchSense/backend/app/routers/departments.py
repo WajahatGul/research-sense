@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import re
 from collections import Counter
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Query
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 from app.repositories import loader
@@ -58,3 +60,20 @@ def list_departments():
     # Largest first: the order people scan a list of units in.
     out.sort(key=lambda d: (-d.researchers, d.name))
     return out
+
+
+@router.get("/{name}/report")
+def annual_report(name: str, year: int = Query(ge=1950, le=2100)):
+    """The department's research output for one year, as an Excel workbook."""
+    from app.services import export_service
+
+    try:
+        body = export_service.department_report(name, year)
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+    return Response(
+        content=body,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f'attachment; filename="{slug}-research-{year}.xlsx"'},
+    )

@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
-import { ApiError } from "../api/client";
+import { ApiError, apiUrl } from "../api/client";
 import { fetchResearcher } from "../api/researchers";
 import { askAssistant } from "../features/chat/askBus";
 import { useOrganisation } from "../hooks/useOrganisation";
@@ -207,6 +207,18 @@ export default function ResearcherProfile() {
               has indexed so far and may understate this researcher's full
               output.
             </DataNote>
+            {publications.length > 0 && (
+              <p className={styles.exports}>
+                Download this list:{" "}
+                <a href={apiUrl(`/api/researchers/${data.researcher_id}/export?format=bibtex`)} download>
+                  BibTeX
+                </a>{" "}
+                (for a reference manager or LaTeX CV) ·{" "}
+                <a href={apiUrl(`/api/researchers/${data.researcher_id}/export?format=csv`)} download>
+                  Spreadsheet (CSV)
+                </a>
+              </p>
+            )}
             {showCaption && (
               <p className={styles.coauthorCaption}>
                 Papers co-authored with {withResearcher?.full_name} shown first.
