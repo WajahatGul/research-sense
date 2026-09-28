@@ -22,6 +22,8 @@ export interface Me {
   researcher_id: number | null;
   full_name: string | null;
   uploads: UploadedPaper[];
+  /** Admins only: the password came from the server settings and is short. */
+  password_weak?: boolean;
 }
 
 export interface ClaimedAccount {

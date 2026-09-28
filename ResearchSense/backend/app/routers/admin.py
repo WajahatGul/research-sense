@@ -8,13 +8,13 @@ import logging
 from collections import Counter
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import refresh_service, staging, submission_service
+from app.services import admin_accounts, refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
 
@@ -25,6 +25,60 @@ router = APIRouter(
 
 class RejectBody(BaseModel):
     note: str | None = None
+
+
+class NewAdmin(BaseModel):
+    username: str = Field(min_length=3, max_length=40)
+    password: str = Field(min_length=1, max_length=200)
+
+
+class PasswordChange(BaseModel):
+    current: str = Field(min_length=1, max_length=200)
+    new: str = Field(min_length=1, max_length=200)
+
+
+def _audit(admin: dict, action: str, target: str = "", detail: str = "") -> None:
+    AccountStore.instance().record(admin.get("sub", "?"), action, target, detail)
+
+
+# --- administrators and the activity log ----------------------------------------
+
+@router.get("/admins")
+def list_admins():
+    return AccountStore.instance().list_admins()
+
+
+@router.post("/admins")
+def add_admin(body: NewAdmin, admin: dict = Depends(current_admin)):
+    try:
+        admin_accounts.add_admin(admin["sub"], body.username, body.password)
+    except admin_accounts.AdminError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"status": "created"}
+
+
+@router.post("/admins/{username}/active")
+def set_admin_active(username: str, active: bool, admin: dict = Depends(current_admin)):
+    try:
+        admin_accounts.set_active(admin["sub"], username, active)
+    except admin_accounts.AdminError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"username": username, "active": active}
+
+
+@router.post("/password")
+def change_password(body: PasswordChange, admin: dict = Depends(current_admin)):
+    try:
+        admin_accounts.change_password(admin["sub"], body.current, body.new)
+    except admin_accounts.AdminError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"status": "changed"}
+
+
+@router.get("/activity")
+def activity(limit: int = 50):
+    """Who did what, newest first. The log can be read, never edited."""
+    return AccountStore.instance().recent_activity(min(max(limit, 1), 200))
 
 
 @router.get("/claims", response_model=list[PendingClaim])
@@ -56,13 +110,16 @@ def pending_claims():
 
 
 @router.post("/claims/{claim_id}/approve", response_model=ClaimResult)
-def approve_claim(claim_id: int):
-    return get_auth_service().approve_claim(claim_id)
+def approve_claim(claim_id: int, admin: dict = Depends(current_admin)):
+    result = get_auth_service().approve_claim(claim_id)
+    _audit(admin, "claim.approved", f"claim {claim_id}", result.full_name or "")
+    return result
 
 
 @router.post("/claims/{claim_id}/reject")
-def reject_claim(claim_id: int, body: RejectBody):
+def reject_claim(claim_id: int, body: RejectBody, admin: dict = Depends(current_admin)):
     get_auth_service().reject_claim(claim_id, body.note)
+    _audit(admin, "claim.rejected", f"claim {claim_id}", body.note or "")
     return {"status": "rejected"}
 
 
@@ -85,8 +142,9 @@ def list_accounts():
 
 
 @router.post("/accounts/{orcid_id}/active")
-def set_account_active(orcid_id: str, active: bool):
+def set_account_active(orcid_id: str, active: bool, admin: dict = Depends(current_admin)):
     AccountStore.instance().set_active(orcid_id, active)
+    _audit(admin, "account.activated" if active else "account.deactivated", orcid_id)
     return {"orcid_id": orcid_id, "active": active}
 
 
@@ -97,8 +155,9 @@ def refresh_status():
 
 
 @router.post("/refresh")
-async def trigger_refresh():
+async def trigger_refresh(admin: dict = Depends(current_admin)):
     """Start a data refresh in the background; check GET /refresh for status."""
+    _audit(admin, "refresh.started")
     asyncio.get_running_loop().run_in_executor(None, refresh_service.run_refresh)
     return {"status": "started"}
 
@@ -122,7 +181,7 @@ def pending_papers():
 
 
 @router.post("/papers/{sub_id}/approve")
-def approve_paper(sub_id: int):
+def approve_paper(sub_id: int, admin: dict = Depends(current_admin)):
     """Publish a pending paper and merge its staged chunks (instant go-live).
     Idempotent: an already-approved paper is a no-op. A rejected submission
     can never be approved — its staged vectors were discarded on rejection,
@@ -149,11 +208,12 @@ def approve_paper(sub_id: int):
             sub["kind"],
         )
     store.set_submission_status(sub_id, "approved")
+    _audit(admin, "paper.approved", f"submission {sub_id}", sub["title"])
     return {"status": "approved", "id": sub_id, "chunks_merged": merged}
 
 
 @router.post("/papers/{sub_id}/reject")
-def reject_paper(sub_id: int, body: RejectBody):
+def reject_paper(sub_id: int, body: RejectBody, admin: dict = Depends(current_admin)):
     """Reject a pending paper; its staged chunks are discarded. For a PDF
     upload, also deletes the uploaded file and its uploads-table row so a
     rejected paper can never be picked up by a full index rebuild."""
@@ -170,4 +230,5 @@ def reject_paper(sub_id: int, body: RejectBody):
             (UPLOADS_DIR / filename).unlink(missing_ok=True)
         store.delete_upload_for_submission(sub_id)
     store.set_submission_status(sub_id, "rejected", note=body.note)
+    _audit(admin, "paper.rejected", f"submission {sub_id}", sub["title"])
     return {"status": "rejected", "id": sub_id}

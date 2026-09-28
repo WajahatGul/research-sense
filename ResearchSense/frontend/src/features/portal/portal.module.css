@@ -610,3 +610,29 @@
     min-height: 44px;
   }
 }
+
+/* Admin security (AdminSecurity.tsx) */
+.warnCard {
+  border-color: #d97706;
+  background: #fffbeb;
+}
+
+.activity {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.activity li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.activityWarn {
+  color: #9a3412;
+}

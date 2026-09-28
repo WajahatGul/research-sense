@@ -138,21 +138,28 @@ def pending():
     return out
 
 
+def _audit(who: dict, action: str, target: str, detail: str = "") -> None:
+    AccountStore.instance().record(who.get("sub", "?"), action, target, detail)
+
+
 @admin.post("/{correction_id}/approve")
-def approve(correction_id: int):
+def approve(correction_id: int, who: dict = Depends(current_admin)):
     try:
-        identity_service.approve_correction(correction_id)
+        d = identity_service.approve_correction(correction_id)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    _audit(who, "correction.approved", f"correction {correction_id}",
+           f"{d['type']}: {d['profile']['name']}")
     return {"status": "approved"}
 
 
 @admin.post("/{correction_id}/reject")
-def reject(correction_id: int, body: RejectBody):
+def reject(correction_id: int, body: RejectBody, who: dict = Depends(current_admin)):
     try:
         identity_service.reject_correction(correction_id, body.note)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    _audit(who, "correction.rejected", f"correction {correction_id}", body.note or "")
     return {"status": "rejected"}
 
 
@@ -163,11 +170,13 @@ def possible_duplicates(limit: int = 30):
 
 
 @admin.post("/candidates/decide")
-def decide(body: Decide):
+def decide(body: Decide, who: dict = Depends(current_admin)):
     if body.same:
         identity_service.decide_same_person(body.researcher_id, body.openalex_id,
                                             by="admin", note=body.note)
     else:
         identity_service.decide_different_people(body.researcher_id, body.openalex_id,
                                                  by="admin")
+    _audit(who, "identity.same_person" if body.same else "identity.different_people",
+           f"researcher {body.researcher_id}", body.openalex_id)
     return {"status": "recorded"}

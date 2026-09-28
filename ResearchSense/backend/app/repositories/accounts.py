@@ -55,6 +55,22 @@ CREATE TABLE IF NOT EXISTS claims (
     reviewed_at   TEXT,
     note          TEXT
 );
+CREATE TABLE IF NOT EXISTS admins (
+    username      TEXT PRIMARY KEY,
+    password_hash TEXT NOT NULL,
+    active        INTEGER NOT NULL DEFAULT 1,
+    weak_password INTEGER NOT NULL DEFAULT 0,
+    created_at    TEXT NOT NULL,
+    created_by    TEXT
+);
+CREATE TABLE IF NOT EXISTS audit_log (
+    id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    at     TEXT NOT NULL,
+    actor  TEXT NOT NULL,
+    action TEXT NOT NULL,
+    target TEXT,
+    detail TEXT
+);
 CREATE TABLE IF NOT EXISTS corrections (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     kind          TEXT NOT NULL,
@@ -209,6 +225,66 @@ class AccountStore:
                 (_now(), note, researcher_id),
             )
             return cur.rowcount
+
+    # --- administrators ---
+    def count_admins(self) -> int:
+        with self._connect() as con:
+            return con.execute("SELECT COUNT(*) AS n FROM admins").fetchone()["n"]
+
+    def get_admin(self, username: str) -> dict | None:
+        with self._connect() as con:
+            row = con.execute(
+                "SELECT * FROM admins WHERE username = ?", (username,)
+            ).fetchone()
+        return dict(row) if row else None
+
+    def list_admins(self) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT username, active, weak_password, created_at, created_by"
+                " FROM admins ORDER BY created_at"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def create_admin(
+        self, username: str, password_hash: str, weak: bool, created_by: str | None
+    ) -> None:
+        with self._connect() as con:
+            con.execute(
+                "INSERT INTO admins (username, password_hash, weak_password,"
+                " created_at, created_by) VALUES (?, ?, ?, ?, ?)",
+                (username, password_hash, 1 if weak else 0, _now(), created_by),
+            )
+
+    def set_admin_active(self, username: str, active: bool) -> None:
+        with self._connect() as con:
+            con.execute(
+                "UPDATE admins SET active = ? WHERE username = ?",
+                (1 if active else 0, username),
+            )
+
+    def set_admin_password(self, username: str, password_hash: str) -> None:
+        with self._connect() as con:
+            con.execute(
+                "UPDATE admins SET password_hash = ?, weak_password = 0 WHERE username = ?",
+                (password_hash, username),
+            )
+
+    # --- audit log: append-only. There is deliberately no update or delete. ---
+    def record(self, actor: str, action: str, target: str = "", detail: str = "") -> None:
+        with self._connect() as con:
+            con.execute(
+                "INSERT INTO audit_log (at, actor, action, target, detail)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (_now(), actor, action, target, detail[:500]),
+            )
+
+    def recent_activity(self, limit: int = 50) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", (limit,)
+            ).fetchall()
+        return [dict(r) for r in rows]
 
     # --- record corrections (see app/services/identity_service.py) ---
     def create_correction(

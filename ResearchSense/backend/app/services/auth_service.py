@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
-import secrets
 
 from fastapi import HTTPException
 
@@ -190,26 +188,32 @@ class AuthService:
         )
 
     def admin_login(self, username: str, password: str) -> TokenResponse:
-        expected_user = os.getenv("ADMIN_USERNAME", "admin")
-        expected_pass = os.getenv("ADMIN_PASSWORD", "")
-        if not expected_pass:
+        from app.services import admin_accounts
+
+        admin_accounts.ensure_first_admin()
+        if not self._store.count_admins():
             raise HTTPException(
                 status_code=503,
-                detail="Admin login is not configured (set ADMIN_PASSWORD in .env)",
+                detail="No administrator exists yet (set ADMIN_PASSWORD in .env "
+                       "to create the first one)",
             )
         throttle.check(f"admin:{username}")
-        if not (
-            secrets.compare_digest(username, expected_user)
-            and secrets.compare_digest(password, expected_pass)
-        ):
+        admin = admin_accounts.authenticate(username, password)
+        if admin is None:
             throttle.record_failure(f"admin:{username}")
+            # Failed sign-ins are recorded too: repeated ones are the signal
+            # that someone is guessing.
+            self._store.record(username.strip().lower()[:40] or "?", "admin.login_failed")
             raise HTTPException(status_code=401, detail="Invalid admin credentials")
         throttle.record_success(f"admin:{username}")
-        return TokenResponse(token=create_token(username, "admin"), role="admin")
+        self._store.record(admin["username"], "admin.login")
+        return TokenResponse(token=create_token(admin["username"], "admin"), role="admin")
 
     def me(self, token_payload: dict) -> MeResponse:
         if token_payload.get("role") == "admin":
-            return MeResponse(role="admin")
+            admin = self._store.get_admin(token_payload.get("sub", "")) or {}
+            return MeResponse(role="admin", full_name=admin.get("username"),
+                              password_weak=bool(admin.get("weak_password")))
         orcid_id = token_payload.get("sub", "")
         account = self._store.get_account(orcid_id)
         if account is None or not account["active"]:

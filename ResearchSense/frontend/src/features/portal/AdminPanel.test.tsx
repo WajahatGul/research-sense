@@ -14,6 +14,8 @@ import {
 } from "../../api/auth";
 import { AdminPanel } from "./AdminPanel";
 
+vi.mock("./AdminSecurity", () => ({ AdminSecurity: () => null }));
+
 vi.mock("../../api/corrections", () => ({
   fetchPendingCorrections: vi.fn().mockResolvedValue([]),
   fetchIdentityCandidates: vi.fn().mockResolvedValue([]),

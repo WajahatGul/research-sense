@@ -94,6 +94,8 @@ class MeResponse(BaseModel):
     researcher_id: int | None = None
     full_name: str | None = None
     uploads: list[UploadedPaper] = []
+    # Admins only: their password was seeded from .env and is too short.
+    password_weak: bool = False
 
 
 class ClaimedAccount(BaseModel):

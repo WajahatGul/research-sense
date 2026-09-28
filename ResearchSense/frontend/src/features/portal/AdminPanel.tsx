@@ -12,6 +12,7 @@ import {
   triggerRefresh,
 } from "../../api/auth";
 import { Badge } from "../../components/Badge";
+import { AdminSecurity } from "./AdminSecurity";
 import { ClaimsQueue } from "./ClaimsQueue";
 import { CorrectionsQueue } from "./CorrectionsQueue";
 import styles from "./portal.module.css";
@@ -126,6 +127,8 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
         </button>
         {message && <p className={styles.status}>{message}</p>}
       </section>
+
+      <AdminSecurity />
 
       <ClaimsQueue />
 
