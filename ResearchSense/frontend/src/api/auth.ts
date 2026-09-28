@@ -1,4 +1,5 @@
 import { get, post } from "./client";
+import { announceSession } from "../lib/session";
 
 const TOKEN_KEY = "rs_token";
 
@@ -33,8 +34,33 @@ export interface ClaimedAccount {
 
 // --- token storage ---
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
-export const setToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
-export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
+// Saving or clearing a session announces it, so everything showing who is
+// signed in (the header, the assistant) updates at once. It used to update
+// only on the next page load: an admin who had just signed in still saw
+// "Sign in" in the header.
+export const setToken = (token: string) => {
+  localStorage.setItem(TOKEN_KEY, token);
+  announceSession();
+};
+export const clearToken = () => {
+  localStorage.removeItem(TOKEN_KEY);
+  announceSession();
+};
+
+/** Who the stored session says it is, for labelling only: the server
+ * checks the token itself on every request. */
+export function sessionRole(): "admin" | "researcher" | "workspace" | null {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return null;
+    const body = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    if (body.role === "admin") return "admin";
+    if (body.role === "researcher") return "researcher";
+    return "workspace";
+  } catch {
+    return null;
+  }
+}
 
 const authHeaders = () => ({ Authorization: `Bearer ${getToken()}` });
 

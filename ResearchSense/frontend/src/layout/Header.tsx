@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 
+import { sessionRole } from "../api/auth";
 import { Wordmark } from "../components/Wordmark";
 import { SESSION_EVENT } from "../lib/session";
 import styles from "./Header.module.css";
@@ -17,23 +18,23 @@ const NAV = [
   { to: "/analytics", label: "Analytics" },
 ];
 
-function hasSession(): boolean {
-  try {
-    return Boolean(localStorage.getItem("rs_token"));
-  } catch {
-    return false;
-  }
-}
+// Where the signed-in person's own pages are. An admin used to be sent to
+// the researcher portal, which is not theirs.
+const HOME_OF = {
+  admin: { to: "/staff-access", label: "Admin panel" },
+  researcher: { to: "/portal", label: "Your portal" },
+  workspace: { to: "/portal", label: "Your portal" },
+} as const;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [signedIn, setSignedIn] = useState(hasSession);
+  const [role, setRole] = useState(sessionRole);
   // The home page's own search box is the main thing on that page; a second
   // "Search" in the header there is a duplicate route to the same place.
   const onHome = useLocation().pathname === "/";
 
   useEffect(() => {
-    const sync = () => setSignedIn(hasSession());
+    const sync = () => setRole(sessionRole());
     window.addEventListener(SESSION_EVENT, sync);
     window.addEventListener("storage", sync);
     return () => {
@@ -85,8 +86,8 @@ export default function Header() {
               Search
             </NavLink>
           )}
-          <Link to="/portal" className={styles.cta} onClick={close}>
-            {signedIn ? "Your portal" : "Sign in"}
+          <Link to={role ? HOME_OF[role].to : "/portal"} className={styles.cta} onClick={close}>
+            {role ? HOME_OF[role].label : "Sign in"}
           </Link>
         </nav>
       </div>
