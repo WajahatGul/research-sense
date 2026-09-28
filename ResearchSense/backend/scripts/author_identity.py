@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import re
 from difflib import SequenceMatcher
+from functools import lru_cache
 
 _TITLES = {
     "dr", "engr", "cdr", "retd", "prof", "professor", "associate", "assistant",
@@ -63,13 +64,16 @@ def _compact(ws: list[str]) -> str:
     return "".join(ws).replace("e", "")  # "fazl e hadi" ~ "fazle hadi"
 
 
+@lru_cache(maxsize=200_000)
 def _same_word(a: str, b: str) -> bool:
+    # Cached: the same few thousand name words are compared over and over
+    # when every author record is checked against every profile.
     if a == b:
         return True
-    return (
-        len(a) >= 4 and len(b) >= 4 and a[0] == b[0]
-        and SequenceMatcher(None, a, b).ratio() >= 0.7
-    )
+    if len(a) < 4 or len(b) < 4 or a[0] != b[0]:
+        return False
+    m = SequenceMatcher(None, a, b)
+    return m.real_quick_ratio() >= 0.7 and m.quick_ratio() >= 0.7 and m.ratio() >= 0.7
 
 
 def _initial_of(letter: str, word: str) -> bool:

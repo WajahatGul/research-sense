@@ -23,6 +23,7 @@ from app.routers import (
     admin,
     analytics,
     auth,
+    corrections,
     departments,
     chat,
     library,
@@ -67,6 +68,11 @@ def _warm_search_indexes() -> None:
         for repo in (MockResearcherRepository(), MockPublicationRepository()):
             repo.list(query="warm")  # per-record tokens
             repo.suggest("warm")  # spelling-correction vocabulary
+        # "Is this also you?" suggestions compare every author record with
+        # every profile (~5 s); do it now, not on a researcher's first visit.
+        from app.services import identity_service
+
+        identity_service.candidates(limit=1)
     except Exception:  # warming is an optimisation, never a startup failure
         log.exception("search index warm-up failed")
 
@@ -120,8 +126,10 @@ def create_app() -> FastAPI:
         suggest,
         organisation,
         departments,
+        corrections,
     ):
         app.include_router(module.router)
+    app.include_router(corrections.admin)
 
     @app.middleware("http")
     async def trace(request, call_next):

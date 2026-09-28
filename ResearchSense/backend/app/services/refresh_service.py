@@ -51,6 +51,11 @@ def run_refresh() -> str:
         merge_author_variants.main(write=True)
         unlink_misattributed.main(write=True)
         merge_duplicate_publications.main(write=True)
+        # People's decisions (this paper is not mine; that record is also
+        # me) come last, so a human's word outranks every automatic rule.
+        from app.services import identity_service
+
+        identity_service.apply_and_save()
         # The fetch rewrites topics.json, so file the areas under fields again
         # (from the cached OpenAlex hierarchy: no extra requests).
         classify_topics.main(write=True)

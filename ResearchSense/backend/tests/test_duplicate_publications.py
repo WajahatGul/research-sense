@@ -85,8 +85,11 @@ def test_a_refresh_cleans_the_new_data_before_indexing(monkeypatch, tmp_path):
     monkeypatch.setattr(unlink_misattributed, "main", lambda write: calls.append("unlink"))
     monkeypatch.setattr(merge_duplicate_publications, "main", lambda write: calls.append("dupes"))
     monkeypatch.setattr(classify_topics, "main", lambda write: calls.append("fields"))
+    from app.services import identity_service
+
+    monkeypatch.setattr(identity_service, "apply_and_save", lambda: calls.append("people's decisions"))
     monkeypatch.setattr(build_index, "rebuild_preserving_fulltext", lambda: calls.append("index"))
 
     assert refresh_service.run_refresh() == "ok"
-    assert calls == ["fetch", "people", "unlink", "dupes", "fields", "index"]
+    assert calls == ["fetch", "people", "unlink", "dupes", "people's decisions", "fields", "index"]
     assert not (tmp_path / "publication_duplicates.json").exists()

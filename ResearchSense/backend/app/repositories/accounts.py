@@ -55,6 +55,18 @@ CREATE TABLE IF NOT EXISTS claims (
     reviewed_at   TEXT,
     note          TEXT
 );
+CREATE TABLE IF NOT EXISTS corrections (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind          TEXT NOT NULL,
+    researcher_id INTEGER NOT NULL,
+    payload_json  TEXT NOT NULL,
+    note          TEXT,
+    raised_by     TEXT NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'pending',
+    submitted_at  TEXT NOT NULL,
+    reviewed_at   TEXT,
+    review_note   TEXT
+);
 CREATE TABLE IF NOT EXISTS submissions (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     kind          TEXT NOT NULL,
@@ -197,6 +209,50 @@ class AccountStore:
                 (_now(), note, researcher_id),
             )
             return cur.rowcount
+
+    # --- record corrections (see app/services/identity_service.py) ---
+    def create_correction(
+        self, kind: str, researcher_id: int, payload_json: str, note: str, raised_by: str
+    ) -> int:
+        with self._connect() as con:
+            cur = con.execute(
+                "INSERT INTO corrections (kind, researcher_id, payload_json, note,"
+                " raised_by, submitted_at) VALUES (?, ?, ?, ?, ?, ?)",
+                (kind, researcher_id, payload_json, note, raised_by, _now()),
+            )
+            return int(cur.lastrowid)
+
+    def get_correction(self, correction_id: int) -> dict | None:
+        with self._connect() as con:
+            row = con.execute(
+                "SELECT * FROM corrections WHERE id = ?", (correction_id,)
+            ).fetchone()
+        return dict(row) if row else None
+
+    def pending_corrections(self) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT * FROM corrections WHERE status = 'pending' ORDER BY id"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def corrections_for(self, researcher_id: int) -> list[dict]:
+        with self._connect() as con:
+            rows = con.execute(
+                "SELECT * FROM corrections WHERE researcher_id = ? ORDER BY id DESC",
+                (researcher_id,),
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def set_correction_status(
+        self, correction_id: int, status: str, review_note: str | None = None
+    ) -> None:
+        with self._connect() as con:
+            con.execute(
+                "UPDATE corrections SET status = ?, reviewed_at = ?, review_note = ?"
+                " WHERE id = ?",
+                (status, _now(), review_note, correction_id),
+            )
 
     # --- uploads ---
     def record_upload(
