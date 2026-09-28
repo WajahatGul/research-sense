@@ -15,7 +15,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
-from app.core.config import settings
+from app.core.config import check_safe_to_start, settings
 from app.core.health import check as health_check
 from app.core.security import workspace_from_token
 from app.repositories.loader import set_workspace
@@ -91,6 +91,7 @@ async def _lifespan(app: FastAPI):
 
 
 def create_app() -> FastAPI:
+    check_safe_to_start()
     app = FastAPI(title=settings.app_name, version=settings.version, lifespan=_lifespan)
 
     app.add_middleware(

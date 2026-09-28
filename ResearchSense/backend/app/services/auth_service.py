@@ -58,10 +58,11 @@ class AuthService:
                 status_code=409,
                 detail="A claim with this ORCID iD is already waiting for approval.",
             )
-        from app.core.config import settings
+        from app.core.config import is_local_deployment, settings
 
-        # The DEV_ORCID iD from .env skips the checks for local testing.
-        if settings.dev_orcid and orcid_id == settings.dev_orcid:
+        # The DEV_ORCID iD from .env skips the checks for local testing, and
+        # only there: the app also refuses to start with it on a public site.
+        if settings.dev_orcid and orcid_id == settings.dev_orcid and is_local_deployment():
             return self._open_account(
                 orcid_id, researcher_id, hash_password(password), researcher.full_name
             )
