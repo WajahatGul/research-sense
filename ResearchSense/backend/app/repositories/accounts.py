@@ -105,6 +105,18 @@ CREATE TABLE IF NOT EXISTS events (
     detail   TEXT NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS events_kind_day ON events (kind, day);
+-- Every message the site sends, kept whether or not a mail server took it,
+-- so an admin can see what people were told (see notify_service).
+CREATE TABLE IF NOT EXISTS outbox (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    at        TEXT NOT NULL,
+    to_addr   TEXT NOT NULL,
+    subject   TEXT NOT NULL,
+    body      TEXT NOT NULL,
+    reason    TEXT NOT NULL,
+    status    TEXT NOT NULL,
+    error     TEXT
+);
 """
 
 

@@ -14,7 +14,7 @@ from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import admin_accounts, backup_service, usage_service, refresh_service, staging, submission_service
+from app.services import admin_accounts, backup_service, notify_service, usage_service, refresh_service, staging, submission_service
 
 log = logging.getLogger(__name__)
 
@@ -114,6 +114,7 @@ def pending_claims():
 def approve_claim(claim_id: int, admin: dict = Depends(current_admin)):
     result = get_auth_service().approve_claim(claim_id)
     _audit(admin, "claim.approved", f"claim {claim_id}", result.full_name or "")
+    notify_service.claim_decided(AccountStore.instance().get_claim(claim_id), approved=True)
     return result
 
 
@@ -121,6 +122,7 @@ def approve_claim(claim_id: int, admin: dict = Depends(current_admin)):
 def reject_claim(claim_id: int, body: RejectBody, admin: dict = Depends(current_admin)):
     get_auth_service().reject_claim(claim_id, body.note)
     _audit(admin, "claim.rejected", f"claim {claim_id}", body.note or "")
+    notify_service.claim_decided(AccountStore.instance().get_claim(claim_id), False, body.note)
     return {"status": "rejected"}
 
 
@@ -161,6 +163,11 @@ async def trigger_refresh(admin: dict = Depends(current_admin)):
     _audit(admin, "refresh.started")
     asyncio.get_running_loop().run_in_executor(None, refresh_service.run_refresh)
     return {"status": "started"}
+
+
+@router.get("/outbox")
+def outbox():
+    return {"messages": notify_service.recent(), "mail_server": notify_service._smtp() is not None}
 
 
 @router.get("/usage")
@@ -245,6 +252,7 @@ def approve_paper(sub_id: int, admin: dict = Depends(current_admin)):
         )
     store.set_submission_status(sub_id, "approved")
     _audit(admin, "paper.approved", f"submission {sub_id}", sub["title"])
+    notify_service.paper_decided(sub, approved=True)
     return {"status": "approved", "id": sub_id, "chunks_merged": merged}
 
 
@@ -271,4 +279,5 @@ def reject_paper(sub_id: int, body: RejectBody, admin: dict = Depends(current_ad
         store.delete_upload_for_submission(sub_id)
     store.set_submission_status(sub_id, "rejected", note=body.note)
     _audit(admin, "paper.rejected", f"submission {sub_id}", sub["title"])
+    notify_service.paper_decided(sub, False, body.note)
     return {"status": "rejected", "id": sub_id}

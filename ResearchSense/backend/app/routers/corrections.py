@@ -14,7 +14,7 @@ from app.core.security import current_admin, current_user
 from app.repositories import loader
 from app.repositories.accounts import AccountStore
 from app.routers.papers import _submitting_researcher
-from app.services import identity_service
+from app.services import identity_service, notify_service
 
 router = APIRouter(prefix="/api/corrections", tags=["corrections"])
 admin = APIRouter(
@@ -150,6 +150,7 @@ def approve(correction_id: int, who: dict = Depends(current_admin)):
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     _audit(who, "correction.approved", f"correction {correction_id}",
            f"{d['type']}: {d['profile']['name']}")
+    notify_service.correction_decided(AccountStore.instance().get_correction(correction_id), True)
     return {"status": "approved"}
 
 
@@ -160,6 +161,8 @@ def reject(correction_id: int, body: RejectBody, who: dict = Depends(current_adm
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     _audit(who, "correction.rejected", f"correction {correction_id}", body.note or "")
+    notify_service.correction_decided(
+        AccountStore.instance().get_correction(correction_id), False, body.note)
     return {"status": "rejected"}
 
 

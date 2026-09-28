@@ -15,6 +15,7 @@ import { Badge } from "../../components/Badge";
 import { AdminSecurity } from "./AdminSecurity";
 import { Backups } from "./Backups";
 import { Usage } from "./Usage";
+import { Outbox } from "./Outbox";
 import { ClaimsQueue } from "./ClaimsQueue";
 import { CorrectionsQueue } from "./CorrectionsQueue";
 import styles from "./portal.module.css";
@@ -139,6 +140,8 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
       <ClaimsQueue />
 
       <CorrectionsQueue />
+
+      <Outbox />
 
       <section className={styles.section}>
         <h3 className={styles.h3}>Pending papers</h3>
