@@ -214,11 +214,14 @@ def pending_papers():
     """Papers awaiting review, oldest first, with the full record payload."""
     out = []
     for s in AccountStore.instance().pending_submissions():
+        person = notify_service.researcher(s["researcher_id"]) or {}
         out.append(
             {
                 "id": s["id"],
                 "kind": s["kind"],
                 "researcher_id": s["researcher_id"],
+                # A reviewer judges a paper by who sent it; a number says nothing.
+                "researcher_name": person.get("full_name"),
                 "title": s["title"],
                 "submitted_at": s["submitted_at"],
                 "record": json.loads(s["record_json"]),

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import type { PendingPaper } from "../../api/auth";
@@ -74,6 +75,7 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
     mutationFn: approvePaper,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
     },
     onError: (err: unknown) => {
       setMessage(err instanceof Error ? err.message : "Could not approve the paper.");
@@ -87,6 +89,7 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
       setRejectingId(null);
       setNote("");
       queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
     },
     onError: (err: unknown) => {
       setMessage(err instanceof Error ? err.message : "Could not reject the paper.");
@@ -165,7 +168,11 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
                     <span className={styles.pendingTitle}>{p.title}</span>
                   </div>
                   <span className={styles.pendingMeta}>
-                    Submitted by researcher #{p.researcher_id} ·{" "}
+                    Submitted by{" "}
+                    <Link to={`/researchers/${p.researcher_id}`} className={styles.link}>
+                      {p.researcher_name ?? `researcher #${p.researcher_id}`}
+                    </Link>{" "}
+                    ·{" "}
                     {p.submitted_at.slice(0, 10)}
                     {subtitle && ` · ${subtitle}`}
                   </span>

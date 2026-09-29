@@ -122,9 +122,10 @@
   border-radius: 2px;
 }
 
-/* Five destinations + Search + Sign in fit on one line down to tablet
-   width; only below that does the bar collapse into a menu. */
-@media (max-width: 960px) {
+/* Five destinations + Search + the account button ("Admin panel" is the
+   widest) need about 1,000px on one line; below that the bar collapses
+   into a menu rather than running off the side of the screen. */
+@media (max-width: 1040px) {
   .toggle {
     display: flex;
   }

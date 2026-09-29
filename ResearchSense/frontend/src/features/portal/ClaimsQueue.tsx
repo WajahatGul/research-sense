@@ -27,6 +27,7 @@ export function ClaimsQueue() {
     setError("");
     queryClient.invalidateQueries({ queryKey: ["admin-claims"] });
     queryClient.invalidateQueries({ queryKey: ["admin-accounts"] });
+    queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
   };
   const fail = (err: unknown) =>
     setError(err instanceof Error ? err.message : "Could not update the claim.");

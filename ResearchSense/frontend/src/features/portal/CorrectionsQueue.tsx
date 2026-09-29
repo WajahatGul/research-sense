@@ -76,6 +76,7 @@ export function CorrectionsQueue() {
     setNote("");
     setError("");
     void queryClient.invalidateQueries({ queryKey: ["admin-corrections"] });
+    void queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
     void queryClient.invalidateQueries({
       queryKey: ["admin-identity-candidates"],
     });

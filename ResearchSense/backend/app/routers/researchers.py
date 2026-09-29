@@ -37,8 +37,10 @@ def list_researchers(
         page_size=page_size,
     )
     # A search alone that finds nothing is a gap in the directory (filters
-    # narrowing to nothing are not).
-    if q and result.total == 0 and not (campus or department or designation or topic_id):
+    # narrowing to nothing are not). So is one shown only after re-spelling:
+    # nothing matched what was typed.
+    missed = result.total == 0 or result.corrected_query
+    if q and missed and not (campus or department or designation or topic_id):
         usage_service.search_found_nothing("researchers", q)
     return result
 

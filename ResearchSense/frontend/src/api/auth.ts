@@ -180,6 +180,7 @@ export interface PendingPaper {
   id: number;
   kind: "publication" | "upload" | "library";
   researcher_id: number;
+  researcher_name?: string | null;
   title: string;
   submitted_at: string;
   record: Record<string, unknown>;

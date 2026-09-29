@@ -58,7 +58,8 @@ def list_publications(
         for v in (year, topic_id, author_id, campus, year_from, year_to,
                   department, publication_type, date_from, date_to)
     )
-    if q and result.total == 0 and not filtered:
+    missed = result.total == 0 or result.corrected_query  # see researchers.py
+    if q and missed and not filtered:
         usage_service.search_found_nothing("publications", q)
     return result
 

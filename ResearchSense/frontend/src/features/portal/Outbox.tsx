@@ -32,7 +32,13 @@ const when = (iso: string) =>
  */
 export function Outbox() {
   const [open, setOpen] = useState<number | null>(null);
-  const { data } = useQuery({ queryKey: ["admin-outbox"], queryFn: fetchOutbox });
+  // Alert emails go out in the background just after an approval, so a
+  // refetch on the decision alone can miss them.
+  const { data } = useQuery({
+    queryKey: ["admin-outbox"],
+    queryFn: fetchOutbox,
+    refetchInterval: 15_000,
+  });
   if (!data) return null;
 
   return (

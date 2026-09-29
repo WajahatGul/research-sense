@@ -73,7 +73,8 @@ export function AuthForms({
 
   return (
     <>
-      <div className={styles.guestCard}>
+      {/* Not for someone who came to claim: an invitation opens on the form. */}
+      {!claimFor && <div className={styles.guestCard}>
         <p className={styles.guestTitle}>Just looking around?</p>
         <p className={styles.guestText}>
           You do not need an account. Everyone can read the whole portal — the
@@ -91,7 +92,7 @@ export function AuthForms({
             Ask the assistant
           </Link>
         </div>
-      </div>
+      </div>}
 
       <div className={styles.authCard}>
         <h2 className={styles.cardTitle}>

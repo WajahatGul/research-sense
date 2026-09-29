@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { PendingPaper } from "../../api/auth";
@@ -60,7 +61,9 @@ function renderPanel() {
   });
   return render(
     <QueryClientProvider client={client}>
-      <AdminPanel onSignOut={vi.fn()} />
+      <MemoryRouter>
+        <AdminPanel onSignOut={vi.fn()} />
+      </MemoryRouter>
     </QueryClientProvider>,
   );
 }

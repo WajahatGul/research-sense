@@ -1,6 +1,11 @@
+/* The container keeps the page's left edge, in line with the heading; only
+   the text is held to a readable width. */
 .body {
   padding-top: 32px;
   padding-bottom: 64px;
+}
+
+.body > * {
   max-width: 640px;
 }
 

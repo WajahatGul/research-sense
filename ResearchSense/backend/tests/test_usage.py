@@ -44,6 +44,12 @@ def test_a_search_that_finds_nothing_is_counted_with_its_words(client):
     assert u["top_missed_searches"][0] == {"query": "zqxwv nonexistent", "where": "researchers", "times": 2}
 
 
+def test_a_search_shown_only_after_respelling_counts_as_a_miss(client):
+    r = client.get("/api/researchers", params={"q": "astrobiology"})
+    assert r.json()["corrected_query"]  # the results are for another word
+    assert _usage(client)["top_missed_searches"][0]["query"] == "astrobiology"
+
+
 def test_searches_that_find_something_or_are_only_filtered_are_not_counted(client):
     client.get("/api/researchers", params={"q": "a"})  # too short to mean anything
     client.get("/api/publications", params={"q": "learning"})
