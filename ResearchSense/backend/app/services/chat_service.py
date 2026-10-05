@@ -120,6 +120,20 @@ class ChatService:
         # citations", "top researchers by publications") — answered from the
         # full sorted data, since retrieval only sees a few chunks and would
         # pick a wrong maximum.
+        # Fast path: "who is X?" where X names several people. Retrieval
+        # would blend them into a description of somebody who does not exist,
+        # so ask which one is meant. A single clear match falls through, where
+        # retrieval writes a much richer summary than a list would.
+        identity = authored.identity_answer(question)
+        if identity is not None:
+            return ChatResponse(
+                answer=identity.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
+                    for name, rid in identity.researchers
+                ],
+            )
+
         # Fast path: "how many publications are there?" — the most basic
         # question a research portal gets, and one retrieval cannot answer,
         # because no single chunk holds the total.

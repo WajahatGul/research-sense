@@ -242,6 +242,44 @@ def _publications_for(researcher_id: int) -> list[dict]:
 _DISAMBIGUATION_MARKER = "Which one do you mean?"
 
 
+def _ask_which_one(matches: list[dict]) -> AuthoredResult:
+    """Name the candidates and ask, rather than answering about one of them.
+
+    Blending several people into one description is the worst outcome here:
+    it reads as a confident answer about a person who does not exist.
+    """
+    # Most published first: with a shared surname, that is the person being
+    # asked about far more often than whoever sorts alphabetically first.
+    ranked = sorted(
+        matches,
+        key=lambda r: (-(r.get("publication_count") or 0), r["full_name"]),
+    )
+    shown = ranked[:5]
+    if len(matches) > 10:
+        # "Which of 367?" is not a question anyone can answer.
+        lines = [
+            f"That name is shared by {len(matches)} researchers here. "
+            f"{_DISAMBIGUATION_MARKER} A first name or a campus would "
+            f"narrow it; the most published are:"
+        ]
+    else:
+        lines = [
+            f"I found {len(matches)} researchers matching that name. "
+            f"{_DISAMBIGUATION_MARKER}"
+        ]
+    for r in shown:
+        rank = (r.get("designation") or r.get("academic_rank") or "").strip()
+        campus = (r.get("campus") or "").strip()
+        where = ", ".join(x for x in (rank, f"{campus} campus" if campus else "") if x)
+        lines.append(f"- {r['full_name']}" + (f" ({where})" if where else ""))
+    if len(matches) > len(shown):
+        lines.append(f"...and {len(matches) - len(shown)} more.")
+    return AuthoredResult(
+        answer="\n".join(lines),
+        researchers=[(r["full_name"], r["researcher_id"]) for r in shown],
+    )
+
+
 def answer(message: str, history: list | None = None) -> AuthoredResult | None:
     """Return a structured authored-papers answer, or None to fall through.
 
@@ -264,21 +302,7 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
 
     if len(matches) > 1:
         # Ambiguous partial name: never guess — ask.
-        shown = matches[:5]
-        lines = [
-            f"I found {len(matches)} researchers matching that name. "
-            f"{_DISAMBIGUATION_MARKER}"
-        ]
-        for r in shown:
-            lines.append(
-                f"- {r['full_name']} ({r['designation']}, {r['campus']} campus)"
-            )
-        if len(matches) > len(shown):
-            lines.append(f"...and {len(matches) - len(shown)} more.")
-        return AuthoredResult(
-            answer="\n".join(lines),
-            researchers=[(r["full_name"], r["researcher_id"]) for r in shown],
-        )
+        return _ask_which_one(matches)
 
     researcher = matches[0]
     rid = researcher["researcher_id"]
@@ -632,3 +656,29 @@ def collaboration_answer(message: str) -> AuthoredResult | None:
             (b["full_name"], b["researcher_id"]),
         ],
     )
+
+
+# "Who is X?" / "tell me about X" is not an authorship question, so it used to
+# go straight to retrieval — which, for a name shared by 27 people, blended
+# them into one description of somebody who does not exist.
+_IDENTITY_QUESTION = re.compile(
+    r"\b(who\s+is|who\s+was|who['’]?s|tell\s+me\s+about|"
+    r"what\s+do\s+you\s+know\s+about)\b",
+    re.I,
+)
+
+
+def identity_answer(message: str) -> AuthoredResult | None:
+    """Ask which person is meant when a bare name matches several.
+
+    Only fires on a genuinely ambiguous name. One clear match falls through to
+    retrieval, which writes a far richer profile summary than a list would.
+    """
+    if not _IDENTITY_QUESTION.search(message):
+        return None
+    if is_authored_query(message):
+        return None  # the authorship path already owns these
+    matches = _resolve_researchers(message)
+    if len(matches) < 2:
+        return None
+    return _ask_which_one(matches)

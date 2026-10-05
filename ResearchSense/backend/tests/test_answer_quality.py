@@ -154,3 +154,54 @@ def test_a_count_about_one_person_is_left_to_the_authorship_path():
 
 def test_a_question_that_is_not_counting_is_left_alone():
     assert totals_answer("What papers has Nida Aman written?") is None
+
+
+# --- "who is X" when X is shared ---------------------------------------
+AMBIGUOUS = [
+    _r(1, "Arif Ur Rahman", "Computer Science", "Islamabad (E-8)", 40, 500),
+    _r(2, "Muhammad Arif Khattak", "Mechanical", "Islamabad (E-8)", 20, 200),
+    _r(3, "Zaeem Arif Butt", "Computer Science", "Lahore", 5, 30),
+]
+
+
+def test_a_shared_name_is_asked_about_not_guessed(monkeypatch):
+    """Retrieval used to blend several people into one description of
+    somebody who does not exist."""
+    monkeypatch.setattr(authored._Store, "_researchers", AMBIGUOUS)
+    result = authored.identity_answer("Who is Arif?")
+    assert result is not None
+    assert authored._DISAMBIGUATION_MARKER in result.answer
+    for name in ("Arif Ur Rahman", "Muhammad Arif Khattak"):
+        assert name in result.answer
+
+
+def test_the_most_published_candidate_is_offered_first(monkeypatch):
+    monkeypatch.setattr(authored._Store, "_researchers", AMBIGUOUS)
+    result = authored.identity_answer("Who is Arif?")
+    assert result is not None
+    assert result.researchers[0][0] == "Arif Ur Rahman"
+
+
+def test_one_clear_match_is_left_to_retrieval(monkeypatch):
+    """A single match gets a far richer answer from the RAG pipeline."""
+    monkeypatch.setattr(authored._Store, "_researchers", AMBIGUOUS)
+    assert authored.identity_answer("Who is Zaeem Arif Butt?") is None
+
+
+def test_an_authorship_question_is_not_hijacked(monkeypatch):
+    monkeypatch.setattr(authored._Store, "_researchers", AMBIGUOUS)
+    assert authored.identity_answer("What papers has Arif written?") is None
+
+
+def test_naming_the_person_afterwards_answers_the_question(monkeypatch):
+    """The follow-up only works if the marker survives in the question."""
+    monkeypatch.setattr(authored._Store, "_researchers", AMBIGUOUS)
+    monkeypatch.setattr(authored._Store, "_pubs", [_p(1, "Paper A", 2021, [1])])
+
+    class Turn:
+        role = "assistant"
+        content = f"I found 3 researchers. {authored._DISAMBIGUATION_MARKER}"
+
+    follow_up = authored.answer("Arif Ur Rahman", history=[Turn()])
+    assert follow_up is not None
+    assert "Paper A" in follow_up.answer
