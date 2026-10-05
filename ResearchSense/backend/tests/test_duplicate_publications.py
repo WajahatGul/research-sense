@@ -12,14 +12,26 @@ client = TestClient(app)
 
 
 def _paper(pid, title, venue, doi, cites=0, authors=("Ali Mirza",)):
-    return {"publication_id": pid, "title": title, "journal_name": venue, "doi": doi,
-            "citation_count": cites, "publication_year": 2020,
-            "authors": [{"researcher_id": None, "full_name": a} for a in authors]}
+    return {
+        "publication_id": pid,
+        "title": title,
+        "journal_name": venue,
+        "doi": doi,
+        "citation_count": cites,
+        "publication_year": 2020,
+        "authors": [{"researcher_id": None, "full_name": a} for a in authors],
+    }
 
 
 def test_the_journal_version_is_kept_over_the_preprint():
     rows = [
-        _paper(1, "A Study of Things in Detail", "SSRN Electronic Journal", "10.2139/ssrn.1", 7),
+        _paper(
+            1,
+            "A Study of Things in Detail",
+            "SSRN Electronic Journal",
+            "10.2139/ssrn.1",
+            7,
+        ),
         _paper(2, "A study of things in detail.", "IEEE Access", "10.1109/x", 3),
     ]
     assert [(m["removed_id"], m["kept_id"]) for m in find_duplicates(rows)] == [(1, 2)]
@@ -27,8 +39,16 @@ def test_the_journal_version_is_kept_over_the_preprint():
 
 def test_same_title_by_different_people_is_not_merged():
     rows = [
-        _paper(1, "A Study of Things in Detail", "IEEE Access", "10.1", authors=("Ali Mirza",)),
-        _paper(2, "A Study of Things in Detail", "Sensors", "10.2", authors=("Sara Khan",)),
+        _paper(
+            1,
+            "A Study of Things in Detail",
+            "IEEE Access",
+            "10.1",
+            authors=("Ali Mirza",),
+        ),
+        _paper(
+            2, "A Study of Things in Detail", "Sensors", "10.2", authors=("Sara Khan",)
+        ),
     ]
     assert find_duplicates(rows) == []
 
@@ -52,8 +72,11 @@ def test_an_old_link_to_a_folded_copy_still_opens_the_paper():
 def test_an_author_list_no_longer_repeats_a_paper():
     rows = loader.load("publications")
     for rid in (106, 164, 235):
-        titles = [title_key(p["title"]) for p in rows
-                  if any(a.get("researcher_id") == rid for a in p["authors"])]
+        titles = [
+            title_key(p["title"])
+            for p in rows
+            if any(a.get("researcher_id") == rid for a in p["authors"])
+        ]
         repeated = [t for t, n in Counter(titles).items() if n > 1 and len(t) >= 16]
         assert repeated == [], rid
 
@@ -85,15 +108,33 @@ def test_a_refresh_cleans_the_new_data_before_indexing(monkeypatch, tmp_path):
     (tmp_path / "publications.json").write_text('[{"publication_id": 1}]')
     (tmp_path / "topics.json").write_text('[{"topic_id": 1}]')
     monkeypatch.setattr(fetch_publications, "main", lambda: calls.append("fetch"))
-    monkeypatch.setattr(merge_author_variants, "main", lambda write: calls.append("people"))
-    monkeypatch.setattr(unlink_misattributed, "main", lambda write: calls.append("unlink"))
-    monkeypatch.setattr(merge_duplicate_publications, "main", lambda write: calls.append("dupes"))
+    monkeypatch.setattr(
+        merge_author_variants, "main", lambda write: calls.append("people")
+    )
+    monkeypatch.setattr(
+        unlink_misattributed, "main", lambda write: calls.append("unlink")
+    )
+    monkeypatch.setattr(
+        merge_duplicate_publications, "main", lambda write: calls.append("dupes")
+    )
     monkeypatch.setattr(classify_topics, "main", lambda write: calls.append("fields"))
     from app.services import identity_service
 
-    monkeypatch.setattr(identity_service, "apply_and_save", lambda: calls.append("people's decisions"))
-    monkeypatch.setattr(build_index, "rebuild_preserving_fulltext", lambda: calls.append("index"))
+    monkeypatch.setattr(
+        identity_service, "apply_and_save", lambda: calls.append("people's decisions")
+    )
+    monkeypatch.setattr(
+        build_index, "rebuild_preserving_fulltext", lambda: calls.append("index")
+    )
 
     assert refresh_service.run_refresh() == "ok"
-    assert calls == ["fetch", "people", "unlink", "dupes", "people's decisions", "fields", "index"]
+    assert calls == [
+        "fetch",
+        "people",
+        "unlink",
+        "dupes",
+        "people's decisions",
+        "fields",
+        "index",
+    ]
     assert not (tmp_path / "publication_duplicates.json").exists()

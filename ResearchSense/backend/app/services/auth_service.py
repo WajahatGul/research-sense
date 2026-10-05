@@ -63,7 +63,11 @@ class AuthService:
 
         # The DEV_ORCID iD from .env skips the checks for local testing, and
         # only there: the app also refuses to start with it on a public site.
-        if settings.dev_orcid and orcid_id == settings.dev_orcid and is_local_deployment():
+        if (
+            settings.dev_orcid
+            and orcid_id == settings.dev_orcid
+            and is_local_deployment()
+        ):
             return self._open_account(
                 orcid_id, researcher_id, hash_password(password), researcher.full_name
             )
@@ -109,7 +113,9 @@ class AuthService:
         if claim is None or claim["status"] != "pending":
             raise HTTPException(status_code=404, detail="No such pending claim")
         if self._store.account_for_researcher(claim["researcher_id"]):
-            raise HTTPException(status_code=409, detail="This profile is already claimed")
+            raise HTTPException(
+                status_code=409, detail="This profile is already claimed"
+            )
         if self._store.get_account(claim["orcid_id"]):
             raise HTTPException(
                 status_code=409, detail="This ORCID iD already has an account"
@@ -173,16 +179,21 @@ class AuthService:
                 names = fetch_record_names(orcid_id)
             except OrcidVerificationError:
                 names = []
-            evidence = {"orcid_names": names,
-                        "orcid_employers": fetch_record_employers(orcid_id),
-                        "orcid_verified": True}
-            self._store.create_claim(orcid_id, researcher_id, hash_password(password),
-                                     json.dumps(evidence))
+            evidence = {
+                "orcid_names": names,
+                "orcid_employers": fetch_record_employers(orcid_id),
+                "orcid_verified": True,
+            }
+            self._store.create_claim(
+                orcid_id, researcher_id, hash_password(password), json.dumps(evidence)
+            )
             return ClaimResult(
                 status="pending",
-                message=("ORCID confirmed this iD is yours, but the name on your ORCID "
-                         "record does not match this profile, so an administrator will "
-                         "check before your account opens."),
+                message=(
+                    "ORCID confirmed this iD is yours, but the name on your ORCID "
+                    "record does not match this profile, so an administrator will "
+                    "check before your account opens."
+                ),
                 researcher_id=researcher_id,
                 full_name=researcher.full_name,
             )
@@ -231,7 +242,7 @@ class AuthService:
             raise HTTPException(
                 status_code=503,
                 detail="No administrator exists yet (set ADMIN_PASSWORD in .env "
-                       "to create the first one)",
+                "to create the first one)",
             )
         throttle.check(f"admin:{username}")
         admin = admin_accounts.authenticate(username, password)
@@ -239,11 +250,15 @@ class AuthService:
             throttle.record_failure(f"admin:{username}")
             # Failed sign-ins are recorded too: repeated ones are the signal
             # that someone is guessing.
-            self._store.record(username.strip().lower()[:40] or "?", "admin.login_failed")
+            self._store.record(
+                username.strip().lower()[:40] or "?", "admin.login_failed"
+            )
             raise HTTPException(status_code=401, detail="Invalid admin credentials")
         throttle.record_success(f"admin:{username}")
         self._store.record(admin["username"], "admin.login")
-        return TokenResponse(token=create_token(admin["username"], "admin"), role="admin")
+        return TokenResponse(
+            token=create_token(admin["username"], "admin"), role="admin"
+        )
 
     def me(self, token_payload: dict) -> MeResponse:
         if token_payload.get("role") == "admin":
@@ -251,8 +266,11 @@ class AuthService:
 
             admin_accounts.ensure_first_admin()
             admin = self._store.get_admin(token_payload.get("sub", "")) or {}
-            return MeResponse(role="admin", full_name=admin.get("username"),
-                              password_weak=bool(admin.get("weak_password")))
+            return MeResponse(
+                role="admin",
+                full_name=admin.get("username"),
+                password_weak=bool(admin.get("weak_password")),
+            )
         orcid_id = token_payload.get("sub", "")
         account = self._store.get_account(orcid_id)
         if account is None or not account["active"]:

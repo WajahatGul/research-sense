@@ -48,14 +48,16 @@ def coauthors_to_invite(token_payload: dict = Depends(current_user)):
         r = people.get(other)
         if r is None or loader.is_extended(r) or other in claimed or other in waiting:
             continue
-        out.append({
-            "researcher_id": other,
-            "full_name": r["full_name"],
-            "department": r.get("department") or "",
-            "email": r.get("email") or None,
-            "joint_papers": n,
-            "claim_link": f"{origin}/portal?claim={other}",
-        })
+        out.append(
+            {
+                "researcher_id": other,
+                "full_name": r["full_name"],
+                "department": r.get("department") or "",
+                "email": r.get("email") or None,
+                "joint_papers": n,
+                "claim_link": f"{origin}/portal?claim={other}",
+            }
+        )
         if len(out) == LIMIT:
             break
     return {"inviter": me["full_name"], "coauthors": out}

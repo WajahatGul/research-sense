@@ -8,7 +8,6 @@ from app.repositories import loader
 from app.repositories.base import TopicRepository
 from app.schemas.topic import Topic
 
-
 _counts: dict[tuple[int, int], dict[str, int]] = {}
 
 
@@ -30,8 +29,13 @@ def _head_counts(topics: list[dict], researchers: list[dict]) -> dict[str, int]:
 
 def _with_count(t: dict, counts: dict[str, int], papers: dict[int, int]) -> Topic:
     name = " ".join(t["topic_name"].lower().split())
-    return Topic(**{**t, "researcher_count": counts.get(name, 0),
-                    "publication_count": papers.get(t["topic_id"], 0)})
+    return Topic(
+        **{
+            **t,
+            "researcher_count": counts.get(name, 0),
+            "publication_count": papers.get(t["topic_id"], 0),
+        }
+    )
 
 
 class MockTopicRepository(TopicRepository):

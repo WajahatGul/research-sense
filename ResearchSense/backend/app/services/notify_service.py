@@ -47,7 +47,8 @@ def _smtp() -> dict | None:
 
 def researcher(researcher_id: int) -> dict | None:
     return next(
-        (r for r in loader.load("researchers") if r["researcher_id"] == researcher_id), None
+        (r for r in loader.load("researchers") if r["researcher_id"] == researcher_id),
+        None,
     )
 
 
@@ -68,7 +69,8 @@ def _deliver(outbox_id: int, config: dict, message: EmailMessage) -> None:
         log.warning("notify: sending message %s failed: %s", outbox_id, exc)
     with AccountStore.instance()._connect() as con:
         con.execute(
-            "UPDATE outbox SET status = ?, error = ? WHERE id = ?", (status, error, outbox_id)
+            "UPDATE outbox SET status = ?, error = ? WHERE id = ?",
+            (status, error, outbox_id),
         )
 
 
@@ -83,8 +85,14 @@ def send(to: str | None, subject: str, body: str, reason: str) -> int | None:
             cur = con.execute(
                 "INSERT INTO outbox (at, to_addr, subject, body, reason, status)"
                 " VALUES (?, ?, ?, ?, ?, ?)",
-                (datetime.now(UTC).isoformat(timespec="seconds"), to, subject, body,
-                 reason, "sending" if config else NOT_SENT),
+                (
+                    datetime.now(UTC).isoformat(timespec="seconds"),
+                    to,
+                    subject,
+                    body,
+                    reason,
+                    "sending" if config else NOT_SENT,
+                ),
             )
             outbox_id = int(cur.lastrowid)
     except Exception:  # noqa: BLE001 - a decision must not fail over a message
@@ -92,7 +100,11 @@ def send(to: str | None, subject: str, body: str, reason: str) -> int | None:
         return None
     if config:
         message = EmailMessage()
-        message["From"], message["To"], message["Subject"] = config["sender"], to, subject
+        message["From"], message["To"], message["Subject"] = (
+            config["sender"],
+            to,
+            subject,
+        )
         message.set_content(body)
         threading.Thread(
             target=_deliver, args=(outbox_id, config, message), daemon=True
@@ -110,7 +122,9 @@ def recent(limit: int = 30) -> list[dict]:
 
 def _letter(person: dict, text: str) -> str:
     org = f" · {settings.institution_name}" if settings.institution_name else ""
-    return f"Dear {person.get('full_name', 'colleague')},\n\n{text}\n\nResearchSense{org}"
+    return (
+        f"Dear {person.get('full_name', 'colleague')},\n\n{text}\n\nResearchSense{org}"
+    )
 
 
 def _note(note: str | None) -> str:
@@ -118,6 +132,7 @@ def _note(note: str | None) -> str:
 
 
 # --- the decisions ---------------------------------------------------------
+
 
 def claim_decided(claim: dict, approved: bool, note: str | None = None) -> None:
     person = researcher(claim["researcher_id"])
@@ -138,8 +153,12 @@ def claim_decided(claim: dict, approved: bool, note: str | None = None) -> None:
             "If it was yours, you can claim again, ideally by signing in with ORCID, "
             f"which proves the iD is yours:\n\n{_portal()}"
         )
-    send(person.get("email"), subject, _letter(person, text),
-         f"claim {claim['id']} {'approved' if approved else 'rejected'}")
+    send(
+        person.get("email"),
+        subject,
+        _letter(person, text),
+        f"claim {claim['id']} {'approved' if approved else 'rejected'}",
+    )
 
 
 def paper_decided(submission: dict, approved: bool, note: str | None = None) -> None:
@@ -149,15 +168,23 @@ def paper_decided(submission: dict, approved: bool, note: str | None = None) -> 
     title = submission["title"]
     if approved:
         subject = "Your paper is on ResearchSense"
-        text = f"“{title}” has been approved and now appears on your profile and in search."
+        text = (
+            f"“{title}” has been approved and now appears on your"
+            " profile and in search."
+        )
     else:
         subject = "About the paper you sent to ResearchSense"
         text = (
-            f"“{title}” was not added." + _note(note)
+            f"“{title}” was not added."
+            + _note(note)
             + f"\n\nYou can send a corrected version from your portal:\n\n{_portal()}"
         )
-    send(person.get("email"), subject, _letter(person, text),
-         f"paper {submission['id']} {'approved' if approved else 'rejected'}")
+    send(
+        person.get("email"),
+        subject,
+        _letter(person, text),
+        f"paper {submission['id']} {'approved' if approved else 'rejected'}",
+    )
 
 
 _CORRECTION = {
@@ -166,7 +193,9 @@ _CORRECTION = {
 }
 
 
-def correction_decided(correction: dict, approved: bool, note: str | None = None) -> None:
+def correction_decided(
+    correction: dict, approved: bool, note: str | None = None
+) -> None:
     person = researcher(correction["researcher_id"])
     if person is None:
         return
@@ -185,7 +214,13 @@ def correction_decided(correction: dict, approved: bool, note: str | None = None
         text = f"You told us {what}{detail}. We agreed, and your profile now shows it."
     else:
         subject = "About the correction you asked for"
-        text = (f"You told us {what}{detail}. We have kept the record as it was."
-                + _note(note))
-    send(person.get("email"), subject, _letter(person, text),
-         f"correction {correction['id']} {'approved' if approved else 'rejected'}")
+        text = (
+            f"You told us {what}{detail}. We have kept the record as it was."
+            + _note(note)
+        )
+    send(
+        person.get("email"),
+        subject,
+        _letter(person, text),
+        f"correction {correction['id']} {'approved' if approved else 'rejected'}",
+    )

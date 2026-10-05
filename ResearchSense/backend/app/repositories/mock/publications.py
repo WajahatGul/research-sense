@@ -99,7 +99,9 @@ class MockPublicationRepository(PublicationRepository):
         }
         q = Query(query)
         entries = index_for("publications", rows, _search_fields).entries if q else None
-        in_area = paper_areas(loader.load("topics"), rows)[0] if topic_id is not None else {}
+        in_area = (
+            paper_areas(loader.load("topics"), rows)[0] if topic_id is not None else {}
+        )
         result: list[tuple[float, Publication]] = []
         for i, p in enumerate(rows):
             score = q.score_entry(entries[i]) if entries else 0.0
@@ -109,7 +111,9 @@ class MockPublicationRepository(PublicationRepository):
                 continue
             if campus and p.get("campus") != campus:
                 continue
-            if topic_id is not None and topic_id not in in_area.get(p["publication_id"], ()):
+            if topic_id is not None and topic_id not in in_area.get(
+                p["publication_id"], ()
+            ):
                 continue
             if author_id is not None and not any(
                 a.get("researcher_id") == author_id for a in p.get("authors", [])
@@ -143,8 +147,11 @@ class MockPublicationRepository(PublicationRepository):
             # A copy folded into another record (a preprint, a second DOI):
             # old links, bookmarks and chat history still reach the paper.
             kept = next(
-                (m["kept_id"] for m in loader.load("publication_duplicates")
-                 if m["removed_id"] == publication_id),
+                (
+                    m["kept_id"]
+                    for m in loader.load("publication_duplicates")
+                    if m["removed_id"] == publication_id
+                ),
                 None,
             )
             if kept is not None and kept != publication_id:
@@ -169,7 +176,10 @@ class MockPublicationRepository(PublicationRepository):
         title = me["title"].strip().lower()
         scored = []
         for p in rows:
-            if p["publication_id"] == publication_id or p["title"].strip().lower() == title:
+            if (
+                p["publication_id"] == publication_id
+                or p["title"].strip().lower() == title
+            ):
                 continue
             shared_areas = len(areas & set(p.get("topic_names", [])))
             shared_people = len(

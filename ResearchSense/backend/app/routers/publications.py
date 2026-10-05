@@ -55,8 +55,18 @@ def list_publications(
     )
     filtered = any(
         v is not None
-        for v in (year, topic_id, author_id, campus, year_from, year_to,
-                  department, publication_type, date_from, date_to)
+        for v in (
+            year,
+            topic_id,
+            author_id,
+            campus,
+            year_from,
+            year_to,
+            department,
+            publication_type,
+            date_from,
+            date_to,
+        )
     )
     missed = result.total == 0 or result.corrected_query  # see researchers.py
     if q and missed and not filtered:

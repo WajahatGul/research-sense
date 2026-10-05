@@ -30,8 +30,16 @@ log = logging.getLogger("researchsense.alerts")
 
 # The filters each list accepts, as the API names them.
 FILTERS = {
-    "publications": ("q", "year", "campus", "department", "publication_type",
-                     "date_from", "date_to", "topic_id"),
+    "publications": (
+        "q",
+        "year",
+        "campus",
+        "department",
+        "publication_type",
+        "date_from",
+        "date_to",
+        "topic_id",
+    ),
     "researchers": ("q", "campus", "department", "designation", "topic_id"),
 }
 INTEGER = {"year", "topic_id"}
@@ -68,7 +76,9 @@ def _clean(kind: str, filters: dict) -> dict:
             value = " ".join(str(value).split())[:200]
         out[key] = value
     if not out:
-        raise AlertError("Search or choose a filter first: an alert on everything would never stop.")
+        raise AlertError(
+            "Search or choose a filter first: an alert on everything would never stop."
+        )
     return out
 
 
@@ -78,20 +88,31 @@ def matches(kind: str, filters: dict) -> list[dict]:
     if kind == "publications":
         page = get_publication_service().list(**args, page=1, page_size=100_000)
         return [
-            {"id": p.publication_id, "title": p.title,
-             "detail": ", ".join(filter(None, [p.journal_name, str(p.publication_year or "")]))}
+            {
+                "id": p.publication_id,
+                "title": p.title,
+                "detail": ", ".join(
+                    filter(None, [p.journal_name, str(p.publication_year or "")])
+                ),
+            }
             for p in page.items
         ]
     page = get_researcher_service().list(**args, page=1, page_size=100_000)
     return [
-        {"id": r.researcher_id, "title": r.full_name,
-         "detail": ", ".join(filter(None, [r.designation, r.department]))}
+        {
+            "id": r.researcher_id,
+            "title": r.full_name,
+            "detail": ", ".join(filter(None, [r.designation, r.department])),
+        }
         for r in page.items
     ]
 
 
 def describe(kind: str, filters: dict) -> str:
-    """The search in words, for the messages: “machine learning”, 2024 in publications."""
+    """The search in words, for the messages.
+
+    For example: “machine learning”, 2024 in publications.
+    """
     parts = [f"“{filters['q']}”"] if filters.get("q") else []
     parts += [str(v) for k, v in filters.items() if k not in ("q", "topic_id")]
     if filters.get("topic_id"):
@@ -115,14 +136,16 @@ def create(email: str, kind: str, filters: dict) -> dict:
     filters_json = json.dumps(filters, sort_keys=True)
     with AccountStore.instance()._connect() as con:
         existing = con.execute(
-            "SELECT * FROM saved_searches WHERE email = ? AND kind = ? AND filters_json = ?"
+            "SELECT * FROM saved_searches"
+            " WHERE email = ? AND kind = ? AND filters_json = ?"
             " AND stopped = 0",
             (email, kind, filters_json),
         ).fetchone()
         if existing and existing["confirmed"]:
             return {"status": "already on"}
         mine = con.execute(
-            "SELECT confirmed, COUNT(*) AS n FROM saved_searches WHERE email = ? AND stopped = 0"
+            "SELECT confirmed, COUNT(*) AS n FROM saved_searches"
+            " WHERE email = ? AND stopped = 0"
             " GROUP BY confirmed",
             (email,),
         ).fetchall()
@@ -131,14 +154,17 @@ def create(email: str, kind: str, filters: dict) -> dict:
             if sum(counts.values()) >= MAX_PER_EMAIL:
                 raise AlertError(f"An address can keep up to {MAX_PER_EMAIL} alerts.")
             if counts.get(0, 0) >= MAX_UNCONFIRMED:
-                raise AlertError("Confirm the alerts already sent to this address first.")
+                raise AlertError(
+                    "Confirm the alerts already sent to this address first."
+                )
     # What it finds today is not news: only later matches are sent.
     seen = [m["id"] for m in matches(kind, filters)]
     token = existing["token"] if existing else secrets.token_urlsafe(24)
     if not existing:
         with AccountStore.instance()._connect() as con:
             con.execute(
-                "INSERT INTO saved_searches (email, kind, filters_json, token, seen_json,"
+                "INSERT INTO saved_searches (email, kind, filters_json,"
+                " token, seen_json,"
                 " created_at) VALUES (?, ?, ?, ?, ?, ?)",
                 (email, kind, filters_json, token, json.dumps(seen), _now()),
             )
@@ -148,7 +174,8 @@ def create(email: str, kind: str, filters: dict) -> dict:
         "Confirm your ResearchSense alert",
         "You asked to hear when something new matches this search on ResearchSense:\n\n"
         f"  {describe(kind, filters)}\n\n"
-        f"Confirm it here, and we will write only when there is something new:\n\n{confirm}\n\n"
+        f"Confirm it here, and we will write only when there is"
+        f" something new:\n\n{confirm}\n\n"
         "If you did not ask for this, ignore this message: nothing will be sent.\n\n"
         f"Stop it at any time: {stop}",
         "alert confirmation",
@@ -168,8 +195,13 @@ def confirm(token: str) -> dict:
     if row is None or row["stopped"]:
         raise AlertError("This alert link is not valid any more.")
     with AccountStore.instance()._connect() as con:
-        con.execute("UPDATE saved_searches SET confirmed = 1 WHERE id = ?", (row["id"],))
-    return {"status": "confirmed", "search": describe(row["kind"], json.loads(row["filters_json"]))}
+        con.execute(
+            "UPDATE saved_searches SET confirmed = 1 WHERE id = ?", (row["id"],)
+        )
+    return {
+        "status": "confirmed",
+        "search": describe(row["kind"], json.loads(row["filters_json"])),
+    }
 
 
 def stop(token: str) -> dict:
@@ -178,7 +210,10 @@ def stop(token: str) -> dict:
         raise AlertError("This alert link is not valid any more.")
     with AccountStore.instance()._connect() as con:
         con.execute("UPDATE saved_searches SET stopped = 1 WHERE id = ?", (row["id"],))
-    return {"status": "stopped", "search": describe(row["kind"], json.loads(row["filters_json"]))}
+    return {
+        "status": "stopped",
+        "search": describe(row["kind"], json.loads(row["filters_json"])),
+    }
 
 
 def run_all() -> int:
@@ -219,7 +254,8 @@ def _run_one(row) -> int:
     notify_service.send(
         row["email"],
         f"{len(new)} new on ResearchSense: {describe(kind, filters)}"[:150],
-        f"New since we last wrote, for {describe(kind, filters)}:\n\n" + "\n".join(lines)
+        f"New since we last wrote, for {describe(kind, filters)}:\n\n"
+        + "\n".join(lines)
         + f"\n\nStop this alert: {stop_link}",
         f"alert {row['id']}",
     )

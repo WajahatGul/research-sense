@@ -74,7 +74,11 @@ class MockResearcherRepository(ResearcherRepository):
         topic_name = None
         if topic_id is not None:
             topic_name = next(
-                (t["topic_name"] for t in loader.load("topics") if t["topic_id"] == topic_id),
+                (
+                    t["topic_name"]
+                    for t in loader.load("topics")
+                    if t["topic_id"] == topic_id
+                ),
                 "\0",  # an unknown area matches no one
             )
         entries = index_for("researchers", rows, _search_fields).entries if q else None
@@ -122,7 +126,9 @@ class MockResearcherRepository(ResearcherRepository):
         detail = dict(rec)
         detail["publications"] = self._publications_for(researcher_id)
         detail["collaborators"] = self._collaborators_for(rec)
-        detail["also_published_as"] = [a["name"] for a in rec.get("also_published_as", [])]
+        detail["also_published_as"] = [
+            a["name"] for a in rec.get("also_published_as", [])
+        ]
         return ResearcherDetail(**detail)
 
     def departments(self) -> list[str]:

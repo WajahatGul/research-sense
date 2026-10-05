@@ -45,7 +45,10 @@ def title_key(title: str) -> str:
 
 
 def _authors(p: dict) -> set[str]:
-    return {re.sub(r"[^a-z]", "", a.get("full_name", "").lower()) for a in p.get("authors", [])}
+    return {
+        re.sub(r"[^a-z]", "", a.get("full_name", "").lower())
+        for a in p.get("authors", [])
+    }
 
 
 def _preference(p: dict) -> tuple:
@@ -72,14 +75,16 @@ def find_duplicates(publications: list[dict]) -> list[dict]:
         for other in rows[1:]:
             if not _authors(keep) & _authors(other):
                 continue  # same title, different people: not the same work
-            merges.append({
-                "removed_id": other["publication_id"],
-                "kept_id": keep["publication_id"],
-                "title": other["title"],
-                "journal_name": other.get("journal_name") or "",
-                "doi": other.get("doi"),
-                "publication_year": other.get("publication_year"),
-            })
+            merges.append(
+                {
+                    "removed_id": other["publication_id"],
+                    "kept_id": keep["publication_id"],
+                    "title": other["title"],
+                    "journal_name": other.get("journal_name") or "",
+                    "doi": other.get("doi"),
+                    "publication_year": other.get("publication_year"),
+                }
+            )
     return merges
 
 
@@ -94,13 +99,16 @@ def apply_merges(
     touched_people: set[int] = set()
     for m in merges:
         keep, other = by_id[m["kept_id"]], by_id[m["removed_id"]]
-        keep.setdefault("versions", []).append({
-            "journal_name": m["journal_name"],
-            "doi": m["doi"],
-            "publication_year": m["publication_year"],
-        })
-        keep["citation_count"] = max(keep.get("citation_count") or 0,
-                                     other.get("citation_count") or 0)
+        keep.setdefault("versions", []).append(
+            {
+                "journal_name": m["journal_name"],
+                "doi": m["doi"],
+                "publication_year": m["publication_year"],
+            }
+        )
+        keep["citation_count"] = max(
+            keep.get("citation_count") or 0, other.get("citation_count") or 0
+        )
         # A link made on the copy (and missing on the kept record) carries over.
         linked = {a.get("researcher_id") for a in keep["authors"]} - {None}
         for a in other.get("authors", []):
@@ -110,9 +118,10 @@ def apply_merges(
                 continue
             name = re.sub(r"[^a-z]", "", a.get("full_name", "").lower())
             for k in keep["authors"]:
-                if k.get("researcher_id") is None and re.sub(
-                    r"[^a-z]", "", k.get("full_name", "").lower()
-                ) == name:
+                if (
+                    k.get("researcher_id") is None
+                    and re.sub(r"[^a-z]", "", k.get("full_name", "").lower()) == name
+                ):
                     k["researcher_id"] = rid
                     linked.add(rid)
                     break
@@ -137,17 +146,30 @@ def apply_merges(
 
 def main(write: bool) -> None:
     load = lambda n: json.loads((DATA_DIR / f"{n}.json").read_text("utf-8"))  # noqa: E731
-    researchers, publications, topics = load("researchers"), load("publications"), load("topics")
+    researchers, publications, topics = (
+        load("researchers"),
+        load("publications"),
+        load("topics"),
+    )
     merges = find_duplicates(publications)
-    print(f"{len(merges)} duplicate record(s) to fold into {len({m['kept_id'] for m in merges})}")
+    print(
+        f"{len(merges)} duplicate record(s) to fold into"
+        f" {len({m['kept_id'] for m in merges})}"
+    )
     if not write:
         for m in merges[:30]:
-            print(f"  {m['removed_id']:>5} -> {m['kept_id']:<5} {m['journal_name'][:30]!r:32} {m['title'][:50]}")
+            print(
+                f"  {m['removed_id']:>5} -> {m['kept_id']:<5}"
+                f" {m['journal_name'][:30]!r:32} {m['title'][:50]}"
+            )
         return
     publications = apply_merges(researchers, publications, topics, merges)
     dump = lambda rows: json.dumps(rows, ensure_ascii=False, indent=2)  # noqa: E731
-    for name, rows in (("researchers", researchers), ("publications", publications),
-                       ("topics", topics)):
+    for name, rows in (
+        ("researchers", researchers),
+        ("publications", publications),
+        ("topics", topics),
+    ):
         (DATA_DIR / f"{name}.json").write_text(dump(rows), "utf-8")
     log = DATA_DIR / "publication_duplicates.json"
     done = json.loads(log.read_text("utf-8")) if log.exists() else []

@@ -38,10 +38,12 @@ def _topic_fields(t: dict) -> tuple[str, ...]:
     return (t["topic_name"],)
 
 
-def _best(name: str, rows: list[dict], fields, q: Query, limit: int, tie) -> list[tuple[float, dict]]:
+def _best(
+    name: str, rows: list[dict], fields, q: Query, limit: int, tie
+) -> list[tuple[float, dict]]:
     entries = index_for(name, rows, fields).entries
     scored = []
-    for i, row in enumerate(rows):
+    for i, _row in enumerate(rows):
         s = q.score_entry(entries[i])
         if s is not None:
             scored.append((s, i))
@@ -62,7 +64,9 @@ GUARANTEED_PER_KIND = 2
 EMPTY_AREA_PENALTY = 50
 
 
-def suggest(text: str | None, scope: str | None = None, limit: int = 5) -> list[Suggestion]:
+def suggest(
+    text: str | None, scope: str | None = None, limit: int = 5
+) -> list[Suggestion]:
     """Suggestions for ``text``. With a scope, up to ``limit`` of that kind;
     without one, the best ``limit`` across all kinds."""
     q = Query(text)
@@ -77,19 +81,41 @@ def suggest(text: str | None, scope: str | None = None, limit: int = 5) -> list[
         rows = loader.load("researchers")
         # Full directory profiles before name-only authors, then the more
         # published person: the same tie-break the results page uses.
-        for score, r in _best("researchers", rows, _researcher_fields, q, per_kind,
-                              lambda r: (loader.is_extended(r), -(r.get("publication_count") or 0))):
-            detail = " · ".join(x for x in (r.get("designation"), r.get("department")) if x)
-            ranked.append((score, Suggestion(kind="researcher", id=r["researcher_id"],
-                                             label=r["full_name"],
-                                             detail=detail or "Author on indexed papers")))
+        for score, r in _best(
+            "researchers",
+            rows,
+            _researcher_fields,
+            q,
+            per_kind,
+            lambda r: (loader.is_extended(r), -(r.get("publication_count") or 0)),
+        ):
+            detail = " · ".join(
+                x for x in (r.get("designation"), r.get("department")) if x
+            )
+            ranked.append(
+                (
+                    score,
+                    Suggestion(
+                        kind="researcher",
+                        id=r["researcher_id"],
+                        label=r["full_name"],
+                        detail=detail or "Author on indexed papers",
+                    ),
+                )
+            )
 
     if "topics" in scopes:
         rows = loader.load("topics")
         papers = paper_areas(rows, loader.load("publications"))[1]
         people = _head_counts(rows, loader.load("researchers"))
-        for score, t in _best("topics", rows, _topic_fields, q, per_kind + 3,
-                              lambda t: -papers.get(t["topic_id"], 0)):
+        for score, t in _best(
+            "topics",
+            rows,
+            _topic_fields,
+            q,
+            per_kind + 3,
+            lambda t: -papers.get(t["topic_id"], 0),
+        ):
             n = papers.get(t["topic_id"], 0)
             m = people.get(" ".join(t["topic_name"].lower().split()), 0)
             if n == 0:
@@ -97,21 +123,50 @@ def suggest(text: str | None, scope: str | None = None, limit: int = 5) -> list[
                 # expertise) is a weak destination: keep it below every
                 # area that has papers matching as well.
                 score -= EMPTY_AREA_PENALTY
-            detail = " · ".join(x for x in (
-                f"{n} publication{'' if n == 1 else 's'}" if n else "",
-                f"{m} researcher{'' if m == 1 else 's'}" if m else "") if x)
-            ranked.append((score, Suggestion(kind="topic", id=t["topic_id"], label=t["topic_name"],
-                                             detail=detail or "No papers yet")))
+            detail = " · ".join(
+                x
+                for x in (
+                    f"{n} publication{'' if n == 1 else 's'}" if n else "",
+                    f"{m} researcher{'' if m == 1 else 's'}" if m else "",
+                )
+                if x
+            )
+            ranked.append(
+                (
+                    score,
+                    Suggestion(
+                        kind="topic",
+                        id=t["topic_id"],
+                        label=t["topic_name"],
+                        detail=detail or "No papers yet",
+                    ),
+                )
+            )
 
     if "publications" in scopes:
         rows = loader.load("publications")
-        for score, p in _best("publications", rows, _publication_fields, q, per_kind,
-                              lambda p: -(p.get("publication_year") or 0)):
+        for score, p in _best(
+            "publications",
+            rows,
+            _publication_fields,
+            q,
+            per_kind,
+            lambda p: -(p.get("publication_year") or 0),
+        ):
             detail = " · ".join(
                 str(x) for x in (p.get("publication_year"), p.get("journal_name")) if x
             )
-            ranked.append((score, Suggestion(kind="publication", id=p["publication_id"],
-                                             label=p["title"], detail=detail)))
+            ranked.append(
+                (
+                    score,
+                    Suggestion(
+                        kind="publication",
+                        id=p["publication_id"],
+                        label=p["title"],
+                        detail=detail,
+                    ),
+                )
+            )
 
     if not mixed:
         return [s for _, s in ranked]

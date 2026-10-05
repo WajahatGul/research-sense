@@ -32,7 +32,10 @@ def refresh(monkeypatch, tmp_path):
     (data / "publications.json").write_text(json.dumps(papers))
     (data / "topics.json").write_text('[{"topic_id": 1}]')
     (data / "publication_duplicates.json").write_text("[]")
-    original = {n: (data / n).read_text() for n in ("researchers.json", "publications.json", "topics.json")}
+    original = {
+        n: (data / n).read_text()
+        for n in ("researchers.json", "publications.json", "topics.json")
+    }
 
     steps = {"fetch": lambda: None, "fields": lambda: None}
     monkeypatch.setattr(fetch_publications, "main", lambda: steps["fetch"]())
@@ -93,7 +96,9 @@ def test_a_crash_part_way_puts_every_file_back(refresh):
 
 def test_data_that_lost_most_papers_is_not_served(refresh):
     service, data, steps, unchanged = refresh
-    steps["fetch"] = lambda: (data / "publications.json").write_text('[{"publication_id": 1}]')
+    steps["fetch"] = lambda: (data / "publications.json").write_text(
+        '[{"publication_id": 1}]'
+    )
     result = service.run_refresh()
     assert "papers fell from 10 to 1" in result
     assert unchanged()

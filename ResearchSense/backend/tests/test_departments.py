@@ -12,8 +12,9 @@ def test_every_department_is_listed_with_its_people_and_papers():
     names = client.get("/api/researchers/departments").json()
     assert {d["name"] for d in rows} == set(names)
     cs = next(d for d in rows if d["name"] == "Computer Science")
-    listed = client.get("/api/researchers", params={"department": "Computer Science",
-                                                    "page_size": 1}).json()["total"]
+    listed = client.get(
+        "/api/researchers", params={"department": "Computer Science", "page_size": 1}
+    ).json()["total"]
     assert cs["researchers"] == listed
     assert cs["publications"] > 0 and cs["top_areas"]
 

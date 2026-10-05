@@ -1,4 +1,5 @@
-"""Measurement: searches that find nothing, claims started vs finished, returning visitors."""
+"""Measurement: searches that find nothing, claims started vs finished,
+and returning visitors."""
 
 import sqlite3
 
@@ -29,7 +30,9 @@ def client(tmp_path, monkeypatch):
 
 
 def _usage(client):
-    r = client.post("/api/auth/admin-login", json={"username": "admin", "password": "admin123"})
+    r = client.post(
+        "/api/auth/admin-login", json={"username": "admin", "password": "admin123"}
+    )
     return client.get(
         "/api/admin/usage", headers={"Authorization": f"Bearer {r.json()['token']}"}
     ).json()
@@ -41,7 +44,11 @@ def test_a_search_that_finds_nothing_is_counted_with_its_words(client):
     client.get("/api/publications", params={"q": "zqxwv"})
     u = _usage(client)
     assert u["searches_without_results"] == 3
-    assert u["top_missed_searches"][0] == {"query": "zqxwv nonexistent", "where": "researchers", "times": 2}
+    assert u["top_missed_searches"][0] == {
+        "query": "zqxwv nonexistent",
+        "where": "researchers",
+        "times": 2,
+    }
 
 
 def test_a_search_shown_only_after_respelling_counts_as_a_miss(client):
@@ -59,13 +66,22 @@ def test_searches_that_find_something_or_are_only_filtered_are_not_counted(clien
 
 def test_visits_count_once_a_day_and_returning_means_another_day(client):
     for _ in range(3):
-        assert client.post("/api/events", json={"kind": "visit", "visitor": VISITOR}).status_code == 204
+        assert (
+            client.post(
+                "/api/events", json={"kind": "visit", "visitor": VISITOR}
+            ).status_code
+            == 204
+        )
     client.post("/api/events", json={"kind": "visit", "visitor": "another-visitor-1"})
     with sqlite3.connect(accounts_mod.DB_PATH) as con:
-        assert con.execute("SELECT COUNT(*) FROM events WHERE kind='visit'").fetchone()[0] == 2
+        assert (
+            con.execute("SELECT COUNT(*) FROM events WHERE kind='visit'").fetchone()[0]
+            == 2
+        )
         # The first visitor also came yesterday.
         con.execute(
-            "INSERT INTO events (at, day, kind, visitor) VALUES (date('now','-1 day'), date('now','-1 day'), 'visit', ?)",
+            "INSERT INTO events (at, day, kind, visitor) VALUES"
+            " (date('now','-1 day'), date('now','-1 day'), 'visit', ?)",
             (VISITOR,),
         )
     u = _usage(client)
@@ -74,12 +90,27 @@ def test_visits_count_once_a_day_and_returning_means_another_day(client):
 
 def test_claims_started_against_sent_and_opened(client):
     for rid in ("8", "8", "9"):
-        client.post("/api/events", json={"kind": "claim_started", "visitor": VISITOR, "detail": rid})
+        client.post(
+            "/api/events",
+            json={"kind": "claim_started", "visitor": VISITOR, "detail": rid},
+        )
     AccountStore.instance().create_claim("0000-0000-0000-0001", 8, "h", "{}")
-    assert _usage(client)["claims"] == {"started": 2, "sent_for_review": 1, "profiles_claimed": 0}
+    assert _usage(client)["claims"] == {
+        "started": 2,
+        "sent_for_review": 1,
+        "profiles_claimed": 0,
+    }
 
 
 def test_the_browser_can_only_report_known_events(client):
-    assert client.post("/api/events", json={"kind": "search_empty:researchers", "visitor": VISITOR}).status_code == 422
-    assert client.post("/api/events", json={"kind": "visit", "visitor": "x"}).status_code == 422
+    assert (
+        client.post(
+            "/api/events", json={"kind": "search_empty:researchers", "visitor": VISITOR}
+        ).status_code
+        == 422
+    )
+    assert (
+        client.post("/api/events", json={"kind": "visit", "visitor": "x"}).status_code
+        == 422
+    )
     assert client.get("/api/admin/usage").status_code == 401

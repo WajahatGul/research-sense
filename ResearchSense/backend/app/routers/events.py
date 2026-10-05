@@ -18,7 +18,9 @@ class Event(BaseModel):
 
 @router.post("", status_code=204, response_class=Response)
 def record_event(event: Event) -> Response:
-    if event.kind not in usage_service.CLIENT_KINDS or not usage_service.VISITOR.match(event.visitor):
+    if event.kind not in usage_service.CLIENT_KINDS or not usage_service.VISITOR.match(
+        event.visitor
+    ):
         raise HTTPException(status_code=422, detail="Unknown event")
     usage_service.record(event.kind, event.visitor, event.detail)
     return Response(status_code=204)

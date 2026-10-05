@@ -39,10 +39,16 @@ EXTENDED_SOURCE = "openalex"  # mirrors app.repositories.loader.EXTENDED_SOURCE
 
 # Spellings of the same name in romanised Urdu/Arabic.
 _SAME = {
-    "rehman": "rahman", "rahmaan": "rahman",
-    "mohammad": "muhammad", "mohammed": "muhammad", "muhammed": "muhammad",
-    "mohamed": "muhammad", "mohd": "muhammad",
-    "ahmed": "ahmad", "hussain": "husain", "hussein": "husain",
+    "rehman": "rahman",
+    "rahmaan": "rahman",
+    "mohammad": "muhammad",
+    "mohammed": "muhammad",
+    "muhammed": "muhammad",
+    "mohamed": "muhammad",
+    "mohd": "muhammad",
+    "ahmed": "ahmad",
+    "hussain": "husain",
+    "hussein": "husain",
 }
 
 
@@ -52,7 +58,7 @@ def name_tokens(name: str) -> list[str]:
 
 
 def _word_fits(short: str, full: str) -> bool:
-    """"m" fits "muhammad" (initial), "ur" fits "ur", "rah" fits "rahman"."""
+    """ "m" fits "muhammad" (initial), "ur" fits "ur", "rah" fits "rahman"."""
     if short == full:
         return True
     return full.startswith(short) and (len(short) == 1 or len(short) >= 3)
@@ -108,8 +114,9 @@ def find_merges(researchers: list[dict], publications: list[dict]) -> list[dict]
 
     # A title word used by under 1% of papers says what the work is about;
     # "analysis" or "model" says nothing.
-    title_words = [set(re.findall(r"[a-z]{6,}", p.get("title", "").lower()))
-                   for p in publications]
+    title_words = [
+        set(re.findall(r"[a-z]{6,}", p.get("title", "").lower())) for p in publications
+    ]
     df: dict[str, int] = defaultdict(int)
     for words in title_words:
         for w in words:
@@ -142,16 +149,18 @@ def find_merges(researchers: list[dict], publications: list[dict]) -> list[dict]
         )
         if not same_subject:
             continue
-        merges.append({
-            "stub_id": sid,
-            "stub_name": stub["full_name"],
-            "stub_openalex_id": stub.get("openalex_id"),
-            "into_id": fid,
-            "into_name": person["full_name"],
-            "shared_coauthors": sorted(names[c] for c in shared),
-            "shared_subject": same_subject[:5],
-            "publication_ids": sorted(p["publication_id"] for p in papers_of[sid]),
-        })
+        merges.append(
+            {
+                "stub_id": sid,
+                "stub_name": stub["full_name"],
+                "stub_openalex_id": stub.get("openalex_id"),
+                "into_id": fid,
+                "into_name": person["full_name"],
+                "shared_coauthors": sorted(names[c] for c in shared),
+                "shared_subject": same_subject[:5],
+                "publication_ids": sorted(p["publication_id"] for p in papers_of[sid]),
+            }
+        )
     return merges
 
 
@@ -187,8 +196,10 @@ def main(write: bool) -> None:
     publications = json.loads((DATA_DIR / "publications.json").read_text("utf-8"))
     merges = find_merges(researchers, publications)
     for m in merges:
-        print(f"  {m['stub_name']!r:32} -> {m['into_name']!r:32} "
-              f"shared: {', '.join(m['shared_coauthors'])}")
+        print(
+            f"  {m['stub_name']!r:32} -> {m['into_name']!r:32} "
+            f"shared: {', '.join(m['shared_coauthors'])}"
+        )
     print(f"{len(merges)} merge(s)")
     if not write or not merges:
         return

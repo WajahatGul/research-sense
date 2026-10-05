@@ -24,9 +24,14 @@ import numpy as np
 
 #: Everything a refresh may rewrite.
 FILES = (
-    "researchers.json", "publications.json", "topics.json",
-    "rag_chunks.json", "rag_index.npz",
-    "author_merges.json", "author_unlinks.json", "publication_duplicates.json",
+    "researchers.json",
+    "publications.json",
+    "topics.json",
+    "rag_chunks.json",
+    "rag_index.npz",
+    "author_merges.json",
+    "author_unlinks.json",
+    "publication_duplicates.json",
 )
 SNAPSHOT_DIR = ".refresh-snapshot"
 # A real refresh adds and removes a little; losing more than this is a fault.
@@ -86,7 +91,8 @@ def check(data_dir: Path, before: dict) -> None:
         raise DataCheckFailed(f"the data does not load ({exc})") from exc
     if after["researchers"] < MIN_KEPT_RESEARCHERS * before["researchers"]:
         raise DataCheckFailed(
-            f"directory shrank from {before['researchers']} to {after['researchers']} people"
+            f"directory shrank from {before['researchers']} to"
+            f" {after['researchers']} people"
         )
     if after["publications"] < MIN_KEPT_PUBLICATIONS * before["publications"]:
         raise DataCheckFailed(
@@ -103,5 +109,6 @@ def check(data_dir: Path, before: dict) -> None:
         vectors = np.load(index_path)["vectors"]
         if len(chunks) != len(vectors):
             raise DataCheckFailed(
-                f"the assistant's index has {len(vectors)} vectors for {len(chunks)} passages"
+                f"the assistant's index has {len(vectors)} vectors"
+                f" for {len(chunks)} passages"
             )

@@ -25,6 +25,7 @@ Idempotent: a second run changes nothing.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import re
 import sys
@@ -41,10 +42,8 @@ EXTENDED_SOURCE = "openalex"
 def _clean_area(name: str) -> str:
     """Directory expertise was scraped from Word-pasted text: a bullet from
     the Symbol font survives as "" (or as the mojibake "ï‚·")."""
-    try:
+    with contextlib.suppress(UnicodeEncodeError, UnicodeDecodeError):
         name = name.encode("cp1252").decode("utf-8")
-    except (UnicodeEncodeError, UnicodeDecodeError):
-        pass
     name = name.replace("", " ")
     return re.sub(r"\s+", " ", name).strip(" -•·")
 
@@ -65,12 +64,14 @@ def find_unlinks(researchers: list[dict], publications: list[dict]) -> list[dict
             if words(printed) == words(profile[rid]):
                 continue
             if not printed_name_fits(printed, profile[rid]):
-                out.append({
-                    "publication_id": p["publication_id"],
-                    "printed_name": printed,
-                    "was_linked_to_id": rid,
-                    "was_linked_to_name": profile[rid],
-                })
+                out.append(
+                    {
+                        "publication_id": p["publication_id"],
+                        "printed_name": printed,
+                        "was_linked_to_id": rid,
+                        "was_linked_to_name": profile[rid],
+                    }
+                )
     return out
 
 
@@ -81,10 +82,16 @@ def apply_unlinks(
     unlinks: list[dict],
 ) -> set[int]:
     """Apply in place; return the ids of profiles whose papers changed."""
-    drop = {(u["publication_id"], u["was_linked_to_id"], u["printed_name"]) for u in unlinks}
+    drop = {
+        (u["publication_id"], u["was_linked_to_id"], u["printed_name"]) for u in unlinks
+    }
     for p in publications:
         for a in p.get("authors", []):
-            if (p["publication_id"], a.get("researcher_id"), a.get("full_name")) in drop:
+            if (
+                p["publication_id"],
+                a.get("researcher_id"),
+                a.get("full_name"),
+            ) in drop:
                 a["researcher_id"] = None
     changed = {u["was_linked_to_id"] for u in unlinks}
     before_areas = {
@@ -114,12 +121,20 @@ def apply_unlinks(
         for name in r["research_areas"]:
             if name not in topic_id:
                 topic_id[name] = max(topic_id.values(), default=0) + 1
-                topics.append({
-                    "topic_id": topic_id[name], "topic_name": name, "icon": "sparkles",
-                    "description": f"Research and expertise in {name}.",
-                    "source": "derived", "researcher_count": 0, "publication_count": 0,
-                })
-        r["topics"] = [{"topic_id": topic_id[n], "topic_name": n} for n in r["research_areas"]]
+                topics.append(
+                    {
+                        "topic_id": topic_id[name],
+                        "topic_name": name,
+                        "icon": "sparkles",
+                        "description": f"Research and expertise in {name}.",
+                        "source": "derived",
+                        "researcher_count": 0,
+                        "publication_count": 0,
+                    }
+                )
+        r["topics"] = [
+            {"topic_id": topic_id[n], "topic_name": n} for n in r["research_areas"]
+        ]
         partners: list[dict] = []
         for p in mine:
             for inst in p.get("coauthor_institutions", []):
@@ -143,14 +158,20 @@ def apply_unlinks(
     for t in topics:
         if t["topic_name"] in touched:
             t["researcher_count"] = sum(
-                1 for r in directory if t["topic_name"] in (r.get("research_areas") or [])
+                1
+                for r in directory
+                if t["topic_name"] in (r.get("research_areas") or [])
             )
     return changed
 
 
 def main(write: bool) -> None:
     load = lambda n: json.loads((DATA_DIR / f"{n}.json").read_text("utf-8"))  # noqa: E731
-    researchers, publications, topics = load("researchers"), load("publications"), load("topics")
+    researchers, publications, topics = (
+        load("researchers"),
+        load("publications"),
+        load("topics"),
+    )
     unlinks = find_unlinks(researchers, publications)
     people = {u["was_linked_to_name"] for u in unlinks}
     print(f"{len(unlinks)} link(s) to remove across {len(people)} profile(s)")
@@ -160,8 +181,11 @@ def main(write: bool) -> None:
         return
     apply_unlinks(researchers, publications, topics, unlinks)
     dump = lambda rows: json.dumps(rows, ensure_ascii=False, indent=2)  # noqa: E731
-    for name, rows in (("researchers", researchers), ("publications", publications),
-                       ("topics", topics)):
+    for name, rows in (
+        ("researchers", researchers),
+        ("publications", publications),
+        ("topics", topics),
+    ):
         (DATA_DIR / f"{name}.json").write_text(dump(rows), "utf-8")
     log = DATA_DIR / "author_unlinks.json"
     done = json.loads(log.read_text("utf-8")) if log.exists() else []

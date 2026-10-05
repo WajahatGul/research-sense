@@ -25,15 +25,23 @@ def client(monkeypatch):
     from app.core import security
     from app.main import app
 
-    app.dependency_overrides[security.current_admin] = lambda: {"sub": "admin", "role": "admin"}
+    app.dependency_overrides[security.current_admin] = lambda: {
+        "sub": "admin",
+        "role": "admin",
+    }
     yield TestClient(app)
     app.dependency_overrides.clear()
 
 
 def _pending_claim(client) -> int:
-    client.post("/api/auth/claim", json={
-        "researcher_id": ARIF, "orcid_id": "0000-0001-8239-2033", "password": "a-password-1",
-    })
+    client.post(
+        "/api/auth/claim",
+        json={
+            "researcher_id": ARIF,
+            "orcid_id": "0000-0001-8239-2033",
+            "password": "a-password-1",
+        },
+    )
     return client.get("/api/admin/claims").json()[0]["id"]
 
 
@@ -51,15 +59,22 @@ def test_an_approved_claim_tells_the_profile_owner(client):
 
 def test_a_rejection_carries_the_reviewers_reason(client):
     claim = _pending_claim(client)
-    client.post(f"/api/admin/claims/{claim}/reject", json={"note": "Not on the staff list"})
+    client.post(
+        f"/api/admin/claims/{claim}/reject", json={"note": "Not on the staff list"}
+    )
     [m] = notify_service.recent()
     assert "was not approved" in m["body"] and "Not on the staff list" in m["body"]
 
 
 def test_paper_decisions_are_sent(client):
     store = AccountStore.instance()
-    sub = store.create_submission("publication", ARIF, "Edge caching for rural clinics", "{}")
-    client.post(f"/api/admin/papers/{sub}/reject", json={"note": "Duplicate of an existing record"})
+    sub = store.create_submission(
+        "publication", ARIF, "Edge caching for rural clinics", "{}"
+    )
+    client.post(
+        f"/api/admin/papers/{sub}/reject",
+        json={"note": "Duplicate of an existing record"},
+    )
     [m] = notify_service.recent()
     assert m["subject"] == "About the paper you sent to ResearchSense"
     assert "“Edge caching for rural clinics” was not added" in m["body"]
@@ -69,7 +84,12 @@ def test_paper_decisions_are_sent(client):
 def test_correction_decisions_name_what_was_asked():
     payload = {"paper": {"title": "A paper that is not mine"}}
     notify_service.correction_decided(
-        {"id": 5, "kind": "not_author", "researcher_id": ARIF, "payload_json": json.dumps(payload)},
+        {
+            "id": 5,
+            "kind": "not_author",
+            "researcher_id": ARIF,
+            "payload_json": json.dumps(payload),
+        },
         approved=True,
     )
     [m] = notify_service.recent()

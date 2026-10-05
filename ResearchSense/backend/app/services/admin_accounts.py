@@ -38,8 +38,12 @@ def ensure_first_admin() -> None:
     if not password:
         return
     username = os.getenv("ADMIN_USERNAME", "admin").strip().lower() or "admin"
-    store.create_admin(username, hash_password(password),
-                       weak=len(password) < MIN_PASSWORD, created_by="setup (.env)")
+    store.create_admin(
+        username,
+        hash_password(password),
+        weak=len(password) < MIN_PASSWORD,
+        created_by="setup (.env)",
+    )
     store.record("system", "admin.created", username, "first administrator, from .env")
 
 
@@ -59,15 +63,19 @@ def is_active(username: str) -> bool:
 
 def _check_password(password: str) -> None:
     if len(password) < MIN_PASSWORD:
-        raise AdminError(f"Use at least {MIN_PASSWORD} characters. A passphrase of a few "
-                         "words is easier to remember and harder to guess.")
+        raise AdminError(
+            f"Use at least {MIN_PASSWORD} characters. A passphrase of a few "
+            "words is easier to remember and harder to guess."
+        )
 
 
 def add_admin(by: str, username: str, password: str) -> None:
     username = username.strip().lower()
     if not _USERNAME.match(username):
-        raise AdminError("Usernames are 3 to 40 lowercase letters, digits, dots, "
-                         "hyphens or underscores.")
+        raise AdminError(
+            "Usernames are 3 to 40 lowercase letters, digits, dots, "
+            "hyphens or underscores."
+        )
     _check_password(password)
     store = AccountStore.instance()
     if store.get_admin(username):
@@ -83,7 +91,9 @@ def set_active(by: str, username: str, active: bool) -> None:
     if not active:
         if username == by:
             raise AdminError("You cannot deactivate your own account.")
-        others = [a for a in store.list_admins() if a["active"] and a["username"] != username]
+        others = [
+            a for a in store.list_admins() if a["active"] and a["username"] != username
+        ]
         if not others:
             raise AdminError("At least one administrator must stay active.")
     store.set_admin_active(username, active)

@@ -22,9 +22,14 @@ def _token(message) -> str:
 
 
 def _keep(client, kind="publications", filters=None):
-    return client.post("/api/alerts", json={
-        "email": EMAIL, "kind": kind, "filters": filters or {"q": "machine learning"},
-    })
+    return client.post(
+        "/api/alerts",
+        json={
+            "email": EMAIL,
+            "kind": kind,
+            "filters": filters or {"q": "machine learning"},
+        },
+    )
 
 
 def _pretend_new(monkeypatch, *extra):
@@ -57,7 +62,10 @@ def test_nothing_is_sent_until_confirmed(client, monkeypatch):
 def test_only_new_matches_are_sent_and_only_once(client, monkeypatch):
     _keep(client)
     token = _token(notify_service.recent()[0])
-    assert client.post("/api/alerts/confirm", json={"token": token}).json()["status"] == "confirmed"
+    assert (
+        client.post("/api/alerts/confirm", json={"token": token}).json()["status"]
+        == "confirmed"
+    )
     # What the search already found when it was kept is not news.
     assert alerts_service.run_all() == 0
 
@@ -75,7 +83,10 @@ def test_a_stopped_alert_sends_nothing(client, monkeypatch):
     _keep(client)
     token = _token(notify_service.recent()[0])
     client.post("/api/alerts/confirm", json={"token": token})
-    assert client.post("/api/alerts/stop", json={"token": token}).json()["status"] == "stopped"
+    assert (
+        client.post("/api/alerts/stop", json={"token": token}).json()["status"]
+        == "stopped"
+    )
     _pretend_new(monkeypatch, "Another paper")
     assert alerts_service.run_all() == 0
     assert client.post("/api/alerts/confirm", json={"token": token}).status_code == 404
@@ -84,18 +95,35 @@ def test_a_stopped_alert_sends_nothing(client, monkeypatch):
 def test_researcher_alerts_follow_the_directory(client, monkeypatch):
     r = _keep(client, "researchers", {"department": "Computer Science"})
     assert r.status_code == 200
-    client.post("/api/alerts/confirm", json={"token": _token(notify_service.recent()[0])})
+    client.post(
+        "/api/alerts/confirm", json={"token": _token(notify_service.recent()[0])}
+    )
     _pretend_new(monkeypatch, "Dr New Colleague")
     assert alerts_service.run_all() == 1
     assert "/researchers/900000" in notify_service.recent()[0]["body"]
 
 
-@pytest.mark.parametrize("body, message", [
-    ({"email": "not-an-address", "kind": "publications", "filters": {"q": "x"}}, "valid email"),
-    ({"email": EMAIL, "kind": "publications", "filters": {}}, "Search or choose a filter"),
-    ({"email": EMAIL, "kind": "publications", "filters": {"password": "x"}}, "Unknown filter"),
-    ({"email": EMAIL, "kind": "accounts", "filters": {"q": "x"}}, "publications or researchers"),
-])
+@pytest.mark.parametrize(
+    "body, message",
+    [
+        (
+            {"email": "not-an-address", "kind": "publications", "filters": {"q": "x"}},
+            "valid email",
+        ),
+        (
+            {"email": EMAIL, "kind": "publications", "filters": {}},
+            "Search or choose a filter",
+        ),
+        (
+            {"email": EMAIL, "kind": "publications", "filters": {"password": "x"}},
+            "Unknown filter",
+        ),
+        (
+            {"email": EMAIL, "kind": "accounts", "filters": {"q": "x"}},
+            "publications or researchers",
+        ),
+    ],
+)
 def test_bad_alerts_are_refused_plainly(client, body, message):
     r = client.post("/api/alerts", json=body)
     assert r.status_code == 422 and message in r.json()["detail"]
@@ -105,7 +133,9 @@ def test_an_address_cannot_be_flooded_with_confirmations(client):
     for q in ("one", "two", "three"):
         assert _keep(client, filters={"q": q}).status_code == 200
     r = _keep(client, filters={"q": "four"})
-    assert r.status_code == 422 and "Confirm the alerts already sent" in r.json()["detail"]
+    assert (
+        r.status_code == 422 and "Confirm the alerts already sent" in r.json()["detail"]
+    )
 
 
 def test_asking_again_resends_the_same_confirmation(client):

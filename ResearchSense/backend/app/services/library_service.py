@@ -169,19 +169,36 @@ def _index_and_record(
     if not chunks:
         pdf_path.unlink(missing_ok=True)
         raise LibraryError("The PDF is too short to index")
-    record = {"doi": doi, "title": title, "year": year, "filename": pdf_path.name,
-              "added_by": added_by}
+    record = {
+        "doi": doi,
+        "title": title,
+        "year": year,
+        "filename": pdf_path.name,
+        "added_by": added_by,
+    }
     store = AccountStore.instance()
-    sub_id = store.create_submission("library", added_by or 0, title, json.dumps(record))
+    sub_id = store.create_submission(
+        "library", added_by or 0, title, json.dumps(record)
+    )
     staging.stage_chunks(sub_id, chunks)
-    return {"title": title, "chunks_added": 0, "status": "pending", "submission_id": sub_id}
+    return {
+        "title": title,
+        "chunks_added": 0,
+        "status": "pending",
+        "submission_id": sub_id,
+    }
 
 
 def approve_library(record: dict, chunks_added: int) -> None:
     """Record an approved library paper so index rebuilds re-include it."""
     entries = _manifest()
-    entries.append({**record, "chunks": chunks_added,
-                    "added_at": datetime.now(UTC).isoformat(timespec="seconds")})
+    entries.append(
+        {
+            **record,
+            "chunks": chunks_added,
+            "added_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        }
+    )
     _save_manifest(entries)
 
 
@@ -195,8 +212,10 @@ def _pending_title(title: str) -> bool:
     from app.repositories.accounts import AccountStore
 
     key = _norm_title(title)
-    return any(s["kind"] == "library" and _norm_title(s["title"]) == key
-               for s in AccountStore.instance().pending_submissions())
+    return any(
+        s["kind"] == "library" and _norm_title(s["title"]) == key
+        for s in AccountStore.instance().pending_submissions()
+    )
 
 
 def study_doi(doi: str, added_by: int | None = None) -> dict:

@@ -28,7 +28,9 @@ def client(tmp_path, monkeypatch):
     throttle.reset()
     # No network: the registry says the name matches, and lists an employer.
     monkeypatch.setattr(auth_service, "verify_claim", lambda orcid, name: [name])
-    monkeypatch.setattr(auth_service, "fetch_record_employers", lambda orcid: ["Bahria University"])
+    monkeypatch.setattr(
+        auth_service, "fetch_record_employers", lambda orcid: ["Bahria University"]
+    )
     from app.main import app
 
     yield TestClient(app)
@@ -45,7 +47,8 @@ def _admin(client):
 
 def _claim(client, orcid=ARIF_ORCID, pw="a-password-1", rid=ARIF):
     return client.post(
-        "/api/auth/claim", json={"researcher_id": rid, "orcid_id": orcid, "password": pw}
+        "/api/auth/claim",
+        json={"researcher_id": rid, "orcid_id": orcid, "password": pw},
     )
 
 
@@ -90,7 +93,10 @@ def test_the_admin_sees_the_evidence_and_approves(client):
     [pending] = client.get("/api/admin/claims").json()
     assert pending["profile_name"] == "Arif Ur Rahman"
     assert pending["orcid_employers"] == ["Bahria University"]
-    assert client.post(f"/api/admin/claims/{pending['id']}/approve").json()["status"] == "approved"
+    assert (
+        client.post(f"/api/admin/claims/{pending['id']}/approve").json()["status"]
+        == "approved"
+    )
     assert client.get("/api/admin/claims").json() == []
     assert _login(client).status_code == 200
     assert ARIF in client.get("/api/auth/claimed").json()
@@ -100,14 +106,19 @@ def test_a_rejected_claim_says_why(client):
     _claim(client)
     _admin(client)
     [pending] = client.get("/api/admin/claims").json()
-    client.post(f"/api/admin/claims/{pending['id']}/reject", json={"note": "Not on staff list"})
+    client.post(
+        f"/api/admin/claims/{pending['id']}/reject", json={"note": "Not on staff list"}
+    )
     r = _login(client)
     assert r.status_code == 403
     assert "Not on staff list" in r.json()["detail"]
 
 
 def test_a_false_claim_does_not_lock_out_the_real_owner(client):
-    assert _claim(client, orcid=OTHER_ORCID, pw="impostor-pw-1").json()["status"] == "pending"
+    assert (
+        _claim(client, orcid=OTHER_ORCID, pw="impostor-pw-1").json()["status"]
+        == "pending"
+    )
     assert _claim(client).json()["status"] == "pending"  # the owner can still claim
     _admin(client)
     claims = client.get("/api/admin/claims").json()
@@ -128,7 +139,9 @@ def test_one_orcid_cannot_queue_two_claims(client):
 def test_orcid_sign_in_is_proof_and_goes_live_at_once(client):
     _claim(client, orcid=OTHER_ORCID, pw="impostor-pw-1")
     result = auth_service.AuthService(
-        __import__("app.repositories.mock.researchers", fromlist=["x"]).MockResearcherRepository()
+        __import__(
+            "app.repositories.mock.researchers", fromlist=["x"]
+        ).MockResearcherRepository()
     ).claim_verified(ARIF, ARIF_ORCID, "a-password-1")
     assert result.status == "approved" and result.token
     _admin(client)
@@ -147,9 +160,13 @@ def test_orcid_sign_in_on_someone_elses_profile_waits_for_review(client, monkeyp
         raise OrcidVerificationError("registered to someone else")
 
     monkeypatch.setattr(auth_service, "verify_claim", mismatch)
-    monkeypatch.setattr(auth_service, "fetch_record_names", lambda orcid: ["Someone Else"])
+    monkeypatch.setattr(
+        auth_service, "fetch_record_names", lambda orcid: ["Someone Else"]
+    )
     service = auth_service.AuthService(
-        __import__("app.repositories.mock.researchers", fromlist=["x"]).MockResearcherRepository()
+        __import__(
+            "app.repositories.mock.researchers", fromlist=["x"]
+        ).MockResearcherRepository()
     )
     result = service.claim_verified(ARIF, OTHER_ORCID, "a-password-1")
     assert result.status == "pending" and result.token is None
@@ -163,11 +180,17 @@ def test_the_orcid_return_page_says_a_claim_is_waiting(client, monkeypatch):
     from app.services import orcid_oauth
     from app.services.orcid_service import OrcidVerificationError
 
-    monkeypatch.setattr(auth_service, "verify_claim",
-                        lambda o, n: (_ for _ in ()).throw(OrcidVerificationError("x")))
+    monkeypatch.setattr(
+        auth_service,
+        "verify_claim",
+        lambda o, n: (_ for _ in ()).throw(OrcidVerificationError("x")),
+    )
     monkeypatch.setattr(auth_service, "fetch_record_names", lambda orcid: [])
     monkeypatch.setattr(orcid_oauth, "exchange", lambda code: OTHER_ORCID)
     state = orcid_oauth.begin(ARIF, "a-password-1").split("state=")[1]
-    r = client.get("/api/auth/orcid/callback", params={"state": state, "code": "c"},
-                   follow_redirects=False)
+    r = client.get(
+        "/api/auth/orcid/callback",
+        params={"state": state, "code": "c"},
+        follow_redirects=False,
+    )
     assert r.status_code == 303 and "orcid_notice=" in r.headers["location"]

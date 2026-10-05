@@ -66,13 +66,16 @@ def _describe(c: dict) -> dict:
 
 # --- researchers --------------------------------------------------------------
 
+
 @router.get("/mine")
 def my_corrections(token_payload: dict = Depends(current_user)):
     """What I have asked for, and author records that may also be me."""
     me = _submitting_researcher(token_payload)
     return {
-        "corrections": [_describe(c) for c in
-                        AccountStore.instance().corrections_for(me["researcher_id"])],
+        "corrections": [
+            _describe(c)
+            for c in AccountStore.instance().corrections_for(me["researcher_id"])
+        ],
         "suggestions": identity_service.candidates(for_researcher=me["researcher_id"]),
     }
 
@@ -81,38 +84,48 @@ def my_corrections(token_payload: dict = Depends(current_user)):
 def not_mine(body: NotMine, token_payload: dict = Depends(current_user)):
     me = _submitting_researcher(token_payload)
     try:
-        cid = identity_service.propose_not_author(me["researcher_id"], body.publication_id,
-                                                  body.note)
+        cid = identity_service.propose_not_author(
+            me["researcher_id"], body.publication_id, body.note
+        )
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    return {"id": cid, "status": "pending",
-            "message": "Sent for review. The paper stays on your profile until an "
-                       "administrator removes it."}
+    return {
+        "id": cid,
+        "status": "pending",
+        "message": "Sent for review. The paper stays on your profile until an "
+        "administrator removes it.",
+    }
 
 
 @router.post("/same-person")
 def same_person(body: SamePerson, token_payload: dict = Depends(current_user)):
     me = _submitting_researcher(token_payload)
     try:
-        cid = identity_service.propose_same_person(me["researcher_id"], body.openalex_id,
-                                                   body.note)
+        cid = identity_service.propose_same_person(
+            me["researcher_id"], body.openalex_id, body.note
+        )
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    return {"id": cid, "status": "pending",
-            "message": "Sent for review. Those papers join your profile once an "
-                       "administrator confirms it."}
+    return {
+        "id": cid,
+        "status": "pending",
+        "message": "Sent for review. Those papers join your profile once an "
+        "administrator confirms it.",
+    }
 
 
 @router.post("/not-me")
 def not_me(body: SamePerson, token_payload: dict = Depends(current_user)):
     """Dismiss a suggestion. Changes no data, so it needs no review."""
     me = _submitting_researcher(token_payload)
-    identity_service.decide_different_people(me["researcher_id"], body.openalex_id,
-                                             by="researcher")
+    identity_service.decide_different_people(
+        me["researcher_id"], body.openalex_id, by="researcher"
+    )
     return {"status": "recorded"}
 
 
 # --- administrators ------------------------------------------------------------
+
 
 @admin.get("")
 def pending():
@@ -122,15 +135,33 @@ def pending():
     for c in AccountStore.instance().pending_corrections():
         row = _describe(c)
         if c["kind"] == "same_person":
-            match = next((x for x in identity_service.candidates(
-                for_researcher=c["researcher_id"], limit=500, include_waiting=True)
-                if x["openalex_id"] == row["other_openalex_id"]), None)
+            match = next(
+                (
+                    x
+                    for x in identity_service.candidates(
+                        for_researcher=c["researcher_id"],
+                        limit=500,
+                        include_waiting=True,
+                    )
+                    if x["openalex_id"] == row["other_openalex_id"]
+                ),
+                None,
+            )
             row["evidence"] = match
         else:
-            paper = next((p for p in pubs if (p.get("doi") or "").lower() == (row["paper_doi"] or "")
-                          or p["title"] == row["paper_title"]), None)
+            paper = next(
+                (
+                    p
+                    for p in pubs
+                    if (p.get("doi") or "").lower() == (row["paper_doi"] or "")
+                    or p["title"] == row["paper_title"]
+                ),
+                None,
+            )
             row["evidence"] = {
-                "printed_names": [a["full_name"] for a in (paper or {}).get("authors", [])],
+                "printed_names": [
+                    a["full_name"] for a in (paper or {}).get("authors", [])
+                ],
                 "journal": (paper or {}).get("journal_name"),
                 "year": (paper or {}).get("publication_year"),
             }
@@ -148,9 +179,15 @@ def approve(correction_id: int, who: dict = Depends(current_admin)):
         d = identity_service.approve_correction(correction_id)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    _audit(who, "correction.approved", f"correction {correction_id}",
-           f"{d['type']}: {d['profile']['name']}")
-    notify_service.correction_decided(AccountStore.instance().get_correction(correction_id), True)
+    _audit(
+        who,
+        "correction.approved",
+        f"correction {correction_id}",
+        f"{d['type']}: {d['profile']['name']}",
+    )
+    notify_service.correction_decided(
+        AccountStore.instance().get_correction(correction_id), True
+    )
     return {"status": "approved"}
 
 
@@ -162,7 +199,8 @@ def reject(correction_id: int, body: RejectBody, who: dict = Depends(current_adm
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     _audit(who, "correction.rejected", f"correction {correction_id}", body.note or "")
     notify_service.correction_decided(
-        AccountStore.instance().get_correction(correction_id), False, body.note)
+        AccountStore.instance().get_correction(correction_id), False, body.note
+    )
     return {"status": "rejected"}
 
 
@@ -175,11 +213,17 @@ def possible_duplicates(limit: int = 30):
 @admin.post("/candidates/decide")
 def decide(body: Decide, who: dict = Depends(current_admin)):
     if body.same:
-        identity_service.decide_same_person(body.researcher_id, body.openalex_id,
-                                            by="admin", note=body.note)
+        identity_service.decide_same_person(
+            body.researcher_id, body.openalex_id, by="admin", note=body.note
+        )
     else:
-        identity_service.decide_different_people(body.researcher_id, body.openalex_id,
-                                                 by="admin")
-    _audit(who, "identity.same_person" if body.same else "identity.different_people",
-           f"researcher {body.researcher_id}", body.openalex_id)
+        identity_service.decide_different_people(
+            body.researcher_id, body.openalex_id, by="admin"
+        )
+    _audit(
+        who,
+        "identity.same_person" if body.same else "identity.different_people",
+        f"researcher {body.researcher_id}",
+        body.openalex_id,
+    )
     return {"status": "recorded"}

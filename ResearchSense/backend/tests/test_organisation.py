@@ -48,5 +48,7 @@ def test_an_unnamed_type_still_gets_a_readable_label():
 
 def test_type_filter_matches_the_offered_keys():
     for t in document_types("education"):
-        r = client.get("/api/publications", params={"publication_type": t.key, "page_size": 1})
+        r = client.get(
+            "/api/publications", params={"publication_type": t.key, "page_size": 1}
+        )
         assert r.json()["total"] == t.count

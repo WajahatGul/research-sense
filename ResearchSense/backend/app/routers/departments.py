@@ -75,5 +75,7 @@ def annual_report(name: str, year: int = Query(ge=1950, le=2100)):
     return Response(
         content=body,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={"Content-Disposition": f'attachment; filename="{slug}-research-{year}.xlsx"'},
+        headers={
+            "Content-Disposition": f'attachment; filename="{slug}-research-{year}.xlsx"'
+        },
     )

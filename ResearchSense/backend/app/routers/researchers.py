@@ -106,13 +106,23 @@ def export_publications(
         raise HTTPException(status_code=404, detail="Researcher not found")
     slug = re.sub(r"[^a-z0-9]+", "-", person.full_name.lower()).strip("-")
     if format == "csv":
-        body, kind, ext = export_service.publications_csv(researcher_id), "text/csv", "csv"
+        body, kind, ext = (
+            export_service.publications_csv(researcher_id),
+            "text/csv",
+            "csv",
+        )
     else:
-        body, kind, ext = export_service.bibtex(researcher_id), "application/x-bibtex", "bib"
+        body, kind, ext = (
+            export_service.bibtex(researcher_id),
+            "application/x-bibtex",
+            "bib",
+        )
     return Response(
         content=body.encode("utf-8"),
         media_type=f"{kind}; charset=utf-8",
-        headers={"Content-Disposition": f'attachment; filename="{slug}-publications.{ext}"'},
+        headers={
+            "Content-Disposition": f'attachment; filename="{slug}-publications.{ext}"'
+        },
     )
 
 

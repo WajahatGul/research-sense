@@ -13,11 +13,11 @@ from app.core.security import current_user
 from app.schemas.auth import (
     AdminLoginRequest,
     ClaimRequest,
+    ClaimResult,
     ClaimStart,
     LoginRequest,
     MeResponse,
     OrcidStart,
-    ClaimResult,
     TokenResponse,
 )
 from app.services import orcid_oauth

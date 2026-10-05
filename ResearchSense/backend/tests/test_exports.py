@@ -32,15 +32,21 @@ def test_department_report_matches_the_site():
     assert r.status_code == 200
     wb = load_workbook(io.BytesIO(r.content))
     assert wb.sheetnames == ["Summary", "Per person", "Publications"]
-    people = client.get("/api/researchers", params={"department": "Computer Science",
-                                                    "page_size": 1}).json()["total"]
+    people = client.get(
+        "/api/researchers", params={"department": "Computer Science", "page_size": 1}
+    ).json()["total"]
     assert wb["Per person"].max_row - 1 == people
     listed = wb["Publications"].max_row - 1
     summary = {row[0].value: row[1].value for row in wb["Summary"].iter_rows()}
     assert summary["Publications in the year"] == listed
-    per_person_total = sum(row[3].value for row in wb["Per person"].iter_rows(min_row=2))
+    per_person_total = sum(
+        row[3].value for row in wb["Per person"].iter_rows(min_row=2)
+    )
     assert per_person_total >= listed  # co-authored papers count for each author
 
 
 def test_unknown_department_is_404():
-    assert client.get("/api/departments/Nope/report", params={"year": 2023}).status_code == 404
+    assert (
+        client.get("/api/departments/Nope/report", params={"year": 2023}).status_code
+        == 404
+    )

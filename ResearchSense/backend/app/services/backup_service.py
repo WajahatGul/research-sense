@@ -54,11 +54,20 @@ def inspect(path: Path) -> dict:
             ok = con.execute("PRAGMA integrity_check").fetchone()[0]
             if ok != "ok":
                 raise BackupError(f"the copy is damaged ({ok})")
-            tables = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            tables = {
+                r[0]
+                for r in con.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table'"
+                )
+            }
             missing = [t for t in REQUIRED if t not in tables]
             if missing:
                 raise BackupError(f"the copy has no {', '.join(missing)} table")
-            return {t: con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0] for t in COUNTED if t in tables}
+            return {
+                t: con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+                for t in COUNTED
+                if t in tables
+            }
         finally:
             con.close()
     except sqlite3.DatabaseError as exc:
@@ -121,7 +130,11 @@ def list_backups() -> list[dict]:
     folder = backup_dir()
     if not folder.exists():
         return []
-    return [_describe(p) for p in sorted(folder.glob("accounts-*.db"), reverse=True) if NAME.match(p.name)]
+    return [
+        _describe(p)
+        for p in sorted(folder.glob("accounts-*.db"), reverse=True)
+        if NAME.match(p.name)
+    ]
 
 
 def restore(name: str) -> dict:
@@ -138,7 +151,9 @@ def restore(name: str) -> dict:
     counts = inspect(source)
     safety = take("before-restore")
     _copy(source, accounts.DB_PATH)
-    log.warning("backup: restored %s (previous state saved as %s)", name, safety["name"])
+    log.warning(
+        "backup: restored %s (previous state saved as %s)", name, safety["name"]
+    )
     return {"restored": name, "counts": counts, "previous": safety["name"]}
 
 

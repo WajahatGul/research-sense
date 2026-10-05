@@ -227,7 +227,9 @@ class AccountStore:
 
     def get_claim(self, claim_id: int) -> dict | None:
         with self._connect() as con:
-            row = con.execute("SELECT * FROM claims WHERE id = ?", (claim_id,)).fetchone()
+            row = con.execute(
+                "SELECT * FROM claims WHERE id = ?", (claim_id,)
+            ).fetchone()
         return dict(row) if row else None
 
     def pending_claims(self) -> list[dict]:
@@ -245,7 +247,9 @@ class AccountStore:
             ).fetchone()
         return dict(row) if row else None
 
-    def set_claim_status(self, claim_id: int, status: str, note: str | None = None) -> None:
+    def set_claim_status(
+        self, claim_id: int, status: str, note: str | None = None
+    ) -> None:
         with self._connect() as con:
             con.execute(
                 "UPDATE claims SET status = ?, reviewed_at = ?, note = ? WHERE id = ?",
@@ -302,12 +306,15 @@ class AccountStore:
     def set_admin_password(self, username: str, password_hash: str) -> None:
         with self._connect() as con:
             con.execute(
-                "UPDATE admins SET password_hash = ?, weak_password = 0 WHERE username = ?",
+                "UPDATE admins SET password_hash = ?, weak_password = 0"
+                " WHERE username = ?",
                 (password_hash, username),
             )
 
     # --- audit log: append-only. There is deliberately no update or delete. ---
-    def record(self, actor: str, action: str, target: str = "", detail: str = "") -> None:
+    def record(
+        self, actor: str, action: str, target: str = "", detail: str = ""
+    ) -> None:
         with self._connect() as con:
             con.execute(
                 "INSERT INTO audit_log (at, actor, action, target, detail)"
@@ -324,7 +331,12 @@ class AccountStore:
 
     # --- record corrections (see app/services/identity_service.py) ---
     def create_correction(
-        self, kind: str, researcher_id: int, payload_json: str, note: str, raised_by: str
+        self,
+        kind: str,
+        researcher_id: int,
+        payload_json: str,
+        note: str,
+        raised_by: str,
     ) -> int:
         with self._connect() as con:
             cur = con.execute(

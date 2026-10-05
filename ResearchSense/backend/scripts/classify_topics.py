@@ -59,10 +59,15 @@ def hierarchy(client: httpx.Client) -> list[dict]:
         return json.loads(CACHE.read_text("utf-8"))
     rows, cursor = [], "*"
     while cursor:
-        page = _get(client, "/topics", {
-            "per-page": 200, "cursor": cursor,
-            "select": "display_name,subfield,field,domain",
-        })
+        page = _get(
+            client,
+            "/topics",
+            {
+                "per-page": 200,
+                "cursor": cursor,
+                "select": "display_name,subfield,field,domain",
+            },
+        )
         rows += [_slim(t) for t in page.get("results", [])]
         cursor = page.get("meta", {}).get("next_cursor")
     CACHE.write_text(json.dumps(rows, ensure_ascii=False, indent=1), "utf-8")
@@ -95,7 +100,11 @@ def classify(
             t.pop(k, None)
         hit = matched[t["topic_name"]]
         if hit and hit["field"]:
-            t["field"], t["domain"], t["field_source"] = hit["field"], hit["domain"], "openalex"
+            t["field"], t["domain"], t["field_source"] = (
+                hit["field"],
+                hit["domain"],
+                "openalex",
+            )
             continue
         votes = Counter(
             dept_field[r["department"]]

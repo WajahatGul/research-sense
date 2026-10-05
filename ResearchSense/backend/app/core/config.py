@@ -115,11 +115,16 @@ def is_local_deployment(origin: str | None = None) -> bool:
     """True when the frontend this API serves runs on the developer's machine."""
     from urllib.parse import urlparse
 
-    host = (urlparse(origin if origin is not None else settings.frontend_origin).hostname or "")
+    host = (
+        urlparse(origin if origin is not None else settings.frontend_origin).hostname
+        or ""
+    )
     return host in _LOCAL_HOSTS or host.endswith((".localhost", ".test"))
 
 
-def check_safe_to_start(dev_orcid: str | None = None, origin: str | None = None) -> None:
+def check_safe_to_start(
+    dev_orcid: str | None = None, origin: str | None = None
+) -> None:
     """Refuse to serve a public site with the developer shortcut switched on.
 
     DEV_ORCID lets anyone who types that iD claim any profile without a

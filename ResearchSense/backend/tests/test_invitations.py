@@ -20,7 +20,10 @@ def client(tmp_path, monkeypatch):
     AccountStore.instance().create_account(ORCID, ARIF, hash_password("pw-12345678"))
     from app.main import app
 
-    yield TestClient(app), {"Authorization": f"Bearer {create_token(ORCID, 'researcher')}"}
+    yield (
+        TestClient(app),
+        {"Authorization": f"Bearer {create_token(ORCID, 'researcher')}"},
+    )
     AccountStore._instance = None
 
 
@@ -38,7 +41,9 @@ def test_lists_directory_coauthors_most_joint_papers_first(client):
 def test_people_who_claimed_or_are_waiting_are_left_out(client):
     c, me = client
     first = c.get("/api/invitations/coauthors", headers=me).json()["coauthors"][0]
-    AccountStore.instance().create_claim("0000-0002-1825-0097", first["researcher_id"], "x", "{}")
+    AccountStore.instance().create_claim(
+        "0000-0002-1825-0097", first["researcher_id"], "x", "{}"
+    )
     after = c.get("/api/invitations/coauthors", headers=me).json()["coauthors"]
     assert first["researcher_id"] not in {r["researcher_id"] for r in after}
 

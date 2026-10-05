@@ -14,7 +14,16 @@ from app.core.deps import get_auth_service, get_researcher_service
 from app.core.security import current_admin
 from app.repositories.accounts import AccountStore
 from app.schemas.auth import ClaimedAccount, ClaimResult, PendingClaim
-from app.services import admin_accounts, alerts_service, backup_service, notify_service, usage_service, refresh_service, staging, submission_service
+from app.services import (
+    admin_accounts,
+    alerts_service,
+    backup_service,
+    notify_service,
+    refresh_service,
+    staging,
+    submission_service,
+    usage_service,
+)
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +51,7 @@ def _audit(admin: dict, action: str, target: str = "", detail: str = "") -> None
 
 
 # --- administrators and the activity log ----------------------------------------
+
 
 @router.get("/admins")
 def list_admins():
@@ -114,7 +124,9 @@ def pending_claims():
 def approve_claim(claim_id: int, admin: dict = Depends(current_admin)):
     result = get_auth_service().approve_claim(claim_id)
     _audit(admin, "claim.approved", f"claim {claim_id}", result.full_name or "")
-    notify_service.claim_decided(AccountStore.instance().get_claim(claim_id), approved=True)
+    notify_service.claim_decided(
+        AccountStore.instance().get_claim(claim_id), approved=True
+    )
     return result
 
 
@@ -122,7 +134,9 @@ def approve_claim(claim_id: int, admin: dict = Depends(current_admin)):
 def reject_claim(claim_id: int, body: RejectBody, admin: dict = Depends(current_admin)):
     get_auth_service().reject_claim(claim_id, body.note)
     _audit(admin, "claim.rejected", f"claim {claim_id}", body.note or "")
-    notify_service.claim_decided(AccountStore.instance().get_claim(claim_id), False, body.note)
+    notify_service.claim_decided(
+        AccountStore.instance().get_claim(claim_id), False, body.note
+    )
     return {"status": "rejected"}
 
 
@@ -145,7 +159,9 @@ def list_accounts():
 
 
 @router.post("/accounts/{orcid_id}/active")
-def set_account_active(orcid_id: str, active: bool, admin: dict = Depends(current_admin)):
+def set_account_active(
+    orcid_id: str, active: bool, admin: dict = Depends(current_admin)
+):
     AccountStore.instance().set_active(orcid_id, active)
     _audit(admin, "account.activated" if active else "account.deactivated", orcid_id)
     return {"orcid_id": orcid_id, "active": active}
@@ -167,7 +183,10 @@ async def trigger_refresh(admin: dict = Depends(current_admin)):
 
 @router.get("/outbox")
 def outbox():
-    return {"messages": notify_service.recent(), "mail_server": notify_service._smtp() is not None}
+    return {
+        "messages": notify_service.recent(),
+        "mail_server": notify_service._smtp() is not None,
+    }
 
 
 @router.post("/alerts/run")
@@ -185,7 +204,10 @@ def usage(days: int = 30):
 
 @router.get("/backups")
 def list_backups():
-    return {"backups": backup_service.list_backups(), "folder": str(backup_service.backup_dir())}
+    return {
+        "backups": backup_service.list_backups(),
+        "folder": str(backup_service.backup_dir()),
+    }
 
 
 @router.post("/backups")
@@ -205,7 +227,9 @@ def restore_backup(name: str, admin: dict = Depends(current_admin)):
     except backup_service.BackupError as exc:
         raise HTTPException(status_code=400, detail=f"Not restored: {exc}") from exc
     # Written after the restore, so the restored log records it.
-    _audit(admin, "backup.restored", name, f"previous state kept as {result['previous']}")
+    _audit(
+        admin, "backup.restored", name, f"previous state kept as {result['previous']}"
+    )
     return result
 
 

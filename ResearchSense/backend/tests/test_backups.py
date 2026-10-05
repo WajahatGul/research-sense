@@ -24,7 +24,9 @@ def client(tmp_path, monkeypatch):
     from app.main import app
 
     c = TestClient(app)
-    r = c.post("/api/auth/admin-login", json={"username": "admin", "password": "admin123"})
+    r = c.post(
+        "/api/auth/admin-login", json={"username": "admin", "password": "admin123"}
+    )
     c.headers["Authorization"] = f"Bearer {r.json()['token']}"
     yield c
     AccountStore._instance = None
@@ -38,7 +40,9 @@ def _claims() -> int:
 
 def _add_claim(n: int = 1) -> None:
     for i in range(n):
-        AccountStore.instance().create_claim(f"0000-0000-0000-{i:04d}", 100 + i, "h", "{}")
+        AccountStore.instance().create_claim(
+            f"0000-0000-0000-{i:04d}", 100 + i, "h", "{}"
+        )
 
 
 def test_a_backup_is_checked_and_listed_with_its_contents(client):

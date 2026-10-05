@@ -57,7 +57,9 @@ def _words(name: str) -> tuple[str, ...]:
     return tuple(_WORD.findall((name or "").lower()))
 
 
-def paper_areas(topics: list[dict], publications: list[dict]) -> tuple[dict[int, set[int]], Counter]:
+def paper_areas(
+    topics: list[dict], publications: list[dict]
+) -> tuple[dict[int, set[int]], Counter]:
     """(paper id -> area ids, area id -> paper count) for this dataset, cached."""
     key = (id(topics), id(publications))
     if key not in _paper_index:
@@ -77,7 +79,7 @@ def paper_areas(topics: list[dict], publications: list[dict]) -> tuple[dict[int,
                     ids.add(exact[w])
                 for n in range(2, len(w) + 1):
                     for i in range(len(w) - n + 1):
-                        ids.update(phrases.get(w[i:i + n], ()))
+                        ids.update(phrases.get(w[i : i + n], ()))
             of_paper[p["publication_id"]] = ids
             counts.update(ids)
         _paper_index.clear()

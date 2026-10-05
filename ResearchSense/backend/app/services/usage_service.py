@@ -44,11 +44,20 @@ def record(kind: str, visitor: str = "", detail: str = "") -> bool:
             if kind == "visit":
                 where += " AND day = ?"
                 args.append(day)
-            if con.execute(f"SELECT 1 FROM events WHERE {where} LIMIT 1", args).fetchone():
+            if con.execute(
+                f"SELECT 1 FROM events WHERE {where} LIMIT 1", args
+            ).fetchone():
                 return False
         con.execute(
-            "INSERT INTO events (at, day, kind, visitor, detail) VALUES (?, ?, ?, ?, ?)",
-            (datetime.now(UTC).isoformat(timespec="seconds"), day, kind, visitor, detail),
+            "INSERT INTO events (at, day, kind, visitor, detail)"
+            " VALUES (?, ?, ?, ?, ?)",
+            (
+                datetime.now(UTC).isoformat(timespec="seconds"),
+                day,
+                kind,
+                visitor,
+                detail,
+            ),
         )
         cutoff = (datetime.now(UTC) - timedelta(days=KEEP_DAYS)).date().isoformat()
         con.execute("DELETE FROM events WHERE day < ?", (cutoff,))
@@ -72,7 +81,8 @@ def summary(days: int = 30) -> dict:
             (since_day,),
         ).fetchall()
         empty = con.execute(
-            "SELECT kind, detail FROM events WHERE kind LIKE 'search_empty:%' AND day >= ?",
+            "SELECT kind, detail FROM events"
+            " WHERE kind LIKE 'search_empty:%' AND day >= ?",
             (since_day,),
         ).fetchall()
         started = con.execute(
@@ -94,5 +104,9 @@ def summary(days: int = 30) -> dict:
         "top_missed_searches": [
             {"query": q, "where": w, "times": n} for (q, w), n in misses.most_common(15)
         ],
-        "claims": {"started": started, "sent_for_review": sent, "profiles_claimed": opened},
+        "claims": {
+            "started": started,
+            "sent_for_review": sent,
+            "profiles_claimed": opened,
+        },
     }

@@ -10,13 +10,22 @@ from scripts.merge_author_variants import apply_merges, find_merges, name_fits
 
 
 def _person(rid, name, source="scraped"):
-    return {"researcher_id": rid, "full_name": name, "source": source,
-            "publication_count": 1, "citation_count": 0}
+    return {
+        "researcher_id": rid,
+        "full_name": name,
+        "source": source,
+        "publication_count": 1,
+        "citation_count": 0,
+    }
 
 
 def _paper(pid, authors, topics=("Digital Preservation",), title="A paper"):
-    return {"publication_id": pid, "title": title, "topic_names": list(topics),
-            "authors": [{"researcher_id": rid, "full_name": n} for rid, n in authors]}
+    return {
+        "publication_id": pid,
+        "title": title,
+        "topic_names": list(topics),
+        "authors": [{"researcher_id": rid, "full_name": n} for rid, n in authors],
+    }
 
 
 FACULTY = _person(1, "Arif Ur Rahman")
@@ -61,10 +70,18 @@ def test_similar_name_alone_is_not_enough():
 def test_shared_coauthor_on_a_different_subject_is_not_enough():
     people = [FACULTY, STUB, COAUTHOR]
     papers = [
-        _paper(10, [(1, "Arif Ur Rahman"), (3, "Muhammad Muzammal")],
-               topics=("Digital Preservation",), title="News archives"),
-        _paper(11, [(2, "Arif Ur"), (3, "Muhammad Muzammal")],
-               topics=("Battery Technology",), title="Electric vehicles"),
+        _paper(
+            10,
+            [(1, "Arif Ur Rahman"), (3, "Muhammad Muzammal")],
+            topics=("Digital Preservation",),
+            title="News archives",
+        ),
+        _paper(
+            11,
+            [(2, "Arif Ur"), (3, "Muhammad Muzammal")],
+            topics=("Battery Technology",),
+            title="Electric vehicles",
+        ),
     ]
     assert find_merges(people, papers) == []
 

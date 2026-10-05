@@ -85,7 +85,10 @@ def test_areas_are_filed_under_broad_fields():
     rows = client.get("/api/topics").json()
     assert sum(1 for t in rows if t["field"]) / len(rows) > 0.95
     modeling = next(t for t in rows if t["topic_name"] == "Topic Modeling")
-    assert (modeling["field"], modeling["field_source"]) == ("Computer Science", "openalex")
+    assert (modeling["field"], modeling["field_source"]) == (
+        "Computer Science",
+        "openalex",
+    )
 
 
 def test_areas_can_be_narrowed_to_a_field():
