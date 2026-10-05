@@ -16,6 +16,7 @@ from app.services.rag.directory import directory_answer, research_area_answer
 from app.services.rag.generator import REFUSAL_MESSAGE, generate, grounded_facts
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
+from app.services.rag.totals import totals_answer
 
 # Shown when the semantic index is missing — a brand-new institution
 # workspace has none until its own records are indexed. The structured fast
@@ -119,6 +120,13 @@ class ChatService:
         # citations", "top researchers by publications") — answered from the
         # full sorted data, since retrieval only sees a few chunks and would
         # pick a wrong maximum.
+        # Fast path: "how many publications are there?" — the most basic
+        # question a research portal gets, and one retrieval cannot answer,
+        # because no single chunk holds the total.
+        totals = totals_answer(question)
+        if totals is not None:
+            return ChatResponse(answer=totals.answer)
+
         board = leaderboard_answer(question)
         if board is not None:
             return ChatResponse(
@@ -195,9 +203,16 @@ class ChatService:
         if used_llm and answer == REFUSAL_MESSAGE:
             return ChatResponse(answer=NO_MATCH_MESSAGE)
 
-        # Model unavailable (no key or every model exhausted): fall back to the
-        # grounded facts so the user still gets something concrete.
+        # Model unavailable, or it returned nothing (a reasoning model can
+        # spend its whole budget before writing a word). Falling back to the
+        # retrieved text only helps when retrieval actually found the subject.
+        # On a weak match it presents unrelated records as "what the records
+        # contain on this" — asking for the capital of France once returned
+        # three papers about capital structure. Below the confidence bar,
+        # redirect instead.
         if not answer:
+            if not is_confident(results):
+                return ChatResponse(answer=NO_MATCH_MESSAGE)
             answer = grounded_facts(results)
 
         # Weak evidence (below the strong-confidence bar): keep the answer but

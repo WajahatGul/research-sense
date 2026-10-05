@@ -207,6 +207,24 @@ def _resolve_researchers(message: str) -> list[dict]:
     return matches
 
 
+def _years_in(message: str) -> set[int]:
+    """Years named in the question, so "what did X publish in 2023" answers
+    about 2023 rather than listing everything they have ever written."""
+    return {int(y) for y in re.findall(r"(?:19|20)\d{2}", message)}
+
+
+def _filter_years(pubs: list[dict], years: set[int]) -> list[dict]:
+    if not years:
+        return pubs
+    lo, hi = min(years), max(years)
+    return [
+        p
+        for p in pubs
+        if (p.get("publication_year") or 0) >= lo
+        and (p.get("publication_year") or 0) <= hi
+    ]
+
+
 def _publications_for(researcher_id: int) -> list[dict]:
     out = [
         p
@@ -265,7 +283,23 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
     researcher = matches[0]
     rid = researcher["researcher_id"]
     name = researcher["full_name"]
-    pubs = _publications_for(rid)
+    all_pubs = _publications_for(rid)
+    years = _years_in(message)
+    pubs = _filter_years(all_pubs, years)
+
+    if years and not pubs:
+        span = (
+            f"in {min(years)}"
+            if len(years) == 1
+            else f"between {min(years)} and {max(years)}"
+        )
+        return AuthoredResult(
+            answer=(
+                f"{name} has no publications on record {span}. "
+                f"There are {len(all_pubs)} on record in total."
+            ),
+            researchers=[(name, rid)],
+        )
 
     if not pubs:
         return AuthoredResult(
@@ -282,7 +316,14 @@ def answer(message: str, history: list | None = None) -> AuthoredResult | None:
     shown = pubs[:LIMIT]
 
     total = len(pubs)
-    header = f"{name} has {total} publication(s) on record" + (
+    span = ""
+    if years:
+        span = (
+            f" in {min(years)}"
+            if len(years) == 1
+            else f" between {min(years)} and {max(years)}"
+        )
+    header = f"{name} has {total} publication(s) on record{span}" + (
         f" (showing the {LIMIT} most recent):" if total > LIMIT else ":"
     )
     lines = [header]
