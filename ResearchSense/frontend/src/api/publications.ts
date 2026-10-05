@@ -12,7 +12,7 @@ export interface PublicationFilters {
   date_from?: string;
   date_to?: string;
   department?: string;
-  publication_type?: "journal" | "conference";
+  publication_type?: string;
   page?: number;
   page_size?: number;
 }
@@ -22,3 +22,9 @@ export const fetchPublications = (filters: PublicationFilters = {}) =>
 
 export const fetchPublicationYears = () =>
   get<number[]>("/api/publications/years");
+
+export const fetchPublication = (id: number) =>
+  get<Publication>(`/api/publications/${id}`);
+
+export const fetchRelatedPublications = (id: number, limit = 5) =>
+  get<Publication[]>(`/api/publications/${id}/related`, { limit });

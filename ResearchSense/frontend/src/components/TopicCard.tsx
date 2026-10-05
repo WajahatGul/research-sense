@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import type { Topic } from "../types";
+import { pluralS } from "../config";
 import styles from "./TopicCard.module.css";
 
 // The tile monogram encodes the area itself — first letters of the topic —
@@ -14,14 +15,14 @@ function monogram(name: string): string {
 export function TopicCard({ topic }: { topic: Topic }) {
   return (
     <Link
-      to={`/publications?topic_id=${topic.topic_id}`}
+      to={`/topics/${topic.topic_id}`}
       className={styles.card}
     >
       <span className={styles.mono}>{monogram(topic.topic_name)}</span>
       <h3 className={styles.name}>{topic.topic_name}</h3>
       <p className={styles.meta}>
-        <span className="mono">{topic.publication_count}</span> publications ·{" "}
-        <span className="mono">{topic.researcher_count}</span> researchers
+        <span className="mono">{topic.publication_count}</span> publication{pluralS(topic.publication_count)} ·{" "}
+        <span className="mono">{topic.researcher_count}</span> researcher{pluralS(topic.researcher_count)}
       </p>
     </Link>
   );

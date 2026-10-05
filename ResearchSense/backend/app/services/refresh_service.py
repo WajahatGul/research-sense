@@ -14,6 +14,7 @@ from datetime import UTC, datetime, timedelta
 
 from app.core.config import settings
 from app.repositories.accounts import AccountStore
+from app.services import data_snapshot
 from app.services.rag.retriever import Retriever
 
 log = logging.getLogger("researchsense.refresh")
@@ -29,32 +30,85 @@ def run_refresh() -> str:
         return "already-running"
     store = AccountStore.instance()
     run_id = store.start_refresh()
+    data_dir = None
     try:
-        from scripts import build_index, fetch_publications
+        from scripts import (
+            build_index,
+            classify_topics,
+            fetch_publications,
+            merge_author_variants,
+            merge_duplicate_publications,
+            unlink_misattributed,
+        )
 
+        # Copy every file the refresh may rewrite, so a failure part-way can
+        # put the site back exactly as it was (see data_snapshot).
+        data_dir = fetch_publications.DATA_DIR
+        before = data_snapshot.take(data_dir)
         log.info("refresh: fetching publications from OpenAlex")
         fetch_publications.main()
+        # The fetch renumbers every paper, so the logs of earlier clean-ups
+        # (which name papers by id) describe a numbering that no longer
+        # exists; start them afresh, then clean the new data the same way:
+        # one person per profile, papers only on their real authors, one
+        # record per work.
+        for name in ("author_merges", "author_unlinks", "publication_duplicates"):
+            (fetch_publications.DATA_DIR / f"{name}.json").unlink(missing_ok=True)
+        merge_author_variants.main(write=True)
+        unlink_misattributed.main(write=True)
+        merge_duplicate_publications.main(write=True)
+        # People's decisions (this paper is not mine; that record is also
+        # me) come last, so a human's word outranks every automatic rule.
+        from app.services import identity_service
+
+        identity_service.apply_and_save()
+        # The fetch rewrites topics.json, so file the areas under fields again
+        # (from the cached OpenAlex hierarchy: no extra requests).
+        classify_topics.main(write=True)
         log.info("refresh: refreshing index fact cards")
         # Preserve full-text chunks (downloaded papers, faculty uploads, the
         # library): the refresh changes structured data, not PDFs, and a
         # from-scratch rebuild would drop them.
         build_index.rebuild_preserving_fulltext()
-        # Drop every in-memory cache over the rewritten data files.
-        from app.repositories import loader
-        from app.services.rag import authored
-
-        loader.clear_cache()
-        authored._Store.reset()
-        Retriever.reset()
+        data_snapshot.check(data_dir, before)
+        data_snapshot.discard(data_dir)
+        _reload()
         store.finish_refresh(run_id, "ok")
         log.info("refresh: done")
+        _send_alerts()  # tell people what the new data brought
         return "ok"
     except Exception as exc:  # noqa: BLE001 - record and surface, don't hide
-        store.finish_refresh(run_id, f"error: {exc}")
+        note = f"error: {exc}"
+        if data_dir is not None and (data_dir / data_snapshot.SNAPSHOT_DIR).exists():
+            data_snapshot.restore(data_dir)
+            data_snapshot.discard(data_dir)
+            _reload()
+            note += " (previous data restored)"
+        store.finish_refresh(run_id, note)
         log.exception("refresh failed")
-        return f"error: {exc}"
+        return note
     finally:
         _lock.release()
+
+
+def _send_alerts() -> None:
+    """After the refresh is kept: its success must not depend on the alerts."""
+    try:
+        from app.services import alerts_service
+
+        alerts_service.run_all()
+    except Exception:  # noqa: BLE001
+        log.exception("saved-search alerts after refresh failed")
+
+
+def _reload() -> None:
+    """Drop every in-memory cache over the data files."""
+    from app.repositories import loader
+    from app.services.rag import authored
+
+    loader.clear_cache()
+    authored._Store.reset()
+    Retriever.reset()
 
 
 def is_due() -> bool:

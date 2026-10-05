@@ -51,7 +51,7 @@
 .table th {
   text-align: left;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--faint);
@@ -138,5 +138,49 @@
 @media (max-width: 860px) {
   .twoCol {
     grid-template-columns: 1fr;
+  }
+}
+
+.campusList {
+  display: none;
+}
+
+.campusCell {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.campusCell .dot {
+  flex: none;
+  margin-right: 0;
+}
+
+@media (max-width: 560px) {
+  .tableWrap {
+    display: none;
+  }
+
+  .campusList {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .campusItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .campusStats {
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 0.88rem;
   }
 }

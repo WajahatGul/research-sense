@@ -1,17 +1,19 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import { fetchResearchers } from "../api/researchers";
 import { fetchStats } from "../api/stats";
 import type { Stats } from "../types";
+import { KeepSearch } from "../components/KeepSearch";
 import { PageHeader } from "../components/PageHeader";
 import { SearchBar } from "../components/SearchBar";
 import { DataNote } from "../components/DataNote";
+import { SearchCorrection } from "../components/SearchCorrection";
 import { ResearcherCard } from "../components/ResearcherCard";
 import { Pagination } from "../components/Pagination";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
 import { FilterBar } from "../features/researchers/FilterBar";
+import { useOrganisation } from "../hooks/useOrganisation";
 import styles from "./Researchers.module.css";
 
 const PAGE_SIZE = 12;
@@ -48,98 +50,110 @@ function coverageNote(stats?: Stats): string {
   return note;
 }
 
+const FILTER_KEYS = ["q", "campus", "department", "designation"] as const;
+
+function filtersFrom(params: URLSearchParams): Filters {
+  return {
+    q: params.get("q") ?? "",
+    campus: params.get("campus") ?? "",
+    department: params.get("department") ?? "",
+    designation: params.get("designation") ?? "",
+  };
+}
+
 export default function Researchers() {
   const [params, setParams] = useSearchParams();
-  const initialQ = params.get("q") ?? "";
+  const org = useOrganisation();
 
-  const [pending, setPending] = useState<Filters>({
-    q: initialQ,
-    campus: "",
-    department: "",
-    designation: "",
-  });
-  // A deep-linked query (e.g. from a chat source chip) counts as an
-  // implicit search, so it runs immediately instead of waiting for the button.
-  const [applied, setApplied] = useState<Filters | null>(() =>
-    initialQ ? { q: initialQ, campus: "", department: "", designation: "" } : null,
-  );
-  const [page, setPage] = useState(1);
+  // The URL is the record of what is being shown. Filtering, opening a
+  // profile and pressing Back used to drop every filter and the page; now
+  // Back, refresh and a shared link all return to the same list. With no
+  // parameters the directory simply lists everyone, so "browse faculty"
+  // works on arrival.
+  const applied = filtersFrom(params);
+  const page = Math.max(Number(params.get("page")) || 1, 1);
 
-  const hasSearched = applied !== null;
+
+  const show = (f: Filters, p: number) => {
+    const next = new URLSearchParams();
+    for (const key of FILTER_KEYS) if (f[key]) next.set(key, f[key]);
+    if (p > 1) next.set("page", String(p));
+    setParams(next);
+  };
 
   const { data: stats } = useQuery({ queryKey: ["stats"], queryFn: fetchStats });
   const { data, isLoading, isError } = useQuery({
     queryKey: ["researchers", applied, page],
-    queryFn: () => {
-      const f = applied ?? { q: "", campus: "", department: "", designation: "" };
-      return fetchResearchers({
-        q: f.q,
-        campus: f.campus,
-        department: f.department,
-        designation: f.designation,
+    queryFn: () =>
+      fetchResearchers({
+        q: applied.q,
+        campus: applied.campus,
+        department: applied.department,
+        designation: applied.designation,
         page,
         page_size: PAGE_SIZE,
-      });
-    },
-    enabled: hasSearched,
+      }),
     placeholderData: keepPreviousData,
   });
 
-  const runSearch = (overrides?: Partial<Filters>) => {
-    const next = overrides ? { ...pending, ...overrides } : pending;
-    if (overrides) setPending(next);
-    setApplied(next);
-    setPage(1);
-  };
-
-  const runQuerySearch = (value: string) => {
-    setParams(value ? { q: value } : {});
-    runSearch({ q: value });
-  };
+  // A filter applies the moment it is chosen (see Publications).
+  const apply = (changes: Partial<Filters>) => show({ ...applied, ...changes }, 1);
 
   return (
     <>
       <PageHeader
         eyebrow="Directory"
         title="Researchers"
-        description="Browse faculty across all campuses. Filter by campus, department, designation, or search by name and area."
+        description={`Browse the people behind the ${org.noun}'s research. Filter by ${org.site.toLowerCase()}, ${org.unit.toLowerCase()} or rank, or search by name and area.`}
       >
         <div className={styles.search}>
           <SearchBar
+            key={applied.q}
             placeholder="Search researchers…"
-            defaultValue={pending.q}
-            onSearch={runQuerySearch}
-            hideButton
+            suggest="researchers"
+            defaultValue={applied.q}
+            onSearch={(value) => apply({ q: value })}
           />
         </div>
       </PageHeader>
 
       <div className={`container ${styles.body}`}>
         <FilterBar
-          campus={pending.campus}
-          department={pending.department}
-          designation={pending.designation}
+          campus={applied.campus}
+          department={applied.department}
+          designation={applied.designation}
           total={data?.total ?? 0}
-          hasSearched={hasSearched}
-          onCampus={(v) => setPending((p) => ({ ...p, campus: v }))}
-          onDepartment={(v) => setPending((p) => ({ ...p, department: v }))}
-          onDesignation={(v) => setPending((p) => ({ ...p, designation: v }))}
-          onSearch={() => runSearch()}
+          hasSearched={true}
+          activeCount={[applied.campus, applied.department, applied.designation].filter(Boolean).length}
+          onCampus={(v) => apply({ campus: v })}
+          onDepartment={(v) => apply({ department: v })}
+          onDesignation={(v) => apply({ designation: v })}
+        />
+
+        <KeepSearch
+          key={JSON.stringify(applied)}
+          kind="researchers"
+          filters={{
+            q: applied.q || undefined,
+            campus: applied.campus || undefined,
+            department: applied.department || undefined,
+            designation: applied.designation || undefined,
+          }}
         />
 
         <DataNote>
           {coverageNote(stats)}
         </DataNote>
 
-        {!hasSearched && (
-          <EmptyState message="Choose your filters and press Search to see researchers." />
+        {data?.corrected_query && (
+          <SearchCorrection typed={applied.q} shown={data.corrected_query} />
         )}
-        {hasSearched && isLoading && <Loader />}
-        {hasSearched && isError && <ErrorState />}
-        {hasSearched && data && data.items.length === 0 && (
+        {isLoading && <Loader />}
+        {isError && <ErrorState />}
+        {data && data.items.length === 0 && (
           <EmptyState message="No researchers match these filters yet." />
         )}
-        {hasSearched && data && data.items.length > 0 && (
+        {data && data.items.length > 0 && (
           <div className={styles.grid}>
             {data.items.map((r) => (
               <ResearcherCard key={r.researcher_id} researcher={r} />
@@ -147,12 +161,12 @@ export default function Researchers() {
           </div>
         )}
 
-        {hasSearched && data && (
+        {data && (
           <Pagination
             page={page}
             pageSize={PAGE_SIZE}
             total={data.total}
-            onChange={setPage}
+            onChange={(p) => show(applied, p)}
           />
         )}
       </div>

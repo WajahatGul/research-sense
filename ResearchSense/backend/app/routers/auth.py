@@ -17,6 +17,7 @@ from app.schemas.auth import (
     LoginRequest,
     MeResponse,
     OrcidStart,
+    ClaimResult,
     TokenResponse,
 )
 from app.services import orcid_oauth
@@ -25,7 +26,7 @@ from app.services.auth_service import AuthService
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 
-@router.post("/claim", response_model=TokenResponse)
+@router.post("/claim", response_model=ClaimResult)
 def claim_profile(
     payload: ClaimRequest,
     service: AuthService = Depends(get_auth_service),
@@ -83,7 +84,9 @@ def orcid_callback(
         return back("orcid_error=" + quote(str(exc)))
     except HTTPException as exc:
         return back("orcid_error=" + quote(str(exc.detail)))
-    return back("orcid_token=" + quote(session.token))
+    if session.token:
+        return back("orcid_token=" + quote(session.token))
+    return back("orcid_notice=" + quote(session.message))
 
 
 @router.post("/login", response_model=TokenResponse)

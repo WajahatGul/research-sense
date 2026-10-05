@@ -7,16 +7,23 @@ import styles from "./ResearcherCard.module.css";
 
 export function ResearcherCard({ researcher }: { researcher: Researcher }) {
   const topics = researcher.topics.slice(0, 3);
+  const placement = [researcher.department, researcher.campus].filter(Boolean).join(" · ");
   return (
     <Link to={`/researchers/${researcher.researcher_id}`} className={styles.card}>
       <div className={styles.top}>
         <Avatar name={researcher.full_name} />
         <div className={styles.head}>
           <h3 className={styles.name}>{researcher.full_name}</h3>
-          <p className={styles.role}>{researcher.designation}</p>
-          <p className={styles.campus}>
-            {researcher.department} · {researcher.campus}
-          </p>
+          {placement ? (
+            <>
+              <p className={styles.role}>{researcher.designation}</p>
+              <p className={styles.campus}>{placement}</p>
+            </>
+          ) : (
+            // Authors who appear on indexed papers but have no directory
+            // entry used to show a lone "·" here, which read as broken data.
+            <p className={styles.role}>Author on indexed papers · no directory profile</p>
+          )}
         </div>
       </div>
 

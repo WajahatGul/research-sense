@@ -225,3 +225,14 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* On a phone the drawing scales to ~40%: names become ~5 px and nodes are
+   not tappable anyway. The list beside it states the same facts (co-author,
+   cross-campus, international) as readable badges and links, so narrow
+   screens show the list alone, without the key that explains the drawing. */
+@media (max-width: 560px) {
+  .svg,
+  .graphKey {
+    display: none;
+  }
+}

@@ -21,6 +21,7 @@ from pathlib import Path
 
 import httpx
 
+from scripts.author_identity import printed_name_fits
 from scripts.build_seed import TOPIC_CATALOGUE
 from scripts.fetch_enrichment import (
     backfill_topic_names,
@@ -319,7 +320,15 @@ def main() -> None:
             if authors[i]["researcher_id"] is not None or not author_at_bahria(a):
                 continue
             disp = authors[i]["full_name"]
-            cands = [r for r in researchers if _fuzzy_name_match(r["full_name"], disp)]
+            # Two agreeing words are not enough on their own: "Syed Toqeer
+            # Haider" shares two with "Syed Haider Ali Shah". The printed
+            # name must also fit the profile (scripts/author_identity.py).
+            cands = [
+                r
+                for r in researchers
+                if _fuzzy_name_match(r["full_name"], disp)
+                and printed_name_fits(disp, r["full_name"])
+            ]
             if len(cands) != 1:
                 continue
             rid = cands[0]["researcher_id"]

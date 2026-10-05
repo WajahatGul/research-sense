@@ -34,3 +34,5 @@ backend/app/data/researchsense.db
 
 # Staged RAG chunks for submissions awaiting admin approval
 backend/app/data/staged/
+backend/app/data/.refresh-snapshot/
+backend/app/data/backups/

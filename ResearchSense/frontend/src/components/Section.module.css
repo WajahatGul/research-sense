@@ -1,12 +1,17 @@
 .section {
-  padding: 64px 24px 0;
+  /* Horizontal space comes from .container, like every other block; an extra
+     24 px here indented sections out of line with the page header. */
+  padding: 64px 0 0;
 }
 
 .head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 20px;
+  /* On the narrowest phones "See all 242 publications →" moves under the
+     title rather than off the edge of the screen. */
+  flex-wrap: wrap;
+  gap: 4px 20px;
   margin-bottom: 28px;
 }
 
@@ -25,5 +30,15 @@
 }
 
 .link:hover {
-  color: var(--gold);
+  color: var(--gold-ink);
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

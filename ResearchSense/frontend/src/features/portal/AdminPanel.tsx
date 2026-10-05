@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import type { PendingPaper } from "../../api/auth";
@@ -12,6 +13,12 @@ import {
   triggerRefresh,
 } from "../../api/auth";
 import { Badge } from "../../components/Badge";
+import { AdminSecurity } from "./AdminSecurity";
+import { Backups } from "./Backups";
+import { Usage } from "./Usage";
+import { Outbox } from "./Outbox";
+import { ClaimsQueue } from "./ClaimsQueue";
+import { CorrectionsQueue } from "./CorrectionsQueue";
 import styles from "./portal.module.css";
 
 // Human-readable venue/DOI line for a pending item's stored payload — shape
@@ -68,6 +75,7 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
     mutationFn: approvePaper,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
     },
     onError: (err: unknown) => {
       setMessage(err instanceof Error ? err.message : "Could not approve the paper.");
@@ -81,6 +89,7 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
       setRejectingId(null);
       setNote("");
       queryClient.invalidateQueries({ queryKey: ["admin-pending"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-outbox"] });
     },
     onError: (err: unknown) => {
       setMessage(err instanceof Error ? err.message : "Could not reject the paper.");
@@ -125,6 +134,18 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
         {message && <p className={styles.status}>{message}</p>}
       </section>
 
+      <AdminSecurity />
+
+      <Usage />
+
+      <Backups />
+
+      <ClaimsQueue />
+
+      <CorrectionsQueue />
+
+      <Outbox />
+
       <section className={styles.section}>
         <h3 className={styles.h3}>Pending papers</h3>
         {!pending || pending.length === 0 ? (
@@ -138,12 +159,20 @@ export function AdminPanel({ onSignOut }: { onSignOut: () => void }) {
                 <li key={`${p.kind}-${p.id}`} className={styles.pendingItem}>
                   <div className={styles.pendingHead}>
                     <Badge tone={p.kind === "publication" ? "navy" : "default"}>
-                      {p.kind === "publication" ? "Publication" : "PDF upload"}
+                      {p.kind === "publication"
+                        ? "Publication"
+                        : p.kind === "library"
+                          ? "Library paper (read by the assistant)"
+                          : "PDF upload"}
                     </Badge>
                     <span className={styles.pendingTitle}>{p.title}</span>
                   </div>
                   <span className={styles.pendingMeta}>
-                    Submitted by researcher #{p.researcher_id} ·{" "}
+                    Submitted by{" "}
+                    <Link to={`/researchers/${p.researcher_id}`} className={styles.link}>
+                      {p.researcher_name ?? `researcher #${p.researcher_id}`}
+                    </Link>{" "}
+                    ·{" "}
                     {p.submitted_at.slice(0, 10)}
                     {subtitle && ` · ${subtitle}`}
                   </span>

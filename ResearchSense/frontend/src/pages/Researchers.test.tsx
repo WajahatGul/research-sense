@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Paginated, Researcher } from "../types";
@@ -53,17 +53,23 @@ const researcherPage: Paginated<Researcher> = {
   page_size: 12,
 };
 
-function renderPage() {
+function renderPage(url = "/researchers") {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[url]}>
         <Researchers />
+        <LocationProbe />
       </MemoryRouter>
     </QueryClientProvider>,
   );
+}
+
+function LocationProbe() {
+  const location = useLocation();
+  return <output data-testid="location">{location.search}</output>;
 }
 
 beforeEach(() => {
@@ -84,21 +90,42 @@ beforeEach(() => {
 });
 
 describe("Researchers", () => {
-  it("does not fetch researchers on mount", async () => {
-    renderPage();
+  it("restores filters and page from the URL (Back, refresh, shared link)", async () => {
+    renderPage("/researchers?campus=Karachi&department=Computer%20Science&page=2");
 
-    await waitFor(() => expect(mockFetchCampuses).toHaveBeenCalled());
-    expect(mockFetchResearchers).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenCalledWith(
+        expect.objectContaining({
+          campus: "Karachi",
+          department: "Computer Science",
+          page: 2,
+        }),
+      ),
+    );
   });
 
-  it("shows the pre-search empty prompt", async () => {
+  it("records a submitted search in the URL", async () => {
     renderPage();
 
-    expect(
-      await screen.findByText(
-        "Choose your filters and press Search to see researchers.",
-      ),
-    ).toBeInTheDocument();
+    const input = await screen.findByPlaceholderText("Search researchers…");
+    fireEvent.change(input, { target: { value: "ayesha" } });
+    fireEvent.submit(input.closest("form")!);
+
+    await waitFor(() =>
+      expect(screen.getByTestId("location").textContent).toBe("?q=ayesha"),
+    );
+  });
+
+  it("fetches the first page of researchers on mount", async () => {
+    renderPage();
+
+    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalled());
+  });
+
+  it("shows researchers by default without needing a search", async () => {
+    renderPage();
+
+    expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
 
   it("reports coverage from the live stats, not a hardcoded number", async () => {
@@ -128,23 +155,26 @@ describe("Researchers", () => {
     expect(note.textContent).not.toContain("for .");
   });
 
-  it("fetches researchers after Search is pressed", async () => {
+  it("applies a filter the moment it is chosen", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search researchers",
+    await screen.findByText("Dr. Ayesha Khan");
+    fireEvent.change(screen.getByLabelText("Filter by designation"), {
+      target: { value: "Professor" },
     });
-    fireEvent.click(searchButton);
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
-    expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenLastCalledWith(
+        expect.objectContaining({ designation: "Professor" }),
+      ),
+    );
   });
 
-  it("renders exactly one Search button", async () => {
+  it("renders exactly one Search button, the search box's own", async () => {
     renderPage();
 
-    await screen.findByRole("button", { name: "Search researchers" });
-    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    await screen.findByText("Dr. Ayesha Khan");
+    const searchButtons = screen.getAllByRole("button", { name: /^search$/i });
     expect(searchButtons).toHaveLength(1);
   });
 
@@ -170,14 +200,18 @@ describe("Researchers", () => {
     ]);
   });
 
-  it("fetches researchers when Enter is pressed in the search input", async () => {
+  it("searches by name when Enter is pressed in the search input", async () => {
     renderPage();
 
     const input = await screen.findByPlaceholderText("Search researchers…");
     fireEvent.change(input, { target: { value: "ayesha" } });
     fireEvent.submit(input.closest("form")!);
 
-    await waitFor(() => expect(mockFetchResearchers).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(mockFetchResearchers).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "ayesha" }),
+      ),
+    );
     expect(await screen.findByText("Dr. Ayesha Khan")).toBeInTheDocument();
   });
 });

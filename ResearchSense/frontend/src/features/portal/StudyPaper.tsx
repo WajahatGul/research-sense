@@ -55,7 +55,8 @@ export function StudyPaper() {
       <p className={styles.hint}>
         Add any paper — yours or not — to the library, then ask about it on the{" "}
         <Link to="/ask" className={styles.link}>Ask ResearchSense</Link> page.
-        It is not attributed to your profile.{" "}
+        It is not attributed to your profile. An administrator checks it first,
+        because the assistant quotes whatever is in the library.{" "}
         <button
           type="button"
           className={styles.link}

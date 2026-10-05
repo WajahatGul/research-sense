@@ -2,6 +2,10 @@
 // VITE_API_BASE to the backend origin.
 const BASE = import.meta.env.VITE_API_BASE ?? "";
 
+/** Full URL for a plain link to the API (a download), which cannot go
+ * through fetch() and so must carry the backend's origin itself. */
+export const apiUrl = (path: string) => `${BASE}${path}`;
+
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);

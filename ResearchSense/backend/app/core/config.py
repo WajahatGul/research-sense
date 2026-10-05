@@ -22,14 +22,11 @@ class Settings:
         "http://localhost:5173,http://127.0.0.1:5173",
     ).split(",")
 
-    # Deploying institution's name. ResearchSense is institution-agnostic, but a
-    # deployment is always for one university (the customer), so it is set here.
-    # This build is configured for Bahria University, which owns the data and
-    # campuses shown. A different customer overrides RS_INSTITUTION_NAME (or sets
-    # it to "" for a neutral, unbranded look).
-    institution_name: str = os.getenv(
-        "RS_INSTITUTION_NAME", "Bahria University"
-    ).strip()
+    # The deploying organisation's name. ResearchSense is a product that any
+    # organisation can run on its own records, so nothing is branded by
+    # default; a deployment sets RS_INSTITUTION_NAME (and RS_ORG_KIND, see
+    # app/core/organisation.py) to say whose research it holds.
+    institution_name: str = os.getenv("RS_INSTITUTION_NAME", "").strip()
 
     # --- RAG chatbot ---
     # Accept both spellings; the key is created at console.groq.com (free tier).
@@ -110,3 +107,29 @@ class Settings:
 
 
 settings = Settings()
+
+_LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1"}
+
+
+def is_local_deployment(origin: str | None = None) -> bool:
+    """True when the frontend this API serves runs on the developer's machine."""
+    from urllib.parse import urlparse
+
+    host = (urlparse(origin if origin is not None else settings.frontend_origin).hostname or "")
+    return host in _LOCAL_HOSTS or host.endswith((".localhost", ".test"))
+
+
+def check_safe_to_start(dev_orcid: str | None = None, origin: str | None = None) -> None:
+    """Refuse to serve a public site with the developer shortcut switched on.
+
+    DEV_ORCID lets anyone who types that iD claim any profile without a
+    check or a review. It exists for local testing; a copy of a development
+    .env deployed to a server would otherwise open every profile to it.
+    """
+    dev = settings.dev_orcid if dev_orcid is None else dev_orcid
+    if dev and not is_local_deployment(origin):
+        raise RuntimeError(
+            "DEV_ORCID is set but FRONTEND_ORIGIN is not a local address. The "
+            "developer shortcut skips every identity check, so the server will "
+            "not start this way. Remove DEV_ORCID from the environment."
+        )

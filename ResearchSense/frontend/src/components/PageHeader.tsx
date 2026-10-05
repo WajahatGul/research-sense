@@ -1,3 +1,4 @@
+import { usePageTitle } from "../hooks/usePageTitle";
 import styles from "./PageHeader.module.css";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function PageHeader({ eyebrow, title, description, children }: Props) {
+  usePageTitle(title);
   return (
     <header className={styles.header}>
       <div className="container">

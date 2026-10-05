@@ -10,7 +10,12 @@
   }
 }
 
+/* Four areas preview the list on a phone; "All areas" is right above. */
 @media (max-width: 480px) {
+  .grid > :nth-child(n + 5) {
+    display: none;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }

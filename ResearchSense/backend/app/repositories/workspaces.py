@@ -11,8 +11,10 @@ from __future__ import annotations
 import re
 import sqlite3
 import uuid
+from contextlib import AbstractContextManager
 from datetime import UTC, datetime
 
+from app.core.db import connect
 from app.repositories.accounts import DB_PATH
 from app.repositories.loader import DEFAULT_WORKSPACE, save, workspace_dir
 
@@ -51,10 +53,9 @@ class WorkspaceStore:
             cls._instance = cls()
         return cls._instance
 
-    def _connect(self) -> sqlite3.Connection:
-        con = sqlite3.connect(DB_PATH)
-        con.row_factory = sqlite3.Row
-        return con
+    def _connect(self) -> AbstractContextManager[sqlite3.Connection]:
+        # Read DB_PATH at call time so tests can point the store elsewhere.
+        return connect(DB_PATH)
 
     # --- accounts -----------------------------------------------------------
 

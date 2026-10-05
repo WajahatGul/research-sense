@@ -11,7 +11,7 @@ from __future__ import annotations
 from app.core.config import settings
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
-from app.services.rag.agentic import normalize_query
+from app.services.rag.agentic import answer_deadline, normalize_query
 from app.services.rag.directory import directory_answer, research_area_answer
 from app.services.rag.generator import REFUSAL_MESSAGE, generate, grounded_facts
 from app.services.rag.leaderboard import leaderboard_answer
@@ -71,6 +71,15 @@ def _retrieval_query(question: str, history: list[ChatTurn]) -> str:
 
 class ChatService:
     def answer(
+        self, message: str, history: list[ChatTurn] | None = None
+    ) -> ChatResponse:
+        # Every model call for this answer shares one deadline, so a slow or
+        # overloaded provider cannot keep a worker busy after the visitor's
+        # browser has already given up.
+        with answer_deadline():
+            return self._answer(message, history)
+
+    def _answer(
         self, message: str, history: list[ChatTurn] | None = None
     ) -> ChatResponse:
         question = message.strip()

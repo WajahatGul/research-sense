@@ -1,31 +1,45 @@
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
-import Researchers from "./pages/Researchers";
-import ResearcherProfile from "./pages/ResearcherProfile";
-import Publications from "./pages/Publications";
-import Topics from "./pages/Topics";
-import Projects from "./pages/Projects";
-import Collaboration from "./pages/Collaboration";
-import Analytics from "./pages/Analytics";
-import Library from "./pages/Library";
-import StaffAccess from "./pages/StaffAccess";
-import Guide from "./pages/Guide";
-import Portal from "./pages/Portal";
-import Ask from "./pages/Ask";
-import NotFound from "./pages/NotFound";
+// Every page used to ship in one 844 KB script, so a visitor opening the
+// home page also downloaded the analytics charts, the portal and the
+// markdown renderer. Pages other than home now load when first visited.
+const Researchers = lazy(() => import("./pages/Researchers"));
+const ResearcherProfile = lazy(() => import("./pages/ResearcherProfile"));
+const Publications = lazy(() => import("./pages/Publications"));
+const PublicationDetail = lazy(() => import("./pages/PublicationDetail"));
+const Topics = lazy(() => import("./pages/Topics"));
+const Departments = lazy(() => import("./pages/Departments"));
+const Alerts = lazy(() => import("./pages/Alerts"));
+const TopicDetail = lazy(() => import("./pages/TopicDetail"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Collaboration = lazy(() => import("./pages/Collaboration"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const Library = lazy(() => import("./pages/Library"));
+const StaffAccess = lazy(() => import("./pages/StaffAccess"));
+const Guide = lazy(() => import("./pages/Guide"));
+const Portal = lazy(() => import("./pages/Portal"));
+const Ask = lazy(() => import("./pages/Ask"));
+const Search = lazy(() => import("./pages/Search"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/researchers" element={<Researchers />} />
         <Route path="/researchers/:id" element={<ResearcherProfile />} />
         <Route path="/publications" element={<Publications />} />
+        <Route path="/publications/:id" element={<PublicationDetail />} />
         <Route path="/topics" element={<Topics />} />
+        <Route path="/departments" element={<Departments />} />
+        <Route path="/alerts" element={<Alerts />} />
+        <Route path="/topics/:id" element={<TopicDetail />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/analytics" element={<Analytics />} />

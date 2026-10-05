@@ -3,42 +3,101 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
+import re
+import time
+import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 
-from app.core.config import settings
+from app.core.config import check_safe_to_start, settings
+from app.core.health import check as health_check
 from app.core.security import workspace_from_token
 from app.repositories.loader import set_workspace
 from app.routers import (
     admin,
+    alerts,
     analytics,
     auth,
+    corrections,
+    departments,
+    events,
+    invitations,
     chat,
     library,
     papers,
     projects,
     publications,
     researchers,
+    organisation,
     stats,
+    suggest,
     topics,
     workspace,
 )
+from app.services import backup_service
 from app.services.refresh_service import weekly_refresh_loop
+
+log = logging.getLogger("researchsense")
+if not log.handlers:
+    _handler = logging.StreamHandler()
+    _handler.setFormatter(logging.Formatter("%(levelname)s:     %(message)s"))
+    log.addHandler(_handler)
+    log.setLevel(logging.INFO)
+    log.propagate = False
+
+# The trace middleware below logs each request once, with its ID and
+# duration but without the query string (which holds what people searched
+# for). Uvicorn's own access log would repeat every line and print the query
+# string, so it is switched off here, whichever command starts the server.
+logging.getLogger("uvicorn.access").disabled = True
+
+# A caller may pass its own ID to correlate across services, but only a
+# short, plain token: anything else could forge or corrupt log lines.
+_REQUEST_ID = re.compile(r"[A-Za-z0-9-]{1,64}")
+
+
+def _warm_search_indexes() -> None:
+    """Tokenise the public corpus once at startup (~1 s) so the first
+    visitor to search after a restart does not pay for it."""
+    from app.repositories.mock.publications import MockPublicationRepository
+    from app.repositories.mock.researchers import MockResearcherRepository
+
+    try:
+        for repo in (MockResearcherRepository(), MockPublicationRepository()):
+            repo.list(query="warm")  # per-record tokens
+            repo.suggest("warm")  # spelling-correction vocabulary
+        # "Is this also you?" suggestions compare every author record with
+        # every profile (~5 s); do it now, not on a researcher's first visit.
+        # Area head counts and which papers belong to each area (~1 s).
+        from app.repositories.mock.topics import MockTopicRepository
+
+        MockTopicRepository().list()
+        from app.services import identity_service
+
+        identity_service.candidates(limit=1)
+    except Exception:  # warming is an optimisation, never a startup failure
+        log.exception("search index warm-up failed")
 
 
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     task = asyncio.create_task(weekly_refresh_loop())
+    backups = asyncio.create_task(backup_service.daily_backup_loop())
+    warm = asyncio.create_task(asyncio.to_thread(_warm_search_indexes))
     yield
     task.cancel()
+    backups.cancel()
+    warm.cancel()
 
 
 def create_app() -> FastAPI:
+    check_safe_to_start()
     app = FastAPI(title=settings.app_name, version=settings.version, lifespan=_lifespan)
 
     app.add_middleware(
@@ -75,12 +134,51 @@ def create_app() -> FastAPI:
         analytics,
         library,
         workspace,
+        suggest,
+        organisation,
+        departments,
+        corrections,
+        invitations,
+        events,
+        alerts,
     ):
         app.include_router(module.router)
+    app.include_router(corrections.admin)
+
+    @app.middleware("http")
+    async def trace(request, call_next):
+        """Give every request an ID and a duration, in the response and the log.
+
+        Added last so it wraps everything: the time measured is the time the
+        caller waited. Only the path is logged — query strings carry what
+        people searched for, which does not belong in server logs.
+        """
+        incoming = request.headers.get("x-request-id", "")
+        rid = incoming if _REQUEST_ID.fullmatch(incoming) else uuid.uuid4().hex[:12]
+        start = time.perf_counter()
+        try:
+            response = await call_next(request)
+        except Exception:
+            log.exception("%s %s %s failed", rid, request.method, request.url.path)
+            raise
+        ms = (time.perf_counter() - start) * 1000
+        response.headers["X-Request-ID"] = rid
+        response.headers["Server-Timing"] = f"app;dur={ms:.1f}"
+        log.info(
+            "%s %s %s %d %.1fms",
+            rid,
+            request.method,
+            request.url.path,
+            response.status_code,
+            ms,
+        )
+        return response
 
     @app.get("/api/health", tags=["health"])
-    def health() -> dict[str, str]:
-        return {"status": "ok", "service": settings.app_name}
+    def health() -> JSONResponse:
+        serving, report = health_check()
+        report["service"] = settings.app_name
+        return JSONResponse(report, status_code=200 if serving else 503)
 
     _mount_frontend(app)
     return app

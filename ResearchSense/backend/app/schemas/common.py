@@ -16,6 +16,9 @@ class Paginated(BaseModel, Generic[T]):
     total: int
     page: int
     page_size: int
+    #: When the query as typed found nothing, the corrected query whose
+    #: results these are — so the UI can say "Showing results for …".
+    corrected_query: str | None = None
 
 
 class Stats(BaseModel):
