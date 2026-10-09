@@ -159,6 +159,32 @@ function main() {
     urls.push(url);
   }
 
+  // Every top-level route needs a file of its own. With cleanUrls on, a
+  // request for /guide is answered from guide.html; when that does not exist
+  // the host returns 404 before the SPA rewrite is ever consulted, which took
+  // every page but the home page off the live site. The shell is enough — the
+  // app routes itself once loaded.
+  const APP_ROUTES = [
+    "/analytics",
+    "/ask",
+    "/collaboration",
+    "/departments",
+    "/guide",
+    "/library",
+    "/projects",
+    "/publications",
+    "/researchers",
+    "/search",
+    "/topics",
+    // Sign-in pages are shells too, but robots.txt keeps them out of search.
+    "/alerts",
+    "/portal",
+    "/staff-access",
+  ];
+  for (const route of APP_ROUTES) {
+    write(route, template);
+  }
+
   const sitemap =
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map((u) => `  <url><loc>${esc(SITE + u)}</loc></url>`).join("\n") +
