@@ -38,3 +38,26 @@
   color: var(--faint);
   font-size: 0.85rem;
 }
+
+.retry {
+  margin-top: 4px;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--navy);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--navy);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retry:hover {
+  background: var(--navy);
+  color: #fff;
+}
+
+.retry:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}

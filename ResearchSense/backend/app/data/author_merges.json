@@ -1,0 +1,78 @@
+[
+  {
+    "stub_id": 812,
+    "stub_name": "Muhammad Arif",
+    "stub_openalex_id": "A5101650838",
+    "into_id": 25,
+    "into_name": "Muhammad Arif Khattak",
+    "shared_coauthors": [
+      "Zia Ur Rehman"
+    ],
+    "shared_subject": [
+      "Environmental Sustainability in Business",
+      "Job Satisfaction and Organizational Behavior",
+      "Organizational and Employee Performance"
+    ],
+    "publication_ids": [
+      2376,
+      3416,
+      3745,
+      7016,
+      7272
+    ]
+  },
+  {
+    "stub_id": 1254,
+    "stub_name": "Junaid Nasir",
+    "stub_openalex_id": "A5112736453",
+    "into_id": 333,
+    "into_name": "Junaid Nasir Qureshi",
+    "shared_coauthors": [
+      "Nadeem Sarwar"
+    ],
+    "shared_subject": [
+      "Cloud Computing and Resource Management",
+      "IoT and Edge/Fog Computing"
+    ],
+    "publication_ids": [
+      3037,
+      4490,
+      4770,
+      5247
+    ]
+  },
+  {
+    "stub_id": 1412,
+    "stub_name": "Arif ur",
+    "stub_openalex_id": "A5086571541",
+    "into_id": 8,
+    "into_name": "Arif Ur Rahman",
+    "shared_coauthors": [
+      "Muhammad Muzammal"
+    ],
+    "shared_subject": [
+      "preservation"
+    ],
+    "publication_ids": [
+      5371
+    ]
+  },
+  {
+    "stub_id": 1732,
+    "stub_name": "N. I. Zaman",
+    "stub_openalex_id": "A5113751499",
+    "into_id": 118,
+    "into_name": "Noshi Iram Zaman",
+    "shared_coauthors": [
+      "Noor-ul-ain Haider"
+    ],
+    "shared_subject": [
+      "Family Support in Illness",
+      "Family and Disability Support Research",
+      "Grief, Bereavement, and Mental Health"
+    ],
+    "publication_ids": [
+      3683
+    ]
+  }
+]

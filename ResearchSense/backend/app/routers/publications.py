@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from app.core.deps import get_publication_service
 from app.schemas.common import Paginated
 from app.schemas.publication import Publication
+from app.services import usage_service
 from app.services.publication_service import PublicationService
 
 router = APIRouter(prefix="/api/publications", tags=["publications"])
@@ -37,7 +38,7 @@ def list_publications(
         raise HTTPException(status_code=422, detail="date_from must be YYYY-MM-DD")
     if date_to is not None and not _DATE_RE.match(date_to):
         raise HTTPException(status_code=422, detail="date_to must be YYYY-MM-DD")
-    return service.list(
+    result = service.list(
         query=q,
         year=year,
         topic_id=topic_id,
@@ -52,11 +53,41 @@ def list_publications(
         page=page,
         page_size=page_size,
     )
+    filtered = any(
+        v is not None
+        for v in (
+            year,
+            topic_id,
+            author_id,
+            campus,
+            year_from,
+            year_to,
+            department,
+            publication_type,
+            date_from,
+            date_to,
+        )
+    )
+    missed = result.total == 0 or result.corrected_query  # see researchers.py
+    if q and missed and not filtered:
+        usage_service.search_found_nothing("publications", q)
+    return result
 
 
 @router.get("/years", response_model=list[int])
 def list_years(service: PublicationService = Depends(get_publication_service)):
     return service.years()
+
+
+@router.get("/{publication_id}/related", response_model=list[Publication])
+def related_publications(
+    publication_id: int,
+    limit: int = Query(5, ge=1, le=20),
+    service: PublicationService = Depends(get_publication_service),
+):
+    if service.get(publication_id) is None:
+        raise HTTPException(status_code=404, detail="Publication not found")
+    return service.related(publication_id, limit)
 
 
 @router.get("/{publication_id}", response_model=Publication)

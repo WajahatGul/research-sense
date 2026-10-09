@@ -193,7 +193,7 @@
 }
 
 .score {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 600;
 }
 
@@ -230,7 +230,7 @@
 
 .intlMore:hover,
 .intlMore:focus-visible {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .intlMore:focus-visible {
@@ -245,9 +245,49 @@
   font-style: italic;
 }
 
+.identityNarrow {
+  display: none;
+}
+
+.pubsMore {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 0 20px;
+  border: 1px solid var(--navy);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--navy);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pubsMore:hover {
+  background: var(--navy);
+  color: #fff;
+}
+
+.pubsMore:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
 @media (max-width: 860px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .identityNarrow {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .identityWide {
+    display: none;
   }
 
   .heroInner {
@@ -284,4 +324,40 @@
 
 .pubAction:hover {
   text-decoration: underline;
+}
+
+.pubSource {
+  border-bottom: 1px dotted var(--line-strong);
+  cursor: help;
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .pubAction,
+  .intlMore,
+  a.metaItem {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.exports {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.exports a {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+@media (pointer: coarse) {
+  .exports a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

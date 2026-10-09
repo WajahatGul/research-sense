@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { PendingPaper } from "../../api/auth";
@@ -14,7 +15,20 @@ import {
 } from "../../api/auth";
 import { AdminPanel } from "./AdminPanel";
 
+vi.mock("./AdminSecurity", () => ({ AdminSecurity: () => null }));
+
+vi.mock("../../api/corrections", () => ({
+  fetchPendingCorrections: vi.fn().mockResolvedValue([]),
+  fetchIdentityCandidates: vi.fn().mockResolvedValue([]),
+  approveCorrection: vi.fn(),
+  rejectCorrection: vi.fn(),
+  decideCandidate: vi.fn(),
+}));
+
 vi.mock("../../api/auth", () => ({
+  approveClaim: vi.fn(),
+  fetchPendingClaims: vi.fn().mockResolvedValue([]),
+  rejectClaim: vi.fn(),
   approvePaper: vi.fn(),
   fetchAdminAccounts: vi.fn(),
   fetchPendingPapers: vi.fn(),
@@ -47,7 +61,9 @@ function renderPanel() {
   });
   return render(
     <QueryClientProvider client={client}>
-      <AdminPanel onSignOut={vi.fn()} />
+      <MemoryRouter>
+        <AdminPanel onSignOut={vi.fn()} />
+      </MemoryRouter>
     </QueryClientProvider>,
   );
 }

@@ -10,7 +10,7 @@
   width: 56px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-ink);
   padding-top: 2px;
 }
 
@@ -62,6 +62,18 @@
   text-decoration: underline;
 }
 
+.authorLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 2px;
+}
+
+.authorLink:hover {
+  color: var(--navy);
+  text-decoration-color: var(--navy);
+}
+
 .actions {
   display: inline-flex;
   gap: 12px;
@@ -85,4 +97,28 @@
 
 .action:hover {
   text-decoration: underline;
+}
+
+.source {
+  color: var(--muted);
+  font-size: var(--step--1);
+  border-bottom: 1px dotted var(--line-strong);
+  cursor: help;
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 6px;
+  }
+
+  .source {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

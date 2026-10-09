@@ -63,6 +63,9 @@ class ResearcherDetail(Researcher):
 
     profile_bio: str = ""
     education: str = ""  # real degree, field and university from the faculty page
+    # Other names the same person appears under in the publication record,
+    # folded in by scripts/merge_author_variants.py with the evidence logged.
+    also_published_as: list[str] = []
     google_scholar_id: str | None = None
     scopus_id: str | None = None
     publications: list[PublicationRef] = []

@@ -30,6 +30,48 @@
   text-overflow: ellipsis;
 }
 
+/* Wide screens: the wrapper is invisible to layout, so the filters sit in
+   the row exactly as before. */
+.filters {
+  display: contents;
+}
+
+.filterToggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .filterToggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--navy);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .filterToggle:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .filters {
+    display: none;
+  }
+
+  .filtersOpen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+  }
+}
+
 .dateGroup {
   display: flex;
   gap: 10px;
@@ -59,22 +101,6 @@
   cursor: pointer;
 }
 
-.searchButton {
-  border: none;
-  background: var(--navy);
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 11px 24px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.searchButton:hover {
-  background: var(--navy-900);
-}
-
 .body {
   padding-top: var(--sp-6);
 }
@@ -88,4 +114,27 @@
 
 .list {
   border-bottom: 1px solid var(--line);
+}
+
+.scope {
+  margin: 0 0 var(--sp-3);
+  padding: 10px 14px;
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.scope a {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .select,
+  .dateInput {
+    min-height: 44px;
+  }
 }

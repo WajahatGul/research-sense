@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 
+from app.core.areas import works_in
 from app.services.rag.authored import AuthoredResult, _Store
 
 _MAX = 25
@@ -236,14 +237,8 @@ def _resolve_area(message: str) -> str | None:
 
 
 def _in_area(researcher: dict, area_lower: str) -> bool:
-    for a in researcher.get("research_areas") or []:
-        if a and a.lower() == area_lower:
-            return True
-    for t in researcher.get("topics") or []:
-        name = t.get("topic_name") if isinstance(t, dict) else None
-        if name and name.lower() == area_lower:
-            return True
-    return False
+    # The same rule as the area pages, so both give the same people.
+    return works_in(researcher, area_lower)
 
 
 def research_area_answer(message: str) -> AuthoredResult | None:

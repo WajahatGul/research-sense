@@ -67,7 +67,7 @@ export function WorkspaceAuth({
     >
       <p className={styles.hint}>
         {mode === "signup"
-          ? "Create a space for your own university. It starts empty — you add your own profile and papers, and none of the demo data appears in it."
+          ? "Create a space for your own organisation. It starts empty — you add your own profile and papers, and none of the demo data appears in it."
           : "Sign in to your institution's workspace."}
       </p>
 
@@ -75,7 +75,7 @@ export function WorkspaceAuth({
         <>
           <label className={styles.label}>Institution
             <input className={styles.input} value={institution} required
-                   placeholder="e.g. Meridian University"
+                   placeholder="e.g. Meridian University or Northwind Labs"
                    onChange={(e) => setInstitution(e.target.value)} />
           </label>
           <label className={styles.label}>Your full name

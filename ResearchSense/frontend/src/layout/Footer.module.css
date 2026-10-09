@@ -39,7 +39,7 @@
 
 .head {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
@@ -73,5 +73,25 @@
 @media (max-width: 520px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .col a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* The assistant's button floats in the bottom-right corner. Mid-page it
+   moves off content as you scroll, but at the end of the page there is
+   nowhere left to scroll, and on phones it sat on top of the last footer
+   line. Reserve its height (58 px + 24 px margin) below the footer. */
+@media (max-width: 768px) {
+  .footer {
+    padding-bottom: calc(var(--sp-6) + 90px);
   }
 }

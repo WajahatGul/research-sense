@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from app.core.areas import works_in
+from app.core.textsearch import Query, correct, index_for
 from app.repositories import loader
 from app.repositories.base import ResearcherRepository
 from app.schemas.researcher import (
@@ -19,28 +21,29 @@ def score_of(copub: int, shared_ids: set, topic_freq: dict) -> float:
     return copub * 5.0 + area_score
 
 
-def _matches(
+def _search_fields(rec: dict) -> tuple[str, ...]:
+    """Name first (what people usually mean), then everything a visitor
+    might describe someone by — including their research areas, which the
+    old search ignored entirely."""
+    return (
+        rec["full_name"],
+        # Other spellings they have published under (see
+        # scripts/merge_author_variants.py), so the old name still finds them.
+        " ".join(a["name"] for a in rec.get("also_published_as", [])),
+        rec.get("designation") or "",
+        rec.get("department") or "",
+        rec.get("expertise") or "",
+        " ".join(t["topic_name"] for t in rec.get("topics", [])),
+    )
+
+
+def _passes_filters(
     rec: dict,
-    query: str | None,
     campus: str | None,
     department: str | None,
     designation: str | None,
-    topic_id: int | None,
+    topic_name: str | None,
 ) -> bool:
-    # Publication-only profiles surface when someone searches by name — the
-    # case that matters, a Bahria author looking for their own work — but not
-    # when browsing, where they would bury 358 real profiles under 5,000 cards
-    # carrying nothing but a name.
-    if loader.is_extended(rec) and not query:
-        return False
-    if query:
-        q = query.lower()
-        hay = (
-            f"{rec['full_name']} {rec.get('designation', '')} "
-            f"{rec.get('department', '')} {rec.get('expertise', '')}"
-        ).lower()
-        if q not in hay:
-            return False
     if campus and rec.get("campus") != campus:
         return False
     if department and rec.get("department") != department:
@@ -50,9 +53,7 @@ def _matches(
         rec.get("academic_rank"),
     ):
         return False
-    return topic_id is None or topic_id in {
-        t["topic_id"] for t in rec.get("topics", [])
-    }
+    return topic_name is None or works_in(rec, topic_name)
 
 
 class MockResearcherRepository(ResearcherRepository):
@@ -68,13 +69,53 @@ class MockResearcherRepository(ResearcherRepository):
         designation=None,
         topic_id=None,
     ):
-        rows = [
-            r
-            for r in self._all()
-            if _matches(r, query, campus, department, designation, topic_id)
-        ]
-        rows.sort(key=lambda r: r["full_name"])
-        return [Researcher(**r) for r in rows]
+        q = Query(query)
+        rows = self._all()
+        topic_name = None
+        if topic_id is not None:
+            topic_name = next(
+                (
+                    t["topic_name"]
+                    for t in loader.load("topics")
+                    if t["topic_id"] == topic_id
+                ),
+                "\0",  # an unknown area matches no one
+            )
+        entries = index_for("researchers", rows, _search_fields).entries if q else None
+        scored: list[tuple[float, dict]] = []
+        for i, r in enumerate(rows):
+            # Publication-only profiles surface when someone searches by
+            # name — a Bahria author looking for their own work — but not
+            # when browsing, where they would bury the full profiles under
+            # thousands of cards carrying nothing but a name.
+            if loader.is_extended(r) and not q:
+                continue
+            if not _passes_filters(r, campus, department, designation, topic_name):
+                continue
+            score = q.score_entry(entries[i]) if entries else 0.0
+            if score is None:
+                continue
+            scored.append((score, r))
+        # Best match first when searching; alphabetical when browsing. On a
+        # tie, a full directory profile outranks a name-only author stub,
+        # then more publications outrank fewer: searching "machine
+        # learning" used to list bare names like "Aamana" above faculty
+        # simply because they sort earlier alphabetically.
+        scored.sort(
+            key=lambda sr: (
+                -sr[0],
+                loader.is_extended(sr[1]),
+                # The people an area is listed with lead with its most
+                # published members, not the alphabet.
+                -(sr[1].get("publication_count") or 0) if q or topic_id else 0,
+                sr[1]["full_name"],
+            )
+        )
+        return [Researcher(**r) for _, r in scored]
+
+    def suggest(self, query: str | None) -> str | None:
+        vocab = index_for("researchers", self._all(), _search_fields).vocab
+        return correct(query, vocab)
 
     def get(self, researcher_id: int) -> ResearcherDetail | None:
         rec = next(
@@ -85,6 +126,9 @@ class MockResearcherRepository(ResearcherRepository):
         detail = dict(rec)
         detail["publications"] = self._publications_for(researcher_id)
         detail["collaborators"] = self._collaborators_for(rec)
+        detail["also_published_as"] = [
+            a["name"] for a in rec.get("also_published_as", [])
+        ]
         return ResearcherDetail(**detail)
 
     def departments(self) -> list[str]:
@@ -117,6 +161,7 @@ class MockResearcherRepository(ResearcherRepository):
                         "journal_name": p.get("journal_name", ""),
                         "citation_count": p.get("citation_count", 0),
                         "doi": p.get("doi"),
+                        "source": p.get("source", ""),
                         # Author researcher_ids we could resolve (unmatched
                         # authors have researcher_id=None and are dropped).
                         # Lets the frontend detect a shared paper between two

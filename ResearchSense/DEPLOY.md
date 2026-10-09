@@ -42,6 +42,25 @@ Generate fresh ones at <https://console.groq.com/keys>. Never commit `.env`
 > takes ~50 s to wake, and the first chat also downloads the embedding model.
 > Open the site once before a demo to warm it.
 
+## This deployment
+
+The live instances, so nobody has to guess them from the examples below:
+
+| | URL |
+|---|---|
+| **App (Vercel)** | <https://research-sense-seven.vercel.app> |
+| **API (Render)** | <https://research-sense.onrender.com> |
+
+Two things that have caught people out:
+
+- The Render service is named `research-sense`, but `render.yaml` says
+  `researchsense-api`. The service was not created from the blueprint, so the
+  names drifted. Re-creating it from `render.yaml` would come up on a different
+  hostname and break the Vercel `/api` rewrite, which points at the URL above.
+- **Auto-deploy has been off**: every deploy so far was triggered by hand from
+  the dashboard, so merging to `main` alone does not ship anything. Turn it on
+  under Settings → Build & Deploy, or remember to press **Manual Deploy**.
+
 ## Step 3 — Deploy the frontend to Vercel
 
 1. Edit `ResearchSense/frontend/vercel.json` and replace

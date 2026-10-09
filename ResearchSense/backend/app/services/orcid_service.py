@@ -151,6 +151,31 @@ def fetch_record_names(orcid_id: str) -> list[str]:
     return names
 
 
+def fetch_record_employers(orcid_id: str) -> list[str]:
+    """Organisations on the public ORCID record's employment list, newest
+    first. Evidence for a human reviewer, so failure returns [] rather than
+    blocking the claim."""
+    try:
+        resp = httpx.get(
+            f"{ORCID_PUBLIC_API}/{orcid_id}/employments",
+            headers=HEADERS,
+            timeout=20,
+            follow_redirects=True,
+        )
+        if resp.status_code != 200:
+            return []
+        out: list[str] = []
+        for group in resp.json().get("affiliation-group") or []:
+            for summary in group.get("summaries") or []:
+                emp = summary.get("employment-summary") or {}
+                name = ((emp.get("organization") or {}).get("name") or "").strip()
+                if name and name not in out:
+                    out.append(name)
+        return out[:8]
+    except (httpx.HTTPError, ValueError):
+        return []
+
+
 def _names_match(roster_name: str, record_name: str) -> bool:
     """True only when the two names plausibly belong to the same person.
 
@@ -176,9 +201,13 @@ def _names_match(roster_name: str, record_name: str) -> bool:
     return len(distinguishing) >= 1
 
 
-def verify_claim(orcid_id: str, researcher_name: str) -> None:
+def verify_claim(orcid_id: str, researcher_name: str) -> list[str]:
     """Raise OrcidVerificationError unless this ORCID iD plausibly belongs
-    to the named researcher."""
+    to the named researcher; return the record's names for the reviewer.
+
+    A match is NOT proof of ownership: ORCID iDs are public, so anyone can
+    type the real person's iD. It only filters out obvious mistakes before
+    a claim reaches the admin (see AuthService.claim)."""
     if not checksum_valid(orcid_id):
         raise OrcidVerificationError(
             "This is not a valid ORCID iD (checksum failed) - please "
@@ -192,3 +221,4 @@ def verify_claim(orcid_id: str, researcher_name: str) -> None:
             f"match the profile of {researcher_name}. You can only claim "
             f"your own profile with your own ORCID iD."
         )
+    return record_names

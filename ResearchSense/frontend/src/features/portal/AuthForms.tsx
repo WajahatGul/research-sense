@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,8 @@ import {
   setToken,
 } from "../../api/auth";
 import { fetchResearchers } from "../../api/researchers";
-import { INSTITUTION_NAME } from "../../config";
+import { useOrganisation } from "../../hooks/useOrganisation";
+import { track } from "../../api/usage";
 import { WorkspaceAuth } from "./WorkspaceAuth";
 import styles from "./portal.module.css";
 
@@ -30,23 +31,41 @@ import styles from "./portal.module.css";
 type Mode = "signin" | "create";
 type Kind = "researcher" | "institution";
 
-export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
-  const [mode, setMode] = useState<Mode>("signin");
+export function AuthForms({
+  onSignedIn,
+  claimFor,
+}: {
+  onSignedIn: () => void;
+  /** Arrived from a co-author's invitation: open the claim form on this profile. */
+  claimFor?: { id: number; name: string };
+}) {
+  const [mode, setMode] = useState<Mode>(claimFor ? "create" : "signin");
   const [kind, setKind] = useState<Kind>("researcher");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
-  const submit = async (action: () => Promise<{ token: string }>) => {
+  // A claim typed in by hand comes back without a session: it waits for an
+  // administrator. That is an outcome to explain, not an error to show.
+  const submit = async (
+    action: () => Promise<{ token: string | null; message?: string }>,
+  ) => {
     setError("");
+    setNotice("");
     try {
       const res = await action();
-      setToken(res.token);
-      onSignedIn();
+      if (res.token) {
+        setToken(res.token);
+        onSignedIn();
+      } else {
+        setNotice(res.message ?? "Your request was received.");
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     }
   };
 
-  const institution = INSTITUTION_NAME || "this university";
+  const org = useOrganisation();
+  const institution = org.name || `this ${org.noun}`;
   const switchTo = (next: Kind) => {
     setKind(next);
     setError("");
@@ -54,7 +73,8 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
 
   return (
     <>
-      <div className={styles.guestCard}>
+      {/* Not for someone who came to claim: an invitation opens on the form. */}
+      {!claimFor && <div className={styles.guestCard}>
         <p className={styles.guestTitle}>Just looking around?</p>
         <p className={styles.guestText}>
           You do not need an account. Everyone can read the whole portal — the
@@ -72,7 +92,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
             Ask the assistant
           </Link>
         </div>
-      </div>
+      </div>}
 
       <div className={styles.authCard}>
         <h2 className={styles.cardTitle}>
@@ -87,7 +107,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
             className={kind === "researcher" ? styles.segOn : styles.seg}
             onClick={() => switchTo("researcher")}
           >
-            {institution}
+            {org.name || "Researcher"}
           </button>
           <button
             type="button"
@@ -96,13 +116,18 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
             className={kind === "institution" ? styles.segOn : styles.seg}
             onClick={() => switchTo("institution")}
           >
-            Another university
+            Another organisation
           </button>
         </div>
 
         {/* Above the form, not below it: the claim form is tall enough that an
             error under the submit button lands off-screen, so the user presses
             the button and sees nothing happen. */}
+        {notice && (
+          <p className={styles.status} role="status">
+            {notice}
+          </p>
+        )}
         {error && (
           <p className={styles.error} role="alert">
             {error}
@@ -113,7 +138,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
           (mode === "signin" ? (
             <LoginForm onSubmit={submit} />
           ) : (
-            <ClaimForm onSubmit={submit} onError={setError} />
+            <ClaimForm onSubmit={submit} onError={setError} initial={claimFor} />
           ))}
 
         {kind === "institution" && (
@@ -163,7 +188,7 @@ export function AuthForms({ onSignedIn }: { onSignedIn: () => void }) {
   );
 }
 
-type Submit = (action: () => Promise<{ token: string }>) => void;
+type Submit = (action: () => Promise<{ token: string | null; message?: string }>) => void;
 
 function LoginForm({ onSubmit }: { onSubmit: Submit }) {
   const [orcid, setOrcid] = useState("");
@@ -206,15 +231,22 @@ function LoginForm({ onSubmit }: { onSubmit: Submit }) {
 function ClaimForm({
   onSubmit,
   onError,
+  initial,
 }: {
   onSubmit: Submit;
   onError: (message: string) => void;
+  initial?: { id: number; name: string };
 }) {
-  const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<number | null>(null);
+  const [search, setSearch] = useState(initial?.name ?? "");
+  const [selected, setSelected] = useState<number | null>(initial?.id ?? null);
   const [orcid, setOrcid] = useState("");
   const [password, setPassword] = useState("");
   const [sending, setSending] = useState(false);
+  // Picking a profile is where a claim starts; comparing that with claims
+  // sent shows whether the form is losing people.
+  useEffect(() => {
+    if (selected != null) track("claim_started", String(selected));
+  }, [selected]);
 
   const { data: claimed } = useQuery({
     queryKey: ["claimed-ids"],
@@ -355,8 +387,8 @@ function ClaimForm({
         />
       </label>
       <p className={styles.hint}>
-        It must be your own iD: the name on the public ORCID record is checked
-        against the profile you are claiming.
+        It must be your own iD. An administrator checks the public ORCID
+        record against the profile before your account opens.
       </p>
       <button
         type="submit"

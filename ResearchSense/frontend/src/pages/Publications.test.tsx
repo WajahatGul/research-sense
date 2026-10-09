@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Paginated, Publication } from "../types";
@@ -45,14 +45,19 @@ const publicationPage: Paginated<Publication> = {
   page_size: 10,
 };
 
-function renderPage() {
+function Where() {
+  return <output data-testid="where">{useLocation().search}</output>;
+}
+
+function renderPage(url = "/publications") {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[url]}>
         <Publications />
+        <Where />
       </MemoryRouter>
     </QueryClientProvider>,
   );
@@ -67,21 +72,11 @@ beforeEach(() => {
 });
 
 describe("Publications", () => {
-  it("does not fetch publications on mount", async () => {
+  it("lists the newest publications on arrival", async () => {
     renderPage();
 
-    await waitFor(() => expect(mockFetchPublicationYears).toHaveBeenCalled());
-    expect(mockFetchPublications).not.toHaveBeenCalled();
-  });
-
-  it("shows the pre-search empty prompt", async () => {
-    renderPage();
-
-    expect(
-      await screen.findByText(
-        "Choose your filters and press Search to see publications.",
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
+    expect(mockFetchPublications).toHaveBeenCalledTimes(1);
   });
 
   it("shows the coverage data note", async () => {
@@ -92,23 +87,11 @@ describe("Publications", () => {
     ).toBeInTheDocument();
   });
 
-  it("fetches publications after Search is pressed", async () => {
+  it("renders exactly one Search button, the search box's own", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search publications",
-    });
-    fireEvent.click(searchButton);
-
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
-    expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
-  });
-
-  it("renders exactly one Search button", async () => {
-    renderPage();
-
-    await screen.findByRole("button", { name: "Search publications" });
-    const searchButtons = screen.getAllByRole("button", { name: /search/i });
+    await screen.findByText("A Great Paper");
+    const searchButtons = screen.getAllByRole("button", { name: /^search$/i });
     expect(searchButtons).toHaveLength(1);
   });
 
@@ -119,22 +102,58 @@ describe("Publications", () => {
     fireEvent.change(input, { target: { value: "great paper" } });
     fireEvent.submit(input.closest("form")!);
 
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "great paper" }),
+      ),
+    );
     expect(await screen.findByText("A Great Paper")).toBeInTheDocument();
   });
 
-  it("does not refetch when a filter changes without pressing Search", async () => {
+  it("applies a filter the moment it is chosen", async () => {
     renderPage();
 
-    const searchButton = await screen.findByRole("button", {
-      name: "Search publications",
+    await screen.findByText("A Great Paper");
+    fireEvent.change(screen.getByLabelText("Filter by campus"), {
+      target: { value: "Islamabad (E-8)" },
     });
-    fireEvent.click(searchButton);
-    await waitFor(() => expect(mockFetchPublications).toHaveBeenCalledTimes(1));
 
-    const campusSelect = screen.getByLabelText("Filter by campus");
-    fireEvent.change(campusSelect, { target: { value: "Islamabad (E-8)" } });
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ campus: "Islamabad (E-8)" }),
+      ),
+    );
+  });
 
-    expect(mockFetchPublications).toHaveBeenCalledTimes(1);
+  it("says how many filters are active on the folded filter button", async () => {
+    renderPage();
+
+    const toggle = await screen.findByRole("button", { name: "Filters" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggle);
+    fireEvent.change(screen.getByLabelText("Filter by campus"), {
+      target: { value: "Islamabad (E-8)" },
+    });
+
+    expect(
+      await screen.findByRole("button", { name: "Hide filters · 1 active" }),
+    ).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("keeps the applied filters in the URL", async () => {
+    renderPage();
+    await screen.findByText("A Great Paper");
+    fireEvent.change(screen.getByLabelText("Filter by year"), { target: { value: "2025" } });
+    expect(screen.getByTestId("where").textContent).toBe("?year=2025");
+  });
+
+  it("restores a shared or bookmarked link", async () => {
+    renderPage("/publications?q=graph&type=book-chapter&page=2");
+    await waitFor(() =>
+      expect(mockFetchPublications).toHaveBeenLastCalledWith(
+        expect.objectContaining({ q: "graph", publication_type: "book-chapter", page: 2 }),
+      ),
+    );
+    expect(screen.getByLabelText("Search publication titles…")).toHaveValue("graph");
   });
 });

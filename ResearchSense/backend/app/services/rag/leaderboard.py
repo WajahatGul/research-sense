@@ -19,9 +19,60 @@ _SUPERLATIVE = re.compile(
     re.I,
 )
 _CITATION = re.compile(r"\b(citation|citations|cited)\b", re.I)
+# What the question ranks. "Which department has the most publications?" used
+# to be answered with a researcher's name, because the superlative matched and
+# nothing checked what was being compared.
+_BY_DEPARTMENT = re.compile(r"\bdepartments?\b", re.I)
+_BY_CAMPUS = re.compile(r"\bcampus(?:es)?\b", re.I)
 _PUBLICATION = re.compile(
     r"\b(publication|publications|papers?|prolific|productive)\b", re.I
 )
+
+
+def _group_totals(field: str) -> dict[str, dict[str, int]]:
+    """Publications and citations per department (or campus).
+
+    A paper is credited once to each group that contributed an author, so the
+    totals answer "how much work does this department appear on" rather than
+    splitting fractional credit — the question people actually ask. Counting
+    each paper once per group also avoids the double counting that summing
+    per-researcher totals would produce for internal collaborations.
+    """
+    group_of = {
+        r["researcher_id"]: (r.get(field) or "").strip()
+        for r in _Store.researchers()
+        if (r.get(field) or "").strip()
+    }
+    totals: dict[str, dict[str, int]] = {}
+    for pub in _Store.pubs():
+        groups = {
+            group_of[a["researcher_id"]]
+            for a in pub.get("authors", [])
+            if a.get("researcher_id") in group_of
+        }
+        cites = int(pub.get("citation_count") or 0)
+        for g in groups:
+            row = totals.setdefault(g, {"publications": 0, "citations": 0})
+            row["publications"] += 1
+            row["citations"] += cites
+    return totals
+
+
+def _group_leaderboard(field: str, plural: str, unit: str) -> AuthoredResult | None:
+    totals = _group_totals(field)
+    if not totals:
+        return None
+    ranked = sorted(totals.items(), key=lambda kv: -kv[1][unit])[:5]
+    best, best_row = ranked[0]
+    lines = [
+        f"{best} has the most {unit} ({best_row[unit]:,} {unit}).",
+        "",
+        f"Top {plural} by {unit}:",
+    ]
+    for i, (name, row) in enumerate(ranked, 1):
+        lines.append(f"{i}. {name} - {row[unit]:,} {unit}")
+    # No researcher profiles to cite: the answer is about groups, not people.
+    return AuthoredResult(answer="\n".join(lines), researchers=[])
 
 
 def leaderboard_answer(message: str) -> AuthoredResult | None:
@@ -38,8 +89,15 @@ def leaderboard_answer(message: str) -> AuthoredResult | None:
     if _resolve_people(message):
         return None
 
-    key = "citation_count" if wants_cite else "publication_count"
     unit = "citations" if wants_cite else "publications"
+
+    # Rank what the question actually compares.
+    if _BY_DEPARTMENT.search(lower):
+        return _group_leaderboard("department", "departments", unit)
+    if _BY_CAMPUS.search(lower):
+        return _group_leaderboard("campus", "campuses", unit)
+
+    key = "citation_count" if wants_cite else "publication_count"
     researchers = [r for r in _Store.researchers() if r.get(key)]
     if not researchers:
         return None

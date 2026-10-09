@@ -99,4 +99,10 @@ def current_admin(
     payload = _decode(credentials)
     if payload.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
+    # The token alone is not enough: a deactivated administrator's session
+    # must stop working at once, not when the token expires in a week.
+    from app.services import admin_accounts
+
+    if not admin_accounts.is_active(payload.get("sub", "")):
+        raise HTTPException(status_code=401, detail="This admin account is not active")
     return payload

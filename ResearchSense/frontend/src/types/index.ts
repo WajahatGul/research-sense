@@ -5,6 +5,9 @@ export interface Paginated<T> {
   total: number;
   page: number;
   page_size: number;
+  /** Set when the typed query found nothing and these are the results for
+   * the closest spelling the corpus contains. */
+  corrected_query?: string | null;
 }
 
 export interface Stats {
@@ -32,6 +35,9 @@ export interface Topic {
   publication_count: number;
   researcher_count: number;
   source: string;
+  field?: string;
+  domain?: string;
+  field_source?: string;
 }
 
 export interface AuthorRef {
@@ -52,7 +58,10 @@ export interface Publication {
   campus: string;
   authors: AuthorRef[];
   topics: TopicRef[];
+  topic_names?: string[];
   source: string;
+  /** Other copies of the same work: a preprint, a reprint, a second DOI. */
+  versions?: { journal_name: string; doi: string | null; publication_year: number | null }[];
 }
 
 export interface PublicationRef {
@@ -63,6 +72,8 @@ export interface PublicationRef {
   citation_count: number;
   doi: string | null;
   author_ids: number[];
+  /** Where the record came from (see lib/provenance). */
+  source?: string;
 }
 
 export interface Researcher {
@@ -102,6 +113,7 @@ export interface CollaborationSuggestion {
 export interface ResearcherDetail extends Researcher {
   profile_bio: string;
   education: string;
+  also_published_as?: string[];
   google_scholar_id: string | null;
   scopus_id: string | null;
   publications: PublicationRef[];

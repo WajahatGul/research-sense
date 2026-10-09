@@ -11,11 +11,12 @@ from __future__ import annotations
 from app.core.config import settings
 from app.schemas.chat import ChatResponse, ChatSource, ChatTurn
 from app.services.rag import authored
-from app.services.rag.agentic import normalize_query
+from app.services.rag.agentic import answer_deadline, normalize_query
 from app.services.rag.directory import directory_answer, research_area_answer
 from app.services.rag.generator import REFUSAL_MESSAGE, generate, grounded_facts
 from app.services.rag.leaderboard import leaderboard_answer
 from app.services.rag.retriever import Retriever, ScoredChunk, is_confident
+from app.services.rag.totals import totals_answer
 
 # Shown when the semantic index is missing — a brand-new institution
 # workspace has none until its own records are indexed. The structured fast
@@ -73,6 +74,15 @@ class ChatService:
     def answer(
         self, message: str, history: list[ChatTurn] | None = None
     ) -> ChatResponse:
+        # Every model call for this answer shares one deadline, so a slow or
+        # overloaded provider cannot keep a worker busy after the visitor's
+        # browser has already given up.
+        with answer_deadline():
+            return self._answer(message, history)
+
+    def _answer(
+        self, message: str, history: list[ChatTurn] | None = None
+    ) -> ChatResponse:
         question = message.strip()
         history = history or []
         if not question:
@@ -110,6 +120,27 @@ class ChatService:
         # citations", "top researchers by publications") — answered from the
         # full sorted data, since retrieval only sees a few chunks and would
         # pick a wrong maximum.
+        # Fast path: "who is X?" where X names several people. Retrieval
+        # would blend them into a description of somebody who does not exist,
+        # so ask which one is meant. A single clear match falls through, where
+        # retrieval writes a much richer summary than a list would.
+        identity = authored.identity_answer(question)
+        if identity is not None:
+            return ChatResponse(
+                answer=identity.answer,
+                sources=[
+                    ChatSource(label=f"{name} — profile", kind="researcher", ref_id=rid)
+                    for name, rid in identity.researchers
+                ],
+            )
+
+        # Fast path: "how many publications are there?" — the most basic
+        # question a research portal gets, and one retrieval cannot answer,
+        # because no single chunk holds the total.
+        totals = totals_answer(question)
+        if totals is not None:
+            return ChatResponse(answer=totals.answer)
+
         board = leaderboard_answer(question)
         if board is not None:
             return ChatResponse(
@@ -186,9 +217,16 @@ class ChatService:
         if used_llm and answer == REFUSAL_MESSAGE:
             return ChatResponse(answer=NO_MATCH_MESSAGE)
 
-        # Model unavailable (no key or every model exhausted): fall back to the
-        # grounded facts so the user still gets something concrete.
+        # Model unavailable, or it returned nothing (a reasoning model can
+        # spend its whole budget before writing a word). Falling back to the
+        # retrieved text only helps when retrieval actually found the subject.
+        # On a weak match it presents unrelated records as "what the records
+        # contain on this" — asking for the capital of France once returned
+        # three papers about capital structure. Below the confidence bar,
+        # redirect instead.
         if not answer:
+            if not is_confident(results):
+                return ChatResponse(answer=NO_MATCH_MESSAGE)
             answer = grounded_facts(results)
 
         # Weak evidence (below the strong-confidence bar): keep the answer but

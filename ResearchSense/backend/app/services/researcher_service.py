@@ -23,14 +23,24 @@ class ResearcherService:
         page=1,
         page_size=12,
     ) -> Paginated[Researcher]:
-        rows = self._repo.list(
-            query=query,
+        filters = dict(
             campus=campus,
             department=department,
             designation=designation,
             topic_id=topic_id,
         )
-        return paginate(rows, page, page_size)
+        rows = self._repo.list(query=query, **filters)
+        corrected = None
+        # A typo should not read as "we have nobody": retry the closest
+        # in-corpus spelling and say so, rather than answering zero.
+        if query and not rows:
+            corrected = self._repo.suggest(query)
+            if corrected:
+                rows = self._repo.list(query=corrected, **filters)
+        result = paginate(rows, page, page_size)
+        if corrected and rows:
+            result.corrected_query = corrected
+        return result
 
     def get(self, researcher_id: int) -> ResearcherDetail | None:
         return self._repo.get(researcher_id)

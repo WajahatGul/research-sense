@@ -14,9 +14,11 @@ router = APIRouter(prefix="/api/topics", tags=["topics"])
 @router.get("", response_model=list[Topic])
 def list_topics(
     q: str | None = None,
+    department: str | None = None,
+    field: str | None = None,
     service: TopicService = Depends(get_topic_service),
 ):
-    return service.list(query=q)
+    return service.list(query=q, department=department, field=field)
 
 
 @router.get("/{topic_id}", response_model=Topic)

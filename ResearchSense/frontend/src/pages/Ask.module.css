@@ -1,3 +1,22 @@
 .body {
   padding-top: var(--sp-6);
 }
+
+/* The panel used a fixed 560 px under the intro, which put the message box
+   below the first screen: 886 px on an 844 px phone, 917 px on a 900 px
+   laptop. The one thing this page is for started off-screen. The panel now
+   takes the height that is left (doubled class: it must win over the
+   panel's own fixed height regardless of stylesheet order). */
+.body.body > * {
+  height: clamp(360px, calc(100dvh - 400px), 640px);
+}
+
+@media (max-width: 560px) {
+  .body {
+    padding-top: var(--sp-3);
+  }
+
+  .body.body > * {
+    height: clamp(340px, calc(100dvh - 370px), 560px);
+  }
+}

@@ -22,6 +22,9 @@ from __future__ import annotations
 import json
 import re
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 
 import httpx
 
@@ -109,6 +112,32 @@ def _is_retired(body: str) -> bool:
     return any(marker in lowered for marker in _RETIRED_MARKERS)
 
 
+# One budget for a whole answer. The browser abandons a request after 45 s
+# (frontend api/client.ts), yet each attempt below may wait 45 s and an answer
+# can walk several keys x models over up to four passes: minutes of work,
+# holding a worker, for a reply nobody receives. Past the budget no new
+# attempt starts and the caller's fallback answers instead.
+ANSWER_BUDGET_S = 40.0
+# Not worth starting an attempt that cannot finish in this long.
+_MIN_ATTEMPT_S = 2.0
+_deadline: ContextVar[float | None] = ContextVar("groq_deadline", default=None)
+
+
+@contextmanager
+def answer_deadline(seconds: float = ANSWER_BUDGET_S) -> Iterator[None]:
+    """Bound every Groq attempt made inside this block to one shared budget."""
+    token = _deadline.set(time.monotonic() + seconds)
+    try:
+        yield
+    finally:
+        _deadline.reset(token)
+
+
+def _time_left() -> float | None:
+    deadline = _deadline.get()
+    return None if deadline is None else deadline - time.monotonic()
+
+
 def _groq_call(
     messages: list[dict],
     model: str = None,
@@ -148,6 +177,10 @@ def _groq_call(
         for ki, key in enumerate(GROQ_API_KEYS):
             if _groq_cooldown.get((ki, m), 0.0) > now:
                 continue
+            left = _time_left()
+            if left is not None and left < _MIN_ATTEMPT_S:
+                print(f"  [groq:{label}] answer budget spent; not starting {m}")
+                return ""
             try:
                 resp = httpx.post(
                     GROQ_URL,
@@ -164,7 +197,7 @@ def _groq_call(
                         # the API honours it when the backend can).
                         "seed": 42,
                     },
-                    timeout=45,
+                    timeout=45.0 if left is None else min(45.0, left),
                 )
             except httpx.HTTPError as e:
                 print(f"  [groq:{label}] HTTP error {m} key#{ki + 1}: {str(e)[:120]}")

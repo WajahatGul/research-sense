@@ -73,7 +73,7 @@
 }
 
 .pi:hover {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .campus {
@@ -84,5 +84,19 @@
 @media (max-width: 720px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .pi {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .select {
+    min-height: 44px;
   }
 }

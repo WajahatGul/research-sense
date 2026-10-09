@@ -45,7 +45,7 @@ export default function Library() {
           <div className={styles.empty}>
             <p>The library is empty.</p>
             <p className={styles.emptyHint}>
-              Faculty members can add any paper by DOI or PDF from the{" "}
+              Anyone with a profile can add a paper by DOI or PDF from the{" "}
               <Link to="/portal" className={styles.link}>Portal</Link>{" "}
               ("Study a paper").
             </p>

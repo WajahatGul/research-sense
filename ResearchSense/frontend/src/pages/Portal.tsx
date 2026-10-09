@@ -9,6 +9,7 @@ import {
   setToken as storeToken,
 } from "../api/auth";
 import { getWorkspaceSession, type WorkspaceSession } from "../api/workspace";
+import { fetchResearcher } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { Loader } from "../components/StateViews";
 import { AdminPanel } from "../features/portal/AdminPanel";
@@ -24,7 +25,7 @@ export default function Portal() {
   // let a stale `enabled: true` refetch the profile right after sign-out, so
   // the signed-in panel never went away.)
   const [token, setToken] = useState<string | null>(getToken());
-  // An institution workspace session is separate from the Bahria ORCID login:
+  // An institution workspace session is separate from the researcher ORCID login:
   // it has its own dashboard for building a profile from a CV.
   const [workspace, setWorkspace] = useState<WorkspaceSession | null>(
     getWorkspaceSession(),
@@ -43,13 +44,24 @@ export default function Portal() {
   // clear it so a refresh does not replay a stale result.
   const [searchParams, setSearchParams] = useSearchParams();
   const [orcidError, setOrcidError] = useState("");
+  const [orcidNotice, setOrcidNotice] = useState("");
+  // Arrived from a co-author's invitation (?claim=ID): open the claim form on
+  // that profile, so accepting takes a password and one press.
+  const invitedId = Number(searchParams.get("claim")) || null;
+  const { data: invited } = useQuery({
+    queryKey: ["researcher", invitedId],
+    queryFn: () => fetchResearcher(invitedId as number),
+    enabled: invitedId != null,
+  });
   /* eslint-disable react-hooks/set-state-in-effect --
      A one-time read of the OAuth return on mount, not a render loop: the
      parameters are cleared in the same pass, so this cannot run again. */
   useEffect(() => {
     const granted = searchParams.get("orcid_token");
     const failed = searchParams.get("orcid_error");
-    if (!granted && !failed) return;
+    const notice = searchParams.get("orcid_notice");
+    if (!granted && !failed && !notice) return;
+    if (notice) setOrcidNotice(notice);
     if (granted) {
       storeToken(granted);
       setToken(granted);
@@ -83,7 +95,7 @@ export default function Portal() {
       <PageHeader
         eyebrow="Sign in"
         title="Your research, your profile"
-        description="Claim the profile that is already here, or create a private workspace for your own university. Reading the portal needs no account."
+        description="Claim the profile that is already here, or create a private workspace for your own organisation. Reading the portal needs no account."
       />
       <div className={`container ${styles.body}`}>
         {orcidError && (
@@ -91,8 +103,19 @@ export default function Portal() {
             {orcidError}
           </p>
         )}
+        {orcidNotice && (
+          <p className={styles.orcidNotice} role="status">
+            {orcidNotice}
+          </p>
+        )}
         {token && !workspace && isLoading && <Loader />}
-        {signedOut && <AuthForms onSignedIn={onSignedIn} />}
+        {signedOut && (invitedId == null || invited) && (
+          <AuthForms
+            key={invited?.researcher_id ?? "none"}
+            onSignedIn={onSignedIn}
+            claimFor={invited ? { id: invited.researcher_id, name: invited.full_name } : undefined}
+          />
+        )}
         {workspace && (
           <WorkspaceDashboard
             session={workspace}

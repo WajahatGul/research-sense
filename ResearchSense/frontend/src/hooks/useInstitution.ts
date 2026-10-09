@@ -1,25 +1,10 @@
-import { useEffect, useState } from "react";
+import { useOrganisation } from "./useOrganisation";
 
-import { getWorkspaceSession } from "../api/workspace";
-import { INSTITUTION_NAME } from "../config";
-import { SESSION_EVENT } from "../lib/session";
-
-/** Which institution the visitor is currently looking at.
- *
- * The build-time name brands the deployment (the demo corpus, Bahria here).
- * An institution signed in to its own workspace is looking at its own data, so
- * the product must say its name instead — otherwise the footer thanks Bahria
- * on a page full of someone else's research.
+/** The organisation's name for use in a sentence: its own name when one is
+ * configured, otherwise "this institution" / "this company", so prose such
+ * as "If you research at …" still reads correctly on an unbranded deployment.
  */
 export function useInstitution(): string {
-  const read = () => getWorkspaceSession()?.institution_name || INSTITUTION_NAME;
-  const [name, setName] = useState<string>(read);
-
-  useEffect(() => {
-    const onSession = () => setName(read());
-    window.addEventListener(SESSION_EVENT, onSession);
-    return () => window.removeEventListener(SESSION_EVENT, onSession);
-  }, []);
-
-  return name;
+  const org = useOrganisation();
+  return org.name || `this ${org.noun}`;
 }

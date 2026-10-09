@@ -31,3 +31,11 @@
   font-size: 0.9rem;
   color: var(--muted);
 }
+
+/* Touch screens: every control at least 44 px tall, so it can be hit with a
+   thumb (WCAG 2.5.8 sets 24 px as the floor; platform guidance is 44). */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+}

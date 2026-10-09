@@ -7,9 +7,13 @@ import { fetchCampuses } from "../api/researchers";
 import { PageHeader } from "../components/PageHeader";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState, EmptyState } from "../components/StateViews";
+import { plural } from "../config";
+import { useOrganisation, useTerms } from "../hooks/useOrganisation";
 import styles from "./Projects.module.css";
 
 export default function Projects() {
+  const t = useTerms();
+  const org = useOrganisation();
   const [campus, setCampus] = useState("");
   const { data: campuses } = useQuery({
     queryKey: ["campuses"],
@@ -25,16 +29,16 @@ export default function Projects() {
       <PageHeader
         eyebrow="Research directions"
         title="Projects"
-        description="Illustrative research directions led by faculty across all campuses."
+        description={`Illustrative research directions led by ${t.people} across all ${t.sites}.`}
       >
         <div className={styles.controls}>
           <select
             className={styles.select}
             value={campus}
             onChange={(e) => setCampus(e.target.value)}
-            aria-label="Filter by campus"
+            aria-label={`Filter by ${org.site.toLowerCase()}`}
           >
-            <option value="">All campuses</option>
+            <option value="">All {plural(org.site).toLowerCase()}</option>
             {campuses?.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -47,7 +51,7 @@ export default function Projects() {
       <div className={`container ${styles.body}`}>
         <DataNote>
           Illustrative examples. There is no central feed of
-          funded projects, so these entries pair a real faculty member with
+          funded projects, so these entries pair a real person from the directory with
           one of their genuine research topics to demonstrate the page. They
           are not verified projects and carry no funding data.
         </DataNote>

@@ -3,27 +3,47 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { fetchClaimedIds } from "../api/auth";
+import { ApiError, apiUrl } from "../api/client";
 import { fetchResearcher } from "../api/researchers";
 import { askAssistant } from "../features/chat/askBus";
-import { INSTITUTION_NAME } from "../config";
+import { useOrganisation } from "../hooks/useOrganisation";
 import { Avatar } from "../components/Avatar";
 import { Badge } from "../components/Badge";
 import { DataNote } from "../components/DataNote";
 import { Loader, ErrorState } from "../components/StateViews";
+import { provenance } from "../lib/provenance";
+import { usePageTitle } from "../hooks/usePageTitle";
 import { coauthoredFirst } from "./coauthoredFirst";
+import { pluralS } from "../config";
 import styles from "./ResearcherProfile.module.css";
 
 const INTL_CAP = 10;
 
+const PUB_PREVIEW = 10;
+
+function NotFoundProfile() {
+  return (
+    <div className="container" style={{ padding: "64px 0", textAlign: "center" }}>
+      <p style={{ margin: "0 0 12px", color: "var(--muted)" }}>
+        We don’t have a profile at this address. It may have been merged or
+        the link may be mistyped.
+      </p>
+      <Link to="/researchers">Browse the researcher directory →</Link>
+    </div>
+  );
+}
+
 export default function ResearcherProfile() {
   const { id } = useParams();
+  const org = useOrganisation();
   const [searchParams] = useSearchParams();
   const withParam = searchParams.get("with");
   const withId = withParam && !Number.isNaN(Number(withParam)) ? Number(withParam) : null;
 
   const [showAllIntl, setShowAllIntl] = useState(false);
+  const [showAllPubs, setShowAllPubs] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["researcher", id],
     queryFn: () => fetchResearcher(Number(id)),
     enabled: Boolean(id),
@@ -43,8 +63,21 @@ export default function ResearcherProfile() {
   });
   const isClaimed = Boolean(data && claimedIds?.includes(data.researcher_id));
 
+  usePageTitle(
+    data?.full_name ??
+      (isError && error instanceof ApiError && error.status === 404
+        ? "Profile not found"
+        : "Researcher"),
+  );
+
   if (isLoading) return <Loader />;
-  if (isError || !data) return <ErrorState message="Researcher not found." />;
+  // Only a 404 means the person does not exist. A timeout or dropped
+  // connection is not "not found" — saying so would send people away from a
+  // profile that is really there.
+  if (isError && error instanceof ApiError && error.status === 404) {
+    return <NotFoundProfile />;
+  }
+  if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
 
   // Degrade gracefully if the backend (e.g. an older deployed version) omits a
   // list — render what is present instead of crashing the whole profile page.
@@ -69,6 +102,47 @@ export default function ResearcherProfile() {
     : intlCollabs.slice(0, INTL_CAP);
   const intlRemaining = intlCollabs.length - INTL_CAP;
 
+  // What this person works on and their background: short, and what a
+  // visitor wants first. On a phone the sidebar used to fall below all of
+  // a researcher's papers (90 here: ~13,000 px of scrolling), so on narrow
+  // screens it is shown before the list instead.
+  const identity = (
+    <>
+      {areas.length > 0 && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Research areas</h3>
+          <div className={styles.topics}>
+            {areas.map((name) => (
+              <Badge key={name} tone="gold">
+                {name}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data.education && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Education</h3>
+          <p className={styles.education}>{data.education}</p>
+        </div>
+      )}
+
+      {data.also_published_as && data.also_published_as.length > 0 && (
+        <div className={styles.card}>
+          <h3 className={styles.h3}>Also published as</h3>
+          <p className={styles.education}>
+            {data.also_published_as.join(", ")}. Those papers are listed here.
+          </p>
+        </div>
+      )}
+    </>
+  );
+  // Show the first ten papers; the rest on request.
+  const visiblePublications = showAllPubs
+    ? orderedPublications
+    : orderedPublications.slice(0, PUB_PREVIEW);
+
   return (
     <>
       <header className={styles.hero}>
@@ -89,7 +163,7 @@ export default function ResearcherProfile() {
             <p className={styles.role}>{data.designation}</p>
             <p className={styles.inst}>
               {[
-                data.institution || INSTITUTION_NAME,
+                data.institution || org.name,
                 data.campus ? `${data.campus} campus` : "",
               ]
                 .filter(Boolean)
@@ -120,6 +194,8 @@ export default function ResearcherProfile() {
             </section>
           )}
 
+          <div className={styles.identityNarrow}>{identity}</div>
+
           <section>
             <h2 className={styles.h2}>
               Publications{" "}
@@ -132,13 +208,25 @@ export default function ResearcherProfile() {
               has indexed so far and may understate this researcher's full
               output.
             </DataNote>
+            {publications.length > 0 && (
+              <p className={styles.exports}>
+                Download this list:{" "}
+                <a href={apiUrl(`/api/researchers/${data.researcher_id}/export?format=bibtex`)} download>
+                  BibTeX
+                </a>{" "}
+                (for a reference manager or LaTeX CV) ·{" "}
+                <a href={apiUrl(`/api/researchers/${data.researcher_id}/export?format=csv`)} download>
+                  Spreadsheet (CSV)
+                </a>
+              </p>
+            )}
             {showCaption && (
               <p className={styles.coauthorCaption}>
                 Papers co-authored with {withResearcher?.full_name} shown first.
               </p>
             )}
             <ul className={styles.pubs}>
-              {orderedPublications.map((p) => (
+              {visiblePublications.map((p) => (
                 <li key={p.publication_id} className={styles.pub}>
                   <span className={styles.pubTitle}>
                     {p.doi ? (
@@ -152,7 +240,11 @@ export default function ResearcherProfile() {
                   <span className={styles.pubMeta}>
                     <span className="mono">{p.publication_year}</span> ·{" "}
                     {p.journal_name} ·{" "}
-                    <span className="mono">{p.citation_count}</span> citations
+                    <span className="mono">{p.citation_count}</span> citation{pluralS(p.citation_count)}
+                    {" · "}
+                    <span className={styles.pubSource} title={provenance(p.source).detail}>
+                      {provenance(p.source).label}
+                    </span>
                     {" · "}
                     {p.doi && (
                       <>
@@ -177,29 +269,23 @@ export default function ResearcherProfile() {
                 <li className={styles.pubMeta}>No publications recorded yet.</li>
               )}
             </ul>
+            {orderedPublications.length > PUB_PREVIEW && (
+              <button
+                type="button"
+                className={styles.pubsMore}
+                aria-expanded={showAllPubs}
+                onClick={() => setShowAllPubs((v) => !v)}
+              >
+                {showAllPubs
+                  ? "Show fewer publications"
+                  : `Show all ${orderedPublications.length} publications`}
+              </button>
+            )}
           </section>
         </main>
 
         <aside className={styles.aside}>
-          {areas.length > 0 && (
-            <div className={styles.card}>
-              <h3 className={styles.h3}>Research areas</h3>
-              <div className={styles.topics}>
-                {areas.map((name) => (
-                  <Badge key={name} tone="gold">
-                    {name}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {data.education && (
-            <div className={styles.card}>
-              <h3 className={styles.h3}>Education</h3>
-              <p className={styles.education}>{data.education}</p>
-            </div>
-          )}
+          <div className={styles.identityWide}>{identity}</div>
 
           {intlCollabs.length > 0 && (
             <div className={styles.card}>

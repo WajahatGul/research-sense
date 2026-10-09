@@ -47,6 +47,14 @@ class ResearcherRepository(ABC):
     ) -> list[dict]:  # pragma: no cover
         raise NotImplementedError
 
+    def suggest(self, query: str | None) -> str | None:
+        """Closest in-corpus spelling of a query that found nothing."""
+        return None
+
+    def related(self, publication_id: int, limit: int = 5) -> list[Publication]:
+        """Papers a reader of this one would look at next."""
+        return []
+
 
 class PublicationRepository(ABC):
     @abstractmethod
@@ -69,10 +77,20 @@ class PublicationRepository(ABC):
     @abstractmethod
     def get(self, publication_id: int) -> Publication | None: ...
 
+    def suggest(self, query: str | None) -> str | None:
+        """Closest in-corpus spelling of a query that found nothing."""
+        return None
+
 
 class TopicRepository(ABC):
     @abstractmethod
-    def list(self, *, query: str | None = None) -> list[Topic]: ...
+    def list(
+        self,
+        *,
+        query: str | None = None,
+        department: str | None = None,
+        field: str | None = None,
+    ) -> list[Topic]: ...
 
     @abstractmethod
     def get(self, topic_id: int) -> Topic | None: ...

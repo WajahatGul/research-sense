@@ -14,6 +14,8 @@ import {
   PublicationsTrend,
   TopVenues,
 } from "../features/analytics/charts";
+import { useTerms } from "../hooks/useOrganisation";
+import { pluralS } from "../config";
 import styles from "./Analytics.module.css";
 
 /** What the charts below cover, in one sentence.
@@ -36,6 +38,7 @@ function coverageNote(stats?: Stats): string {
 }
 
 export default function Analytics() {
+  const t = useTerms();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["analytics"],
     queryFn: fetchAnalytics,
@@ -63,14 +66,14 @@ export default function Analytics() {
       <PageHeader
         eyebrow="Research intelligence"
         title="Analytics"
-        description="Publication trends, citation growth, leading venues, and cross-campus collaboration, computed from the indexed research data."
+        description={`Publication trends, citation growth, leading venues, and collaboration across ${t.sites}, computed from the indexed research data.`}
       />
 
       <div className={`container ${styles.body}`}>
         <DataNote>{coverageNote(stats)}</DataNote>
 
         <section className={styles.card}>
-          <h2 className={styles.h2}>Publications per year, by campus</h2>
+          <h2 className={styles.h2}>Publications per year, by {t.site}</h2>
           <PublicationsTrend
             data={publicationsPerYear}
             campuses={campuses}
@@ -91,12 +94,12 @@ export default function Analytics() {
 
         <div className={styles.twoCol}>
           <section className={styles.card}>
-            <h2 className={styles.h2}>Campus totals</h2>
+            <h2 className={styles.h2}>{t.Site} totals</h2>
             <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Campus</th>
+                  <th>{t.Site}</th>
                   <th>Researchers</th>
                   <th>Publications</th>
                   <th>Citations</th>
@@ -106,11 +109,13 @@ export default function Analytics() {
                 {campusTotals.map((row) => (
                   <tr key={row.campus}>
                     <td>
-                      <span
-                        className={styles.dot}
-                        style={{ background: CAMPUS_COLORS[row.campus] }}
-                      />
-                      {row.campus}
+                      <span className={styles.campusCell}>
+                        <span
+                          className={styles.dot}
+                          style={{ background: CAMPUS_COLORS[row.campus] }}
+                        />
+                        {row.campus}
+                      </span>
                     </td>
                     <td className="mono">{row.researchers}</td>
                     <td className="mono">{row.publications}</td>
@@ -120,13 +125,34 @@ export default function Analytics() {
               </tbody>
             </table>
             </div>
+            {/* Four columns do not fit a phone; there the same figures read
+                as one line per campus instead of a table whose last column
+                sits off-screen. Only one of the two is ever displayed. */}
+            <ul className={styles.campusList}>
+              {campusTotals.map((row) => (
+                <li key={row.campus} className={styles.campusItem}>
+                  <span className={styles.campusCell}>
+                    <span
+                      className={styles.dot}
+                      style={{ background: CAMPUS_COLORS[row.campus] }}
+                    />
+                    <strong>{row.campus}</strong>
+                  </span>
+                  <span className={styles.campusStats}>
+                    <span className="mono">{row.researchers}</span> researcher{pluralS(row.researchers)} ·{" "}
+                    <span className="mono">{row.publications}</span> publication{pluralS(row.publications)} ·{" "}
+                    <span className="mono">{row.citations.toLocaleString()}</span> citation{pluralS(row.citations)}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <section className={styles.card}>
-            <h2 className={styles.h2}>Cross-campus collaboration</h2>
+            <h2 className={styles.h2}>Collaboration across {t.sites}</h2>
             {crossCampusPairs.length === 0 ? (
               <p className={styles.empty}>
-                No cross-campus co-authored papers found in the indexed data yet.
+                No papers co-authored across {t.sites} found in the indexed data yet.
               </p>
             ) : (
               <ul className={styles.pairs}>
@@ -154,20 +180,20 @@ export default function Analytics() {
             )}
             <p className={styles.note}>
               Counted from papers whose author list includes researchers based
-              at two or more campuses.
+              at two or more {t.sites}.
             </p>
           </section>
         </div>
 
         <div className={styles.twoCol}>
           <section className={styles.card}>
-            <h2 className={styles.h2}>Publications by department</h2>
+            <h2 className={styles.h2}>Publications by {t.unit}</h2>
             {departmentTotals.length === 0 ? (
               <p className={styles.empty}>
                 No department data found in the indexed data yet.
               </p>
             ) : (
-              <DepartmentBars data={departmentTotals} />
+              <DepartmentBars data={departmentTotals} units={t.units} />
             )}
           </section>
 

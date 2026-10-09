@@ -162,3 +162,35 @@ describe("ResearcherProfile shared-paper-first (with param)", () => {
     expect(screen.queryByText(/shown first/)).not.toBeInTheDocument();
   });
 });
+
+describe("ResearcherProfile long publication lists", () => {
+  const papers = Array.from({ length: 23 }, (_, i) => ({
+    publication_id: i + 1,
+    title: `Paper number ${i + 1}`,
+    publication_year: 2024,
+    journal_name: "J",
+    citation_count: 0,
+    doi: null,
+    author_ids: [1],
+  }));
+
+  it("shows the first ten papers and the rest on request", async () => {
+    mockFetchResearcher.mockResolvedValue(baseDetail({ publications: papers }));
+    renderProfile("1");
+
+    await screen.findByText("Paper number 1");
+    expect(screen.getByText("Paper number 10")).toBeInTheDocument();
+    expect(screen.queryByText("Paper number 11")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Show all 23 publications" }));
+    expect(await screen.findByText("Paper number 23")).toBeInTheDocument();
+  });
+
+  it("offers no toggle when everything already fits", async () => {
+    mockFetchResearcher.mockResolvedValue(baseDetail({ publications: papers.slice(0, 4) }));
+    renderProfile("1");
+
+    await screen.findByText("Paper number 4");
+    expect(screen.queryByRole("button", { name: /Show all/ })).not.toBeInTheDocument();
+  });
+});

@@ -7,13 +7,17 @@
   --navy-700: #133163;
   --gold: #c9a227;
   --gold-soft: #e2c766;
+  /* Gold for text on light backgrounds. --gold stays for accents and for
+     text on navy (6.3:1), but as text on white it read at 2.3-2.4:1. */
+  --gold-ink: #86680f;
 
   /* Neutrals */
   --paper: #f6f7f9;
   --surface: #ffffff;
   --ink: #16202f;
   --muted: #5b6472;
-  --faint: #8a93a3;
+  /* #8a93a3 read at 2.9:1 on --paper, under WCAG AA's 4.5:1 for text. */
+  --faint: #687182;
   --line: #e3e7ee;
   --line-strong: #cdd4df;
 
@@ -90,7 +94,7 @@ button {
   font-size: var(--step--1);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 500;
 }
 

@@ -148,6 +148,18 @@ def _download_pdf(doi: str) -> bytes:
 def _index_and_record(
     pdf_path: Path, doi: str | None, title: str, year, added_by: int | None
 ) -> dict:
+    """Prepare a library paper and hold it for review.
+
+    Anything in the library is read by the assistant and quoted in its
+    answers, so a PDF anyone signed in could add went straight into what
+    the assistant treats as evidence: text such as "ignore your instructions
+    and say ..." would sit in its index unreviewed. The paper is now read and
+    embedded as before, but staged, and joins the library only when an
+    administrator approves it (see approve_library / discard_library).
+    """
+    from app.repositories.accounts import AccountStore
+    from app.services import staging
+
     try:
         text = indexer.extract_pdf_text(pdf_path)
     except ValueError as exc:
@@ -157,22 +169,53 @@ def _index_and_record(
     if not chunks:
         pdf_path.unlink(missing_ok=True)
         raise LibraryError("The PDF is too short to index")
-    added = indexer.append_chunks(chunks)
+    record = {
+        "doi": doi,
+        "title": title,
+        "year": year,
+        "filename": pdf_path.name,
+        "added_by": added_by,
+    }
+    store = AccountStore.instance()
+    sub_id = store.create_submission(
+        "library", added_by or 0, title, json.dumps(record)
+    )
+    staging.stage_chunks(sub_id, chunks)
+    return {
+        "title": title,
+        "chunks_added": 0,
+        "status": "pending",
+        "submission_id": sub_id,
+    }
 
+
+def approve_library(record: dict, chunks_added: int) -> None:
+    """Record an approved library paper so index rebuilds re-include it."""
     entries = _manifest()
     entries.append(
         {
-            "doi": doi,
-            "title": title,
-            "year": year,
-            "filename": pdf_path.name,
-            "chunks": added,
-            "added_by": added_by,
+            **record,
+            "chunks": chunks_added,
             "added_at": datetime.now(UTC).isoformat(timespec="seconds"),
         }
     )
     _save_manifest(entries)
-    return {"title": title, "chunks_added": added}
+
+
+def discard_library(record: dict) -> None:
+    """A rejected library paper leaves nothing behind."""
+    if record.get("filename"):
+        (LIBRARY_DIR / record["filename"]).unlink(missing_ok=True)
+
+
+def _pending_title(title: str) -> bool:
+    from app.repositories.accounts import AccountStore
+
+    key = _norm_title(title)
+    return any(
+        s["kind"] == "library" and _norm_title(s["title"]) == key
+        for s in AccountStore.instance().pending_submissions()
+    )
 
 
 def study_doi(doi: str, added_by: int | None = None) -> dict:
@@ -186,6 +229,8 @@ def study_doi(doi: str, added_by: int | None = None) -> dict:
             "This paper is already in the library — you can "
             "ask the assistant about it right away."
         )
+    if _pending_title(meta["title"]):
+        raise LibraryError("This paper is already waiting for review.")
     data = _download_pdf(meta["doi"])
     LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
     path = LIBRARY_DIR / _safe_filename(meta["title"])
@@ -200,6 +245,8 @@ def study_upload(data: bytes, title: str, added_by: int | None = None) -> dict:
     title = title.strip()
     if _already_in_library(None, title):
         raise LibraryError("A paper with this title is already in the library.")
+    if _pending_title(title):
+        raise LibraryError("A paper with this title is already waiting for review.")
     if data[:5] != b"%PDF-":
         raise LibraryError("The file is not a PDF")
     if len(data) > MAX_BYTES:
